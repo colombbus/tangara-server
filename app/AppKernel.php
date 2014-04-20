@@ -20,6 +20,7 @@ class AppKernel extends Kernel
 			new FOS\UserBundle\FOSUserBundle(),
             new Tangara\UserBundle\TangaraUserBundle(),
             new Tangara\AdministrationBundle\TangaraAdministrationBundle(),
+			new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
