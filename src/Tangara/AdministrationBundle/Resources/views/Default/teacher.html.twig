@@ -1,0 +1,8 @@
+{% extends "TangaraAdministrationBundle:Default:layout.html.twig" %}
+
+{% block body %}
+	teacher
+	{% block connection %}
+		<a href="{{ path('fos_user_security_logout') }}" />Se déconnecter</a>
+	{% endblock %}
+{% endblock %}
