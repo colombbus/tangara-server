@@ -76,3 +76,10 @@ fos_user:
     db-driver: "orm"
     firewall-name: "main"    
     user-class: "Tangara\UserBundle\Entity\User"
+
+norzechowicz_ace_editor:
+    base_path: "bundles/norzechowiczaceeditor/ace"
+    autoinclude: true
+    debug: false # sources not minified with uglify.js
+    noconflict: true # uses ace.require instead of require
+
