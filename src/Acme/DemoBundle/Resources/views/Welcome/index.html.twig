@@ -10,8 +10,21 @@
     <h1 class="title">Welcome!</h1>
 
     <p>Congratulations! You have successfully installed a new Symfony application.</p>
-
-    <div class="symfony-blocks-welcome">
+	
+	<img src="{{ asset('bundles/tangaraadministration/images/essai.png') }}" alt="Quick tour" />
+	
+	</br>
+	<a href="{{ path('tangara_administration_homepage') }}" />accueil administration</a>
+	</br>
+	<a href="{{ path('fos_user_security_login') }}" />Se connecter</a>
+	</br>
+	L'interface d'administration <a href="{{ path('tangara_administration_student') }}" />élève</a></br>
+	L'interface d'administration <a href="{{ path('tangara_administration_studentchief') }}" />chef de projet</a></br>
+	L'interface d'administration <a href="{{ path('tangara_administration_teacher') }}" />animateur</a></br>
+	L'interface d'administration <a href="{{ path('tangara_administration_admin') }}" />administrateur</a></br>
+	<a href="{{ path('fos_user_security_logout') }}" />Se déconnecter</a>
+    
+	<div class="symfony-blocks-welcome">
         <div class="block-quick-tour">
             <div class="illustration">
                 <img src="{{ asset('bundles/acmedemo/images/welcome-quick-tour.gif') }}" alt="Quick tour" />

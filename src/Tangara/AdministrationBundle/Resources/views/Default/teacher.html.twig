@@ -2,6 +2,7 @@
 
 {% block body %}
 	teacher
+	<img src="{{ asset('bundles') }}">
 	{% block connection %}
 		<a href="{{ path('fos_user_security_logout') }}" />Se déconnecter</a>
 	{% endblock %}

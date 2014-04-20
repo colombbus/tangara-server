@@ -7,7 +7,14 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-		{% block body %}{% endblock %}
+        Bienvenue dans l'administration du projet Tangara
+		{% block body %}
+			index
+			{% block connection %}
+				Se 	<a href="{{ path('fos_user_security_login') }}" />connecter</a>
+			{% endblock %}
+		{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>
+
