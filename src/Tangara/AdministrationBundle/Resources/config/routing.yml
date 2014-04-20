@@ -1,3 +1,19 @@
 tangara_administration_homepage:
-    pattern:  /hello/{name}
+    pattern:  /
     defaults: { _controller: TangaraAdministrationBundle:Default:index }
+
+tangara_administration_student:
+    pattern:  /student
+    defaults: { _controller: TangaraAdministrationBundle:Default:student }
+
+tangara_administration_studentchief:
+    pattern:  /studentchief
+    defaults: { _controller: TangaraAdministrationBundle:Default:studentchief }
+
+tangara_administration_teacher:
+    pattern:  /teacher
+    defaults: { _controller: TangaraAdministrationBundle:Default:teacher }
+
+tangara_administration_admin:
+    pattern:  /admin
+    defaults: { _controller: TangaraAdministrationBundle:Default:admin }
