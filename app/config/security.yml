@@ -6,8 +6,14 @@ security:
         ROLE_STUDENT:     ROLE_USER
         ROLE_STUDENT_CHIEF:     [ROLE_USER, ROLE_STUDENT, ROLE_STUDENT_CHIEF]
         ROLE_TEACHER:     [ROLE_USER, ROLE_STUDENT, ROLE_STUDENT_CHIEF]
-        ROLE_ADMIN:       [ROLE_USER, ROLE_STUDENT_CHIEF, ROLE_STUDENT, ROLE_ADMIN]
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_STUDENT_CHIEF, ROLE_STUDENT, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN:       [ROLE_USER, ROLE_TEACHER, ROLE_STUDENT_CHIEF, ROLE_STUDENT, ROLE_ADMIN]
+        ROLE_SUPER_ADMIN: 
+            - ROLE_USER
+            - ROLE_STUDENT_CHIEF
+            - ROLE_STUDENT
+            - ROLE_TEACHER
+            - ROLE_ADMIN
+            - ROLE_ALLOWED_TO_SWITCH
 
     providers:
         fos_userbundle:
@@ -51,4 +57,9 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        #- { path: ^/administration, role: ROLE_ADMIN }
+        - { path: ^/administration/student, role: ROLE_STUDENT }
+        - { path: ^/administration/studentchief, role: ROLE_STUDENTCHIEF }
+        - { path: ^/administration/teacher, role: ROLE_TEACHER }
+        - { path: ^/administration/admin, role: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
