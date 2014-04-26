@@ -1,3 +1,7 @@
+tangara_editor:
+    resource: "@TangaraEditorBundle/Resources/config/routing.yml"
+    prefix:   /
+
 # Tangara Bundles router configuration
 # tangara_editor:
     # resource: "@TangaraAdministrationBundle/Resources/config/routing.yml"

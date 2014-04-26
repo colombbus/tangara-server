@@ -18,9 +18,12 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 			
 			new FOS\UserBundle\FOSUserBundle(),
+			new Ladela\SlickGridBundle\LadelaSlickGridBundle(),
+			new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle(),
+			
             new Tangara\UserBundle\TangaraUserBundle(),
             new Tangara\AdministrationBundle\TangaraAdministrationBundle(),
-			new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle()
+            new Tangara\EditorBundle\TangaraEditorBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
