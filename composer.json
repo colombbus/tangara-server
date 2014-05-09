@@ -1,7 +1,7 @@
 {
-    "name": "tangara-ui",
+    "name": "tangara/tangara-ui",
     "license": "GPL v3.0",
-    "type": "Symfony project",
+    "type": "Symfony",
     "description": "The tangaraUI project aims to provide a PHP interface build on the \"Symfony2 Framework\" for TangaraJS",
     "autoload": {
         "psr-0": { "": "src/" }
@@ -41,12 +41,12 @@
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
 		
-		"leafo/lessphp": "dev-master",
-		"friendsofsymfony/user-bundle": "~2.0@dev",
-		"norzechowicz/aceeditor-bundle": "0.1.*",
-		"braincrafted/bootstrap-bundle": "~2.0",
-		"twbs/bootstrap": "3.0",
-		"jquery/jquery":  "1.11.*"
+        "leafo/lessphp": "dev-master",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "norzechowicz/aceeditor-bundle": "0.1.*",
+        "braincrafted/bootstrap-bundle": "~2.0",
+        "twbs/bootstrap": "3.0",
+        "jquery/jquery":  "1.11.*"
     },
     "scripts": {
         "post-install-cmd": [
