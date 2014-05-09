@@ -1,5 +1,5 @@
 {
-    "name": "TangaraUI",
+    "name": "tangara-ui",
     "license": "GPL v3.0",
     "type": "Symfony project",
     "description": "The tangaraUI project aims to provide a PHP interface build on the \"Symfony2 Framework\" for TangaraJS",
