@@ -5,10 +5,10 @@ namespace Tangara\UserBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Group
+ * User
  *
  */
-class GroupRepository extends EntityRepository
+class UserRepository extends EntityRepository
 {
 
 }
