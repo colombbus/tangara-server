@@ -8,6 +8,7 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
+            // Symfony2 core
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -16,18 +17,22 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-			
-			new FOS\UserBundle\FOSUserBundle(),
-			new Ladela\SlickGridBundle\LadelaSlickGridBundle(),
-			new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle(),
-			
+            
+            // Tangara Bundle dependencies
+            new FOS\UserBundle\FOSUserBundle(),
+            /* new Ladela\SlickGridBundle\LadelaSlickGridBundle(), */
+            new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle(),
+            new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
+            
+            // Tangara Bundles
             new Tangara\UserBundle\TangaraUserBundle(),
             new Tangara\AdministrationBundle\TangaraAdministrationBundle(),
-            new Tangara\EditorBundle\TangaraEditorBundle()
+            new Tangara\EditorBundle\TangaraEditorBundle(),
+            new Tangara\SVGEditorBundle\TangaraSVGEditorBundle(),
+            new Tangara\wPaintBundle\TangarawPaintBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
-            $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
