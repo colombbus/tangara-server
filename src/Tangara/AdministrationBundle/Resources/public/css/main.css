@@ -50,7 +50,7 @@ a:focus {
   outline: none;
 }
 
-h1, p, p + p, ul 
+h1, p, p + p, ul { 
   margin-bottom: 24px;
   margin-bottom: 1.5rem;
 }
