@@ -81,9 +81,11 @@ swiftmailer:
 
 # FOS/UserBundle Configuration
 fos_user:
-    db-driver: "orm"
-    firewall-name: "main"
-    user-class: "Tangara\UserBundle\Entity\User"
+    db-driver: orm
+    firewall-name: main
+    user-class: Tangara\UserBundle\Entity\User
+    group:
+        group-class: Tangara\UserBundle\Entity\Group
 
 norzechowicz_ace_editor:
     base_path: "http://rawgithub.com/ajaxorg/ace-builds/master"
