@@ -1,3 +1,0 @@
-tangara_user_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: TangaraUserBundle:Default:index }
