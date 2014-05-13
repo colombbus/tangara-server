@@ -11,10 +11,6 @@ tangara_user:
     resource: "@TangaraUserBundle/Resources/config/routing.yml"
     prefix:   /
 
-tangara_administration:
-    resource: "@TangaraAdministrationBundle/Resources/config/routing.yml"
-    prefix:   /administration
-
 # FOS/UserBundle routing
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
