@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+{% include 'TangaraAdministrationBundle:Default:header.html.twig' %}
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+		{% block header %}
+			{% include 'TangaraAdministrationBundle:Default:navbar.html.twig' %}
+		{% endblock %}
+
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+
+      </div>
+    </div>
+	
+
+	
+    <div class="container">
+	<img class="avatar" src="{{ asset('bundles/tangaraadministration/img/perso.png') }}">
+	<h2>Project description</h2>
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-6">
+		<h3>Projects :</h3>
+          
+        </div>
+        <div class="col-md-6">
+		  
+        </div>
+		</div>
+      <hr>
+
+      <footer>
+        <p>&copy; <a href="http://www.colombbus.org">Colombbus </a> 2007-2014</p>
+      </footer>
+    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+        <script>window.jQuery || document.write('<script src="{{ asset('bundles/tangaraadministration/css/js/vendor/jquery-1.11.0.js') }}"><\/script>')</script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+
+        <script src="{{ asset('bundles/tangaraadministration/css/js/main.js') }}"></script>
+    </body>
+</html>
