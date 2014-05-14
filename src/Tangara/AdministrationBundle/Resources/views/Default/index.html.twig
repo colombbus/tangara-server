@@ -1,3 +1,4 @@
+{# {% extends "::layout.html.twig" %} #}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -25,45 +26,10 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        <a class="navbar-brand" href="http://tangara.colombbus.org">
-            <img src="{{ asset('bundles/tangaraadministration/img/tangara.png') }}">
-            TangaraJS
-        </a>
-        </div>
-		
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class=""><a href="#">Home</a></li>
-                <li class=""><a href="http://apps.colombbus.org/tangarajs">Create</a></li>
-                <li class=""><a href="#">Share</a></li>
-            </ul>
-            
-        <form class="navbar-form navbar-right" role="form" action="{{ path("fos_user_security_check") }}" method="post">
+        {% block navbar %}
+            {% include 'TangaraAdministrationBundle:Default:navbar.html.twig' %}
+        {% endblock %}
 
-        <div class="form-group">
-        <input type="text" placeholder="Email" class="form-control" id="username" name="_username" required="required" />
-        </div>
-        <div class="form-group">
-        <input type="password" id="password" name="_password" required="required" class="form-control" />
-        </div>
-
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-
-        <input type="submit" class="btn btn-success" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-        </form>
-            
-        </div><!--/.navbar-collapse -->
-      </div>
-    </div>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
