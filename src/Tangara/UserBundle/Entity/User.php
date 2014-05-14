@@ -1,4 +1,5 @@
 <?php
+// src/Tangara/UserBundle/Entity/User.php
 
 namespace Tangara\UserBundle\Entity;
 
