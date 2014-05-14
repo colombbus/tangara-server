@@ -27,7 +27,7 @@ Documentation
 The bulk of the documentation is stored in the `Resources/doc/index.md`
 file in this bundle:
 
-[Read the Documentation for master](https://github.com/colombbus/tangara-ui/blob/master/Resources/doc/index.md)
+[Read the Documentation for master](https://github.com/colombbus/tangara-ui/blob/master/src/Tangara/UserBundle/Resources/doc/index.md)
 
 Installation
 ------------
@@ -56,5 +56,3 @@ When reporting a bug, it may be a good idea to reproduce it in a basic project
 built using the [Symfony Standard Edition](https://github.com/symfony/symfony-standard)
 to allow developers of the bundle to reproduce the issue by simply cloning it
 and following some steps.
-
-
