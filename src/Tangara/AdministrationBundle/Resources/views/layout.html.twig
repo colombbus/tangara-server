@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        Bienvenue dans l'administration du projet Tangara
-		{% block body %}
-		
-			{% block connection %}
-				<a href="{{ path('fos_user_security_logout') }}" />Se déconnecter</a>
-			{% endblock %}
-		{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+{# src/Tangara/AdministrationBundle/Resources/view.html.twig #}
+
+{% extends "::layout.html.twig" %}
 
