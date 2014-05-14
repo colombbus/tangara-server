@@ -1,4 +1,5 @@
 <?php
+//src/Tangara\UserBundle\Form\Type/RegistrationFormType.php
 
 namespace Tangara\UserBundle\Form\Type;
 
