@@ -8,3 +8,9 @@ then run the following command:
 ``` bash
     app/console translation:update TangaraBundle --force
 ```
+... will translate these lines in Twig templates:
+``` twig
+  {{ 'Symfony2 is great2'|trans }}
+  {% trans %}Symfony2 is great2{% endtrans %}
+```
+  
