@@ -36,7 +36,7 @@ class Project
     private $projectOwnerGroup;
 
     /**
-     * @var string
+     * @var array
      *
      * @ORM\Column(name="Contributors", type="array")
      */
@@ -92,7 +92,7 @@ class Project
     private $designers;
 
     /**
-     * @var string
+     * @var array
      *
      * @ORM\Column(name="DesignersButton", type="array")
      */
@@ -113,7 +113,7 @@ class Project
     private $designersCredits;
 
     /**
-     * @var string
+     * @var array
      *
      * @ORM\Column(name="DesignersCharacters", type="array")
      */
@@ -160,7 +160,6 @@ class Project
      * @ORM\Column(name="ScriptWriters", type="array")
      */
     private $scenario;
-
 
     /**
      * Get id
@@ -221,7 +220,7 @@ class Project
     /**
      * Set contributors
      *
-     * @param string $contributors
+     * @param array $contributors
      * @return Project
      */
     public function setContributors($contributors)
@@ -234,7 +233,7 @@ class Project
     /**
      * Get contributors
      *
-     * @return string 
+     * @return array 
      */
     public function getContributors()
     {
@@ -405,7 +404,7 @@ class Project
     /**
      * Set designersButton
      *
-     * @param string $designersButton
+     * @param array $designersButton
      * @return Project
      */
     public function setDesignersButton($designersButton)
@@ -418,7 +417,7 @@ class Project
     /**
      * Get designersButton
      *
-     * @return string 
+     * @return array 
      */
     public function getDesignersButton()
     {
@@ -474,7 +473,7 @@ class Project
     /**
      * Set designersCharacters
      *
-     * @param string $designersCharacters
+     * @param array $designersCharacters
      * @return Project
      */
     public function setDesignersCharacters($designersCharacters)
@@ -487,7 +486,7 @@ class Project
     /**
      * Get designersCharacters
      *
-     * @return string 
+     * @return array 
      */
     public function getDesignersCharacters()
     {
