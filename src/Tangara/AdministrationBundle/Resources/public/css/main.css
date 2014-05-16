@@ -55,13 +55,6 @@ h1, p, p + p, ul {
   margin-bottom: 1.5rem;
 }
 
-h1 {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 36px;
-  font-size: 2rem;    
-  line-height: 1.5; 
-  font-weight: bold;
-}
 
 .navette {
   list-style: none;
@@ -132,34 +125,8 @@ h1 {
   font-style: normal;
 }
 
-img {
+.logo {
 	margin-top: -6px;
 }
-
-
-
-.navbar-right {
-	margin-top: 15px;
-}
-
-.navbar .navbar-inverse .navbar-fixed-top {
-	opacity: 0.97;
-}
-
-body {
-	padding-top: 50px;
-	padding-bottom: 20px;
-}
-
-.avatar
-{
-	width: 80px;
-}
-
-
-
-
-
-
 
 
