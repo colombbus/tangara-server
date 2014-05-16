@@ -46,7 +46,10 @@
                 <source>_shared_projects</source>
                 <target>Shared projects</target>
             </trans-unit>
-
+            <trans-unit id="12">
+                <source>_view_details</source>
+                <target>View details</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
