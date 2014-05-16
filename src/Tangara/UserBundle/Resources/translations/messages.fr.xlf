@@ -3,8 +3,12 @@
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Symfony2 is great</source>
+                <source>Symfony2 is great2</source>
                 <target>J'aime Symfony2</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>security.login.submit</source>
+                <target>Connexion</target>
             </trans-unit>
         </body>
     </file>
