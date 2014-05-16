@@ -9,22 +9,22 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="http://tangara.colombbus.org">
-                      <img src="{{ asset('bundles/tangaraadministration/img/tangara.png') }}">TangaraJS</a></div>
+        <img class="logo" src="{{ asset('bundles/tangaraadministration/img/tangara.png')}}">TangaraJS</a></div>
 
     <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                    <li class=""><a href="#">Home</a></li>
-                    <li class=""><a href="#">Create</a></li>
-                    <li class=""><a href="#">Share</a></li>
-                    <li class=""><a href="#">Documentation</a></li>
-            </ul>
-            {% if is_granted('ROLE_USER') %}
-                <a class="navbar-right" href="{{ path('fos_user_security_logout') }} ">
-                    Déconnecter {{ app.user.username }}
-                </a>
-            {% else %}
-                {% render url('fos_user_security_login') %}
-            {% endif %}
+        <ul class="nav navbar-nav">
+            <li class=""><a href="#">Home</a></li>
+            <li class=""><a href="#">Create</a></li>
+            <li class=""><a href="#">Share</a></li>
+            <li class=""><a href="#">Documentation</a></li>
+        </ul>
+        {% if is_granted('ROLE_USER') %}
+            <a class="navbar-right" href="{{ path('fos_user_security_logout') }} ">
+                Déconnecter {{ app.user.username }}
+            </a>
+        {% else %}
+            {% render url('fos_user_security_login') %}
+        {% endif %}
     </div><!--/.navbar-collapse -->
   </div>
 </div>
