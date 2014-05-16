@@ -1,0 +1,3 @@
+tangara_tangara_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: TangaraTangaraBundle:Default:index }
