@@ -4,15 +4,15 @@
         <body>
             <trans-unit id="1">
                 <source>security.login.submit</source>
-                <target>Connexion</target>
+                <target>Sign in</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>_email</source>
-                <target>Courriel</target>
+                <target>Email</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>_password</source>
-                <target>Mot de passe</target>
+                <target>Password</target>
             </trans-unit>
         </body>
     </file>

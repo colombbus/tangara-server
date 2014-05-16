@@ -1,2 +1,4 @@
 'Symfony2 is great2': 'J''aime Symfony2'
 security.login.submit: Connexion
+_email: Courriel
+_password: 'Mot de passe'
