@@ -7,6 +7,8 @@ vendor/*
 */cache/*
 web/uploads/*
 web/bundles/*
+Tangara/*Bundle/Resources/translations/messages.*.yml
+Tangara/*Bundle/Resources/translations/messages.*.yml~
 
 # Configuration files
 app/config/parameters.ini
