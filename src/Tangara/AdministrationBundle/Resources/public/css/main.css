@@ -129,4 +129,6 @@ h1, p, p + p, ul {
 	margin-top: -6px;
 }
 
-
+#connected {
+    padding-top: 15px;
+}
