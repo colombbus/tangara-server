@@ -4,15 +4,15 @@
         <body>
             <trans-unit id="1">
                 <source>_home</source>
-                <target>Accueil</target>
+                <target>Home</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>_create</source>
-                <target>Créer</target>
+                <target>Create</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>_share</source>
-                <target>Partager</target>
+                <target>Share</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>_documentation</source>
@@ -24,28 +24,29 @@
             </trans-unit>
             <trans-unit id="6">
                 <source>_Welcome</source>
-                <target>Bienvenue sur le site de Tangara</target>
+                <target>Welcome in the TangaraJS Project</target>
             </trans-unit>
             <trans-unit id="7">
                 <source>_site_description</source>
-                <target>Voici le site officiel de Tangara fonctionnant sur Android, PC (Win/Linux/Mac), iPhone, FirefoxOS.</target>
+                <target>This is the official website of the TangaraJS web app, Android, PC. The old version of the Tangara written in Java can be found here.</target>
             </trans-unit>
             <trans-unit id="8">
                 <source>_more</source>
-                <target>Plus</target>
+                <target>Learn more</target>
             </trans-unit>
             <trans-unit id="9">
                 <source>_project_description</source>
-                <target>Description du projet</target>
+                <target>Project description</target>
             </trans-unit>
             <trans-unit id="10">
                 <source>_news</source>
-                <target>Actualités</target>
+                <target>News</target>
             </trans-unit>
             <trans-unit id="11">
                 <source>_shared_projects</source>
-                <target>Projets partagés</target>
+                <target>Shared projects</target>
             </trans-unit>
+
         </body>
     </file>
 </xliff>
