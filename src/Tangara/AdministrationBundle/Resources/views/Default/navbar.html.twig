@@ -14,12 +14,12 @@
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li class=""><a href="#">Home</a></li>
-            <li class=""><a href="#">Create</a></li>
+            <li class=""><a href="{{ path('tangara_editor_homepage') }}">Create</a></li>
             <li class=""><a href="#">Share</a></li>
             <li class=""><a href="#">Documentation</a></li>
         </ul>
         {% if is_granted('ROLE_USER') %}
-            <a class="navbar-right" href="{{ path('fos_user_security_logout') }} ">
+            <a class="navbar-right" id="connected" href="{{ path('fos_user_security_logout') }} ">
                 Déconnecter {{ app.user.username }}
             </a>
         {% else %}
