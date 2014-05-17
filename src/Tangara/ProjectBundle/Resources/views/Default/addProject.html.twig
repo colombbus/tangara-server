@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Projets{% endblock %}
+
+{% block body %}
+
+<form action="{{ path( "tangara_project_add" ) }}" method="post">
+    
+    {{ form_widget(form) }}
+    
+    <input type="submit">
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
