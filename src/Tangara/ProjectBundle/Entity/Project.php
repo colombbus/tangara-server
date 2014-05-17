@@ -20,6 +20,20 @@ class Project
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="Logo", type="string", length=255)
+     */
+    private $logo;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="Name", type="string", length=255)
+     */
+    private $name;
 
     /**
      * @var string
@@ -160,6 +174,10 @@ class Project
      * @ORM\Column(name="ScriptWriters", type="array")
      */
     private $scenario;
+    
+    public function __construct() {
+        $this->date = new \DateTime();
+    }
 
     /**
      * Get id
@@ -629,5 +647,51 @@ class Project
     public function getScenario()
     {
         return $this->scenario;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param string $logo
+     * @return Project
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return string 
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Project
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

@@ -1,3 +1,7 @@
-tangara_project_homepage:
-    pattern:  /{name}
-    defaults: { _controller: TangaraProjectBundle:Default:show }
+tangara_project_index:
+    pattern:  /
+    defaults: { _controller: TangaraProjectBundle:Default:index }
+    
+tangara_project_add:
+    pattern:  /add
+    defaults: { _controller: TangaraProjectBundle:Default:addProject }

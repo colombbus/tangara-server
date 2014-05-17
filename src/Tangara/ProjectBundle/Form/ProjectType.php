@@ -15,26 +15,13 @@ class ProjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name')
             ->add('projectManager')
             ->add('projectOwnerGroup')
-            ->add('contributors')
-            ->add('filesRights')
-            ->add('files')
             ->add('referenceWidth')
             ->add('referenceHeight')
             ->add('referenceFont')
             ->add('dateCreation')
-            ->add('designers')
-            ->add('designersButton')
-            ->add('designersLogo')
-            ->add('designersCredits')
-            ->add('designersCharacters')
-            ->add('designersBadGuys')
-            ->add('designersGraphicalElements')
-            ->add('designersDecor')
-            ->add('soundDesigners')
-            ->add('soundRecorders')
-            ->add('scenario')
         ;
     }
     
