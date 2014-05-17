@@ -10,21 +10,4 @@ class DefaultController extends Controller
     {
         return $this->render('TangaraAdministrationBundle:Default:index.html.twig');
     }
-	public function studentAction()
-    {
-        return $this->render('TangaraAdministrationBundle:Default:student.html.twig');
-    }
-	public function studentchiefAction()
-    {
-        return $this->render('TangaraAdministrationBundle:Default:studentchief.html.twig');
-    }
-	public function teacherAction()
-    {
-        return $this->render('TangaraAdministrationBundle:Default:teacher.html.twig');
-    }
-	public function adminAction()
-    {
-        return $this->render('TangaraAdministrationBundle:Default:admin.html.twig');
-    }
-
 }
