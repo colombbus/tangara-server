@@ -27,9 +27,9 @@ class AppKernel extends Kernel
             // Tangara Bundles
             new Tangara\UserBundle\TangaraUserBundle(),
             new Tangara\AdministrationBundle\TangaraAdministrationBundle(),
-            new Tangara\EditorBundle\TangaraEditorBundle(),
-            new Tangara\SVGEditorBundle\TangaraSVGEditorBundle(),
-            new Tangara\wPaintBundle\TangarawPaintBundle(),
+            //new Tangara\EditorBundle\TangaraEditorBundle(),
+            //new Tangara\SVGEditorBundle\TangaraSVGEditorBundle(),
+            //new Tangara\wPaintBundle\TangarawPaintBundle(),
             new Tangara\ProjectBundle\TangaraProjectBundle(),
             new Tangara\TangaraBundle\TangaraTangaraBundle(),
         );
