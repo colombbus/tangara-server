@@ -16,11 +16,17 @@ class DefaultController extends Controller {
         if ($request->isXmlHttpRequest()) {
             $response = new JsonResponse();
             $response->setData(array(
-                'data' => 121,
-                'data0' => 120,
-                'data1' => 125,
-                'data2' => 124,
-                'data3' => 129,
+                'locale' => "fr",
+                'projectId' => 121,
+                'projectURL' => "http:\\apps.colombbus.org\tangara\files\121",
+                'screen' => array('width' => 1024,
+                                 'height' => 768),
+                'nbFiles' => 5,
+                'files' => array('file0' => "pomme.gif",
+                                 'file1' => "arbre",
+                                 'file2' => "maison",
+                                 'file3' => "sol",
+                                 'file4' => "pomme.tgr"),
             ));
             return $response;
         }

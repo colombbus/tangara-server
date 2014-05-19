@@ -1,5 +1,5 @@
 tangara_project_index:
-    pattern:  /
+    pattern:  /{projectName}
     defaults: { _controller: TangaraProjectBundle:Default:index }
     
 tangara_project_add:

@@ -3,15 +3,13 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_STUDENT:     ROLE_USER
-        ROLE_STUDENTCHIEF:     [ROLE_USER, ROLE_STUDENT, ROLE_STUDENT_CHIEF]
-        ROLE_TEACHER:     [ROLE_USER, ROLE_STUDENT, ROLE_STUDENTCHIEF]
-        ROLE_ADMIN:       [ROLE_USER, ROLE_TEACHER, ROLE_STUDENTCHIEF, ROLE_STUDENT, ROLE_ADMIN]
+        ROLE_MEMBER:     ROLE_USER
+        ROLE_MANAGER:     [ROLE_USER]
+        ROLE_ADMIN:       [ROLE_USER, ROLE_MEMBER, ROLE_MANAGER]
         ROLE_SUPER_ADMIN: 
             - ROLE_USER
-            - ROLE_STUDENTCHIEF
-            - ROLE_STUDENT
-            - ROLE_TEACHER
+            - ROLE_MEMBER
+            - ROLE_MANAGER
             - ROLE_ADMIN
             - ROLE_ALLOWED_TO_SWITCH
 
@@ -58,8 +56,4 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         #- { path: ^/administration, role: ROLE_ADMIN }
-        - { path: ^/administration/student, role: ROLE_STUDENT }
-        - { path: ^/administration/studentchief, role: ROLE_STUDENTCHIEF }
-        - { path: ^/administration/teacher, role: ROLE_TEACHER }
-        - { path: ^/administration/admin, role: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
