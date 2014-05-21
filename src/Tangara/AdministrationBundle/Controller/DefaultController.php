@@ -14,9 +14,9 @@ class DefaultController extends Controller {
         $fs = new Filesystem();
 
         try {
-            $fs->touch('file.txt');
+            $fs->mkdir('/home/tangara/dir/');
         } catch (IOException $e) {
-            echo "An error occured while creating your directory";
+            echo "An error occured while creating your directory" + $e;
         }
         
         return $this->render('TangaraAdministrationBundle:Default:index.html.twig');
