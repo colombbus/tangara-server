@@ -14,7 +14,7 @@ class DefaultController extends Controller {
         $fs = new Filesystem();
 
         try {
-            $fs->mkdir('/home/tangara/dir/');
+            $fs->mkdir('/home/tangara/dar/');
         } catch (IOException $e) {
             echo "An error occured while creating your directory" + $e;
         }
