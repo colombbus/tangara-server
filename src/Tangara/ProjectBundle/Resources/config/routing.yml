@@ -1,7 +1,17 @@
 tangara_project_index:
-    pattern:  /{projectName}
+    pattern:  /
     defaults: { _controller: TangaraProjectBundle:Default:index }
+
+tangara_project_show:            
+    pattern:  /{id}/show
+    defaults: { _controller: TangaraProjectBundle:Default:show }
+    requirements:
+        id:  \d+
     
 tangara_project_add:
     pattern:  /add
-    defaults: { _controller: TangaraProjectBundle:Default:addProject }
+    defaults: { _controller: TangaraProjectBundle:Default:add }
+    
+tangara_project_upload:
+    pattern:  /upload
+    defaults: { _controller: TangaraProjectBundle:Default:upload }
