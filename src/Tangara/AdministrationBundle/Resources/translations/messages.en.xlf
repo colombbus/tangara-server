@@ -50,6 +50,10 @@
                 <source>_view_details</source>
                 <target>View details</target>
             </trans-unit>
+            <trans-unit id="13">
+                <source>_layout.register</source>
+                <target>Register</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
