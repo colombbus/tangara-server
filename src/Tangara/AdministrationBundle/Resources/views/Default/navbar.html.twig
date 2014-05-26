@@ -23,6 +23,9 @@
             </a>
         {% else %}
             {% render url('fos_user_security_login') %}
+            <a class="navbar-nav" id="connected" href="{{ path('fos_user_registration_register') }} ">
+                {{'_layout.register'|trans }}
+            </a>
         {% endif %}
     </div><!--/.navbar-collapse -->
   </div>
