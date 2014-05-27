@@ -35,7 +35,9 @@ class DefaultController extends Controller {
         //echo $rootDir;
         $fs = new Filesystem();
         //$fs->copy($originFile, $targetFile)
-        //$fs->mkdir('C:\tangara\\' . $id);
+        //
+        //$fs->mkdir('C:\tangara\\' . $id); // projects
+        //$fs->mkdir('C:\tangara\user'.$id); // perso projects
         //
         //if ($fs->exists('/home/tangara/'..)){
         //}
@@ -64,15 +66,13 @@ class DefaultController extends Controller {
 
     public function addAction() {
         $id = $this->get('security.context')->getToken()->getUser()->getId();
-
-        //$rootDir = $this->get('kernel')->locateResource('@app/config.yml', null, true);
         //echo $rootDir;
         $fs = new Filesystem();
-        //$fs->copy($originFile, $targetFile)
-        //$fs->mkdir('C:\tangara\\' . $id);
-        //
-        //if ($fs->exists('/home/tangara/'..)){
+        //if ($fs->exists('/home/tangara/'.$id)){
         //}
+        //else
+        //$fs->mkdir('C:\tangara\\' . $id);
+        //$fs->copy($originFile, $targetFile)
 
 
         $manager = $this->getDoctrine()->getManager();
