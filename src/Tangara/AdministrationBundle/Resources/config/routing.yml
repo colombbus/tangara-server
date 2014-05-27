@@ -9,3 +9,7 @@ tangara_administration_data:
 tangara_administration_locale:
     pattern:  /locale
     defaults: { _controller: TangaraAdministrationBundle:Default:locale }
+    
+tangara_administration_files:
+    pattern:  /files
+    defaults: { _controller: TangaraAdministrationBundle:Default:getFiles }
