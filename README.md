@@ -34,6 +34,12 @@ Installation
 
 All the installation instructions are located in the documentation.
 
+Continuous Integration
+------------
+
+TangaraUI is TestDriven developped with the [Travis](https://travis-ci.org/colombbus/tangara-ui)
+tool.
+
 License
 -------
 
