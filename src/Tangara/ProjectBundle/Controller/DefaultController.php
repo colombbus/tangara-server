@@ -19,7 +19,7 @@ class DefaultController extends Controller {
     }
 
     public function showAction(Project $project) {
-        $user = new User(); 
+        $user = new User();
         if ($this->get('security.context')->isGranted('ROLE_USER'))
             $user = $this->get('security.context')->getToken()->getUser();
         return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
@@ -29,9 +29,7 @@ class DefaultController extends Controller {
     }
 
     public function editAction(Project $project) {
-        $id = -1; // -1 : default 'annonym'
-        if ($this->get('security.context')->isGranted('ROLE_USER'))
-            $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
 
         //$rootDir = $this->get('kernel')->locateResource('@app/config.yml', null, true);
         //echo $rootDir;
@@ -65,9 +63,7 @@ class DefaultController extends Controller {
     }
 
     public function addAction() {
-        $id = -1; // -1 : default 'annonym'
-        if ($this->get('security.context')->isGranted('ROLE_USER'))
-            $id = $this->get('security.context')->getToken()->getUser()->getId();
+        $id = $this->get('security.context')->getToken()->getUser()->getId();
 
         //$rootDir = $this->get('kernel')->locateResource('@app/config.yml', null, true);
         //echo $rootDir;
