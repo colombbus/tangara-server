@@ -1,5 +1,4 @@
 <?php
-// src/Tangara/UserBundle/Entity/Group.php
 namespace Tangara\UserBundle\Entity;
 
 use FOS\UserBundle\Model\Group as BaseGroup;
