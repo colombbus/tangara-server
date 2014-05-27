@@ -1,6 +1,4 @@
 <?php
-// src/Tangara/UserBundle/Entity/User.php
-
 namespace Tangara\UserBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
@@ -29,7 +27,7 @@ class User extends BaseUser
      */
     protected $groups;
     
-        /**
+    /**
      * @ORM\ManyToMany(targetEntity="Tangara\ProjectBundle\Entity\Project")
      * @ORM\JoinTable(name="fos_user_user_project",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
