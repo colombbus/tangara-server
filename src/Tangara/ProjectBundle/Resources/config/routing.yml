@@ -15,7 +15,9 @@ tangara_project_add:
 tangara_project_edit:
     pattern:  /{id}/edit
     defaults: { _controller: TangaraProjectBundle:Default:edit }
-    
+    requirements:
+        id:  \d+
+
 tangara_project_upload:
     pattern:  /upload
     defaults: { _controller: TangaraProjectBundle:Default:upload }
