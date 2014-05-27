@@ -8,9 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 class DefaultController extends Controller {
-
     public function indexAction() {
-        
         $fs = new Filesystem();
 
         try {
@@ -46,7 +44,15 @@ class DefaultController extends Controller {
 
     public function getFileAction() {
 
-
     }
+    public function localeAction() {
+        $request = $this->getRequest();
+        $locale = $this->getRequest()->getLocale();
 
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData(array(
+                'locale' => $locale));
+            return $response;
+        }
 }
