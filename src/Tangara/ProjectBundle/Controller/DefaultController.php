@@ -29,15 +29,16 @@ class DefaultController extends Controller {
     }
 
     public function editAction(Project $project) {
-        $id = -1; // -1 : default 'annonym'
-        if ($this->get('security.context')->isGranted('ROLE_USER'))
-            $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
 
         //$rootDir = $this->get('kernel')->locateResource('@app/config.yml', null, true);
         //echo $rootDir;
         $fs = new Filesystem();
         //$fs->copy($originFile, $targetFile)
         //$fs->mkdir('C:\tangara\\' . $id);
+        //
+        //$fs->mkdir('C:\tangara\\' . $id); // projects
+        //$fs->mkdir('C:\tangara\user'.$id); // perso projects
         //
         //if ($fs->exists('/home/tangara/'..)){
         //}
@@ -65,9 +66,7 @@ class DefaultController extends Controller {
     }
 
     public function addAction() {
-        $id = -1; // -1 : default 'annonym'
-        if ($this->get('security.context')->isGranted('ROLE_USER'))
-            $id = $this->get('security.context')->getToken()->getUser()->getId();
+        $id = $this->get('security.context')->getToken()->getUser()->getId();
 
         //$rootDir = $this->get('kernel')->locateResource('@app/config.yml', null, true);
         //echo $rootDir;
