@@ -58,6 +58,10 @@ security:
         - { path: ^/project/add, role: ROLE_USER }
         - { path: ^/project/edit, role: ROLE_USER }
         - { path: ^/project/show, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/locale, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/upload, role: ROLE_USER }
+        - { path: ^/data, role: ROLE_USER }
+        
         
         #- { path: ^/administration, role: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

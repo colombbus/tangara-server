@@ -10,7 +10,6 @@ use Symfony\Component\Filesystem\Exception\IOException;
 class DefaultController extends Controller {
 
     public function indexAction() {
-        
         $fs = new Filesystem();
 
         try {
@@ -18,7 +17,7 @@ class DefaultController extends Controller {
         } catch (IOException $e) {
             echo "An error occured while creating your directory";
         }
-        
+
         return $this->render('TangaraAdministrationBundle:Default:index.html.twig');
     }
 
@@ -44,9 +43,34 @@ class DefaultController extends Controller {
         }
     }
 
-    public function getFileAction() {
+    public function getFilesAction() {
+        $request = $this->getRequest();
+        $id = $request->get('security.context')->getToken()->getUser()->getId();
 
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData(array(
+                'nbFiles' => 5,
+                'files' => array('file0' => "pomme.gif",
+                    'file1' => "arbre",
+                    'file2' => "maison",
+                    'file3' => "sol",
+                    'file4' => "pomme.tgr"),
+            ));
+            return $response;
+        }
+    }
 
+    public function localeAction() {
+        $request = $this->getRequest();
+        $locale = $this->getRequest()->getLocale();
+
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData(array(
+                'locale' => $locale));
+            return $response;
+        }
     }
 
 }

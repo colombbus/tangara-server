@@ -5,3 +5,11 @@ tangara_administration_homepage:
 tangara_administration_data:
     pattern:  /data
     defaults: { _controller: TangaraAdministrationBundle:Default:data }
+
+tangara_administration_locale:
+    pattern:  /locale
+    defaults: { _controller: TangaraAdministrationBundle:Default:locale }
+    
+tangara_administration_files:
+    pattern:  /files
+    defaults: { _controller: TangaraAdministrationBundle:Default:getFiles }
