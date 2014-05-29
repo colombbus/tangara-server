@@ -1,16 +1,18 @@
-Show
-{{ user.id }}
-<br/>
-{{ project.id }}
-<br/>
-{{ project.ProjectManager}}
-<br/>
+{% include "TangaraAdministrationBundle:Default:navbar.html.twig" %}
 
-{{ project.ProjectManager}}
+Show 
 <br/>
-{{ project.ProjectOwnerGroup}}
+user id : {{ user.id }}
 <br/>
-{{ project.ReferenceFont}}
+project id : {{ project.id }}
 <br/>
-{{ project.ReferenceFont}}
+project name : {{ project.name }}
+<br/>
+project manager : {{ project.ProjectManager}}
+<br/>
+group owner : {{ project.ProjectOwnerGroup}}
+<br/>
+Référence font : {{ project.ReferenceFont}}
+<br/>
+Date Création : {{ project.dateCreation|date('d-m-Y H:s')}}
 <br/>

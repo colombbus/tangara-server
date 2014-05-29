@@ -3,7 +3,7 @@
 {% block title %}Projets{% endblock %}
 
 {% block body %}
-<h1>Bonjour {{ id }}</h1>
+<h1>{{ username }} > Création d'un projet</h1>
     <form action="{{ path( "tangara_project_add" ) }}" method="post">
 
         {{ form_widget(form) }}
