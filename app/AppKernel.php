@@ -21,8 +21,8 @@ class AppKernel extends Kernel
             // Tangara Bundle dependencies
             new FOS\UserBundle\FOSUserBundle(),
             /* new Ladela\SlickGridBundle\LadelaSlickGridBundle(), */
-            new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle(),
-            new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
+            //new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle(),
+            //new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             
             // Tangara Bundles
             new Tangara\UserBundle\TangaraUserBundle(),

@@ -88,10 +88,10 @@ fos_user:
     group:
         group-class: Tangara\UserBundle\Entity\Group
 
-norzechowicz_ace_editor:
-    base_path: "http://rawgithub.com/ajaxorg/ace-builds/master"
-    # base_path: "bundles/norzechowiczaceeditor/ace"
-    autoinclude: true
-    debug: false # sources not minified with uglify.js
-    noconflict: true # uses ace.require instead of require
+#norzechowicz_ace_editor:
+#    base_path: "http://rawgithub.com/ajaxorg/ace-builds/master"
+#    # base_path: "bundles/norzechowiczaceeditor/ace"
+#    autoinclude: true
+#    debug: false # sources not minified with uglify.js
+#    noconflict: true # uses ace.require instead of require
 
