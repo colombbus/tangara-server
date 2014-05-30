@@ -13,3 +13,7 @@ tangara_administration_locale:
 tangara_administration_files:
     pattern:  /files
     defaults: { _controller: TangaraAdministrationBundle:Default:getFiles }
+
+tangara_administration_create:
+    pattern:  /create
+    defaults: { _controller: TangaraAdministrationBundle:Default:create}
