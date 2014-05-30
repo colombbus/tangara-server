@@ -13,15 +13,19 @@
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li class=""><a href="http://tangara.colombbus.org">{{ '_home'|trans}}</a></li>
-            <li class=""><a href="#">{{ '_create'|trans}}</a></li>
+            <li class=""><a href="{{ path('tangara_administration_create')}}">{{ '_create'|trans}}</a></li>
             <li class=""><a href="#">{{ '_share'|trans}}</a></li>
             <li class=""><a href="#">{{ '_documentation'|trans}}</a></li>
         </ul>
         {% if is_granted('ROLE_USER') %}
-            <a class="navbar-right" id="connected" href="{{ path('fos_user_security_logout') }} ">
-                {{'_deconnect'|trans }} {{ app.user.username }}
+            <a class="navbar-right" id="connected" href="{{ path('fos_user_profile_show') }} ">
+                {{ app.user.username }}
+            </a>
+            <a class="navbar-right" id="deconnect" href="{{ path('fos_user_security_logout') }} ">
+                {{'_deconnect'|trans }} 
             </a>
         {% else %}
+            
             {% render url('fos_user_security_login') %}
             <a class="navbar-nav" id="connected" href="{{ path('fos_user_registration_register') }} ">
                 {{'_layout.register'|trans }}
