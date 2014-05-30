@@ -10,34 +10,24 @@ use Symfony\Component\Filesystem\Exception\IOException;
 class DefaultController extends Controller {
 
     public function indexAction() {
-        $fs = new Filesystem();
-
-        try {
-            $fs->mkdir('/home/tangara/dar/');
-        } catch (IOException $e) {
-            echo "An error occured while creating your directory";
-        }
-
-        return $this->render('TangaraAdministrationBundle:Default:index.html.twig');
+        return $this->render('TangaraAdministrationBundle:Default:homepage.html.twig');
     }
-
+    
+    public function createAction() {
+        return $this->render('TangaraAdministrationBundle:Default:create.html.twig');
+    }
+    
     public function dataAction() {
         $request = $this->getRequest();
-
+        //$id = $request->get('security.context')->getToken()->getUser()->getId();
         if ($request->isXmlHttpRequest()) {
             $response = new JsonResponse();
             $response->setData(array(
-                'locale' => "fr",
                 'projectId' => 121,
-                'projectURL' => "http:\\apps.colombbus.org\tangara\files\121",
+                'projectURL' => "http://apps.colombbus.org/tangara_ui/project/121",
                 'screen' => array('width' => 1024,
                     'height' => 768),
-                'nbFiles' => 5,
-                'files' => array('file0' => "pomme.gif",
-                    'file1' => "arbre",
-                    'file2' => "maison",
-                    'file3' => "sol",
-                    'file4' => "pomme.tgr"),
+                'files' => array("niveau1.tgr","niveau2.tgr", "promeneur.tgr", "fin.tgr")
             ));
             return $response;
         }
@@ -45,17 +35,12 @@ class DefaultController extends Controller {
 
     public function getFilesAction() {
         $request = $this->getRequest();
-        $id = $request->get('security.context')->getToken()->getUser()->getId();
+        //$id = $request->get('security.context')->getToken()->getUser()->getId();
 
         if ($request->isXmlHttpRequest()) {
             $response = new JsonResponse();
             $response->setData(array(
-                'nbFiles' => 5,
-                'files' => array('file0' => "pomme.gif",
-                    'file1' => "arbre",
-                    'file2' => "maison",
-                    'file3' => "sol",
-                    'file4' => "pomme.tgr"),
+                'files' => array("niveau1.tgr","niveau2.tgr", "promeneur.tgr", "fin.tgr")
             ));
             return $response;
         }
