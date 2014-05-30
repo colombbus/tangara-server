@@ -28,6 +28,7 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
+                use_referer:        true
             logout:       true
             anonymous:    true
         #dev:
@@ -55,12 +56,12 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/project/add, role: ROLE_USER }
-        - { path: ^/project/edit, role: ROLE_USER }
-        - { path: ^/project/show, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/locale, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/upload, role: ROLE_USER }
-        - { path: ^/data, role: ROLE_USER }
+#        - { path: ^/project/add, role: ROLE_USER }
+#        - { path: ^/project/edit, role: ROLE_USER }
+#        - { path: ^/project/show, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/locale, role: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/upload, role: ROLE_USER }
+        #- { path: ^/data, role: ROLE_USER }
         
         
         #- { path: ^/administration, role: ROLE_ADMIN }
