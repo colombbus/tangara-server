@@ -3,13 +3,19 @@
 {% block title %}Projets{% endblock %}
 
 {% block body %}
-<h1>{{ username }} > Création d'un projet</h1>
+    <h1>{{ username }} > Création d'un projet</h1>
     <div>
         Project manager : {{ project.getProjectManager() }}
     </div>
-<form action="{{ path( "tangara_project_add" ) }}" method="post">
-        {{ form_widget(form) }}
-    <input type="submit">
-</form>
 
+
+    <form action="{{ path( "tangara_project_add" ) }}" method="post">
+    {{ form_widget(form) }}
+    <select name="projectownergroup">
+        {% for group in project_owner_group %}
+            <option value="{{ group.getId() }}">{{ group.getName() }}</option>
+        {% endfor %}
+    </select>
+        <input type="submit">
+    </form>
 {% endblock %}
