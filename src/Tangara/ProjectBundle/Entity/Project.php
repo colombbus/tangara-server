@@ -3,6 +3,7 @@
 namespace Tangara\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Tangara\UserBundle\Entity\User;
 
 /**
  * Project
@@ -24,44 +25,39 @@ class Project
      /**
      * @var string
      *
-     * @ORM\Column(name="Logo", type="string", length=255)
+     * @ORM\Column(name="Logo", type="string", length=255, nullable=true)
      */
     private $logo;
     
      /**
      * @var string
      *
-     * @ORM\Column(name="Name", type="string", length=255)
+     * @ORM\Column(name="Name", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ProjectManager", type="string", length=255)
+     * @ORM\Column(name="ProjectManager", type="string", length=255, nullable=true)
      */
     private $projectManager;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ProjectOwnerGroup", type="string", length=255)
+     * @ORM\Column(name="ProjectOwnerGroup", type="string", length=255, nullable=true)
      */
     private $projectOwnerGroup;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="Contributors", type="array")
+     * @ORM\ManyToMany(targetEntity="Tangara\UserBundle\Entity\User")
+     * @ORM\JoinTable(name="fos_user_project_contributors",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
      */
-    private $contributors;
-
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="FilesRights", type="array")
-     */
-    private $filesRights;
+    protected $contributors;
 
     /**
      * @var array
@@ -73,21 +69,21 @@ class Project
     /**
      * @var integer
      *
-     * @ORM\Column(name="ReferenceWidth", type="integer")
+     * @ORM\Column(name="ReferenceWidth", type="integer", nullable=true)
      */
     private $referenceWidth;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ReferenceHeight", type="integer")
+     * @ORM\Column(name="ReferenceHeight", type="integer", nullable=true)
      */
     private $referenceHeight;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ReferenceFont", type="string", length=255)
+     * @ORM\Column(name="ReferenceFont", type="string", length=255, nullable=true)
      */
     private $referenceFont;
 
@@ -176,7 +172,7 @@ class Project
     private $scenario;
     
     public function __construct() {
-        $this->date = new \DateTime();
+        $this->dateCreation = new \DateTime('NOW');
     }
 
     /**
@@ -187,6 +183,52 @@ class Project
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set logo
+     *
+     * @param string $logo
+     * @return Project
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * Get logo
+     *
+     * @return string 
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Project
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -233,29 +275,6 @@ class Project
     public function getProjectOwnerGroup()
     {
         return $this->projectOwnerGroup;
-    }
-
-    /**
-     * Set contributors
-     *
-     * @param array $contributors
-     * @return Project
-     */
-    public function setContributors($contributors)
-    {
-        $this->contributors = $contributors;
-
-        return $this;
-    }
-
-    /**
-     * Get contributors
-     *
-     * @return array 
-     */
-    public function getContributors()
-    {
-        return $this->contributors;
     }
 
     /**
@@ -650,48 +669,35 @@ class Project
     }
 
     /**
-     * Set logo
+     * Add contributors
      *
-     * @param string $logo
+     * @param \Tangara\UserBundle\Entity\User $contributors
      * @return Project
      */
-    public function setLogo($logo)
+    public function addContributor(\Tangara\UserBundle\Entity\User $contributors)
     {
-        $this->logo = $logo;
+        $this->contributors[] = $contributors;
 
         return $this;
     }
 
     /**
-     * Get logo
+     * Remove contributors
      *
-     * @return string 
+     * @param \Tangara\UserBundle\Entity\User $contributors
      */
-    public function getLogo()
+    public function removeContributor(\Tangara\UserBundle\Entity\User $contributors)
     {
-        return $this->logo;
+        $this->contributors->removeElement($contributors);
     }
 
     /**
-     * Set name
+     * Get contributors
      *
-     * @param string $name
-     * @return Project
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function setName($name)
+    public function getContributors()
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
+        return $this->contributors;
     }
 }
