@@ -4,4 +4,11 @@
         <li><a href="{{ path('fos_user_group_show', {'groupName': group.getName()} ) }}">{{ group.getName() }}</a></li>
     {% endfor %}
     </ul>
+    
+    <p>Demander à rejoindre :</p>
+    <select id="ListeElement">
+        {% for group in groups %}
+            <option value="{{ group.getId() }}">{{ group.getName() }}</option>
+        {% endfor %}
+    </select> 
 </div>
