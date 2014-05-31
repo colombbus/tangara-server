@@ -4,11 +4,12 @@
 
 {% block body %}
 <h1>{{ username }} > Création d'un projet</h1>
-    <form action="{{ path( "tangara_project_add" ) }}" method="post">
-
+    <div>
+        Project manager : {{ project.getProjectManager() }}
+    </div>
+<form action="{{ path( "tangara_project_add" ) }}" method="post">
         {{ form_widget(form) }}
-
-        <input type="submit">
-    </form>
+    <input type="submit">
+</form>
 
 {% endblock %}

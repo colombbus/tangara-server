@@ -21,10 +21,16 @@ class DefaultController extends Controller {
 
     public function showAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
+        $id = 23;
+        $manager = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $project = $manager->getRepository('TangaraProjectBundle:Project')->find(23);
+        $lists = $project->getContributors();
 
         return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
                     'project' => $project,
-                    'user' => $user
+                    'user' => $user,
+                    'lists' => $lists
         ));
     }
 
@@ -46,7 +52,6 @@ class DefaultController extends Controller {
         $request = $this->getRequest();
 
         $project = new Project();
-        $manager->getRepository('TangaraProjectBundle:Project')->find('3');
         // $adminsGroup = new Group('regissadores');
         // $user->addGroups($adminsGroup);
         $manager->persist($project);
@@ -55,10 +60,9 @@ class DefaultController extends Controller {
         //$project->setDateCreation(new \DateTime());
         $form = $this->createForm(new ProjectType(), $project);
         //$form->bind($project);
-        
         //$request->query->get('page'); // retourne un paramètre $_GET
         //$request->request->get('page'); // retourne un paramètre $_POST
-        
+
         if ($request->isMethod('GET')) {
 //            $form->bind($this->getRequest());
 //            echo 'request' . $this->getRequest();
@@ -88,11 +92,17 @@ class DefaultController extends Controller {
         //else
         //$fs->mkdir('C:\tangara\\' . $id);
         //$fs->copy($originFile, $targetFile)
+        $project_id = 23;
+        $user_id = 2;
+        $base_path = 'C:/tangara/';
+        $project_user_path = $base_path . $user_id;
+        $project_path = $base_path . $project_id;
 
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $project = new Project();
         $project->setProjectManager($user);
+        $project->addContributor($user);
 
         //$project->setDateCreation(new \DateTime());
         $form = $this->createForm(new ProjectType(), $project);
@@ -100,7 +110,8 @@ class DefaultController extends Controller {
         if ($request->isMethod('POST')) {
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
-
+            //$this->file->move($project_path, $this->file->getClientOriginalName());
+            echo "fichier " . $this->file;
             $em->persist($project);
             $em->flush();
             echo 'nouv :' . $project->getId();
@@ -109,42 +120,50 @@ class DefaultController extends Controller {
         }
 
         return $this->render('TangaraProjectBundle:Default:add.html.twig', array(
-                'form' => $form->createView(),
-                'userid' => $userId,
-                'username' => $user
+                    'form' => $form->createView(),
+                    'userid' => $userId,
+                    'username' => $user,
+                    'project' => $project
         ));
     }
 
-    public function uploadAction() {
-        $document = new Document();
-        $form = $this->createFormBuilder($document)
-                ->add('name')
-                ->add('file')
-                ->getForm()
-        ;
-        $fs = new Filesystem();
-        //$fs->copy($originFile, $targetFile)
-        $fs->mkdir('C:\tangara\\' . $id);
-        //
-        //$fs->mkdir('C:\tangara\\' . $id); // projects
-        $fs->mkdir('C:\tangara\user'.$id); // perso projects
-        //
-        //if ($fs->exists('/home/tangara/'..)){
-        //}
-        if ($this->getRequest()->isMethod('POST')) {
-            $form->bind($this->getRequest());
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                
-                $em->persist($document);
-                $em->flush();
-                
-                //$this->redirect($this->generateUrl(...));
-            }
-        }
-        return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
-                    'form' => $form->createView()
-        ));
-    }
+    /* public function uploadAction() {
+      //$id = $request->get('security.context')->getToken()->getUser()->getId();
+      $project_id = 23;
+      $user_id = 2;
+      $base_path = 'C:/tangara/';
+      $project_user_path = $base_path . $user_id;
+      $project_path = $base_path . $project_id;
 
+      $document = new Document();
+      $form = $this->createFormBuilder($document)
+      ->add('name')
+      ->add('file')
+      ->getForm()
+      ;
+      $fs = new Filesystem();
+      if (!$fs->exists($project_path)) {
+      $fs->mkdir($project_path); // perso projects
+      }
+
+      if (!$fs->exists($project_user_path)) {
+      //$fs->mkdir($project_user_path); // perso projects
+      }
+      //$fs->copy($originFile, $targetFile)
+      if ($this->getRequest()->isMethod('POST')) {
+      $form->bind($this->getRequest());
+
+      if ($form->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+
+      $em->persist($document);
+      $em->flush();
+      $this->redirect($this->generateUrl('tangara_project_add'));
+      }
+      }
+      echo "fichier " . $this->file;
+      return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
+      'form' => $form->createView()
+      ));
+      } */
 }

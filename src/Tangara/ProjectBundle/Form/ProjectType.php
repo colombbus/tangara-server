@@ -16,12 +16,10 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('projectManager')
             ->add('projectOwnerGroup')
             ->add('referenceWidth')
             ->add('referenceHeight')
             ->add('referenceFont')
-            ->add('dateCreation')
         ;
     }
     

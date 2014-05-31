@@ -1,8 +1,14 @@
-{% include "TangaraAdministrationBundle:Default:navbar.html.twig" %}
+{#
+{% extends "TangaraAdministrationBundle:Default:index.html.twig" %}
 
-Show 
+{% include "TangaraAdministrationBundle:Default:navbar.html.twig" %}
+#}
+Affichage du projet
+<a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Edition</a>
 <br/>
-user id : {{ user.id }}
+user name : {{ app.user.username }}
+<br/>
+user id : {{ app.user.id }}
 <br/>
 project id : {{ project.id }}
 <br/>
@@ -14,5 +20,11 @@ group owner : {{ project.ProjectOwnerGroup}}
 <br/>
 Référence font : {{ project.ReferenceFont}}
 <br/>
-Date Création : {{ project.dateCreation|date('d-m-Y H:s')}}
+Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
 <br/>
+listes des contributeurs : 
+<ul>
+{% for list in lists %}
+	<li>{{ list }}</li>
+{% endfor %}
+</ul>

@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Bonjour </h1>
-    <form action="{{ path( "tangara_project_add" ) }}" method="post">
+    <form action="{{ path( "tangara_project_edit", {id: project.id} ) }}" method="post">
         {{ form_widget(form) }}
         <input type="submit">
     </form>
