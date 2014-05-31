@@ -37,6 +37,26 @@ class User extends BaseUser
     protected $projects;
     
      /**
+     * @var string
+     *
+     * @ORM\Column(name="Country", type="string", length=255, nullable=true)
+     */
+    private $country;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="College", type="string", length=255, nullable=true)
+     */
+    private $college;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="DateCreation", type="datetime")
+     */
+    private $dateCreation;
+     /**
      * Constructor
      */
     public function __construct()
@@ -44,6 +64,7 @@ class User extends BaseUser
         parent::__construct();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dateCreation = new \DateTime('now');
     }
 
     /**
@@ -94,7 +115,7 @@ class User extends BaseUser
      * @param \Tangara\ProjectBundle\Entity\Project $project
      * @return User
      */
-    public function addProject(Project $project)
+    public function addProjects(Project $project)
     {
         $this->projects[] = $project;
 
@@ -106,18 +127,88 @@ class User extends BaseUser
      *
      * @param \Tangara\ProjectBundle\Entity\Project $project
      */
-    public function removeProject(Group $project)
+    public function removeProjects(Project $project)
     {
         $this->projects->removeElement($project);
     }
 
     /**
-     * Get project
+     * Get projects
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProject()
+    public function getProjects()
     {
-        return $this->project;
+        return $this->projects;
     }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return User
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string 
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set college
+     *
+     * @param string $college
+     * @return User
+     */
+    public function setCollege($college)
+    {
+        $this->college = $college;
+
+        return $this;
+    }
+
+    /**
+     * Get college
+     *
+     * @return string 
+     */
+    public function getCollege()
+    {
+        return $this->college;
+    }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     * @return User
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
 }
