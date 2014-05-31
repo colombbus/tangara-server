@@ -1,11 +1,22 @@
-{% extends '::base.html.twig' %}
+{% extends "TangaraAdministrationBundle:Default:homepage.html.twig" %}
+
+{% block title %}Édition{% endblock %}
 
 {% block title %}Projets{% endblock %}
 
-{% block body %}
-    <h1>Bonjour </h1>
-    <form action="{{ path( "tangara_project_edit", {id: project.id} ) }}" method="post">
+{% block jumbotron %}
+{% endblock %}
+
+{% block main_container %}
+<div class="container">
+     <form action="{{ path( "tangara_project_edit", {id: project.id} ) }}" method="post">
         {{ form_widget(form) }}
         <input type="submit">
     </form>
+
+
+        {% block container_footer%}
+            {% include 'TangaraAdministrationBundle:Default:container_footer.html.twig' %}
+        {% endblock %}
+</div> 
 {% endblock %}
