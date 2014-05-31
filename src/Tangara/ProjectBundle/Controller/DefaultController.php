@@ -18,13 +18,27 @@ class DefaultController extends Controller {
         $id = $this->get('session');
         return $this->render('TangaraProjectBundle:Default:index.html.twig');
     }
-
-    public function showAction(Project $project) {
+    
+    public function listAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         $id = 23;
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $project = $manager->getRepository('TangaraProjectBundle:Project')->find(23);
+        $lists = $project->getContributors();
+
+        return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
+                    'project' => $project,
+                    'user' => $user,
+                    'lists' => $lists
+        ));
+    }
+    
+    public function showAction(Project $project) {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $manager = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $project = $manager->getRepository('TangaraProjectBundle:Project')->find($project->getId());
         $lists = $project->getContributors();
 
         return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
@@ -83,47 +97,42 @@ class DefaultController extends Controller {
 
     public function addAction() {
         $user = $this->get('security.context')->getToken()->getUser();
-        $userId = $user->getId();
+        $user_id = $user->getId();
+        
+        $project = new Project();
+        $project->setProjectManager($user);
+ 
+        $project_id = $project->getId();
 
-        //echo $rootDir;
-        $fs = new Filesystem();
-        //if ($fs->exists('/home/tangara/'.$id)){
-        //}
-        //else
-        //$fs->mkdir('C:\tangara\\' . $id);
-        //$fs->copy($originFile, $targetFile)
-        $project_id = 23;
-        $user_id = 2;
         $base_path = 'C:/tangara/';
         $project_user_path = $base_path . $user_id;
         $project_path = $base_path . $project_id;
 
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-        $project = new Project();
-        $project->setProjectManager($user);
-        $project->addContributor($user);
-
-        //$project->setDateCreation(new \DateTime());
+        
+        $group_member = $user->getGroups();
+        
         $form = $this->createForm(new ProjectType(), $project);
 
         if ($request->isMethod('POST')) {
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
             //$this->file->move($project_path, $this->file->getClientOriginalName());
-            echo "fichier " . $this->file;
+
             $em->persist($project);
             $em->flush();
-            echo 'nouv :' . $project->getId();
+
             return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId())
             ));
         }
 
         return $this->render('TangaraProjectBundle:Default:add.html.twig', array(
                     'form' => $form->createView(),
-                    'userid' => $userId,
+                    'userid' => $user_id,
                     'username' => $user,
-                    'project' => $project
+                    'project' => $project,
+                    'project_owner_group' => $group_member
         ));
     }
 
