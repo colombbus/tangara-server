@@ -22,3 +22,4 @@ composer.phar
 
 # Netbeans
 nbproject/*
+/update.sh
