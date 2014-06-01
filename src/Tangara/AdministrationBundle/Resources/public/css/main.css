@@ -168,3 +168,12 @@ body{
     padding-bottom: 0;
     height: 100%;
 }
+
+footer {
+    bottom: 0;
+    position: absolute;
+}
+
+.container{
+    height: 100%;
+}
