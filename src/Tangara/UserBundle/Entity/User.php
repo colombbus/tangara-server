@@ -4,6 +4,7 @@ namespace Tangara\UserBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Tangara\UserBundle\Entity\Group;
+use Tangara\ProjectBundle\Entity\Project;
 
 /**
  * @ORM\Entity
@@ -115,9 +116,9 @@ class User extends BaseUser
      * @param \Tangara\ProjectBundle\Entity\Project $project
      * @return User
      */
-    public function addProjects(Project $project)
+    public function addProjects(Project $projects)
     {
-        $this->projects[] = $project;
+        $this->projects[] = $projects;
 
         return $this;
     }
