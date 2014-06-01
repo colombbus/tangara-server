@@ -12,6 +12,10 @@ tangara_project_add:
     pattern:  /add
     defaults: { _controller: TangaraProjectBundle:Default:add }
 
+tangara_project_upload:
+    pattern:  /upload
+    defaults: { _controller: TangaraProjectBundle:Default:upload }
+
 tangara_project_edit:
     pattern:  /edit/{id}
     defaults: { _controller: TangaraProjectBundle:Default:edit }

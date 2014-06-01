@@ -6,7 +6,7 @@
 
 {# <h1>{{ project.title }}</h1>#}
 
-<form action="{{ path( "tangara_project_upload" ) }}" method="post">
+<form action="#" method="post" {{ form_enctype(form) }}>
     
     {{ form_widget(form) }}
     

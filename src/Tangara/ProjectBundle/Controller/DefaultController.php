@@ -18,7 +18,7 @@ class DefaultController extends Controller {
         $id = $this->get('session');
         return $this->render('TangaraProjectBundle:Default:index.html.twig');
     }
-    
+
     public function listAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         $id = 23;
@@ -33,7 +33,7 @@ class DefaultController extends Controller {
                     'lists' => $lists
         ));
     }
-    
+
     public function showAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
         $manager = $this->getDoctrine()->getManager();
@@ -98,10 +98,10 @@ class DefaultController extends Controller {
     public function addAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         $user_id = $user->getId();
-        
+
         $project = new Project();
         $project->setProjectManager($user);
- 
+
         $project_id = $project->getId();
 
         $base_path = 'C:/tangara/';
@@ -110,9 +110,9 @@ class DefaultController extends Controller {
 
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-        
+
         $group_member = $user->getGroups();
-        
+
         $form = $this->createForm(new ProjectType(), $project);
 
         if ($request->isMethod('POST')) {
@@ -136,43 +136,47 @@ class DefaultController extends Controller {
         ));
     }
 
-    /* public function uploadAction() {
-      //$id = $request->get('security.context')->getToken()->getUser()->getId();
-      $project_id = 23;
-      $user_id = 2;
-      $base_path = 'C:/tangara/';
-      $project_user_path = $base_path . $user_id;
-      $project_path = $base_path . $project_id;
+    public function uploadAction() {
+        //$id = $request->get('security.context')->getToken()->getUser()->getId();
+        $project_id = 23;
+        $user_id = 2;
+        $base_path = 'C:\tangara';
+        $project_user_path = $base_path . "/" . $user_id;
+        $project_path = $base_path . "/" . $project_id;
 
-      $document = new Document();
-      $form = $this->createFormBuilder($document)
-      ->add('name')
-      ->add('file')
-      ->getForm()
-      ;
-      $fs = new Filesystem();
-      if (!$fs->exists($project_path)) {
-      $fs->mkdir($project_path); // perso projects
-      }
+        $request = $this->getRequest();
 
-      if (!$fs->exists($project_user_path)) {
-      //$fs->mkdir($project_user_path); // perso projects
-      }
-      //$fs->copy($originFile, $targetFile)
-      if ($this->getRequest()->isMethod('POST')) {
-      $form->bind($this->getRequest());
+        $document = new Document();
+        $form = $this->createFormBuilder($document)
+                ->add('name')
+                ->add('file')
+                ->getForm()
+        ;
+        $fs = new Filesystem();
 
-      if ($form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
+        if ($this->getRequest()->isMethod('POST')) {
+            $form->bind($this->getRequest());
+            $em = $this->getDoctrine()->getManager();
 
-      $em->persist($document);
-      $em->flush();
-      $this->redirect($this->generateUrl('tangara_project_add'));
-      }
-      }
-      echo "fichier " . $this->file;
-      return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
-      'form' => $form->createView()
-      ));
-      } */
+            if (!$fs->exists($project_user_path)) {
+                $fs->mkdir($project_user_path); // perso projects
+            }
+
+            if (!$fs->exists($project_path)) {
+                $fs->mkdir($project_path); // perso projects
+            }
+            $document->upload();
+            //$file_uploaded = $request->get('file');
+            //$fs->copy($file_uploaded, $project_user_path);
+            $em->persist($document);
+            $em->flush();
+            
+            //$ret = 'done ' . $file_uploaded ; 
+            //return new \Symfony\Component\HttpFoundation\Response($ret);
+        }
+
+        return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
+                    'form' => $form->createView()
+        ));
+    }
 }
