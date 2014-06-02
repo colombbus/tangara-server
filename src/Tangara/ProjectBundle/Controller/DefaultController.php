@@ -12,7 +12,7 @@ use Tangara\ProjectBundle\Entity\Project;
 use Tangara\UserBundle\Entity\User;
 use Tangara\UserBundle\Entity\Group;
 
-class FileController extends Controller {
+class DefaultController extends Controller {
 
     public function indexAction() {
         $id = $this->get('session');

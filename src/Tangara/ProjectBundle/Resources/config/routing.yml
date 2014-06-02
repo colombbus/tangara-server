@@ -28,3 +28,11 @@ tangara_project_edit:
 tangara_project_create:
     pattern:  /create
     defaults: { _controller: TangaraProjectBundle:Default:create}
+
+tangara_project_data:
+    pattern:  /data
+    defaults: { _controller: TangaraProjectBundle:File:data }
+
+tangara_project_files:
+    pattern:  /files
+    defaults: { _controller: TangaraProjectBundle:File:getFiles }
