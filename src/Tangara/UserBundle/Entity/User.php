@@ -116,9 +116,9 @@ class User extends BaseUser
      * @param \Tangara\ProjectBundle\Entity\Project $project
      * @return User
      */
-    public function addProjects(Project $projects)
+    public function addProjects(Project $project)
     {
-        $this->projects[] = $projects;
+        $this->projects[] = $project;
 
         return $this;
     }
