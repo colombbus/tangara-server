@@ -1,0 +1,16 @@
+{% extends "TangaraAdministrationBundle:Default:homepage.html.twig" %}
+
+{% block title %}Liste des projets{% endblock %}
+{% block jumbotron %}
+{% endblock %}
+
+{% block main_container %}
+<div class="container">
+    <h1>Liste des projets</h1>
+    <ul>
+{% for project in projects %}
+        <li><a href="{{ path( "tangara_project_show", {id: project.id} ) }}" >{{ project.getName()}}</a></li>
+{% endfor %}
+    </ul>
+</div>
+{% endblock %}

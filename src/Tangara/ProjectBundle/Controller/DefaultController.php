@@ -19,21 +19,6 @@ class DefaultController extends Controller {
         return $this->render('TangaraProjectBundle:Default:index.html.twig');
     }
 
-    public function listAction() {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $id = 23;
-        $manager = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
-        $project = $manager->getRepository('TangaraProjectBundle:Project')->find(23);
-        $lists = $project->getContributors();
-
-        return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
-                    'project' => $project,
-                    'user' => $user,
-                    'lists' => $lists
-        ));
-    }
-
     public function showAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
         $manager = $this->getDoctrine()->getManager();
@@ -45,6 +30,16 @@ class DefaultController extends Controller {
                     'project' => $project,
                     'user' => $user,
                     'lists' => $lists
+        ));
+    }
+    public function listAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $manager = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $projects = $manager->getRepository('TangaraProjectBundle:Project')->findAll();
+
+        return $this->render('TangaraProjectBundle:Default:list.html.twig', array(
+                    'projects' => $projects
         ));
     }
 
@@ -95,7 +90,7 @@ class DefaultController extends Controller {
         ));
     }
 
-    public function addAction() {
+    public function newAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         $user_id = $user->getId();
 

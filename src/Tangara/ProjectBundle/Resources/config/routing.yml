@@ -8,10 +8,13 @@ tangara_project_show:
     requirements:
         id:  \d+
     
-tangara_project_add:
-    pattern:  /add
-    defaults: { _controller: TangaraProjectBundle:Default:add }
+tangara_project_new:
+    pattern:  /new
+    defaults: { _controller: TangaraProjectBundle:Default:new }
 
+tangara_project_list:
+    pattern:  /list
+    defaults: { _controller: TangaraProjectBundle:Default:list }
 tangara_project_upload:
     pattern:  /upload
     defaults: { _controller: TangaraProjectBundle:Default:upload }
