@@ -1,22 +1,27 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="fos_user_user_show">
-    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
-    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-    {% set userGroups =  user.getGroups() %}
-    <fieldset>
-        <legend><a href="{{ path('fos_user_group_list') }}">Projets</a></legend>
-        <a href="{{ path('tangara_project_add') }}">Créer un nouveau projet</a>
-    </fieldset>
-
-    <fieldset>
-        <legend><a href="{{ path('fos_user_group_list') }}">Groupe</a></legend>
-        <p>Membre de :</p>
-        <ul>
-    {% for group in userGroups %}
-            <li>{{ group.getName() }}</li>
-    {% endfor %}
-        </ul>
-        <p><a href="{{ path('fos_user_group_new') }}">Créer un nouveau groupe</a></p>
-    </fieldset>
+    <div class="row">
+        <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+        <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+        {% set userGroups =  user.getGroups() %}
+        <div class="col-md-6">
+            <fieldset>
+                <legend><a href="{{ path('tangara_project_list') }}">Projets</a></legend>
+                <a href="{{ path('tangara_project_new') }}">Créer un nouveau projet</a>
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <fieldset>
+                <legend><a href="{{ path('fos_user_group_list') }}">Groupe</a></legend>
+                <p>Membres</p>
+                <ul>
+                    {% for group in userGroups %}
+                        <li>{{ group.getName() }}</li>
+                    {% endfor %}
+                </ul>
+                <p><a href="{{ path('fos_user_group_new') }}">Créer un nouveau groupe</a></p>
+            </fieldset>
+        </div>
+    </div>
 </div>
