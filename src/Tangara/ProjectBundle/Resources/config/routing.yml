@@ -24,3 +24,7 @@ tangara_project_edit:
     defaults: { _controller: TangaraProjectBundle:Default:edit }
     requirements:
         id:  \d+
+
+tangara_project_create:
+    pattern:  /create
+    defaults: { _controller: TangaraProjectBundle:Default:create}

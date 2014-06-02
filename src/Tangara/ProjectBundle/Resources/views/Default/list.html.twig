@@ -5,12 +5,15 @@
 {% endblock %}
 
 {% block main_container %}
-<div class="container">
-    <h1>Liste des projets</h1>
-    <ul>
-{% for project in projects %}
-        <li><a href="{{ path( "tangara_project_show", {id: project.id} ) }}" >{{ project.getName()}}</a></li>
-{% endfor %}
-    </ul>
-</div>
+    <div class="container">
+        <h1>Liste des projets</h1>
+        <ul>
+            {% for project in projects %}
+                <li><a href="{{ path( "tangara_project_show", {id: project.id} ) }}" >{{ project.getName()}}</a></li>
+            {% endfor %}
+        </ul>
+        {% block container_footer%}
+            {% include 'TangaraAdministrationBundle:Default:container_footer.html.twig' %}
+        {% endblock %}
+    </div>
 {% endblock %}

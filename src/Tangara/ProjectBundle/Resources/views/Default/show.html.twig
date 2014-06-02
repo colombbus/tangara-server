@@ -6,35 +6,35 @@
 {% endblock %}
 
 {% block main_container %}
-<div class="container">
-    <h1>Affichage du projet</h1>
-    <a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Edition</a>
-    <br/>
-    user name : {{ app.user.username }}
-    <br/>
-    user id : {{ app.user.id }}
-    <br/>
-    project id : {{ project.id }}
-    <br/>
-    project name : {{ project.name }}
-    <br/>
-    project manager : {{ project.ProjectManager }}
-    <br/>
-    group owner : {{ project.ProjectOwnerGroup }}
-    <br/>
-    Référence font : {{ project.ReferenceFont }}
-    <br/>
-    Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
-    <br/>
-    listes des contributeurs : 
-    <ul>
-{% for list in lists %}
-        <li>{{ list }}</li>
-{% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Affichage du projet</h1>
+        <a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Edition</a>
+        <br/>
+        user name : {{ app.user.username }}
+        <br/>
+        user id : {{ app.user.id }}
+        <br/>
+        project id : {{ project.id }}
+        <br/>
+        project name : {{ project.name }}
+        <br/>
+        project manager : {{ project.ProjectManager }}
+        <br/>
+        group owner : {{ project.ProjectOwnerGroup }}
+        <br/>
+        Référence font : {{ project.ReferenceFont }}
+        <br/>
+        Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
+        <br/>
+        listes des contributeurs : 
+        <ul>
+            {% for list in lists %}
+                <li>{{ list }}</li>
+            {% endfor %}
+        </ul>
 
         {% block container_footer%}
             {% include 'TangaraAdministrationBundle:Default:container_footer.html.twig' %}
         {% endblock %}
-</div> 
+    </div> 
 {% endblock %}

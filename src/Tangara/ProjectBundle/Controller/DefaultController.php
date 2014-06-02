@@ -89,7 +89,11 @@ class DefaultController extends Controller {
                     'project' => $project
         ));
     }
-
+    
+    public function createAction() {
+        return $this->render('TangaraProjectBundle:Default:create.html.twig');
+    }
+    
     public function newAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         $user_id = $user->getId();
