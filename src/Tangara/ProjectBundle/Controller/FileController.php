@@ -11,6 +11,7 @@ use Tangara\ProjectBundle\Entity\Document;
 use Tangara\ProjectBundle\Entity\Project;
 use Tangara\UserBundle\Entity\User;
 use Tangara\UserBundle\Entity\Group;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FileController extends Controller {
 
@@ -78,7 +79,7 @@ class FileController extends Controller {
         $request = $this->getRequest();
         //$id = $request->get('security.context')->getToken()->getUser()->getId();
 
-        if ($request->isXmlHttpRequest()) {
+        if ($request) {
             $response = new JsonResponse();
             $response->setData(array(
                 'files' => array("niveau1.tgr","niveau2.tgr", "promeneur.tgr", "fin.tgr")
