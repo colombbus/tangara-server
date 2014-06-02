@@ -1,10 +1,37 @@
 {% extends "::base.html.twig" %}
 
+{% block header %}
+    {% block header_stylesheets %}
+    {% endblock %}
+{% endblock %}
+
 {% block body %}
-    {% block main_navbar %}{% endblock %}
+    {% block jumbotron %}
+    {% endblock %}
 
     {% block main_container %}
+        <div class="container">
+            {% block container_content %}
+                {% block fos_user_content %}
+                {% endblock fos_user_content %}
+            {% endblock %}
+
+            {% block container_specifications %}
+            {% endblock %}
+
+            {% block container_footer%}
+            {% endblock %}
+        </div> 
     {% endblock %}
-    
-    {% block main_footer %}{% endblock %}
+
+    {% block javascripts %}
+    {% endblock %}
 {% endblock %}
+
+
+
+
+
+
+
+

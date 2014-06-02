@@ -1,4 +1,3 @@
-{# {% extends "::layout.html.twig" %} #}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -7,10 +6,9 @@
     <head>
         {% block header %}
             {% include "TangaraAdministrationBundle:Default:header.html.twig" %}
-        {% endblock %}
-
-        {% block header_stylesheets %}
-            {% include "TangaraAdministrationBundle:Default:header_stylesheets.html.twig" %}
+            {% block header_stylesheets %}
+                {% include "TangaraAdministrationBundle:Default:header_stylesheets.html.twig" %}
+            {% endblock %}
         {% endblock %}
     </head>
 

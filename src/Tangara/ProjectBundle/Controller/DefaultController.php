@@ -122,7 +122,7 @@ class DefaultController extends Controller {
             ));
         }
 
-        return $this->render('TangaraProjectBundle:Default:add.html.twig', array(
+        return $this->render('TangaraProjectBundle:Default:new.html.twig', array(
                     'form' => $form->createView(),
                     'userid' => $user_id,
                     'username' => $user,

@@ -1,5 +1,3 @@
-{% extends "TangaraUserBundle::layout.html.twig" %}
-
 {% block fos_user_content %}
     <form action="{{ path("fos_user_security_check") }}" method="post" class="navbar-form navbar-right" role="form">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
