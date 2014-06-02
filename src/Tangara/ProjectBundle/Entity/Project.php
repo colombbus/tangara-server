@@ -4,6 +4,7 @@ namespace Tangara\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Tangara\UserBundle\Entity\User;
+use Tangara\ProjectBundle\Entity\Project;
 
 /**
  * Project
