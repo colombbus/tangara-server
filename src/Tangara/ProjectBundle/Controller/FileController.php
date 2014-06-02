@@ -12,7 +12,7 @@ use Tangara\ProjectBundle\Entity\Project;
 use Tangara\UserBundle\Entity\User;
 use Tangara\UserBundle\Entity\Group;
 
-class fileController extends Controller {
+class FileController extends Controller {
 
     public function fileAction() {
         //$id = $request->get('security.context')->getToken()->getUser()->getId();
@@ -56,5 +56,34 @@ class fileController extends Controller {
         return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
                     'form' => $form->createView()
         ));
+    }
+        
+    public function dataAction() {
+        $request = $this->getRequest();
+        //$id = $request->get('security.context')->getToken()->getUser()->getId();
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData(array(
+                'projectId' => 121,
+                'projectURL' => "http://apps.colombbus.org/tangara_ui/project/121",
+                'screen' => array('width' => 1024,
+                    'height' => 768),
+                'files' => array("niveau1.tgr","niveau2.tgr", "promeneur.tgr", "fin.tgr")
+            ));
+            return $response;
+        }
+    }
+
+    public function getFilesAction() {
+        $request = $this->getRequest();
+        //$id = $request->get('security.context')->getToken()->getUser()->getId();
+
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData(array(
+                'files' => array("niveau1.tgr","niveau2.tgr", "promeneur.tgr", "fin.tgr")
+            ));
+            return $response;
+        }
     }
 }
