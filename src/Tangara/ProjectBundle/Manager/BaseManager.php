@@ -18,22 +18,18 @@
  */
 
 /**
- * Description of ProfileController
+ * Description of BaseManager
  *
  * @author Régis
  */
-namespace Tangara\UserBundle\Controller;
 
-use FOS\UserBundle\Controller\ProfileController as BaseController;
+namespace Tangara\ProjectBundle\Manager;
 
-class ProfileController extends BaseController
+abstract class BaseManager
 {
-    public function profileAction()
+    protected function persistAndFlush($entity)
     {
-        $response = parent::profileAction();
-        
-        return $this->render('TangaraUserBundle:Profile:show.html.twig', array(
-            
-        ));
+        $this->em->persist($entity);
+        $this->em->flush();
     }
 }

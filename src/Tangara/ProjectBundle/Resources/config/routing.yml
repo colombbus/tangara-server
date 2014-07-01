@@ -15,9 +15,14 @@ tangara_project_new:
 tangara_project_list:
     pattern:  /list
     defaults: { _controller: TangaraProjectBundle:Default:list }
+
 tangara_project_upload:
     pattern:  /upload
     defaults: { _controller: TangaraProjectBundle:Default:upload }
+
+tangara_project_up:
+    pattern:  /ud
+    defaults: { _controller: TangaraProjectBundle:Default:up }
 
 tangara_project_edit:
     pattern:  /edit/{id}

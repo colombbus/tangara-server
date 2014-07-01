@@ -16,10 +16,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class FileController extends Controller {
 
     public function fileAction() {
-        //$id = $request->get('security.context')->getToken()->getUser()->getId();
+        //$user_id = $request->get('security.context')->getToken()->getUser()->getId();
+        $user_id = 12;
         $project_id = 23;
-        $user_id = 2;
-        $base_path = 'C:\tangara';
+        $base_path = $this->get('tangara_project.uploader')->getUploadDirectory();
+
         $project_user_path = $base_path . "/" . $user_id;
         $project_path = $base_path . "/" . $project_id;
 
@@ -49,7 +50,7 @@ class FileController extends Controller {
             //$fs->copy($file_uploaded, $project_user_path);
             $em->persist($document);
             $em->flush();
-            
+
             //$ret = 'done ' . $file_uploaded ; 
             //return new \Symfony\Component\HttpFoundation\Response($ret);
         }
@@ -58,7 +59,7 @@ class FileController extends Controller {
                     'form' => $form->createView()
         ));
     }
-        
+
     public function dataAction() {
         $request = $this->getRequest();
         //$id = $request->get('security.context')->getToken()->getUser()->getId();
@@ -69,7 +70,7 @@ class FileController extends Controller {
                 'projectURL' => "http://apps.colombbus.org/tangara_ui/project/121",
                 'screen' => array('width' => 1024,
                     'height' => 768),
-                'files' => array("niveau1.tgr","niveau2.tgr", "promeneur.tgr", "fin.tgr")
+                'files' => array("niveau1.tgr", "niveau2.tgr", "promeneur.tgr", "fin.tgr")
             ));
             return $response;
         }
@@ -78,13 +79,24 @@ class FileController extends Controller {
     public function getFilesAction() {
         $request = $this->getRequest();
         //$id = $request->get('security.context')->getToken()->getUser()->getId();
-
+        //TODO: if ($request->isXmlHttpRequest()) {
         if ($request) {
             $response = new JsonResponse();
             $response->setData(array(
-                'files' => array("niveau1.tgr","niveau2.tgr", "promeneur.tgr", "fin.tgr")
+                'files' => array("niveau1.tgr", "niveau2.tgr", "promeneur.tgr", "fin.tgr")
             ));
             return $response;
         }
     }
+
+    public function upAction() {
+        $myFile = "C:\tangara\testFile.txt";
+        $fh = fopen($myFile, 'w');
+        fwrite($fh, $_POST['data']);
+        fwrite($fh, $_POST['foo']);
+        fwrite($fh, $_POST["foo"]);
+        fwrite($fh, $_POST[foo]);
+        fclose($fh);
+    }
+
 }

@@ -13,8 +13,8 @@
         </div>
         <div class="col-md-6">
             <fieldset>
-                <legend><a href="{{ path('fos_user_group_list') }}">Groupe</a></legend>
-                <p>Membres</p>
+                <legend><a href="{{ path('fos_user_group_list') }}">Groupes</a></legend>
+                <p>Membre de :</p>
                 <ul>
                     {% for group in userGroups %}
                         <li>{{ group.getName() }}</li>

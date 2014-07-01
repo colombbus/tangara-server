@@ -43,6 +43,13 @@ class Project
      * @ORM\Column(name="ProjectManager", type="string", length=255, nullable=true)
      */
     private $projectManager;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="UserProject", type="boolean")
+     */
+    private $userProject;  
 
     /**
      * @var string
@@ -700,5 +707,28 @@ class Project
     public function getContributors()
     {
         return $this->contributors;
+    }
+
+    /**
+     * Set userProject
+     *
+     * @param boolean $userProject
+     * @return Project
+     */
+    public function setUserProject($userProject)
+    {
+        $this->userProject = $userProject;
+
+        return $this;
+    }
+
+    /**
+     * Get userProject
+     *
+     * @return boolean 
+     */
+    public function getUserProject()
+    {
+        return $this->userProject;
     }
 }

@@ -18,22 +18,31 @@
  */
 
 /**
- * Description of ProfileController
+ * Description of Mailer
  *
  * @author Régis
  */
-namespace Tangara\UserBundle\Controller;
 
-use FOS\UserBundle\Controller\ProfileController as BaseController;
+namespace Tangara\ProjectBundle\Uploader;
 
-class ProfileController extends BaseController
-{
-    public function profileAction()
-    {
-        $response = parent::profileAction();
-        
-        return $this->render('TangaraUserBundle:Profile:show.html.twig', array(
-            
-        ));
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+class Uploader {
+
+    private $directory;
+
+    public function __construct() {
+        $this->directory = $this->container->getParameter('tangara_project.uploader.directory');
     }
+
+    public function getUploadDirectory() {
+        return $this->directory;
+    }
+
+    public function setUploadDirectory($directory) {
+        $this->directory = $directory;
+
+        return $this;
+    }
+
 }

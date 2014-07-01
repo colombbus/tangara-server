@@ -20,6 +20,7 @@ class ProjectType extends AbstractType
             ->add('referenceWidth')
             ->add('referenceHeight')
             ->add('referenceFont')
+            ->add('userProject')
         ;
     }
     

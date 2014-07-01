@@ -37,7 +37,9 @@ class DefaultController extends Controller {
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $projects = $manager->getRepository('TangaraProjectBundle:Project')->findAll();
-
+        
+        echo $this->get('Uploader')->getUserProject();
+        
         return $this->render('TangaraProjectBundle:Default:list.html.twig', array(
                     'projects' => $projects
         ));
@@ -91,11 +93,13 @@ class DefaultController extends Controller {
     }
     
     public function createAction() {
+        //echo '**' . $this->get('kernel')->getRootDir() . '**';
         return $this->render('TangaraProjectBundle:Default:create.html.twig');
     }
     
     public function newAction() {
         $user = $this->get('security.context')->getToken()->getUser();
+        // DEVELOP ONLY
         $user_id = $user->getId();
 
         $project = new Project();
@@ -137,6 +141,7 @@ class DefaultController extends Controller {
 
     public function uploadAction() {
         //$id = $request->get('security.context')->getToken()->getUser()->getId();
+        // DEVELOP ONLY
         $project_id = 23;
         $user_id = 2;
         $base_path = 'C:\tangara';
@@ -157,13 +162,7 @@ class DefaultController extends Controller {
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
 
-            if (!$fs->exists($project_user_path)) {
-                $fs->mkdir($project_user_path); // perso projects
-            }
 
-            if (!$fs->exists($project_path)) {
-                $fs->mkdir($project_path); // perso projects
-            }
             $document->upload();
             //$file_uploaded = $request->get('file');
             //$fs->copy($file_uploaded, $project_user_path);

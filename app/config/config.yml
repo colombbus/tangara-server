@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+#    - { resource: "@TangaraProjectBundle/Resources/config/services.yml" }
 
 framework:
     #esi:             ~
@@ -94,4 +95,12 @@ fos_user:
 #    autoinclude: true
 #    debug: false # sources not minified with uglify.js
 #    noconflict: true # uses ace.require instead of require
-
+parameters:
+    tangara_project.uploader:
+        directory: %upload.directory%
+    tangarajs:
+        directory: %upload.directory%
+        
+services:
+    tangara_project.uploader:
+        class: Tangara\ProjectBundle\Uploader\Uploader

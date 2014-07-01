@@ -13,3 +13,4 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+    upload.directory:  C:\Tangara

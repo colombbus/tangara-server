@@ -4,6 +4,7 @@ namespace Tangara\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Tangara\UserBundle\Entity\User;
+use Tangara\ProjectBundle\Entity\Project;
 
 /**
  * Project
@@ -42,6 +43,13 @@ class Project
      * @ORM\Column(name="ProjectManager", type="string", length=255, nullable=true)
      */
     private $projectManager;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="UserProject", type="boolean")
+     */
+    private $userProject;  
 
     /**
      * @var string
