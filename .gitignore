@@ -24,3 +24,4 @@ composer.phar
 nbproject/*
 /update.sh
 update.sh
+/web/

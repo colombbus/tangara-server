@@ -6,3 +6,6 @@ tangara_administration_locale:
     pattern:  /locale
     defaults: { _controller: TangaraAdministrationBundle:Default:locale }
     
+tangara_administration_gettgr:
+    pattern:  /tgr
+    defaults: { _controller: TangaraAdministrationBundle:Default:getTgr }

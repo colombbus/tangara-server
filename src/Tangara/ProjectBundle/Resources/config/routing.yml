@@ -29,10 +29,18 @@ tangara_project_create:
     pattern:  /create
     defaults: { _controller: TangaraProjectBundle:Default:create}
 
-tangara_project_data:
-    pattern:  /data
-    defaults: { _controller: TangaraProjectBundle:File:data }
-
 tangara_project_files:
     pattern:  /files
     defaults: { _controller: TangaraProjectBundle:File:getFiles }
+
+tangara_project_tgr_content:
+    pattern:  /content
+    defaults: { _controller: TangaraProjectBundle:File:getContent }
+    
+tangara_project_ajax:
+    pattern:  /ajax
+    defaults: { _controller: TangaraProjectBundle:Default:getAjax}
+    
+    
+    
+    

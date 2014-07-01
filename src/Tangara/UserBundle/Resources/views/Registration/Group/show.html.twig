@@ -1,7 +1,4 @@
-{% extends "TangaraAdministrationBundle:Default:homepage.html.twig" %}
-
-{% block jumbotron %}
-{% endblock %}
+{% extends "TangaraAdministrationBundle:Default:layout.html.twig" %}
 
 {% block main_container %}
     <div class="container">
@@ -9,9 +6,5 @@
             <h1>Profil du groupe</h1>
             {% include "FOSUserBundle:Group:show_content.html.twig" %}
         {% endblock fos_user_content %}
-
-        {% block container_footer%}
-            {% include 'TangaraAdministrationBundle:Default:container_footer.html.twig' %}
-        {% endblock %}
     </div> 
 {% endblock %}

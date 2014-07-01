@@ -1,9 +1,6 @@
-{% extends "TangaraAdministrationBundle:Default:homepage.html.twig" %}
+{% extends "TangaraAdministrationBundle:Default:layout.html.twig" %}
 
 {% block title %}Projets{% endblock %}
-
-{% block jumbotron %}
-{% endblock %}
 
 {% block main_container %}
     <div class="container">
@@ -32,9 +29,5 @@
                 <li>{{ list }}</li>
             {% endfor %}
         </ul>
-
-        {% block container_footer%}
-            {% include 'TangaraAdministrationBundle:Default:container_footer.html.twig' %}
-        {% endblock %}
     </div> 
 {% endblock %}
