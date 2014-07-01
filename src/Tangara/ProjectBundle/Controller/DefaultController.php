@@ -69,9 +69,7 @@ $different = $query->getResult();
 
     public function editAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
-
-        //echo $rootDir;
-        $fs = new Filesystem();
+        
         //$fs->copy($originFile, $targetFile)
         //$fs->mkdir('C:\tangara\\' . $id);
         //
@@ -83,28 +81,21 @@ $different = $query->getResult();
 
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-
-        $project = new Project();
-        // $adminsGroup = new Group('regissadores');
-        // $user->addGroups($adminsGroup);
-        $manager->persist($project);
-        $manager->flush();
-
-        //$project->setDateCreation(new \DateTime());
+        
         $form = $this->createForm(new ProjectType(), $project);
-        //$form->bind($project);
+        
         //$request->query->get('page'); // retourne un paramètre $_GET
         //$request->request->get('page'); // retourne un paramètre $_POST
 
-        if ($request->isMethod('GET')) {
-//            $form->bind($this->getRequest());
-//            echo 'request' . $this->getRequest();
-//            $em = $this->getDoctrine()->getManager();
-//
-//            $em->persist($project);
-//            $em->flush();
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+            
+            if ($form->isValid())
+            $p = $form->getData();
+
+            $manager->persist($project);
+            $manager->flush();
 //            $argu = $request->query->get('page');
-//            echo "requete " . $argu;
             return $this->render('TangaraProjectBundle:Default:edit.html.twig', array(
                         'form' => $form->createView(),
                         'user' => $user,
