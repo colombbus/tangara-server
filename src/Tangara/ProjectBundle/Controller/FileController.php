@@ -12,17 +12,16 @@ use Tangara\ProjectBundle\Entity\Project;
 use Tangara\UserBundle\Entity\User;
 use Tangara\UserBundle\Entity\Group;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileController extends Controller {
 
     public function fileAction() {
         //$user_id = $request->get('security.context')->getToken()->getUser()->getId();
-        $user_id = 12;
         $project_id = 23;
-        $base_path = $this->get('tangara_project.uploader')->getUploadDirectory();
+        $user_id = 2;
+        checkAction($user_id, $project_id);
 
-        $project_user_path = $base_path . "/" . $user_id;
-        $project_path = $base_path . "/" . $project_id;
 
         $request = $this->getRequest();
 
@@ -32,20 +31,12 @@ class FileController extends Controller {
                 ->add('file')
                 ->getForm()
         ;
-        $fs = new Filesystem();
 
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
 
-            if (!$fs->exists($project_user_path)) {
-                $fs->mkdir($project_user_path); // perso projects
-            }
-
-            if (!$fs->exists($project_path)) {
-                $fs->mkdir($project_path); // perso projects
-            }
-            $document->upload();
+            $document->upload($project_id);
             //$file_uploaded = $request->get('file');
             //$fs->copy($file_uploaded, $project_user_path);
             $em->persist($document);
@@ -60,19 +51,48 @@ class FileController extends Controller {
         ));
     }
 
-    public function dataAction() {
+    public function checkAction($user, $project) {
+        /* obtenir la liste des groupes de l'utilisateur */
+
+        /* obtenir le groupe du projet */
+
+        /* le groupe  */
+
+        if ($user)
+            return false;
+        else {
+            return true;
+            /* check if directory exists */
+            $fs = new Filesystem();
+            $base_path = 'C:\tangara';
+            $project_path = $base_path . "/" . $project_id;
+
+            if (!$fs->exists($project_path)) {
+                $fs->mkdir($project_path);
+            }
+        }
+    }
+
+    public function sendContentAction() {
         $request = $this->getRequest();
         //$id = $request->get('security.context')->getToken()->getUser()->getId();
         if ($request->isXmlHttpRequest()) {
-            $response = new JsonResponse();
-            $response->setData(array(
-                'projectId' => 121,
-                'projectURL' => "http://apps.colombbus.org/tangara_ui/project/121",
-                'screen' => array('width' => 1024,
-                    'height' => 768),
-                'files' => array("niveau1.tgr", "niveau2.tgr", "promeneur.tgr", "fin.tgr")
-            ));
-            return $response;
+            if ($request->query->get('userproject'))
+                echo "USER PROJECT";
+
+            if ($request->query->get('filename')) {
+                $filename = $request->query->get('filename');
+                $project_id = 23;
+                $user_id = 2;
+                $base_path = 'C:\tangara';
+                $project_user_path = $base_path . "/" . $user_id;
+                $project_path = $base_path . "/" . $project_id;
+                $filepath = $project_path . "/" . $filename;
+                $fs = new Filesystem();
+
+                if ($fs->exists($filepath))
+                    return new BinaryFileResponse($filepath);
+            }
         }
     }
 
@@ -89,14 +109,24 @@ class FileController extends Controller {
         }
     }
 
-    public function upAction() {
-        $myFile = "C:\tangara\testFile.txt";
-        $fh = fopen($myFile, 'w');
-        fwrite($fh, $_POST['data']);
-        fwrite($fh, $_POST['foo']);
-        fwrite($fh, $_POST["foo"]);
-        fwrite($fh, $_POST[foo]);
-        fclose($fh);
+    public function getContentAction() {
+        
+    }
+
+    public function removeFileAction() {
+        
+    }
+
+    public function getTgrContentAction() {
+        
+    }
+
+    public function getParseContentAction() {
+        
+    }
+
+    public function getResourcesAction() {
+        
     }
 
 }

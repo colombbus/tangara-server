@@ -6,24 +6,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\HttpFoundation\Response;
 use Tangara\ProjectBundle\Form\ProjectType;
 use Tangara\ProjectBundle\Entity\Document;
 use Tangara\ProjectBundle\Entity\Project;
 use Tangara\UserBundle\Entity\User;
 use Tangara\UserBundle\Entity\Group;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller {
 
     public function indexAction() {
-        $id = $this->get('session');
         return $this->render('TangaraProjectBundle:Default:index.html.twig');
     }
 
     public function showAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
+        
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $project = $manager->getRepository('TangaraProjectBundle:Project')->find($project->getId());
+        
         $lists = $project->getContributors();
 
         return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
@@ -32,16 +35,35 @@ class DefaultController extends Controller {
                     'lists' => $lists
         ));
     }
+
     public function listAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $projects = $manager->getRepository('TangaraProjectBundle:Project')->findAll();
+
         
         echo $this->get('Uploader')->getUserProject();
+
+        $repository = $manager->getRepository('TangaraProjectBundle:Project');
+        $admin='"admin"';
+
+        //$conn = $this->get('database_connection');
+        //$different = $conn->fetchAll('SELECT ProjectManager FROM project WHERE ProjectManager != '.$admin);
+
+        
+$query = $repository->createQueryBuilder('project')
+    ->where('project.projectManager != :ProjectManager')
+    ->setParameter('ProjectManager', 'admin')
+    ->getQuery();
+
+$different = $query->getResult();
+        
+
         
         return $this->render('TangaraProjectBundle:Default:list.html.twig', array(
-                    'projects' => $projects
+                    'projects' => $projects,
+                    'different' => $different
         ));
     }
 
@@ -83,6 +105,11 @@ class DefaultController extends Controller {
 //            $em->flush();
 //            $argu = $request->query->get('page');
 //            echo "requete " . $argu;
+            return $this->render('TangaraProjectBundle:Default:edit.html.twig', array(
+                        'form' => $form->createView(),
+                        'user' => $user,
+                        'project' => $project
+            ));
         }
 
         return $this->render('TangaraProjectBundle:Default:edit.html.twig', array(
@@ -91,12 +118,12 @@ class DefaultController extends Controller {
                     'project' => $project
         ));
     }
-    
+
     public function createAction() {
         //echo '**' . $this->get('kernel')->getRootDir() . '**';
         return $this->render('TangaraProjectBundle:Default:create.html.twig');
     }
-    
+
     public function newAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         // DEVELOP ONLY
@@ -168,7 +195,7 @@ class DefaultController extends Controller {
             //$fs->copy($file_uploaded, $project_user_path);
             $em->persist($document);
             $em->flush();
-            
+
             //$ret = 'done ' . $file_uploaded ; 
             //return new \Symfony\Component\HttpFoundation\Response($ret);
         }
@@ -177,4 +204,27 @@ class DefaultController extends Controller {
                     'form' => $form->createView()
         ));
     }
+
+    public function getAjaxAction() {
+        $data = "ok";
+        $request = $this->getRequest();
+
+        $data = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('TangaraProjectBundle:Project')
+                ->myFindAll();
+
+        if ($this->getRequest()->isMethod('POST')) {
+            $data = $request->request->get('data');
+            //var_dump($request->request->all());
+        }
+        if ($this->getRequest()) {
+            //$this->getRequest()->request();
+
+            return new Response('Reçu en POST : ' . $data);
+        }
+
+        //return new Response('<h1>Reçu en normal</h1>');
+    }
+
 }

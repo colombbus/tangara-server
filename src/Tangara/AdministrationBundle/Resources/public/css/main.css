@@ -170,7 +170,7 @@ body{
 }
 
 footer {
-    bottom: 0;
+    padding-left: 100px;
     position: absolute;
 }
 

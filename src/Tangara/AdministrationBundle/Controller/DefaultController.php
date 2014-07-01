@@ -16,19 +16,31 @@ class DefaultController extends Controller {
 
     public function localeAction() {
         $request = $this->getRequest();
-        $locale = $this->getRequest()->getLocale();
-        
-        if ($request->isXmlHttpRequest()) {
+        $locale = $request->getLocale();
+
+        if ($request) {
             $response = new JsonResponse();
             $response->setData(array(
                 'locale' => $locale));
+            return $response;
         }
     }
-    
     public function getTgrAction() {
         $request = $this->getRequest();
-        $locale = $this->getRequest()->getLocale();
-        if ($request->isXmlHttpRequest()) {
+        $locale = $request->getLocale();
+
+        if ($request) {
+            $file = 'C:/Bin/cmd_aliases.txt';
+            $response = new BinaryFileResponse($file);
+
+            return $response;
+        }
+    }
+    public function getContentTgrAction() {
+        $request = $this->getRequest();
+        $locale = $request->getLocale();
+
+        if ($request) {
             $file = 'C:/Bin/cmd_aliases.txt';
             $response = new BinaryFileResponse($file);
             

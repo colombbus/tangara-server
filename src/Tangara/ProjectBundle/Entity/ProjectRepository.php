@@ -12,20 +12,41 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectRepository extends EntityRepository {
 
+    public function getLastPostedSQL($limit = 5) {
+        return $this->get('doctrine')->getManager()->createQuery('
+            SELECT 
+                email 
+            FROM 
+                `fos_user` 
+            WHERE 
+                `id` = 1 
+    ');
+    }
+
+    //public function getProjects($group_id) {
+    public function myFindAll() {
+                return $this->get('doctrine')->getManager()->createQuery('
+            SELECT 
+                email 
+            FROM 
+                `fos_user` 
+            WHERE 
+                `id` = 1 
+    ');
+    }
+
+    public function getForeignGroup($user_id) {
+        
+    }
+
     public function getLastPosted($limit = 5) {
-        return $this->getEntityManager()->createQuery('
-        SELECT
-            d
-        FROM
-            WmdWatchMyDeskBundle:Desk d
-        WHERE
-            d.isEnabled = :enabled
-        ORDER BY
-            d.updatedAt DESC,
-            d.id DESC
-        ')
-                        ->setMaxResults($limit)
-                        ->setParameter('enabled', true);
+        return $this->createQueryBuilder('d')
+                        ->where('d.isEnabled = :enabled')
+                        ->setParameter('enabled', true)
+                        ->addOrderBy('d.updatedAt', "DESC")
+                        ->addOrderBy('d.id', "DESC")
+                        ->setMaxResults($limit);
+
     }
 
 }

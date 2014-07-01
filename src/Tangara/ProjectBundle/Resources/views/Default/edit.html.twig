@@ -1,9 +1,6 @@
-{% extends "TangaraAdministrationBundle:Default:homepage.html.twig" %}
+{% extends "TangaraAdministrationBundle:Default:layout.html.twig" %}
 
 {% block title %}Édition{% endblock %}
-
-{% block jumbotron %}
-{% endblock %}
 
 {% block main_container %}
     <div class="container">
@@ -13,9 +10,5 @@
            {{ form_widget(form) }}
            <input type="submit">
         </form>
-
-        {% block container_footer%}
-            {% include 'TangaraAdministrationBundle:Default:container_footer.html.twig' %}
-        {% endblock %}
     </div> 
 {% endblock %}

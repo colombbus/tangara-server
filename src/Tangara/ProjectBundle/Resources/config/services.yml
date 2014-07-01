@@ -8,4 +8,3 @@ services:
         class: "%tangara_project.uploader.class%"
         arguments: ["%tangara_project.uploader.directory%"]
 
-
