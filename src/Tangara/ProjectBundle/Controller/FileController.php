@@ -53,7 +53,7 @@ class FileController extends Controller {
 
     public function checkAction($user, $project) {
         /* obtenir la liste des groupes de l'utilisateur */
-
+        
         /* obtenir le groupe du projet */
 
         /* le groupe  */

@@ -32,7 +32,8 @@ class Uploader {
     private $directory;
 
     public function __construct() {
-        $this->directory = $this->container->getParameter('tangara_project.uploader.directory');
+        $this->directory = 'C:\Tangara';
+                //$this->container->getParameter('tangara_project.uploader.directory');
     }
 
     public function getUploadDirectory() {

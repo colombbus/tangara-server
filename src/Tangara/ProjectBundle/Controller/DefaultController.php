@@ -22,11 +22,11 @@ class DefaultController extends Controller {
 
     public function showAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
-        
+
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $project = $manager->getRepository('TangaraProjectBundle:Project')->find($project->getId());
-        
+
         $lists = $project->getContributors();
 
         return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
@@ -42,25 +42,25 @@ class DefaultController extends Controller {
         $request = $this->getRequest();
         $projects = $manager->getRepository('TangaraProjectBundle:Project')->findAll();
 
-        
-        echo $this->get('Uploader')->getUserProject();
+
+        echo $this->get('tangara_project.uploader')->getUploadDirectory();
 
         $repository = $manager->getRepository('TangaraProjectBundle:Project');
-        $admin='"admin"';
+        $admin = '"admin"';
 
         //$conn = $this->get('database_connection');
         //$different = $conn->fetchAll('SELECT ProjectManager FROM project WHERE ProjectManager != '.$admin);
 
-        
-$query = $repository->createQueryBuilder('project')
-    ->where('project.projectManager != :ProjectManager')
-    ->setParameter('ProjectManager', 'admin')
-    ->getQuery();
 
-$different = $query->getResult();
-        
+        $query = $repository->createQueryBuilder('project')
+                ->where('project.projectManager != :ProjectManager')
+                ->setParameter('ProjectManager', 'admin')
+                ->getQuery();
 
-        
+        $different = $query->getResult();
+
+
+
         return $this->render('TangaraProjectBundle:Default:list.html.twig', array(
                     'projects' => $projects,
                     'different' => $different
@@ -69,7 +69,7 @@ $different = $query->getResult();
 
     public function editAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
-        
+
         //$fs->copy($originFile, $targetFile)
         //$fs->mkdir('C:\tangara\\' . $id);
         //
@@ -81,26 +81,22 @@ $different = $query->getResult();
 
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-        
+
         $form = $this->createForm(new ProjectType(), $project);
-        
+
         //$request->query->get('page'); // retourne un paramètre $_GET
         //$request->request->get('page'); // retourne un paramètre $_POST
 
         if ($request->isMethod('POST')) {
             $form->bind($request);
-            
+
             if ($form->isValid())
-            $p = $form->getData();
+                $p = $form->getData();
 
             $manager->persist($project);
             $manager->flush();
-//            $argu = $request->query->get('page');
-            return $this->render('TangaraProjectBundle:Default:edit.html.twig', array(
-                        'form' => $form->createView(),
-                        'user' => $user,
-                        'project' => $project
-            ));
+
+            return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId())));
         }
 
         return $this->render('TangaraProjectBundle:Default:edit.html.twig', array(
