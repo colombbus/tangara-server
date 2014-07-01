@@ -36,11 +36,13 @@ class Project
      * @ORM\Column(name="Name", type="string", length=255, nullable=true)
      */
     private $name;
-
+    
     /**
-     * @var string
-     *
-     * @ORM\Column(name="ProjectManager", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Tangara\UserBundle\Entity\User")
+     * @ORM\JoinTable(name="ProjectManager",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
      */
     private $projectManager;
     
@@ -183,6 +185,7 @@ class Project
         $this->dateCreation = new \DateTime('NOW');
     }
 
+
     /**
      * Get id
      *
@@ -240,26 +243,26 @@ class Project
     }
 
     /**
-     * Set projectManager
+     * Set userProject
      *
-     * @param string $projectManager
+     * @param boolean $userProject
      * @return Project
      */
-    public function setProjectManager($projectManager)
+    public function setUserProject($userProject)
     {
-        $this->projectManager = $projectManager;
+        $this->userProject = $userProject;
 
         return $this;
     }
 
     /**
-     * Get projectManager
+     * Get userProject
      *
-     * @return string 
+     * @return boolean 
      */
-    public function getProjectManager()
+    public function getUserProject()
     {
-        return $this->projectManager;
+        return $this->userProject;
     }
 
     /**
@@ -283,29 +286,6 @@ class Project
     public function getProjectOwnerGroup()
     {
         return $this->projectOwnerGroup;
-    }
-
-    /**
-     * Set filesRights
-     *
-     * @param array $filesRights
-     * @return Project
-     */
-    public function setFilesRights($filesRights)
-    {
-        $this->filesRights = $filesRights;
-
-        return $this;
-    }
-
-    /**
-     * Get filesRights
-     *
-     * @return array 
-     */
-    public function getFilesRights()
-    {
-        return $this->filesRights;
     }
 
     /**
@@ -677,6 +657,29 @@ class Project
     }
 
     /**
+     * Set projectManager
+     *
+     * @param \Tangara\UserBundle\Entity\User $projectManager
+     * @return Project
+     */
+    public function setProjectManager(\Tangara\UserBundle\Entity\User $projectManager = null)
+    {
+        $this->projectManager = $projectManager;
+
+        return $this;
+    }
+
+    /**
+     * Get projectManager
+     *
+     * @return \Tangara\UserBundle\Entity\User 
+     */
+    public function getProjectManager()
+    {
+        return $this->projectManager;
+    }
+
+    /**
      * Add contributors
      *
      * @param \Tangara\UserBundle\Entity\User $contributors
@@ -707,28 +710,5 @@ class Project
     public function getContributors()
     {
         return $this->contributors;
-    }
-
-    /**
-     * Set userProject
-     *
-     * @param boolean $userProject
-     * @return Project
-     */
-    public function setUserProject($userProject)
-    {
-        $this->userProject = $userProject;
-
-        return $this;
-    }
-
-    /**
-     * Get userProject
-     *
-     * @return boolean 
-     */
-    public function getUserProject()
-    {
-        return $this->userProject;
     }
 }
