@@ -217,5 +217,9 @@ $different = $query->getResult();
 
         //return new Response('<h1>Reçu en normal</h1>');
     }
+    
+    public function confirmationAction() {
+        return $this->render('TangaraProjectBundle:Default:confirmation.html.twig');
+    }
 
 }

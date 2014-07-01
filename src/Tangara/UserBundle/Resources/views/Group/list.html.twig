@@ -6,5 +6,12 @@
             <h1>Liste des groupes</h1>
             {% include "FOSUserBundle:Group:list_content.html.twig" %}    
         {% endblock fos_user_content %}
+        
+         <div>
+            <form action="{{ path( "tangara_project_confirmation" ) }}" method="post">
+            <input type="submit" value="Confirmer" />
+            </form>
+        </div>
+        
 </div> 
 {% endblock %}
