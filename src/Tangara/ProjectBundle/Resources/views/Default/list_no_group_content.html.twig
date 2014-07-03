@@ -1,0 +1,13 @@
+{# empty Twig template #}
+
+<p>Joindre un groupe</p>
+<select>
+    {% for u in user %}
+        {% for g in groups %}
+            {% if u.getName() != g.getName() %}
+                <option>{{ g.getName() }}</option>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</select>
+
