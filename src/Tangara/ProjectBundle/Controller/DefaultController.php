@@ -1,20 +1,15 @@
 <?php
 
 namespace Tangara\ProjectBundle\Controller;
+//rajout d'un use por le map
+
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\Response;
-use Tangara\ProjectBundle\Form\ProjectType;
 use Tangara\ProjectBundle\Entity\Document;
 use Tangara\ProjectBundle\Entity\Project;
-use Tangara\UserBundle\Entity\User;
-use Tangara\UserBundle\Entity\Group;
-use Symfony\Component\HttpFoundation\Request;
-//rajout d'un use por le map
-use Doctrine\ORM\EntityRepository;
+use Tangara\ProjectBundle\Form\ProjectType;
 
 class DefaultController extends Controller {
 
@@ -218,38 +213,25 @@ class DefaultController extends Controller {
         //return new Response('<h1>Reçu en normal</h1>');
     }
     
+    
+    
+    
+    //controleur vers la page de confirmation
     public function confirmationAction() {
         return $this->render('TangaraProjectBundle:Default:confirmation.html.twig');
     }
     
+    //
     public function ifGroupMemberAction(){
         
         $user = $this->get('security.context')->getToken()->getUser();
         $repository = $this->getDoctrine()->getManager()->getRepository('TangaraProjectBundle:Project');
-        
-        /*
-        $repository = $manager->getRepository('TangaraProjectBundle:Project');
-        
-        //return name by id
-        $id = 9;
-        $query = $repository->find($id); //on creer une instance de Project
-        $tmp = $query->getName();
-        */
-        
+       
         $query = $repository->createQueryBuilder('p')
                 ->where('p.id = 1')
                 ->getQuery();
 
         $project = $query->getResult();
-       
-        //var_dump($query);
-        //print_r($project[0]->getName());
-        //exit();
-        
-        /*
-        $project = $query->getSingleResult();
-        return new Response($project->getName());
-        */
         return new Response($project[0]->getName());
     }
     
@@ -278,116 +260,38 @@ class DefaultController extends Controller {
     }
     
     public function listNoGroupAction(){
-        //connexion a la base de donnee
         $user = $this->get('security.context')->getToken()->getUser();
-        
-        /*
-        //recupere le nom du 'user' actuellement connecté
-        $username = $user->getUserName();
-        
-        //recupere le id du 'user' actuellement connecté
-        $userid = $user->getId();
-        
-        $groups = $user->getGroups();
-      
-        //var_dump($groups[0]);
-        */
-        
-        /*
-        //requete sql native de test
-        $stmt = $this->getDoctrine()->getEntityManager()
-                        ->getConnection()
-                        ->prepare('SELECT * FROM fos_user_user_group');
-        $stmt->execute();
-        
-        while($data = $stmt->fetch()){
-            echo $data['user_id']. " -> " .$data['group_id']. " || ";
-        }
-       
-        echo $username;
-        */
-        
-        /*
-        //requete sql native pour avoir la liste des groupe au quel l'user est membre 
-        $stmt = $this->getDoctrine()->getEntityManager()
-                        ->getConnection()
-                        ->prepare('SELECT fos_group.* , fos_user_user_group.group_id FROM fos_group, fos_user_user_group WHERE fos_user_user_group.user_id=' .$userid. ' AND fos_user_user_group.group_id=fos_group.id' );
-        $stmt->execute();
-        
-        $tmp = $stmt;
-        
-        while($data = $stmt->fetch()){
-            echo "iduser: " .$userid. " -> idgroupe: " .$data['group_id']. "nomgroup: " .$data['name']. " || ";
-        }
-        */
-        
-        
-        /*
-        //requete sql native pour avoir la liste des groupe au quel l'user n'est pas membre 
-        $stmt = $this->getDoctrine()->getEntityManager()
-                        ->getConnection()
-                        ->prepare('SELECT fos_group.* FROM fos_group WHERE fos_group.id IN (' . implode(',', array_map('intval', $groups)) . ')');
-        $stmt->execute();
-        
-        $tmp = $stmt;
-        
-        while($data = $stmt->fetch()){
-            echo "nomgroup: " .$data['name']. " || ";
-        }
-        */
-        
-        $id = 1;
-        $repository = $this->getDoctrine()->getManager()->getRepository('TangaraUserBundle:User');
-        
-        /*
-        $group = $repository->findAll();
-        
-        foreach($group as $key){
-            echo $key->getName();
-        }
-        */
-        
-        $query = $repository->createQueryBuilder('p')
-                ->leftJoin('p.groups', 'a')
-                ->leftJoin('a.');
-        
-       
-        
-        
-        
-        
-       
-        //return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('lists' => $list));
-    }
-    
-    
 
-    /*
-    //Fonction de test pour utiliser une base de donnee avec doctrine
-    public function dataTestAction(){
-        //connexion a la base de donnee
-        $user = $this->get('security.context')->getToken()->getUser();
-        $manager = $this->getDoctrine()->getManager();
-       
-        //requete 
-        $query = $manager->createQuery(
-            'SELECT p
-            FROM TangaraProjectBundle:Project p
-            WHERE p.id = 1'
-        );
+        $em = $this->getDoctrine()->getManager();
         
+        $repository_group = $em->getRepository('TangaraUserBundle:Group');
+        $repository_user = $em->getRepository('TangaraUserBundle:User');
         
-        //1 seul resultat
-        //$project = $query->getSingleResult();
-        //return new Response($project->getId());
+        //tous les groupes
+        $allgroups = $repository_group->findAll();
+        //les groupes aux quels l'user appartient
+        $user_groups = $user->getGroups();
+  
+        foreach($allgroups as $key){
+            $dif = true;
+            foreach($user_groups as $key2){
+                if($key->getName() == $key2->getName()){
+                    $dif = false;
+                    break;
+                }
+            }
+            if($dif == true){
+                $tmp[] = $key;
+            }
+        }
         
+        return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
+    } 
+    
+    
+    //return la liste des projets
+    public function myProjects($user){
         
-        //plusieurs resultats
-        $project = $query->getResult();
-        return new Response($project[0]->getName());
         
     }
-    */
-    
-    
 }
