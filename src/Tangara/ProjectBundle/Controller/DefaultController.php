@@ -46,17 +46,14 @@ class DefaultController extends Controller {
 
         //$conn = $this->get('database_connection');
         //$different = $conn->fetchAll('SELECT ProjectManager FROM project WHERE ProjectManager != '.$admin);
-
-
+        
         $query = $repository->createQueryBuilder('project')
                 ->where('project.projectManager != :ProjectManager')
                 ->setParameter('ProjectManager', 'admin')
                 ->getQuery();
-
+        
         $different = $query->getResult();
-
-
-
+        
         return $this->render('TangaraProjectBundle:Default:list.html.twig', array(
                     'projects' => $projects,
                     'different' => $different
@@ -163,7 +160,7 @@ class DefaultController extends Controller {
 
         $document = new Document();
         $form = $this->createFormBuilder($document)
-                ->add('name')
+                //->add('name')
                 ->add('file')
                 ->getForm()
         ;

@@ -22,7 +22,6 @@ class DefaultController extends Controller {
             $response = new JsonResponse();
             $response->setData(array(
                 'locale' => $locale));
-            return $response;
         }
     }
     public function getTgrAction() {

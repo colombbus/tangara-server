@@ -25,7 +25,7 @@ class ProjectRepository extends EntityRepository {
 
     //public function getProjects($group_id) {
     public function myFindAll() {
-                return $this->get('doctrine')->getManager()->createQuery('
+        return $this->get('doctrine')->getManager()->createQuery('
             SELECT 
                 email 
             FROM 
@@ -46,7 +46,25 @@ class ProjectRepository extends EntityRepository {
                         ->addOrderBy('d.updatedAt', "DESC")
                         ->addOrderBy('d.id', "DESC")
                         ->setMaxResults($limit);
+    }
 
+    //public function findGranted(User $user, Project $project)
+    public function findGranted() {
+//        return $this->getEntityManager()
+//                        ->createQuery(
+//                                'SELECT 
+//                                    p 
+//                                FROM 
+//                                    TangaraProjectBundle:Project p 
+//
+//                                ORDER BY 
+//                                    p.name ASC'
+//                        )
+//                        ->getResult();
+
+        $em = $this->getDoctrine()->getManager();
+        $products = $em->getRepository('TangaraProjectBundle:Project')
+                ->findAllOrderedByName();
     }
 
 }
