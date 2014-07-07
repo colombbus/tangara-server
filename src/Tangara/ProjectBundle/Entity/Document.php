@@ -33,7 +33,7 @@ class Document {
      * @Assert\File(maxSize="6000000")
      */
     public $file;
-
+    
     public function getAbsolutePath() {
         return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
     }
