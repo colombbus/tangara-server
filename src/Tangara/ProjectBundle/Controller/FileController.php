@@ -27,7 +27,7 @@ class FileController extends Controller {
 
         $document = new Document();
         $form = $this->createFormBuilder($document)
-                ->add('name')
+                //->add('name')
                 ->add('file')
                 ->getForm()
         ;
@@ -53,7 +53,7 @@ class FileController extends Controller {
 
     public function checkAction($user, $project) {
         /* obtenir la liste des groupes de l'utilisateur */
-        
+
         /* obtenir le groupe du projet */
 
         /* le groupe  */
@@ -103,30 +103,45 @@ class FileController extends Controller {
         if ($request) {
             $response = new JsonResponse();
             $response->setData(array(
-                'files' => array("niveau1.tgr", "niveau2.tgr", "promeneur.tgr", "fin.tgr")
+                "bob.tgr", "pomme.tgr", "cubeQuest.tgr"
+                //["bob.tgr", "pomme.tgr", "cubeQuest.tgr"]
             ));
             return $response;
         }
     }
 
-    public function getContentAction() {
+    public function getContentAction(Project $project) {
+        if ($request->query->get('filename'))
+            echo "USER PROJECT";
+    }
+
+    public function removeFileAction(Project $project) {
+        if ($request->query->get('filename'))
+            echo "USER PROJECT";
+    }
+
+    public function getTgrContentAction(Project $project) {
+        if ($request->query->get('filename'))
+            echo "USER PROJECT";
+    }
+
+    public function getParseContentAction(Project $project) {
+        if ($request->query->get('filename'))
+            echo "USER PROJECT";
+    }
+
+    public function getResourcesAction(Project $project) {
         
     }
 
-    public function removeFileAction() {
+    public function getGrantedAction() {
+        $manager = $this->getDoctrine()->getManager();
+        $repository = $manager->getRepository('TangaraProjectBundle:Project');
         
-    }
-
-    public function getTgrContentAction() {
+        $query = $repository->findGranted();
         
+        return $this->render('TangaraProjectBundle:Default:granted.html.twig', array(
+                    'query' => $query
+        ));
     }
-
-    public function getParseContentAction() {
-        
-    }
-
-    public function getResourcesAction() {
-        
-    }
-
 }

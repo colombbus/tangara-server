@@ -49,7 +49,7 @@ class Project
     /**
      * @var boolean
      *
-     * @ORM\Column(name="UserProject", type="boolean")
+     * @ORM\Column(name="UserProject", type="boolean", nullable=true)
      */
     private $userProject;  
 

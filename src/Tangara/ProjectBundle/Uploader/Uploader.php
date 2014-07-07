@@ -32,7 +32,7 @@ class Uploader {
     private $directory;
 
     public function __construct() {
-        $this->directory = 'C:\Tangara';
+        $this->directory = '/home/tangara';
                 //$this->container->getParameter('tangara_project.uploader.directory');
     }
 
@@ -45,5 +45,4 @@ class Uploader {
 
         return $this;
     }
-
 }

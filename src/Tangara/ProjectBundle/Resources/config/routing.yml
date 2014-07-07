@@ -46,6 +46,9 @@ tangara_project_ajax:
     pattern:  /ajax
     defaults: { _controller: TangaraProjectBundle:Default:getAjax}
     
+tangara_project_granted:
+    pattern:  /granted
+    defaults: { _controller: TangaraProjectBundle:File:getGranted}
     
     
     
