@@ -1,8 +1,6 @@
 <?php
 
 namespace Tangara\ProjectBundle\Controller;
-//rajout d'un use por le map
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
@@ -221,7 +219,7 @@ class DefaultController extends Controller {
         return $this->render('TangaraProjectBundle:Default:confirmation.html.twig');
     }
     
-    //
+    /*
     public function ifGroupMemberAction(){
         
         $user = $this->get('security.context')->getToken()->getUser();
@@ -258,20 +256,30 @@ class DefaultController extends Controller {
             echo $key->getName();
         }
     }
+    */
     
+    /*
     public function listNoGroupAction(){
         $user = $this->get('security.context')->getToken()->getUser();
-
         $em = $this->getDoctrine()->getManager();
         
         $repository_group = $em->getRepository('TangaraUserBundle:Group');
-        $repository_user = $em->getRepository('TangaraUserBundle:User');
         
         //tous les groupes
         $allgroups = $repository_group->findAll();
         //les groupes aux quels l'user appartient
         $user_groups = $user->getGroups();
-  
+        
+        $tmp = allNoGroup($allgroups, $user_groups);
+        
+        return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
+    } 
+    */
+}
+
+    //return la liste des groupes dont l'user n'est pas membre
+    function allNoGroup($allgroups, $user_groups){
+        
         foreach($allgroups as $key){
             $dif = true;
             foreach($user_groups as $key2){
@@ -285,13 +293,7 @@ class DefaultController extends Controller {
             }
         }
         
-        return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
-    } 
-    
-    
-    //return la liste des projets
-    public function myProjects($user){
-        
-        
+        return $tmp;
     }
-}
+    
+    

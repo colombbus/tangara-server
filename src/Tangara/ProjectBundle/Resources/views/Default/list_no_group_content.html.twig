@@ -2,12 +2,8 @@
 
 <p>Joindre un groupe</p>
 <select>
-    {% for u in user %}
-        {% for g in groups %}
-            {% if u.getName() != g.getName() %}
-                <option>{{ g.getName() }}</option>
-            {% endif %}
-        {% endfor %}
+    {% for g in groups %}
+        <option>{{ g.getName() }}</option>
     {% endfor %}
 </select>
 

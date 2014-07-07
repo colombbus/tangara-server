@@ -1,14 +1,20 @@
 <div class="fos_user_group_list">
+    
+    <fieldset>
+        <p>Demander à rejoindre :</p>
+        <select id="ListeElement">
+            {% for group in nogroups %}
+                <option value="{{ group.getId() }}">{{ group.getName() }}</option>
+            {% endfor %}
+        </select> 
+    </fieldset>
+        
     <ul>
     {% for group in groups %}
         <li><a href="{{ path('fos_user_group_show', {'groupName': group.getName()} ) }}">{{ group.getName() }}</a></li>
     {% endfor %}
     </ul>
     
-    <p>Demander à rejoindre :</p>
-    <select id="ListeElement">
-        {% for group in groups %}
-            <option value="{{ group.getId() }}">{{ group.getName() }}</option>
-        {% endfor %}
-    </select> 
+    <!--a href="{#{ path('tangara_project_listnogroup') }#}">Liste des groupes dont je ne suis pas membre</a-->
+
 </div>
