@@ -8,6 +8,12 @@
         <div class="col-md-6">
             <fieldset>
                 <legend><a href="{{ path('tangara_project_list') }}">Projets</a></legend>
+                <p>Liste des projets:</p>
+                <ul>
+                    {% for p in projets %}
+                        <li>{{ p.getName() }}</li>
+                    {% endfor %}
+                </ul>
                 <a href="{{ path('tangara_project_new') }}">Créer un nouveau projet</a>
             </fieldset>
         </div>

@@ -8,10 +8,15 @@
         {% endblock fos_user_content %}
         
          <div>
-            <form action="{{ path( "tangara_project_confirmation" ) }}" method="post">
+            <form action="{{ path( 'tangara_project_confirmation' ) }}" method="post">
             <input type="submit" value="Confirmer" />
             </form>
         </div>
+         
+        <!--ul>
+            <li><a href="{#{ path( 'tangara_project_listgroup' ) }#}">Liste des groupes</a></li>
+            <li><a href="{#{ path( 'tangara_project_listproject' ) }#}">Liste des projets</a></li>
+        </ul-->
         
 </div> 
 {% endblock %}
