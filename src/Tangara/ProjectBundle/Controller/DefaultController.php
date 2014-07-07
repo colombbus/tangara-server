@@ -170,18 +170,19 @@ class DefaultController extends Controller {
         $fs = new Filesystem();
 
         if ($this->getRequest()->isMethod('POST')) {
-            $form->bind($this->getRequest());
-            $em = $this->getDoctrine()->getManager();
 
+                $form->bind($this->getRequest());
+                $em = $this->getDoctrine()->getManager();
 
-            $document->upload();
-            //$file_uploaded = $request->get('file');
-            //$fs->copy($file_uploaded, $project_user_path);
-            $em->persist($document);
-            $em->flush();
+                $document->upload();
+                //$file_uploaded = $request->get('file');
+                //$fs->copy($file_uploaded, $project_user_path);
+                $em->persist($document);
+                $em->flush();
 
-            //$ret = 'done ' . $file_uploaded ; 
-            //return new \Symfony\Component\HttpFoundation\Response($ret);
+                //$ret = 'done ' . $file_uploaded ; 
+                //return new \Symfony\Component\HttpFoundation\Response($ret);
+                return new Response($document->getName());
         }
 
         return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
