@@ -267,30 +267,36 @@ class DefaultController extends Controller {
         //les groupes aux quels l'user appartient
         $user_groups = $user->getGroups();
         
-        $tmp = allNoGroup($allgroups, $user_groups);
+        $tmp = groupsWithoutMe($allgroups, $user_groups);
         
         return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
     } 
     */
 }
 
-    //return la liste des groupes dont l'user n'est pas membre
-    function allNoGroup($allgroups, $user_groups){
+    /** 
+     * Request group list that user isn't member
+     * 
+     * @param array $allgroups 
+     * @param array $user_groups
+     * @return groupsWithoutMe list that user isn't member
+     */
+    function groupsWithoutMe($allgroups, $user_groups){
         
-        foreach($allgroups as $key){
-            $dif = true;
-            foreach($user_groups as $key2){
-                if($key->getName() == $key2->getName()){
-                    $dif = false;
+        foreach($allgroups as $all){
+            $trigger = true;
+            foreach($user_groups as $ug){
+                if($all->getName() == $ug->getName()){
+                    $trigger = false;
                     break;
                 }
             }
-            if($dif == true){
-                $tmp[] = $key;
+            if($trigger == true){
+                $groupsWithoutMe[] = $all;
             }
         }
         
-        return $tmp;
+        return $groupsWithoutMe;
     }
     
     

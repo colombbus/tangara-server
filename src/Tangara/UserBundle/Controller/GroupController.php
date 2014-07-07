@@ -30,7 +30,7 @@ class GroupController extends BaseController
         //$allgroups = $repository_group->findAll();
         
         $user_groups = $user->getGroups();
-        $tmp = allNoGroup($groups, $user_groups);
+        $tmp = groupsWithoutMe($groups, $user_groups);
         
         //echo 'lol lol';
 
@@ -40,7 +40,7 @@ class GroupController extends BaseController
 }
 
 //return la liste des groupes dont l'user n'est pas membre
-function allNoGroup($allgroups, $user_groups) {
+function groupsWithoutMe($allgroups, $user_groups) {
 
     foreach ($allgroups as $key) {
         $dif = true;

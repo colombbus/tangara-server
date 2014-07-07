@@ -17,13 +17,7 @@ class Document {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     public $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank
-     */
-    public $name;
-
+    
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -60,27 +54,6 @@ class Document {
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Document
-     */
-    public function setName($name) {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName() {
-        return $this->name;
     }
 
     /**
@@ -125,4 +98,27 @@ class Document {
         $this->file = null;
     }
 
+
+    /**
+     * Set relativeProject
+     *
+     * @param \Tangara\ProjectBundle\Entity\Project $relativeProject
+     * @return Document
+     */
+    public function setRelativeProject(\Tangara\ProjectBundle\Entity\Project $relativeProject = null)
+    {
+        $this->relativeProject = $relativeProject;
+
+        return $this;
+    }
+
+    /**
+     * Get relativeProject
+     *
+     * @return \Tangara\ProjectBundle\Entity\Project 
+     */
+    public function getRelativeProject()
+    {
+        return $this->relativeProject;
+    }
 }

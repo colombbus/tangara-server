@@ -26,13 +26,6 @@ class Project extends \Doctrine\ORM\EntityRepository
      /**
      * @var string
      *
-     * @ORM\Column(name="Logo", type="string", length=255, nullable=true)
-     */
-    private $logo;
-    
-     /**
-     * @var string
-     *
      * @ORM\Column(name="Name", type="string", length=255, nullable=true)
      */
     private $name;
@@ -47,6 +40,16 @@ class Project extends \Doctrine\ORM\EntityRepository
     private $projectManager;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Tangara\ProjectBundle\Entity\Project")
+     * @ORM\JoinTable(name="project_files",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id")}
+     * )
+     */
+    protected $relativeProject;
+
+    
+    /**
      * @var boolean
      *
      * @ORM\Column(name="UserProject", type="boolean", nullable=true)
@@ -54,27 +57,13 @@ class Project extends \Doctrine\ORM\EntityRepository
     private $userProject;  
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="ProjectOwnerGroup", type="string", length=255, nullable=true)
-     */
-    private $projectOwnerGroup;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Tangara\UserBundle\Entity\User")
-     * @ORM\JoinTable(name="fos_user_project_contributors",
+     * @ORM\ManyToOne(targetEntity="Tangara\UserBundle\Entity\Group")
+     * @ORM\JoinTable(name="OwnerGroup",
      *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
-    protected $contributors;
-
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="Files", type="array")
-     */
-    private $files;
+    private $projectOwnerGroup;
 
     /**
      * @var integer

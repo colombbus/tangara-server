@@ -27,7 +27,6 @@ class FileController extends Controller {
 
         $document = new Document();
         $form = $this->createFormBuilder($document)
-                //->add('name')
                 ->add('file')
                 ->getForm()
         ;

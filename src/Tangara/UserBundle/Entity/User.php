@@ -212,4 +212,26 @@ class User extends BaseUser
         return $this->dateCreation;
     }
 
+    /**
+     * Add projects
+     *
+     * @param \Tangara\ProjectBundle\Entity\Project $projects
+     * @return User
+     */
+    public function addProject(\Tangara\ProjectBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \Tangara\ProjectBundle\Entity\Project $projects
+     */
+    public function removeProject(\Tangara\ProjectBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
 }
