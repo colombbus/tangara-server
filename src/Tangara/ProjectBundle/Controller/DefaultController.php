@@ -3,16 +3,11 @@
 namespace Tangara\ProjectBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\Response;
-use Tangara\ProjectBundle\Form\ProjectType;
 use Tangara\ProjectBundle\Entity\Document;
 use Tangara\ProjectBundle\Entity\Project;
-use Tangara\UserBundle\Entity\User;
-use Tangara\UserBundle\Entity\Group;
-use Symfony\Component\HttpFoundation\Request;
+use Tangara\ProjectBundle\Form\ProjectType;
 
 class DefaultController extends Controller {
 
@@ -37,13 +32,14 @@ class DefaultController extends Controller {
     }
 
     public function listAction() {
+        
         $user = $this->get('security.context')->getToken()->getUser();
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $projects = $manager->getRepository('TangaraProjectBundle:Project')->findAll();
 
 
-        echo $this->get('tangara_project.uploader')->getUploadDirectory();
+        //echo $this->get('tangara_project.uploader')->getUploadDirectory();
 
         $repository = $manager->getRepository('TangaraProjectBundle:Project');
         $admin = '"admin"';
@@ -62,6 +58,7 @@ class DefaultController extends Controller {
                     'projects' => $projects,
                     'different' => $different
         ));
+         
     }
 
     public function editAction(Project $project) {
@@ -150,16 +147,16 @@ class DefaultController extends Controller {
         ));
     }
 
-    public function uploadAction() {
-        //$id = $request->get('security.context')->getToken()->getUser()->getId();
-        // DEVELOP ONLY
-        $project_id = 23;
-        $user_id = 2;
-        $base_path = 'C:\tangara';
+    public function uploadAction(Project $project) {
+        $request = $this->getRequest();
+        $user_id = $this->get('security.context')->getToken()->getUser()->getId();
+        $project_id = $project->getId();
+        
+        //$base_path = $this->get('tangara_project.uploader');
+        $base_path = '/home/elise/NetBeansProjects/tangara-data';
         $project_user_path = $base_path . "/" . $user_id;
         $project_path = $base_path . "/" . $project_id;
 
-        $request = $this->getRequest();
 
         $document = new Document();
         $form = $this->createFormBuilder($document)
@@ -210,5 +207,90 @@ class DefaultController extends Controller {
 
         //return new Response('<h1>Reçu en normal</h1>');
     }
+    
+    
+    
+    
+    //controleur vers la page de confirmation
+    public function confirmationAction() {
+        return $this->render('TangaraProjectBundle:Default:confirmation.html.twig');
+    }
+    
+    /*
+    public function ifGroupMemberAction(){
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        $repository = $this->getDoctrine()->getManager()->getRepository('TangaraProjectBundle:Project');
+       
+        $query = $repository->createQueryBuilder('p')
+                ->where('p.id = 1')
+                ->getQuery();
 
+        $project = $query->getResult();
+        return new Response($project[0]->getName());
+    }
+    
+    
+    public function listGroupAction(){
+        //connexion a la base de donnee
+        $user = $this->get('security.context')->getToken()->getUser();
+        $list = $user->getGroups();
+        
+        foreach($list as $key){
+            echo $key->getName();
+        }
+        
+        //return $this->render('TangaraProjectBundle:Default:page.html.twig', );
+    }
+    
+  
+    public function listProjetAction(){
+        //connexion a la base de donnee
+        $user = $this->get('security.context')->getToken()->getUser();
+        $list = $user->getProjects();
+        
+        foreach($list as $key){
+            echo $key->getName();
+        }
+    }
+    */
+    
+    /*
+    public function listNoGroupAction(){
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        
+        $repository_group = $em->getRepository('TangaraUserBundle:Group');
+        
+        //tous les groupes
+        $allgroups = $repository_group->findAll();
+        //les groupes aux quels l'user appartient
+        $user_groups = $user->getGroups();
+        
+        $tmp = allNoGroup($allgroups, $user_groups);
+        
+        return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
+    } 
+    */
 }
+
+    //return la liste des groupes dont l'user n'est pas membre
+    function allNoGroup($allgroups, $user_groups){
+        
+        foreach($allgroups as $key){
+            $dif = true;
+            foreach($user_groups as $key2){
+                if($key->getName() == $key2->getName()){
+                    $dif = false;
+                    break;
+                }
+            }
+            if($dif == true){
+                $tmp[] = $key;
+            }
+        }
+        
+        return $tmp;
+    }
+    
+    

@@ -17,6 +17,7 @@ class ProjectType extends AbstractType
         $builder
             ->add('name')
             ->add('projectOwnerGroup')
+            ->add('projectManager')
             ->add('referenceWidth')
             ->add('referenceHeight')
             ->add('referenceFont')

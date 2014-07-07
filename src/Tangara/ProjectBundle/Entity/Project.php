@@ -12,7 +12,7 @@ use Tangara\ProjectBundle\Entity\Project;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Tangara\ProjectBundle\Entity\ProjectRepository")
  */
-class Project
+class Project extends \Doctrine\ORM\EntityRepository
 {
     /**
      * @var integer
@@ -710,5 +710,6 @@ class Project
     public function getContributors()
     {
         return $this->contributors;
-    }
+    } 
+    
 }

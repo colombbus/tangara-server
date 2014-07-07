@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             //new Tangara\wPaintBundle\TangarawPaintBundle(),
             new Tangara\ProjectBundle\TangaraProjectBundle(),
             new Tangara\TangaraBundle\TangaraTangaraBundle(),
+            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -47,4 +48,5 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
+    
 }

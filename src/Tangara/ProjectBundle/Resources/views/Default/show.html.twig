@@ -29,5 +29,7 @@
                 <li>{{ list }}</li>
             {% endfor %}
         </ul>
+        <br/>
+        <a href="{{ path( "tangara_project_upload", {id: project.id} ) }} ">Ajouter un fichier au projet</a>
     </div> 
 {% endblock %}

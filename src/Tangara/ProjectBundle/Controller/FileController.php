@@ -63,8 +63,6 @@ class FileController extends Controller {
         else {
             return true;
             /* check if directory exists */
-            $fs = new Filesystem();
-            $base_path = 'C:\tangara';
             $project_path = $base_path . "/" . $project_id;
 
             if (!$fs->exists($project_path)) {
