@@ -30,11 +30,14 @@ class GroupController extends BaseController
         //$allgroups = $repository_group->findAll();
         
         $user_groups = $user->getGroups();
-        $tmp = groupsWithoutMe($groups, $user_groups);
-        
+        $strangerGroups = groupsWithoutMe($groups, $user_groups);
+        var_dump($user_groups);
         //echo 'lol lol';
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:list.html.'.$this->getEngine(), array('groups' => $groups, 'nogroups' => $tmp));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:list.html.'.$this->getEngine(), array(
+            'groups' => $groups, 
+            'nogroups' => $strangerGroups)
+                );
     }
     
 }

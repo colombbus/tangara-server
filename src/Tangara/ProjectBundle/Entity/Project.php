@@ -173,7 +173,7 @@ class Project extends \Doctrine\ORM\EntityRepository
     public function __construct() {
         $this->dateCreation = new \DateTime('NOW');
     }
-
+    
 
     /**
      * Get id
@@ -183,29 +183,6 @@ class Project extends \Doctrine\ORM\EntityRepository
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set logo
-     *
-     * @param string $logo
-     * @return Project
-     */
-    public function setLogo($logo)
-    {
-        $this->logo = $logo;
-
-        return $this;
-    }
-
-    /**
-     * Get logo
-     *
-     * @return string 
-     */
-    public function getLogo()
-    {
-        return $this->logo;
     }
 
     /**
@@ -252,52 +229,6 @@ class Project extends \Doctrine\ORM\EntityRepository
     public function getUserProject()
     {
         return $this->userProject;
-    }
-
-    /**
-     * Set projectOwnerGroup
-     *
-     * @param string $projectOwnerGroup
-     * @return Project
-     */
-    public function setProjectOwnerGroup($projectOwnerGroup)
-    {
-        $this->projectOwnerGroup = $projectOwnerGroup;
-
-        return $this;
-    }
-
-    /**
-     * Get projectOwnerGroup
-     *
-     * @return string 
-     */
-    public function getProjectOwnerGroup()
-    {
-        return $this->projectOwnerGroup;
-    }
-
-    /**
-     * Set files
-     *
-     * @param array $files
-     * @return Project
-     */
-    public function setFiles($files)
-    {
-        $this->files = $files;
-
-        return $this;
-    }
-
-    /**
-     * Get files
-     *
-     * @return array 
-     */
-    public function getFiles()
-    {
-        return $this->files;
     }
 
     /**
@@ -669,36 +600,48 @@ class Project extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * Add contributors
+     * Set relativeProject
      *
-     * @param \Tangara\UserBundle\Entity\User $contributors
+     * @param \Tangara\ProjectBundle\Entity\Project $relativeProject
      * @return Project
      */
-    public function addContributor(\Tangara\UserBundle\Entity\User $contributors)
+    public function setRelativeProject(\Tangara\ProjectBundle\Entity\Project $relativeProject = null)
     {
-        $this->contributors[] = $contributors;
+        $this->relativeProject = $relativeProject;
 
         return $this;
     }
 
     /**
-     * Remove contributors
+     * Get relativeProject
      *
-     * @param \Tangara\UserBundle\Entity\User $contributors
+     * @return \Tangara\ProjectBundle\Entity\Project 
      */
-    public function removeContributor(\Tangara\UserBundle\Entity\User $contributors)
+    public function getRelativeProject()
     {
-        $this->contributors->removeElement($contributors);
+        return $this->relativeProject;
     }
 
     /**
-     * Get contributors
+     * Set projectOwnerGroup
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @param \Tangara\UserBundle\Entity\Group $projectOwnerGroup
+     * @return Project
      */
-    public function getContributors()
+    public function setProjectOwnerGroup(\Tangara\UserBundle\Entity\Group $projectOwnerGroup = null)
     {
-        return $this->contributors;
-    } 
-    
+        $this->projectOwnerGroup = $projectOwnerGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get projectOwnerGroup
+     *
+     * @return \Tangara\UserBundle\Entity\Group 
+     */
+    public function getProjectOwnerGroup()
+    {
+        return $this->projectOwnerGroup;
+    }
 }
