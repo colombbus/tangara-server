@@ -30,7 +30,7 @@ class ProfileController extends BaseController
 {
     public function profileAction()
     {
-        $response = parent::profileAction();
+        //$response = parent::profileAction();
         
         return $this->render('TangaraUserBundle:Profile:show.html.twig', array(
             

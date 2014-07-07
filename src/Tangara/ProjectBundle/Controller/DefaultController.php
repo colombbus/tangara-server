@@ -153,16 +153,16 @@ class DefaultController extends Controller {
         ));
     }
 
-    public function uploadAction() {
-        //$id = $request->get('security.context')->getToken()->getUser()->getId();
-        // DEVELOP ONLY
-        $project_id = 23;
-        $user_id = 2;
-        $base_path = 'C:\tangara';
+    public function uploadAction(Project $project) {
+        $request = $this->getRequest();
+        $user_id = $this->get('security.context')->getToken()->getUser()->getId();
+        $project_id = $project->getId();
+        
+        //$base_path = $this->get('tangara_project.uploader');
+        $base_path = '/home/elise/NetBeansProjects/tangara-data';
         $project_user_path = $base_path . "/" . $user_id;
         $project_path = $base_path . "/" . $project_id;
 
-        $request = $this->getRequest();
 
         $document = new Document();
         $form = $this->createFormBuilder($document)

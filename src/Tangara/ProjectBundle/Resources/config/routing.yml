@@ -17,9 +17,11 @@ tangara_project_list:
     defaults: { _controller: TangaraProjectBundle:Default:list }
 
 tangara_project_upload:
-    pattern:  /upload
+    pattern:  /upload/{id}
     defaults: { _controller: TangaraProjectBundle:Default:upload }
-
+    requirements:
+        id:  \d+
+        
 tangara_project_up:
     pattern:  /ud
     defaults: { _controller: TangaraProjectBundle:Default:up }
