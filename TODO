@@ -1,7 +1,28 @@
 TANGARA-UI TODO LIST
 
-  * menu déroulant pour ProjectOwnerGroup contenant la liste des participants
-  * Repository: 
+  * Project
+        User
+            * Selector menu for ProjectOwnerGroup that contains groups of the user
+            * Create a group in the same time user is created
+            * DONE user shouldn't have projects
+        Group
+            * User could have private group for managing private projects
+        Project
+            * Copy a project
 
+  * Files upload
+        * File has to be linked to a project
+        * Complete "check" function
+        * Copy file in directory
+        * BlueImp/DropZone
 
-                      
+  * Admmin interface
+    * user management : add/remove/changepassd
+    * grp management : add/remove/rename/modify
+
+  * Tests
+   
+  * Script 
+        * DEPRECATED After a modif on schema update
+   
+  * request
