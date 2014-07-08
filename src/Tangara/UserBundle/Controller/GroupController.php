@@ -45,18 +45,17 @@ class GroupController extends BaseController
 //return la liste des groupes dont l'user n'est pas membre
 function groupsWithoutMe($allgroups, $user_groups) {
 
-    foreach ($allgroups as $key) {
-        $dif = true;
-        foreach ($user_groups as $key2) {
-            if ($key->getName() == $key2->getName()) {
-                $dif = false;
+    foreach ($allgroups as $group) {
+        $trigger = true;
+        foreach ($user_groups as $user) {
+            if ($group->getName() == $user->getName()) {
+                $trigger = false;
                 break;
             }
         }
-        if ($dif == true) {
-            $tmp[] = $key;
+        if ($trigger == true) {
+            $groupsWithoutMe[] = $group;
         }
     }
-
-    return $tmp;
+    return $groupsWithoutMe;
 }
