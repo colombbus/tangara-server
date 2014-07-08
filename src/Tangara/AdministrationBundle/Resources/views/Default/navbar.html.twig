@@ -17,7 +17,17 @@
             <li class=""><a href="#">{{ '_share'|trans}}</a></li>
             <li class=""><a href="#">{{ '_documentation'|trans}}</a></li>
         </ul>
-        {% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="navbar-right btn-danger btn-small" id="admininterface" href="{{ path('fos_user_profile_show') }} ">
+                Interface admin
+            </a>
+            <a class="navbar-right" id="connected" href="{{ path('fos_user_profile_show') }} ">
+                {{ app.user.username }}
+            </a>
+            <a class="navbar-right" id="deconnect" href="{{ path('fos_user_security_logout') }} ">
+                {{'_deconnect'|trans }} 
+            </a>
+        {% elseif is_granted('ROLE_USER') %}
             <a class="navbar-right" id="connected" href="{{ path('fos_user_profile_show') }} ">
                 {{ app.user.username }}
             </a>
