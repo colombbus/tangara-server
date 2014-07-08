@@ -31,8 +31,6 @@ class GroupController extends BaseController
         
         $user_groups = $user->getGroups();
         $strangerGroups = groupsWithoutMe($groups, $user_groups);
-        var_dump($user_groups);
-        //echo 'lol lol';
 
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:list.html.'.$this->getEngine(), array(
             'groups' => $groups, 

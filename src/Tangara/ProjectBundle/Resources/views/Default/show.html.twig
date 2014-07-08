@@ -17,16 +17,14 @@
         <br/>
         project manager : {{ project.ProjectManager }}
         <br/>
-        group owner : {{ project.ProjectOwnerGroup }}
-        <br/>
         Référence font : {{ project.ReferenceFont }}
         <br/>
         Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
         <br/>
         listes des contributeurs : 
         <ul>
-            {% for list in lists %}
-                <li>{{ list }}</li>
+            {% for usr in contributors %}
+                <li>{{ usr }}</li>
             {% endfor %}
         </ul>
         <br/>

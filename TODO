@@ -7,6 +7,8 @@ TANGARA-UI TODO LIST
             * DONE user shouldn't have projects
         Group
             * User could have private group for managing private projects
+            * Edition
+            * add upload
         Project
             * Copy a project
 

@@ -23,34 +23,30 @@
  * @author Régis
  */
 
-
-
-
 namespace Tangara\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
-
 use FOS\UserBundle\Controller\ProfileController as BaseController;
 
-class ProfileController extends BaseController
-{
-    public function profileAction()
-    {
+class ProfileController extends BaseController {
+
+    public function profileAction() {
 
         //$response = parent::profileAction();
-
         //$user = parent::showAction();
         $user = $this->container->get('security.context')->getToken()->getUser();
-      
+
         //return $user;
-        $list_projets = $user->getProjects();
-               
+        //$list_projets = $user->getProjects();
+
         return $this->container->get('templating')
-                ->renderResponse('FOSUserBundle:Profile:show.html.'.$this->container->getParameter('fos_user.template.engine'), array(
-            'user' => $user, 
-            'projects' => $list_projets)
-                        );
+                        ->renderResponse('FOSUserBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), array(
+                            'user' => $user,
+                                //  'projects' => $list_projets
+                                )
+        );
     }
+
 }

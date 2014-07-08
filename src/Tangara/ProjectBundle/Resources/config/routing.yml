@@ -48,22 +48,8 @@ tangara_project_ajax:
     pattern:  /ajax
     defaults: { _controller: TangaraProjectBundle:Default:getAjax}
  
-#controleur qui donne la page de confirmation   
+# join group confirmation
 tangara_project_confirmation:
     pattern:  /confirmation
     defaults: { _controller: TangaraProjectBundle:Default:confirmation }
 
-#controleur qui donne la liste de tous les groupes
-tangara_project_listgroup:
-    pattern:  /listGroup
-    defaults: { _controller: TangaraProjectBundle:Default:listGroup }
-
-#controleur qui donne la liste de tous les projets    
-tangara_project_listproject:
-    pattern:  /listProjet
-    defaults: { _controller: TangaraProjectBundle:Default:listProjet }
-
-#controleur qui donne la liste de tous les groupes dont l'user n'est pas membre     
-tangara_project_listnogroup:
-    pattern:  /listNoGroup
-    defaults: { _controller: TangaraProjectBundle:Default:listNoGroup }

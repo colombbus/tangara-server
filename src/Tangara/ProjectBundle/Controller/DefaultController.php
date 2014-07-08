@@ -20,14 +20,17 @@ class DefaultController extends Controller {
 
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-        $project = $manager->getRepository('TangaraProjectBundle:Project')->find($project->getId());
-
-        $lists = $project->getContributors();
-
+        $pid = $project->getId();
+        $project = $manager->getRepository('TangaraProjectBundle:Project')->find($pid);
+        
+        var_dump($project->getGroup());
+        // list of user contributors of a project
+        $contributors = array("essai", "un", "deux");
+        
         return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
                     'project' => $project,
                     'user' => $user,
-                    'lists' => $lists
+                    'contributors' => $contributors
         ));
     }
 

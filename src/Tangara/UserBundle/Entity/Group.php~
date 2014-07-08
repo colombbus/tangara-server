@@ -1,4 +1,5 @@
 <?php
+
 namespace Tangara\UserBundle\Entity;
 
 use FOS\UserBundle\Model\Group as BaseGroup;
@@ -8,22 +9,37 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="fos_group")
  */
-class Group extends BaseGroup
-{
+class Group extends BaseGroup {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-     protected $id;
+    protected $id;
 
     /**
-     * Get id
+     * @var boolean
      *
-     * @return integer 
+     * @ORM\Column(name="privateGroup", type="boolean", nullable=true)
      */
-    public function getId()
+    private $privateGroup;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Tangara\ProjectBundle\Entity\Project")
+     * @ORM\JoinTable(name="projectsInGroup",
+     *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")}
+     * )
+     */
+    protected $projectsInGroup;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        return $this->id;
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
 }
