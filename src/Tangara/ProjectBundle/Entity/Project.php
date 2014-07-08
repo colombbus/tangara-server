@@ -65,6 +65,15 @@ class Project extends \Doctrine\ORM\EntityRepository
      */
     private $projectOwnerGroup;
 
+     /**
+     * @ORM\ManyToMany(targetEntity="Tangara\UserBundle\Entity\User")
+     * @ORM\JoinTable(name="fos_user_project_contributors",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    protected $contributors;
+    
     /**
      * @var integer
      *
@@ -172,8 +181,11 @@ class Project extends \Doctrine\ORM\EntityRepository
     
     public function __construct() {
         $this->dateCreation = new \DateTime('NOW');
+        $this->referenceHeight = 1024;
+        $this->referenceWidth = 768;
+        $this->referenceFont="Arial";
     }
-
+    
 
     /**
      * Get id
@@ -183,29 +195,6 @@ class Project extends \Doctrine\ORM\EntityRepository
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set logo
-     *
-     * @param string $logo
-     * @return Project
-     */
-    public function setLogo($logo)
-    {
-        $this->logo = $logo;
-
-        return $this;
-    }
-
-    /**
-     * Get logo
-     *
-     * @return string 
-     */
-    public function getLogo()
-    {
-        return $this->logo;
     }
 
     /**
@@ -252,52 +241,6 @@ class Project extends \Doctrine\ORM\EntityRepository
     public function getUserProject()
     {
         return $this->userProject;
-    }
-
-    /**
-     * Set projectOwnerGroup
-     *
-     * @param string $projectOwnerGroup
-     * @return Project
-     */
-    public function setProjectOwnerGroup($projectOwnerGroup)
-    {
-        $this->projectOwnerGroup = $projectOwnerGroup;
-
-        return $this;
-    }
-
-    /**
-     * Get projectOwnerGroup
-     *
-     * @return string 
-     */
-    public function getProjectOwnerGroup()
-    {
-        return $this->projectOwnerGroup;
-    }
-
-    /**
-     * Set files
-     *
-     * @param array $files
-     * @return Project
-     */
-    public function setFiles($files)
-    {
-        $this->files = $files;
-
-        return $this;
-    }
-
-    /**
-     * Get files
-     *
-     * @return array 
-     */
-    public function getFiles()
-    {
-        return $this->files;
     }
 
     /**
@@ -669,6 +612,52 @@ class Project extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * Set relativeProject
+     *
+     * @param \Tangara\ProjectBundle\Entity\Project $relativeProject
+     * @return Project
+     */
+    public function setRelativeProject(\Tangara\ProjectBundle\Entity\Project $relativeProject = null)
+    {
+        $this->relativeProject = $relativeProject;
+
+        return $this;
+    }
+
+    /**
+     * Get relativeProject
+     *
+     * @return \Tangara\ProjectBundle\Entity\Project 
+     */
+    public function getRelativeProject()
+    {
+        return $this->relativeProject;
+    }
+
+    /**
+     * Set projectOwnerGroup
+     *
+     * @param \Tangara\UserBundle\Entity\Group $projectOwnerGroup
+     * @return Project
+     */
+    public function setProjectOwnerGroup(\Tangara\UserBundle\Entity\Group $projectOwnerGroup = null)
+    {
+        $this->projectOwnerGroup = $projectOwnerGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get projectOwnerGroup
+     *
+     * @return \Tangara\UserBundle\Entity\Group 
+     */
+    public function getProjectOwnerGroup()
+    {
+        return $this->projectOwnerGroup;
+    }
+
+    /**
      * Add contributors
      *
      * @param \Tangara\UserBundle\Entity\User $contributors
@@ -699,6 +688,5 @@ class Project extends \Doctrine\ORM\EntityRepository
     public function getContributors()
     {
         return $this->contributors;
-    } 
-    
+    }
 }

@@ -30,11 +30,14 @@ class GroupController extends BaseController
         //$allgroups = $repository_group->findAll();
         
         $user_groups = $user->getGroups();
-        $tmp = groupsWithoutMe($groups, $user_groups);
-        
+        $strangerGroups = groupsWithoutMe($groups, $user_groups);
+        var_dump($user_groups);
         //echo 'lol lol';
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:list.html.'.$this->getEngine(), array('groups' => $groups, 'nogroups' => $tmp));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:list.html.'.$this->getEngine(), array(
+            'groups' => $groups, 
+            'nogroups' => $strangerGroups)
+                );
     }
     
 }
@@ -42,18 +45,17 @@ class GroupController extends BaseController
 //return la liste des groupes dont l'user n'est pas membre
 function groupsWithoutMe($allgroups, $user_groups) {
 
-    foreach ($allgroups as $key) {
-        $dif = true;
-        foreach ($user_groups as $key2) {
-            if ($key->getName() == $key2->getName()) {
-                $dif = false;
+    foreach ($allgroups as $group) {
+        $trigger = true;
+        foreach ($user_groups as $user) {
+            if ($group->getName() == $user->getName()) {
+                $trigger = false;
                 break;
             }
         }
-        if ($dif == true) {
-            $tmp[] = $key;
+        if ($trigger == true) {
+            $groupsWithoutMe[] = $group;
         }
     }
-
-    return $tmp;
+    return $groupsWithoutMe;
 }

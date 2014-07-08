@@ -18,15 +18,6 @@ class Document {
      */
     public $id;
     
-     /**
-     * @ORM\ManyToOne(targetEntity="Tangara\ProjectBundle\Entity\Project")
-     * @ORM\JoinTable(name="project_files",
-     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id")}
-     * )
-     */
-    protected $relativeProject;
-    
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
