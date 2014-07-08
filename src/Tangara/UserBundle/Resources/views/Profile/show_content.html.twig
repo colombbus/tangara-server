@@ -7,26 +7,25 @@
 {#        {% set userGroups =  user.getGroups() %}#}
         <div class="col-md-6">
             <fieldset>
-                <legend><a href="{{ path('tangara_project_list') }}">Projets</a></legend>
-                <p>Mes projets perso :</p>
+                <legend><a href="{{ path('tangara_project_list') }}">Mes projets</a></legend>
+                <a class="btn btn-success" href="{{ path('tangara_project_new') }}">Créer un nouveau projet</a>
                 <ul>
                     {% for p in projectsInGroup %}
                         <li>{{ p }} </li>
                     {% endfor %}
                 </ul>
-                <a href="{{ path('tangara_project_new') }}">Créer un nouveau projet</a>
             </fieldset>
         </div>
         <div class="col-md-6">
             <fieldset>
-                <legend><a href="{{ path('fos_user_group_list') }}">Groupes</a></legend>
+                <legend><a href="{{ path('fos_user_group_list') }}">Mes groupes</a></legend>
+                <a class="btn btn-success" href="{{ path('fos_user_group_new') }}">Créer un nouveau groupe</a>
                 <p>Tu es membre de :</p>
                 <ul>
                     {% for group in joinedGroups %}
                         <li>{{ group }}</li>
                     {% endfor %}
                 </ul>
-                <p><a href="{{ path('fos_user_group_new') }}">Créer un nouveau groupe</a></p>
             </fieldset>
         </div>
     </div>
