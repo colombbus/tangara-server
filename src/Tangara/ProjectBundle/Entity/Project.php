@@ -65,6 +65,15 @@ class Project extends \Doctrine\ORM\EntityRepository
      */
     private $projectOwnerGroup;
 
+     /**
+     * @ORM\ManyToMany(targetEntity="Tangara\UserBundle\Entity\User")
+     * @ORM\JoinTable(name="fos_user_project_contributors",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    protected $contributors;
+    
     /**
      * @var integer
      *
@@ -172,6 +181,9 @@ class Project extends \Doctrine\ORM\EntityRepository
     
     public function __construct() {
         $this->dateCreation = new \DateTime('NOW');
+        $this->referenceHeight = 1024;
+        $this->referenceWidth = 768;
+        $this->referenceFont="Arial";
     }
     
 
@@ -643,5 +655,38 @@ class Project extends \Doctrine\ORM\EntityRepository
     public function getProjectOwnerGroup()
     {
         return $this->projectOwnerGroup;
+    }
+
+    /**
+     * Add contributors
+     *
+     * @param \Tangara\UserBundle\Entity\User $contributors
+     * @return Project
+     */
+    public function addContributor(\Tangara\UserBundle\Entity\User $contributors)
+    {
+        $this->contributors[] = $contributors;
+
+        return $this;
+    }
+
+    /**
+     * Remove contributors
+     *
+     * @param \Tangara\UserBundle\Entity\User $contributors
+     */
+    public function removeContributor(\Tangara\UserBundle\Entity\User $contributors)
+    {
+        $this->contributors->removeElement($contributors);
+    }
+
+    /**
+     * Get contributors
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getContributors()
+    {
+        return $this->contributors;
     }
 }

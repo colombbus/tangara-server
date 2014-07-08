@@ -11,11 +11,6 @@
 
         <form action="{{ path( "tangara_project_new" ) }}" method="post">
         {{ form_widget(form) }}
-        <select name="projectownergroup">
-            {% for group in project_owner_group %}
-                <option value="{{ group.getId() }}">{{ group.getName() }}</option>
-            {% endfor %}
-        </select>
             <input type="submit">
         </form>
     </div> 
