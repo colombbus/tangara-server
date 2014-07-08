@@ -25,7 +25,7 @@ class DefaultController extends Controller {
         
         var_dump($project->getGroup());
         // list of user contributors of a project
-        $contributors = array("essai", "un", "deux");
+        $contributors = array("user1", "user2", "user6");
         
         return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
                     'project' => $project,
