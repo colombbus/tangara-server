@@ -48,14 +48,6 @@ class Project extends \Doctrine\ORM\EntityRepository
      */
     protected $relativeProject;
 
-    
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="UserProject", type="boolean", nullable=true)
-     */
-    private $userProject;  
-
     /**
      * @ORM\ManyToOne(targetEntity="Tangara\UserBundle\Entity\Group")
      * @ORM\JoinTable(name="OwnerGroup",
