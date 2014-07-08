@@ -4,15 +4,15 @@
     <div class="row">
         <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
         <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-        {% set userGroups =  user.getGroups() %}
+{#        {% set userGroups =  user.getGroups() %}#}
         <div class="col-md-6">
             <fieldset>
                 <legend><a href="{{ path('tangara_project_list') }}">Projets</a></legend>
-                <p>Liste des projets:</p>
+                <p>Mes projets perso :</p>
                 <ul>
-{#                    {% for p in projects %}
-                        <li>{{ p.getName() }} </li>
-                    {% endfor %}#}
+                    {% for p in projectsInGroup %}
+                        <li>{{ p }} </li>
+                    {% endfor %}
                 </ul>
                 <a href="{{ path('tangara_project_new') }}">Créer un nouveau projet</a>
             </fieldset>
@@ -20,10 +20,10 @@
         <div class="col-md-6">
             <fieldset>
                 <legend><a href="{{ path('fos_user_group_list') }}">Groupes</a></legend>
-                <p>Membre de :</p>
+                <p>Tu es membre de :</p>
                 <ul>
-                    {% for group in userGroups %}
-                        <li>{{ group.getName() }}</li>
+                    {% for group in joinedGroups %}
+                        <li>{{ group }}</li>
                     {% endfor %}
                 </ul>
                 <p><a href="{{ path('fos_user_group_new') }}">Créer un nouveau groupe</a></p>

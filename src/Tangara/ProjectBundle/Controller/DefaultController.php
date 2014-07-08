@@ -23,7 +23,7 @@ class DefaultController extends Controller {
         $pid = $project->getId();
         $project = $manager->getRepository('TangaraProjectBundle:Project')->find($pid);
         
-        var_dump($project->getGroup());
+        //var_dump($project->getGroup());
         // list of user contributors of a project
         $contributors = array("user1", "user2", "user6");
         

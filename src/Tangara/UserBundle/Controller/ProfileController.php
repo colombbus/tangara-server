@@ -40,11 +40,14 @@ class ProfileController extends BaseController {
 
         //return $user;
         //$list_projets = $user->getProjects();
+        $projectsInGroup = array ("privateProject1","privateProject2","privateProject5","privateProject6","privateProject9");
+        $joinedGroups = array ("Group1","Group5","Group9","Group15","Group16","Group26");
 
         return $this->container->get('templating')
                         ->renderResponse('FOSUserBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), array(
                             'user' => $user,
-                                //  'projects' => $list_projets
+                                  'projectsInGroup' => $projectsInGroup,
+                                  'joinedGroups' => $joinedGroups
                                 )
         );
     }
