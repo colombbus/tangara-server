@@ -1,6 +1,6 @@
 <?php
 
-namespace Tangara\ProjectBundle\Form;
+namespace Tangara\TangaraBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,7 +31,7 @@ class ProjectType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Tangara\ProjectBundle\Entity\Project'
+            'data_class' => 'Tangara\TangaraBundle\Entity\Project'
         ));
     }
 
@@ -40,6 +40,6 @@ class ProjectType extends AbstractType
      */
     public function getName()
     {
-        return 'tangara_projectbundle_project';
+        return 'tangara_tangarabundle_project';
     }
 }

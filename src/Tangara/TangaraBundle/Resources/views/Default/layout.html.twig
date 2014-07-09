@@ -5,9 +5,9 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
         {% block header %}
-            {% include "TangaraAdministrationBundle:Default:header.html.twig" %}
+            {% include "TangaraTangaraBundle:Default:header.html.twig" %}
             {% block header_stylesheets %}
-                {% include "TangaraAdministrationBundle:Default:header_stylesheets.html.twig" %}
+                {% include "TangaraTangaraBundle:Default:header_stylesheets.html.twig" %}
             {% endblock %}
         {% endblock %}
     </head>
@@ -19,7 +19,7 @@
 
         {% block body %}
             {% block navbar %}
-                {% include 'TangaraAdministrationBundle:Default:navbar.html.twig' %}
+                {% include 'TangaraTangaraBundle:Default:navbar.html.twig' %}
             {% endblock %}
 
             {% block jumbotron %}
@@ -28,22 +28,22 @@
             {% block main_container %}
                 <div class="container">
                     {% block container_content %}
-                      {% include 'TangaraAdministrationBundle:Default:container_content.html.twig' %}
+                      {% include 'TangaraTangaraBundle:Default:container_content.html.twig' %}
                     {% endblock %}
 
                     {% block container_specifications %}
-                      {#{% include 'TangaraAdministrationBundle:Default:container_specifications.html.twig' %}#}
+                      {#{% include 'TangaraTangaraBundle:Default:container_specifications.html.twig' %}#}
                     {% endblock %}
                 </div> 
             {% endblock %}
         
             {% block container_footer%}
-                {% include 'TangaraAdministrationBundle:Default:container_footer.html.twig' %}
+                {% include 'TangaraTangaraBundle:Default:container_footer.html.twig' %}
             {% endblock %}
         
             <!-- /container -->
             {% block javascripts %}
-                {% include 'TangaraAdministrationBundle:Default:javascript.html.twig' %}
+                {% include 'TangaraTangaraBundle:Default:javascript.html.twig' %}
             {% endblock %}
         {% endblock %}
     </body>

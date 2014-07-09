@@ -1,6 +1,6 @@
 <?php
 
-namespace Tangara\ProjectBundle\Entity;
+namespace Tangara\TangaraBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -63,7 +63,7 @@ class ProjectRepository extends EntityRepository {
 //                        ->getResult();
 
         $em = $this->getDoctrine()->getManager();
-        $products = $em->getRepository('TangaraProjectBundle:Project')
+        $products = $em->getRepository('TangaraTangaraBundle:Project')
                 ->findAllOrderedByName();
     }
 

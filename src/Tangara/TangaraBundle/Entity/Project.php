@@ -1,16 +1,16 @@
 <?php
 
-namespace Tangara\ProjectBundle\Entity;
+namespace Tangara\TangaraBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Tangara\UserBundle\Entity\User;
-use Tangara\ProjectBundle\Entity\Project;
+use Tangara\TangaraBundle\Entity\Project;
 
 /**
  * Project
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Tangara\ProjectBundle\Entity\ProjectRepository")
+ * @ORM\Entity(repositoryClass="Tangara\TangaraBundle\Entity\ProjectRepository")
  */
 class Project extends \Doctrine\ORM\EntityRepository {
 
@@ -40,7 +40,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
     private $projectManager;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tangara\ProjectBundle\Entity\Project")
+     * @ORM\ManyToOne(targetEntity="Tangara\TangaraBundle\Entity\Project")
      * @ORM\JoinTable(name="project_files",
      *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id")}

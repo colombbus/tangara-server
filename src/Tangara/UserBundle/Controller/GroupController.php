@@ -12,6 +12,7 @@ use Tangara\ProjectBundle\Controller\DefaultController as BaseController2;
 
 use FOS\UserBundle\Controller\GroupController as BaseController;
 
+
 class GroupController extends BaseController
 {
      /**
@@ -46,7 +47,7 @@ function groupsWithoutMe($allgroups, $user_groups) {
     foreach ($allgroups as $group) {
         $trigger = true;
         foreach ($user_groups as $user) {
-            if ($group->getName() == $user->getName()) {
+            if ($group->getId() == $user->getId()) {
                 $trigger = false;
                 break;
             }

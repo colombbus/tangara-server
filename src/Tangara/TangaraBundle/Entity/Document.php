@@ -1,6 +1,6 @@
 <?php
 
-namespace Tangara\ProjectBundle\Entity;
+namespace Tangara\TangaraBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Tangara\UserBundle\Entity\User;

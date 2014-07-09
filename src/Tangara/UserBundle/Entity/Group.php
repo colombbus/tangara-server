@@ -26,7 +26,7 @@ class Group extends BaseGroup {
     private $privateGroup;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Tangara\ProjectBundle\Entity\Project")
+     * @ORM\ManyToMany(targetEntity="Tangara\TangaraBundle\Entity\Project")
      * @ORM\JoinTable(name="projectsInGroup",
      *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")}
@@ -52,60 +52,24 @@ class Group extends BaseGroup {
     {
         return $this->id;
     }
+    
+    //return la liste des groupes dont l'user n'est pas membre
+    public function allNoGroup($allgroups, $user_groups) {
 
-    /**
-     * Set privateGroup
-     *
-     * @param boolean $privateGroup
-     * @return Group
-     */
-    public function setPrivateGroup($privateGroup)
-    {
-        $this->privateGroup = $privateGroup;
+        foreach ($allgroups as $key) {
+            $dif = true;
+            foreach ($user_groups as $key2) {
+                if ($key->getName() == $key2->getName()) {
+                    $dif = false;
+                    break;
+                }
+            }
+            if ($dif == true) {
+                $tmp[] = $key;
+            }
+        }
 
-        return $this;
+        return $tmp;
     }
 
-    /**
-     * Get privateGroup
-     *
-     * @return boolean 
-     */
-    public function getPrivateGroup()
-    {
-        return $this->privateGroup;
-    }
-
-    /**
-     * Add projectsInGroup
-     *
-     * @param \Tangara\ProjectBundle\Entity\Project $projectsInGroup
-     * @return Group
-     */
-    public function addProjectsInGroup(\Tangara\ProjectBundle\Entity\Project $projectsInGroup)
-    {
-        $this->projectsInGroup[] = $projectsInGroup;
-
-        return $this;
-    }
-
-    /**
-     * Remove projectsInGroup
-     *
-     * @param \Tangara\ProjectBundle\Entity\Project $projectsInGroup
-     */
-    public function removeProjectsInGroup(\Tangara\ProjectBundle\Entity\Project $projectsInGroup)
-    {
-        $this->projectsInGroup->removeElement($projectsInGroup);
-    }
-
-    /**
-     * Get projectsInGroup
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProjectsInGroup()
-    {
-        return $this->projectsInGroup;
-    }
 }

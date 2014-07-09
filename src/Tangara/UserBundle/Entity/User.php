@@ -4,7 +4,7 @@ namespace Tangara\UserBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Tangara\UserBundle\Entity\Group;
-use Tangara\ProjectBundle\Entity\Project;
+use Tangara\TangaraBundle\Entity\Project;
 
 /**
  * @ORM\Entity

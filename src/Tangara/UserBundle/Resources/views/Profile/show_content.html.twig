@@ -11,7 +11,7 @@
                 <a class="btn btn-success" href="{{ path('tangara_project_new') }}">Créer un nouveau projet</a>
                 <ul>
                     {% for p in projectsInGroup %}
-                        <li>{{ p }} </li>
+                        <li><a href="{{ path( "fos_user_profile_show", {id: 1} ) }}">{{ p }}</a></li>
                     {% endfor %}
                 </ul>
             </fieldset>

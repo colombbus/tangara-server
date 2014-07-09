@@ -1,18 +1,18 @@
 <?php
 
-namespace Tangara\ProjectBundle\Controller;
+namespace Tangara\TangaraBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
-use Tangara\ProjectBundle\Entity\Document;
-use Tangara\ProjectBundle\Entity\Project;
-use Tangara\ProjectBundle\Form\ProjectType;
+use Tangara\TangaraBundle\Entity\Document;
+use Tangara\TangaraBundle\Entity\Project;
+use Tangara\TangaraBundle\Form\ProjectType;
 
-class DefaultController extends Controller {
+class ProjectController extends Controller {
 
     public function indexAction() {
-        return $this->render('TangaraProjectBundle:Default:index.html.twig');
+        return $this->redirect($this->generateUrl('tangara_tangara_homepage'));
     }
 
     public function showAction(Project $project) {
@@ -21,13 +21,13 @@ class DefaultController extends Controller {
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $pid = $project->getId();
-        $project = $manager->getRepository('TangaraProjectBundle:Project')->find($pid);
+        $project = $manager->getRepository('TangaraTangaraBundle:Project')->find($pid);
         
         //var_dump($project->getGroup());
         // list of user contributors of a project
         $contributors = array("user1", "user2", "user6");
         
-        return $this->render('TangaraProjectBundle:Default:show.html.twig', array(
+        return $this->render('TangaraTangaraBundle:Project:show.html.twig', array(
                     'project' => $project,
                     'user' => $user,
                     'contributors' => $contributors
@@ -39,12 +39,12 @@ class DefaultController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
-        $projects = $manager->getRepository('TangaraProjectBundle:Project')->findAll();
+        $projects = $manager->getRepository('TangaraTangaraBundle:Project')->findAll();
 
 
         //echo $this->get('tangara_project.uploader')->getUploadDirectory();
 
-        $repository = $manager->getRepository('TangaraProjectBundle:Project');
+        $repository = $manager->getRepository('TangaraTangaraBundle:Project');
         $admin = '"admin"';
 
         //$conn = $this->get('database_connection');
@@ -57,7 +57,7 @@ class DefaultController extends Controller {
         
         $different = $query->getResult();
         
-        return $this->render('TangaraProjectBundle:Default:list.html.twig', array(
+        return $this->render('TangaraTangaraBundle:Project:list.html.twig', array(
                     'projects' => $projects,
                     'different' => $different
         ));
@@ -96,7 +96,7 @@ class DefaultController extends Controller {
             return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId())));
         }
 
-        return $this->render('TangaraProjectBundle:Default:edit.html.twig', array(
+        return $this->render('TangaraTangaraBundle:Project:edit.html.twig', array(
                     'form' => $form->createView(),
                     'user' => $user,
                     'project' => $project
@@ -105,7 +105,7 @@ class DefaultController extends Controller {
 
     public function createAction() {
         //echo '**' . $this->get('kernel')->getRootDir() . '**';
-        return $this->render('TangaraProjectBundle:Default:create.html.twig');
+        return $this->render('TangaraTangaraBundle:Project:create.html.twig');
     }
 
     public function newAction() {
@@ -141,7 +141,7 @@ class DefaultController extends Controller {
             ));
         }
 
-        return $this->render('TangaraProjectBundle:Default:new.html.twig', array(
+        return $this->render('TangaraTangaraBundle:Project:new.html.twig', array(
                     'form' => $form->createView(),
                     'userid' => $user_id,
                     'username' => $user,
@@ -184,7 +184,7 @@ class DefaultController extends Controller {
             //return new \Symfony\Component\HttpFoundation\Response($ret);
         }
 
-        return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
+        return $this->render('TangaraTangaraBundle:Project:upload.html.twig', array(
                     'form' => $form->createView()
         ));
     }
@@ -195,7 +195,7 @@ class DefaultController extends Controller {
 
         $data = $this->getDoctrine()
                 ->getManager()
-                ->getRepository('TangaraProjectBundle:Project')
+                ->getRepository('TangaraTangaraBundle:Project')
                 ->myFindAll();
 
         if ($this->getRequest()->isMethod('POST')) {
@@ -216,7 +216,7 @@ class DefaultController extends Controller {
     
     //controleur vers la page de confirmation
     public function confirmationAction() {
-        return $this->render('TangaraProjectBundle:Default:confirmation.html.twig');
+        return $this->render('TangaraTangaraBundle:Project:confirmation.html.twig');
     }
     
     /*
