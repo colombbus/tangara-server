@@ -1,37 +1,29 @@
-{% extends "::layout.html.twig" %}
+{% extends "::base.html.twig" %}
 
-{% block head %}
-    <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
+{% block header %}
+    {% block header_stylesheets %}
+    {% endblock %}
 {% endblock %}
 
-{% block title 'Demo Bundle' %}
-
-{% block main_container %}
-    {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="flash-message">
-            <em>Notice</em>: {{ flashMessage }}
-        </div>
-    {% endfor %}
-
-    {% block content_header %}
-        <ul id="menu">
-            {% block content_header_more %}
-                <li><a href="{{ path('_demo') }}">Demo Home</a></li>
-            {% endblock %}
-        </ul>
-
-        <div style="clear: both"></div>
+{% block body %}
+    {% block jumbotron %}
     {% endblock %}
 
-    <div class="block">
-        {% block content %}{% endblock %}
-    </div>
+    {% block main_container %}
+        <div class="container">
+            {% block container_content %}
+                {% block fos_user_content %}
+                {% endblock fos_user_content %}
+            {% endblock %}
 
-    {% if code is defined %}
-        <h2>Code behind this page</h2>
-        <div class="block">
-            <div class="symfony-content">{{ code|raw }}</div>
-        </div>
-    {% endif %}
+            {% block container_specifications %}
+            {% endblock %}
+
+            {% block container_footer%}
+            {% endblock %}
+        </div> 
+    {% endblock %}
+
+    {% block javascripts %}
+    {% endblock %}
 {% endblock %}
