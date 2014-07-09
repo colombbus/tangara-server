@@ -1,0 +1,16 @@
+{% extends "TangaraAdministrationBundle:Default:layout.html.twig" %}
+
+{% block title %}Projets{% endblock %}
+
+{% block main_container %}
+    <div class="container">
+        {# <h1>{{ project.title }}</h1>#}
+        <h1>Ajouter un fichier au projet</h1>
+        <form action="#" method="post" {{ form_enctype(form) }}>
+
+            {{ form_widget(form) }}
+
+            <input type="submit">
+        </form>
+    </div>
+{% endblock %}
