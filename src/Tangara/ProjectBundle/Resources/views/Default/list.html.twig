@@ -6,9 +6,9 @@
     <div class="container">
         <h1>Liste des projets</h1>
         <ul>
-            {% for diff in different%}
-                <li><a href="#" >{{ diff.ProjectManager }}</a></li>
-            {% endfor %}
+            {#% for diff in different%}
+                <!--li><a href="#" >{{ diff.ProjectManager }}</a></li-->
+            {% endfor %#}
                 
             {% for project in projects %}
                 <li><a href="{{ path( "tangara_project_show", {id: project.id} ) }}" >{{ project.getName()}}</a></li>

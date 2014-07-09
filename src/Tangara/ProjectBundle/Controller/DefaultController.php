@@ -168,9 +168,9 @@ class DefaultController extends Controller {
                 ->getForm()
         ;
         $fs = new Filesystem();
-
+        /*
         if ($this->getRequest()->isMethod('POST')) {
-
+ 
                 $form->bind($this->getRequest());
                 $em = $this->getDoctrine()->getManager();
 
@@ -183,8 +183,46 @@ class DefaultController extends Controller {
                 //$ret = 'done ' . $file_uploaded ; 
                 //return new \Symfony\Component\HttpFoundation\Response($ret);
                 return new Response($document->getName());
+            
         }
+        */
+        
+        
+        
+        $request = $this->getRequest();
+        if ('POST' == $request->getMethod()) {
+            $form->bind($request);
 
+            $em = $this->getDoctrine()->getManager();
+            $repository = $em->getRepository('TangaraProjectBundle:Document');
+            
+            $name = $form->getData()->getName();
+            
+            $doc_in_db = $repository->findBy(array('name' => $name));
+            
+            
+           
+            
+            print_r(/*$form->isValid()*//*$form->getData()*/$doc_in_db); 
+            
+          
+            if ($form->isValid()) {
+                
+                if(empty($doc_in_db)){
+                    $document->upload();
+                    $em->persist($document);
+                    $em->flush();
+                    return $this->render('TangaraProjectBundle:Default:confirmation.html.twig');
+                }
+                else{
+                    return new Response('Le nom fihier existe dejà');
+                }
+                
+            }
+        }
+        
+        
+        
         return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
                     'form' => $form->createView()
         ));
@@ -220,81 +258,32 @@ class DefaultController extends Controller {
         return $this->render('TangaraProjectBundle:Default:confirmation.html.twig');
     }
     
-    /*
-    public function ifGroupMemberAction(){
+    public function testAction(Project $project){
         
         $user = $this->get('security.context')->getToken()->getUser();
-        $repository = $this->getDoctrine()->getManager()->getRepository('TangaraProjectBundle:Project');
-       
-        $query = $repository->createQueryBuilder('p')
-                ->where('p.id = 1')
-                ->getQuery();
 
-        $project = $query->getResult();
-        return new Response($project[0]->getName());
+        $manager = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $project = $manager->getRepository('TangaraProjectBundle:Project')->find($project->getId());
+
+        $lists = $project->getContributors();
+
+        return $this->render('TangaraProjectBundle:Default:test.html.twig', array(
+                    'project' => $project,
+                    'user' => $user,
+                    'lists' => $lists
+        ));
     }
     
-    
-    public function listGroupAction(){
-        //connexion a la base de donnee
+    public function checkAction(Project $project){
+        
         $user = $this->get('security.context')->getToken()->getUser();
-        $list = $user->getGroups();
+
+        $project = $user->getProject();
         
-        foreach($list as $key){
-            echo $key->getName();
-        }
-        
-        //return $this->render('TangaraProjectBundle:Default:page.html.twig', );
+        print_r($project);
     }
-    
-  
-    public function listProjetAction(){
-        //connexion a la base de donnee
-        $user = $this->get('security.context')->getToken()->getUser();
-        $list = $user->getProjects();
-        
-        foreach($list as $key){
-            echo $key->getName();
-        }
-    }
-    */
-    
-    /*
-    public function listNoGroupAction(){
-        $user = $this->get('security.context')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
-        
-        $repository_group = $em->getRepository('TangaraUserBundle:Group');
-        
-        //tous les groupes
-        $allgroups = $repository_group->findAll();
-        //les groupes aux quels l'user appartient
-        $user_groups = $user->getGroups();
-        
-        $tmp = allNoGroup($allgroups, $user_groups);
-        
-        return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
-    } 
-    */
 }
 
-    //return la liste des groupes dont l'user n'est pas membre
-    function allNoGroup($allgroups, $user_groups){
-        
-        foreach($allgroups as $key){
-            $dif = true;
-            foreach($user_groups as $key2){
-                if($key->getName() == $key2->getName()){
-                    $dif = false;
-                    break;
-                }
-            }
-            if($dif == true){
-                $tmp[] = $key;
-            }
-        }
-        
-        return $tmp;
-    }
     
     

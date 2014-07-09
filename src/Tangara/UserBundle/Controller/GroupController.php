@@ -12,6 +12,7 @@ use Tangara\ProjectBundle\Controller\DefaultController as BaseController2;
 
 use FOS\UserBundle\Controller\GroupController as BaseController;
 
+
 class GroupController extends BaseController
 {
      /**
@@ -45,7 +46,7 @@ function allNoGroup($allgroups, $user_groups) {
     foreach ($allgroups as $key) {
         $dif = true;
         foreach ($user_groups as $key2) {
-            if ($key->getName() == $key2->getName()) {
+            if ($key->getId() == $key2->getId()) {
                 $dif = false;
                 break;
             }

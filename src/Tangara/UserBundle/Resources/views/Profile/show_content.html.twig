@@ -11,7 +11,7 @@
                 <p>Liste des projets:</p>
                 <ul>
                     {% for p in projets %}
-                        <li>{{ p.getName() }}</li>
+                        <li><a href="{{ path( "tangara_user_project_show", {id: p.id} ) }}">{{ p.getName() }}</a></li>
                     {% endfor %}
                 </ul>
                 <a href="{{ path('tangara_project_new') }}">Créer un nouveau projet</a>
