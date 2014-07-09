@@ -15,8 +15,8 @@
                 <target>Partager</target>
             </trans-unit>
             <trans-unit id="4">
-                <source>_documentation</source>
-                <target>Documentation</target>
+                <source>_learn</source>
+                <target>Apprendre</target>
             </trans-unit>
             <trans-unit id="5">
                 <source>_deconnect</source>
