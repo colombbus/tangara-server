@@ -103,4 +103,4 @@ parameters:
         
 services:
     tangara_project.uploader:
-        class: Tangara\ProjectBundle\Uploader\Uploader
+        class: Tangara\TangaraBundle\Uploader\Uploader
