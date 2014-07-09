@@ -193,28 +193,4 @@ class User extends BaseUser
     }
     
     
-
-
-    /**
-     * Add groups
-     *
-     * @param \Tangara\UserBundle\Entity\Group $groups
-     * @return User
-     */
-    public function addGroup(\Tangara\UserBundle\Entity\Group $groups)
-    {
-        $this->groups[] = $groups;
-
-        return $this;
-    }
-
-    /**
-     * Remove groups
-     *
-     * @param \Tangara\UserBundle\Entity\Group $groups
-     */
-    public function removeGroup(\Tangara\UserBundle\Entity\Group $groups)
-    {
-        $this->groups->removeElement($groups);
-    }
 }
