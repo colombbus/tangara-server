@@ -28,3 +28,19 @@ TANGARA-UI TODO LIST
         * DEPRECATED After a modif on schema update
    
   * request
+
+    * Projet personnel ou de groupe sont identiques niveau URL mais il y a un champ "perso" dans la table
+    * Récupérer la locale
+        http://localhost/tangara/locale
+    * Demander la suppression d'un fichier
+        http://localhost/tangara/project/12?remove=fichier.tgr
+    * Créer un fichier tgr
+        http://localhost/tangara/project/12?add=fichier.tgr
+    * Obtenir le contenu d'un fichier
+        http://localhost/tangara/project/12?content=fichier.tgr
+    * Ajouter un fichier (image ou ressource)
+        http://localhost/tangara/project/upload
+    * Obtenir la liste de fichier-programme
+        http://localhost/tangara/project/12?action=programs
+    * Obtenir la liste des ressources
+        http://localhost/tangara/project/12?action=resources
