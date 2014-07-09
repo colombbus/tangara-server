@@ -35,11 +35,18 @@ class Group extends BaseGroup {
     protected $projectsInGroup;
     
     /**
+     *
+     * @ORM\OneToMany(targetEntity="Tangara\TangaraBundle\Entity\Project", mappedBy="group")
+     */
+    private $project;
+
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->project = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -71,5 +78,39 @@ class Group extends BaseGroup {
 
         return $tmp;
     }
+    
+    /**
+     * Add project
+     *
+     * @param \Tangara\TangaraBundle\Entity\Project $project
+     * @return Group
+     */
+    public function addProject(\Tangara\TangaraBundle\Entity\Project $project)
+    {
+        $this->project[] = $project;
+
+        return $this;
+    }
+
+    /**
+     * Remove project
+     *
+     * @param \Tangara\TangaraBundle\Entity\Project $project
+     */
+    public function removeProject(\Tangara\TangaraBundle\Entity\Project $project)
+    {
+        $this->project->removeElement($project);
+    }
+
+    /**
+     * Get project
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+    
 
 }

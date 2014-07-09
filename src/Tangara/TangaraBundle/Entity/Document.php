@@ -102,28 +102,5 @@ class Document {
         // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
         $this->file = null;
     }
-
-
-    /**
-     * Set relativeProject
-     *
-     * @param \Tangara\ProjectBundle\Entity\Project $relativeProject
-     * @return Document
-     */
-    public function setRelativeProject(\Tangara\ProjectBundle\Entity\Project $relativeProject = null)
-    {
-        $this->relativeProject = $relativeProject;
-
-        return $this;
-    }
-
-    /**
-     * Get relativeProject
-     *
-     * @return \Tangara\ProjectBundle\Entity\Project 
-     */
-    public function getRelativeProject()
-    {
-        return $this->relativeProject;
-    }
+    
 }

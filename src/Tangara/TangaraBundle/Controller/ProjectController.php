@@ -217,6 +217,23 @@ class ProjectController extends Controller {
     public function confirmationAction() {
         return $this->render('TangaraTangaraBundle:Project:confirmation.html.twig');
     }
+    
+    public function testAction(){
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        echo $user->getId();
+        
+    }
+    
+    /*
+    public function ifGroupMemberAction(){
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        $repository = $this->getDoctrine()->getManager()->getRepository('TangaraProjectBundle:Project');
+       
+        $query = $repository->createQueryBuilder('p')
+                ->where('p.id = 1')
+                ->getQuery();
 
     /*
       public function ifGroupMemberAction(){

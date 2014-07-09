@@ -75,6 +75,19 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @ORM\Column(name="DateCreation", type="datetime")
      */
     private $dateCreation;
+    
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Tangara\UserBundle\Entity\User", inversedBy="project")
+     */
+    private $user;
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Tangara\UserBundle\Entity\Group", inversedBy="project")
+     */
+    private $group;
 
     public function __construct() {
         $this->dateCreation = new \DateTime('NOW');
@@ -237,6 +250,42 @@ class Project extends \Doctrine\ORM\EntityRepository {
      */
     public function getRelativeProject() {
         return $this->relativeProject;
+    }
+    
+    /**
+     * Set user
+     *
+     * @param Tangara\UserBundle\Entity\User $user
+     */
+    public function setUser(\Tangara\UserBundle\Entity\User $user) {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Tangara\UserBundle\Entity\User
+     */
+    public function getUser() {
+        return $this->user;
+    }
+    
+    /**
+     * Set group
+     *
+     * @param Tangara\UserBundle\Entity\Group $group
+     */
+    public function setGroup(\Tangara\UserBundle\Entity\Group $group) {
+        $this->group = $group;
+    }
+
+    /**
+     * Get group
+     *
+     * @return Tangara\UserBundle\Entity\Group
+     */
+    public function getGroup() {
+        return $this->group;
     }
 
 }
