@@ -23,24 +23,20 @@
             <br/>
             Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
             <br/>
-            listes des contributeurs : 
+            Listes des contributeurs : 
             <ul>
             {% for usr in contributors %}
                 <li>{{ usr }}</li>
             {% endfor %}
             </ul>
             <br/>
-
-
         </div>
         <div class="col-md-6">
             <h1>Fichiers</h1>
             <a class="btn btn-success" href="{{ path( "tangara_project_upload", {id: project.id} ) }} ">Ajouter un fichier au projet</a>
             <ul>
-                <li>programme1.tgr</li>
-                <li>programm2.tgr</li>
-            {% for usr in contributors %}
-                <li>{{ usr }}.png</li>
+            {% for f in files %}
+                <li>{{ f }}</li>
             {% endfor %}
             </ul>
         </div>
