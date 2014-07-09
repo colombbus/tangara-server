@@ -64,4 +64,8 @@ tangara_project_ajax:
 tangara_project_confirmation:
     pattern:  /confirmation
     defaults: { _controller: TangaraTangaraBundle:Project:confirmation }
+    
+tangara_project_test:
+    pattern: /test
+    defaults: { _controller: TangaraTangaraBundle:Project:test }
 

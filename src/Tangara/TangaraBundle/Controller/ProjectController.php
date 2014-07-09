@@ -219,6 +219,13 @@ class ProjectController extends Controller {
         return $this->render('TangaraTangaraBundle:Project:confirmation.html.twig');
     }
     
+    public function testAction(){
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        echo $user->getId();
+        
+    }
+    
     /*
     public function ifGroupMemberAction(){
         

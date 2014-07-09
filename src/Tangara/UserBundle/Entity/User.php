@@ -48,7 +48,17 @@ class User extends BaseUser
      * @ORM\Column(name="DateCreation", type="datetime")
      */
     private $dateCreation;
-     /**
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Tangara\TangaraBundle\Entity\Project", mappedBy="user")
+     */
+    private $project;
+
+
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -56,6 +66,7 @@ class User extends BaseUser
         parent::__construct();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->dateCreation = new \DateTime('now');
+        $this->project = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -147,5 +158,63 @@ class User extends BaseUser
     {
         return $this->groups;
     }
+    
+    /**
+     * Add project
+     *
+     * @param \Tangara\TangaraBundle\Entity\Project $project
+     * @return User
+     */
+    public function addProject(\Tangara\TangaraBundle\Entity\Project $project)
+    {
+        $this->project[] = $project;
 
+        return $this;
+    }
+
+    /**
+     * Remove project
+     *
+     * @param \Tangara\TangaraBundle\Entity\Project $project
+     */
+    public function removeProject(\Tangara\TangaraBundle\Entity\Project $project)
+    {
+        $this->project->removeElement($project);
+    }
+
+    /**
+     * Get project
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+    
+    
+
+
+    /**
+     * Add groups
+     *
+     * @param \Tangara\UserBundle\Entity\Group $groups
+     * @return User
+     */
+    public function addGroup(\Tangara\UserBundle\Entity\Group $groups)
+    {
+        $this->groups[] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \Tangara\UserBundle\Entity\Group $groups
+     */
+    public function removeGroup(\Tangara\UserBundle\Entity\Group $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
 }
