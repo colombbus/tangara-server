@@ -22,20 +22,23 @@ class ProjectController extends Controller {
         $request = $this->getRequest();
         $pid = $project->getId();
         $project = $manager->getRepository('TangaraTangaraBundle:Project')->find($pid);
-        
+
         //var_dump($project->getGroup());
         // list of user contributors of a project
         $contributors = array("user1", "user2", "user6");
-        
+        $files = array("heros.png", "bad.jpg", "Cours01.tgr", "Cours2.tgr", "Cours11.tgr", );
+        $project->getGroup();
+
         return $this->render('TangaraTangaraBundle:Project:show.html.twig', array(
                     'project' => $project,
                     'user' => $user,
-                    'contributors' => $contributors
+                    'contributors' => $contributors,
+                    'files' => $files
         ));
     }
 
     public function listAction() {
-        
+
         $user = $this->get('security.context')->getToken()->getUser();
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
@@ -49,19 +52,18 @@ class ProjectController extends Controller {
 
         //$conn = $this->get('database_connection');
         //$different = $conn->fetchAll('SELECT ProjectManager FROM project WHERE ProjectManager != '.$admin);
-        
+
         $query = $repository->createQueryBuilder('project')
                 ->where('project.projectManager != :ProjectManager')
                 ->setParameter('ProjectManager', 'admin')
                 ->getQuery();
-        
+
         $different = $query->getResult();
-        
+
         return $this->render('TangaraTangaraBundle:Project:list.html.twig', array(
                     'projects' => $projects,
                     'different' => $different
         ));
-         
     }
 
     public function editAction(Project $project) {
@@ -154,7 +156,7 @@ class ProjectController extends Controller {
         $request = $this->getRequest();
         $user_id = $this->get('security.context')->getToken()->getUser()->getId();
         $project_id = $project->getId();
-        
+
         //$base_path = $this->get('tangara_project.uploader');
         $base_path = '/home/elise/NetBeansProjects/tangara-data';
         $project_user_path = $base_path . "/" . $user_id;
@@ -210,96 +212,91 @@ class ProjectController extends Controller {
 
         //return new Response('<h1>Reçu en normal</h1>');
     }
-    
-    
-    
-    
+
     //controleur vers la page de confirmation
     public function confirmationAction() {
         return $this->render('TangaraTangaraBundle:Project:confirmation.html.twig');
     }
-    
-    /*
-    public function ifGroupMemberAction(){
-        
-        $user = $this->get('security.context')->getToken()->getUser();
-        $repository = $this->getDoctrine()->getManager()->getRepository('TangaraProjectBundle:Project');
-       
-        $query = $repository->createQueryBuilder('p')
-                ->where('p.id = 1')
-                ->getQuery();
 
-        $project = $query->getResult();
-        return new Response($project[0]->getName());
-    }
-    
-    
-    public function listGroupAction(){
-        //connexion a la base de donnee
-        $user = $this->get('security.context')->getToken()->getUser();
-        $list = $user->getGroups();
-        
-        foreach($list as $key){
-            echo $key->getName();
-        }
-        
-        //return $this->render('TangaraProjectBundle:Default:page.html.twig', );
-    }
-    
-  
-    public function listProjetAction(){
-        //connexion a la base de donnee
-        $user = $this->get('security.context')->getToken()->getUser();
-        $list = $user->getProjects();
-        
-        foreach($list as $key){
-            echo $key->getName();
-        }
-    }
-    */
-    
     /*
-    public function listNoGroupAction(){
-        $user = $this->get('security.context')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
-        
-        $repository_group = $em->getRepository('TangaraUserBundle:Group');
-        
-        //tous les groupes
-        $allgroups = $repository_group->findAll();
-        //les groupes aux quels l'user appartient
-        $user_groups = $user->getGroups();
-        
-        $tmp = groupsWithoutMe($allgroups, $user_groups);
-        
-        return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
-    } 
-    */
+      public function ifGroupMemberAction(){
+
+      $user = $this->get('security.context')->getToken()->getUser();
+      $repository = $this->getDoctrine()->getManager()->getRepository('TangaraProjectBundle:Project');
+
+      $query = $repository->createQueryBuilder('p')
+      ->where('p.id = 1')
+      ->getQuery();
+
+      $project = $query->getResult();
+      return new Response($project[0]->getName());
+      }
+
+
+      public function listGroupAction(){
+      //connexion a la base de donnee
+      $user = $this->get('security.context')->getToken()->getUser();
+      $list = $user->getGroups();
+
+      foreach($list as $key){
+      echo $key->getName();
+      }
+
+      //return $this->render('TangaraProjectBundle:Default:page.html.twig', );
+      }
+
+
+      public function listProjetAction(){
+      //connexion a la base de donnee
+      $user = $this->get('security.context')->getToken()->getUser();
+      $list = $user->getProjects();
+
+      foreach($list as $key){
+      echo $key->getName();
+      }
+      }
+     */
+
+    /*
+      public function listNoGroupAction(){
+      $user = $this->get('security.context')->getToken()->getUser();
+      $em = $this->getDoctrine()->getManager();
+
+      $repository_group = $em->getRepository('TangaraUserBundle:Group');
+
+      //tous les groupes
+      $allgroups = $repository_group->findAll();
+      //les groupes aux quels l'user appartient
+      $user_groups = $user->getGroups();
+
+      $tmp = groupsWithoutMe($allgroups, $user_groups);
+
+      return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
+      }
+     */
 }
 
-    /** 
-     * Request group list that user isn't member
-     * 
-     * @param array $allgroups 
-     * @param array $user_groups
-     * @return groupsWithoutMe list that user isn't member
-     */
-    function groupsWithoutMe($allgroups, $user_groups){
-        
-        foreach($allgroups as $all){
-            $trigger = true;
-            foreach($user_groups as $ug){
-                if($all->getName() == $ug->getName()){
-                    $trigger = false;
-                    break;
-                }
-            }
-            if($trigger == true){
-                $groupsWithoutMe[] = $all;
+/**
+ * Request group list that user isn't member
+ * 
+ * @param array $allgroups 
+ * @param array $user_groups
+ * @return groupsWithoutMe list that user isn't member
+ */
+function groupsWithoutMe($allgroups, $user_groups) {
+
+    foreach ($allgroups as $all) {
+        $trigger = true;
+        foreach ($user_groups as $ug) {
+            if ($all->getName() == $ug->getName()) {
+                $trigger = false;
+                break;
             }
         }
-        
-        return $groupsWithoutMe;
+        if ($trigger == true) {
+            $groupsWithoutMe[] = $all;
+        }
     }
-    
-    
+
+    return $groupsWithoutMe;
+}

@@ -36,8 +36,13 @@ class Document {
         return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
     }
 
+    /** 
+     * Absolute directory path where documents have to be saved 
+     * 
+     * @return string Upload directory
+     */
     protected function getUploadRootDir() {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
+        //$this->get('')
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
@@ -78,7 +83,7 @@ class Document {
     }
 
     public function upload() {
-        // la propriété « file » peut être vide si le champ n'est pas requis
+        // 'file' property couldn't be null if field is not required
         if (null === $this->file) {
             return;
         }
