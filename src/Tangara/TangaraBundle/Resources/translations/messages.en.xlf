@@ -16,11 +16,11 @@
             </trans-unit>
             <trans-unit id="4">
                 <source>_learn</source>
-                <target>Apprendre</target>
+                <target>Learn</target>
             </trans-unit>
             <trans-unit id="5">
-                <source>_deconnect</source>
-                <target>Déconnecter</target>
+                <source>_logout</source>
+                <target>Log out</target>
             </trans-unit>
             <trans-unit id="6">
                 <source>_Welcome</source>

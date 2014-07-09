@@ -19,7 +19,7 @@
                 <target>Apprendre</target>
             </trans-unit>
             <trans-unit id="5">
-                <source>_deconnect</source>
+                <source>_logoff</source>
                 <target>Déconnecter</target>
             </trans-unit>
             <trans-unit id="6">

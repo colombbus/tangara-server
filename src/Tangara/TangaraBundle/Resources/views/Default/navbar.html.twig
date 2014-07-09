@@ -25,14 +25,14 @@
                 {{ app.user.username }}
             </a>
             <a class="navbar-right" id="deconnect" href="{{ path('fos_user_security_logout') }} ">
-                {{'_deconnect'|trans }} 
+                {{'_logout'|trans }} 
             </a>
         {% elseif is_granted('ROLE_USER') %}
             <a class="navbar-right" id="connected" href="{{ path('fos_user_profile_show') }} ">
                 {{ app.user.username }}
             </a>
             <a class="navbar-right" id="deconnect" href="{{ path('fos_user_security_logout') }} ">
-                {{'_deconnect'|trans }} 
+                {{'_logout'|trans }} 
             </a>
         {% else %}
             {% render url('fos_user_security_login') %}
