@@ -2,7 +2,7 @@
 
 namespace Tangara\TangaraBundle\Tests\Controller;
 
-class DefaultControllerTest extends WebTestCase
+class FileControllerTest extends WebTestCase
 {
     public function testPhpunit()
     {
