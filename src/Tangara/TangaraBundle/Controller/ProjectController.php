@@ -7,31 +7,27 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\TangaraBundle\Entity\Document;
 use Tangara\TangaraBundle\Entity\Project;
+use Tangara\UserBundle\Entity\User;
+use Tangara\UserBundle\Entity\Group;
 use Tangara\TangaraBundle\Form\ProjectType;
 
 class ProjectController extends Controller {
 
     public function indexAction() {
-        return $this->redirect($this->generateUrl('tangara_tangara_homepage'));
+        //return $this->redirect($this->generateUrl('tangara_tangara_homepage'));
     }
 
-    public function showAction(Project $project) {
-        $user = $this->get('security.context')->getToken()->getUser();
-
-        $manager = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
-        $pid = $project->getId();
-        $project = $manager->getRepository('TangaraTangaraBundle:Project')->find($pid);
-        
-        //var_dump($project->getGroup());
-        // list of user contributors of a project
-        $contributors = array("user1", "user2", "user6");
-        
-        return $this->render('TangaraTangaraBundle:Project:show.html.twig', array(
-                    'project' => $project,
-                    'user' => $user,
-                    'contributors' => $contributors
-        ));
+    /*
+     * Give all informations about the project
+     */
+    public function showAction(Project $project, $cat) {
+         
+        if($cat == 1){//view for user project
+            return $this->render('TangaraTangaraBundle:Project:show_user_project.html.twig', array('project' => $project));
+        }
+        else if($cat == 2){//view for group project
+            return $this->render('TangaraTangaraBundle:Project:show_group_project.html.twig', array('project' => $project));
+        }
     }
 
     public function listAction() {
@@ -93,7 +89,7 @@ class ProjectController extends Controller {
             $manager->persist($project);
             $manager->flush();
 
-            return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId())));
+            return $this->redirect($this->generateUrl('tangara_project_show', array( 'cat' => 1, 'id' => $project->getId())));
         }
 
         return $this->render('TangaraTangaraBundle:Project:edit.html.twig', array(
@@ -108,19 +104,25 @@ class ProjectController extends Controller {
         return $this->render('TangaraTangaraBundle:Project:create.html.twig');
     }
 
-    public function newAction() {
+    
+    /*
+     * Create a new project
+     */
+    public function newAction($user_id=null, $group_id=null) {
+        
         $user = $this->get('security.context')->getToken()->getUser();
-        // DEVELOP ONLY
-        $user_id = $user->getId();
+        
+        $userId = $user->getId();
 
         $project = new Project();
         $project->setProjectManager($user);
 
-        $project_id = $project->getId();
+        $projectId = $project->getId();
 
+        
         $base_path = 'C:/tangara/';
-        $project_user_path = $base_path . $user_id;
-        $project_path = $base_path . $project_id;
+        $project_user_path = $base_path . $userId;
+        $project_path = $base_path . $projectId;
 
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
@@ -130,23 +132,39 @@ class ProjectController extends Controller {
         $form = $this->createForm(new ProjectType(), $project);
 
         if ($request->isMethod('POST')) {
+            
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
             //$this->file->move($project_path, $this->file->getClientOriginalName());
+            
+            
+            
+            if ($user_id != null) { //project of user
+                $user->addProjects($project);
+                $project->setUser($user);
+                $cat = 1;
+            } elseif ($group_id != null) { //project of group
+                $group = $em->getRepository('TangaraUserBundle:Group')->find($group_id);
+                $group->addProjects($project);
+                $project->setGroup($group);
+                $cat = 2;
+            }
 
             $em->persist($project);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId())
+              
+            return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId(), 'cat' => $cat)
             ));
         }
-
+    
         return $this->render('TangaraTangaraBundle:Project:new.html.twig', array(
                     'form' => $form->createView(),
-                    'userid' => $user_id,
+                    'userid' => $userId,
                     'username' => $user,
                     'project' => $project,
-                    'project_owner_group' => $group_member
+                    'project_owner_group' => $group_member,
+                    'g_id' => $group_id,
+                    'u_id' => $user_id
         ));
     }
 
@@ -219,69 +237,6 @@ class ProjectController extends Controller {
         return $this->render('TangaraTangaraBundle:Project:confirmation.html.twig');
     }
     
-    public function testAction(){
-        $user = $this->get('security.context')->getToken()->getUser();
-        
-        echo $user->getId();
-        
-    }
-    
-    /*
-    public function ifGroupMemberAction(){
-        
-        $user = $this->get('security.context')->getToken()->getUser();
-        $repository = $this->getDoctrine()->getManager()->getRepository('TangaraProjectBundle:Project');
-       
-        $query = $repository->createQueryBuilder('p')
-                ->where('p.id = 1')
-                ->getQuery();
-
-        $project = $query->getResult();
-        return new Response($project[0]->getName());
-    }
-    
-    
-    public function listGroupAction(){
-        //connexion a la base de donnee
-        $user = $this->get('security.context')->getToken()->getUser();
-        $list = $user->getGroups();
-        
-        foreach($list as $key){
-            echo $key->getName();
-        }
-        
-        //return $this->render('TangaraProjectBundle:Default:page.html.twig', );
-    }
-    
-  
-    public function listProjetAction(){
-        //connexion a la base de donnee
-        $user = $this->get('security.context')->getToken()->getUser();
-        $list = $user->getProjects();
-        
-        foreach($list as $key){
-            echo $key->getName();
-        }
-    }
-    */
-    
-    /*
-    public function listNoGroupAction(){
-        $user = $this->get('security.context')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
-        
-        $repository_group = $em->getRepository('TangaraUserBundle:Group');
-        
-        //tous les groupes
-        $allgroups = $repository_group->findAll();
-        //les groupes aux quels l'user appartient
-        $user_groups = $user->getGroups();
-        
-        $tmp = groupsWithoutMe($allgroups, $user_groups);
-        
-        return $this->render('TangaraProjectBundle:Default:list_no_group_content.html.twig', array('groups' => $tmp));
-    } 
-    */
 }
 
     /** 

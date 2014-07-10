@@ -20,7 +20,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tangara\UserBundle\Entity\Group")
+     * @ORM\ManyToMany(targetEntity="Tangara\UserBundle\Entity\Group", inversedBy="users")
      * @ORM\JoinTable(name="fos_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
@@ -53,7 +53,7 @@ class User extends BaseUser
      *
      * @ORM\OneToMany(targetEntity="Tangara\TangaraBundle\Entity\Project", mappedBy="user")
      */
-    private $project;
+    private $projects;
 
 
 
@@ -165,9 +165,9 @@ class User extends BaseUser
      * @param \Tangara\TangaraBundle\Entity\Project $project
      * @return User
      */
-    public function addProject(\Tangara\TangaraBundle\Entity\Project $project)
+    public function addProjects(\Tangara\TangaraBundle\Entity\Project $project)
     {
-        $this->project[] = $project;
+        $this->projects[] = $project;
 
         return $this;
     }
@@ -177,19 +177,19 @@ class User extends BaseUser
      *
      * @param \Tangara\TangaraBundle\Entity\Project $project
      */
-    public function removeProject(\Tangara\TangaraBundle\Entity\Project $project)
+    public function removeProjects(\Tangara\TangaraBundle\Entity\Project $project)
     {
-        $this->project->removeElement($project);
+        $this->projects->removeElement($project);
     }
 
     /**
-     * Get project
+     * Get projects
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProject()
+    public function getProjects()
     {
-        return $this->project;
+        return $this->projects;
     }
     
     

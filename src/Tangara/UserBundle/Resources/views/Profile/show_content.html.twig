@@ -4,28 +4,30 @@
     <div class="row">
         <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
         <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-{#        {% set userGroups =  user.getGroups() %}#}
         <div class="col-md-6">
             <fieldset>
-                <legend><a href="{{ path('tangara_project_list') }}">Mes projets</a></legend>
-                <a class="btn btn-success" href="{{ path('tangara_project_new') }}">Créer un nouveau projet</a>
+                <legend>Mes projets</legend>
+                <a class="btn btn-success" href="{{ path('tangara_project_user_new', {user_id: user.getId()}) }}">Créer un nouveau projet</a>
                 <ul>
-                    {% for p in projectsInGroup %}
-                        <li><a href="{{ path( "fos_user_profile_show", {id: 1} ) }}">{{ p }}</a></li>
+                    {% set userProjects = user.getProjects() %}
+                    {% for project in userProjects %}
+                        <li><a href="{{ path( "tangara_project_show", {id: project.getId(), cat: 1} ) }}">{{ project.getName() }}</a></li>
                     {% endfor %}
                 </ul>
             </fieldset>
         </div>
         <div class="col-md-6">
             <fieldset>
-                <legend><a href="{{ path('fos_user_group_list') }}">Mes groupes</a></legend>
+                <legend>Mes groupes</legend>
                 <a class="btn btn-success" href="{{ path('fos_user_group_new') }}">Créer un nouveau groupe</a>
                 <p>Tu es membre de :</p>
                 <ul>
-                    {% for group in joinedGroups %}
-                        <li>{{ group }}</li>
+                    {% set userGroups = user.getGroups() %}
+                    {% for group in userGroups %}
+                        <li><a href="{{ path( "tangara_user_groupInfo", {id: group.getId()} ) }}">{{ group.getName() }}</a></li>
                     {% endfor %}
                 </ul>
+                <a href="{{ path('fos_user_group_list') }}">Liste de tous les groupes</a>
             </fieldset>
         </div>
     </div>

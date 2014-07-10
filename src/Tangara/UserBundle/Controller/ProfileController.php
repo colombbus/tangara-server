@@ -32,24 +32,16 @@ use FOS\UserBundle\Controller\ProfileController as BaseController;
 
 class ProfileController extends BaseController {
 
+    //Controller to get the user main page
     public function profileAction() {
 
         //$response = parent::profileAction();
         //$user = parent::showAction();
         $user = $this->container->get('security.context')->getToken()->getUser();
-
-        //return $user;
-        //$list_projets = $user->getProjects();
-        $projectsInGroup = array ("privateProject1","privateProject2","privateProject5","privateProject6","privateProject9");
-        $joinedGroups = array ("Group1","Group5","Group9","Group15","Group16","Group26");
-
-        return $this->container->get('templating')
-                        ->renderResponse('FOSUserBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), array(
-                            'user' => $user,
-                                  'projectsInGroup' => $projectsInGroup,
-                                  'joinedGroups' => $joinedGroups
-                                )
-        );
+   
+        
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
+                array('user' => $user));
     }
 
 }

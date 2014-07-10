@@ -2,7 +2,7 @@
 
 namespace Tangara\UserBundle\Entity;
 
-use FOS\UserBundle\Model\Group as BaseGroup;
+use FOS\UserBundle\Entity\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,15 +38,21 @@ class Group extends BaseGroup {
      *
      * @ORM\OneToMany(targetEntity="Tangara\TangaraBundle\Entity\Project", mappedBy="group")
      */
-    private $project;
-
-
+    private $projects;
+    
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Tangara\UserBundle\Entity\User", mappedBy="groups")
+     */
+    private $users;
+    
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->project = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -80,37 +86,62 @@ class Group extends BaseGroup {
     }
     
     /**
-     * Add project
+     * Add projects
      *
      * @param \Tangara\TangaraBundle\Entity\Project $project
      * @return Group
      */
-    public function addProject(\Tangara\TangaraBundle\Entity\Project $project)
+    public function addProjects(\Tangara\TangaraBundle\Entity\Project $project)
     {
-        $this->project[] = $project;
+        $this->projects[] = $project;
 
         return $this;
     }
 
     /**
-     * Remove project
+     * Remove projects
      *
      * @param \Tangara\TangaraBundle\Entity\Project $project
      */
-    public function removeProject(\Tangara\TangaraBundle\Entity\Project $project)
-    {
-        $this->project->removeElement($project);
+    public function removeProjects(\Tangara\TangaraBundle\Entity\Project $project) {
+        $this->projects->removeElement($project);
     }
 
     /**
-     * Get project
+     * Get projects
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProject()
-    {
-        return $this->project;
+    public function getProjects() {
+        return $this->projects;
     }
+
     
+    /**
+     * Add users
+     *
+     * @param Tangara\UserBundle\Entity\User $users
+     */
+    public function addUsers(\Tangara\UserBundle\Entity\User $users) {
+        $this->users[] = $users;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param Tangara\UserBundle\Entity\User $users
+     */
+    public function removeUsers(\Tangara\UserBundle\Entity\User $users) { 
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getUsers() { 
+        return $this->users;
+    }
 
 }

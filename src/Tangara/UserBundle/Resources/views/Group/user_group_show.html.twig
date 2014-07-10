@@ -1,0 +1,24 @@
+{% extends "TangaraUserBundle:Group:show.html.twig" %}
+
+{% block fos_user_content %}
+    {{ parent() }}
+    <div>
+        <p>Liste des membres du projet</p>
+        {% set groupUsers = group.getUsers() %}
+        <ul>
+            {% for users in groupUsers %}
+                <li>{{ users.getUserName() }}</li>
+                {% endfor %}
+        </ul>  
+    </div>
+    <div>
+        <p>Liste des projets du groupe:</p>
+        {% set groupProjects = group.getProjects() %}
+        <ul>
+            {% for project in groupProjects %}
+                <li><a href="{{ path( "tangara_project_show", {id: project.getId(), cat: 2} ) }}">{{ project.getName() }}</a></li>
+            {% endfor %}
+        </ul>   
+    </div>
+
+{% endblock %}

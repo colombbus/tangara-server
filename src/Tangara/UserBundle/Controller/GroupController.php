@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
+use Tangara\UserBundle\Entity\Group;
 
 use Tangara\ProjectBundle\Controller\DefaultController as BaseController2;
 
@@ -35,13 +36,22 @@ class GroupController extends BaseController
 
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:list.html.'.$this->getEngine(), array(
             'groups' => $groups, 
-            'nogroups' => $strangerGroups)
-                );
+            'nogroups' => $strangerGroups));
+    }
+    
+    /*
+     * Give all informations about the group
+     */
+    public function infoGroupAction(Group $group)
+    {       
+        return $this->container->get('templating')->renderResponse('TangaraUserBundle:Group:user_group_show.html.twig', array('group' => $group));
     }
     
 }
 
-//return la liste des groupes dont l'user n'est pas membre
+/*
+ * This function give all groups where i am not a member
+ */
 function groupsWithoutMe($allgroups, $user_groups) {
 
     foreach ($allgroups as $group) {

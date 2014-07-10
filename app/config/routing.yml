@@ -1,5 +1,13 @@
-tangara_tangara:
-    resource: "@TangaraTangaraBundle/Resources/config/routing.yml"
+tangara_tangara_main:
+    resource: "@TangaraTangaraBundle/Resources/config/main_routing.yml"
+    prefix:   /
+    
+tangara_tangara_project:
+    resource: "@TangaraTangaraBundle/Resources/config/project_routing.yml"
+    prefix:   /
+    
+tangara_tangara_group:
+    resource: "@TangaraTangaraBundle/Resources/config/group_routing.yml"
     prefix:   /
 
 #tangara_editor:

@@ -23,8 +23,9 @@
         <br/>
         listes des contributeurs : 
         <ul>
+            {% set contributors = project.getGroup().getUsers() %}
             {% for usr in contributors %}
-                <li>{{ usr }}</li>
+                <li>{{ usr.getUserName() }}</li>
             {% endfor %}
         </ul>
         <br/>
