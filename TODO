@@ -3,24 +3,25 @@ TANGARA-UI TODO LIST
   * Project
     * auto detect locale 
         User
-            * Selector menu for ProjectOwnerGroup that contains groups of the user
-            * Create a group in the same time user is created
+            * DONE Selector menu for ProjectOwnerGroup that contains groups of the user
+            * DONE Create a group in the same time user is created
             * DONE user shouldn't have projects
         Group
-            * User could have private group for managing private projects
+            * DONE User could have private group for managing private projects
             * Edition
             * Add upload
             * Group manager mail confirmation sending
-            * Group template: list
+            * DONE Group template: list of members
         Project
             * Copy a project
-            * Check an already project name existed
+            * (ajax) Check an already project name existed
+            * List of files uploaded
 
   * Files upload
-        * File has to be linked to a project
+        * DONE File has to be linked to a project
         * Complete "check" function
         * Copy file in directory
-        * BlueImp/DropZone
+        * BlueImp/DropZone: jQuery Upload file
   * Security
     * re-plug security context (unplugged for dev)
 
@@ -28,14 +29,14 @@ TANGARA-UI TODO LIST
     * user management : add/remove/changepassd
     * grp management : add/remove/rename/modify
     * project management : add/remove/rename/modify/move
+    * user's informations managed by Slickgrid
 
   * Tests
    
   * Script 
         * DEPRECATED After a modif on schema update
    
-  * request
-
+  * Request
     * Projet personnel ou de groupe sont identiques niveau URL mais il y a un champ "perso" dans la table
     * GetLocale
         http://localhost/tangara/locale
