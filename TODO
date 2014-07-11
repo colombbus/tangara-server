@@ -20,9 +20,10 @@ TANGARA-UI TODO LIST
         * Copy file in directory
         * BlueImp/DropZone
 
-  * Admmin interface
+  * Admin interface
     * user management : add/remove/changepassd
     * grp management : add/remove/rename/modify
+    * project management : add/remove/rename/modify/move
 
   * Tests
    
