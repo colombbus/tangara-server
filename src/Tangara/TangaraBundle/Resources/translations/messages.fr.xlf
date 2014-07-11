@@ -54,6 +54,14 @@
                 <source>_layout.register</source>
                 <target>Inscription</target>
             </trans-unit>
+            <trans-unit id="14">
+                <source>_navbar.profile</source>
+                <target>Profil</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>_show.details</source>
+                <target>Détails du projet</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
