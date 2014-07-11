@@ -12,6 +12,7 @@ TANGARA-UI TODO LIST
             * add upload
         Project
             * Copy a project
+            * Check an already project name existed
 
   * Files upload
         * File has to be linked to a project
