@@ -1,0 +1,4 @@
+#infoAction: info about group of the user   
+tangara_user_groupInfo:
+    pattern:  /profil/group/{id}
+    defaults: { _controller: TangaraCoreBundle:Group:infoGroup }
