@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>_home</source>
+                <target>Accueil</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>_create</source>
+                <target>Créer</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>_share</source>
+                <target>Partager</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>_documentation</source>
+                <target>Documentation</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>_deconnect</source>
+                <target>Déconnecter</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>_Welcome</source>
+                <target>Bienvenue sur le site de Tangara</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>_site_description</source>
+                <target>Le site officiel de Tangara fonctionnant sur Android, PC (Win/Linux/Mac), iPhone, FirefoxOS, BlackBerry.</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>_more</source>
+                <target>Plus</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>_project_description</source>
+                <target>Description du projet</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>_news</source>
+                <target>Actualités</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>_shared_projects</source>
+                <target>Projets partagés</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>_view_details</source>
+                <target>Détails</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>_layout.register</source>
+                <target>Inscription</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
