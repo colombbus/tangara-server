@@ -7,6 +7,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\TangaraBundle\Entity\Document;
 use Tangara\TangaraBundle\Entity\Project;
+use Tangara\UserBundle\Entity\Group;
 use Tangara\TangaraBundle\Form\ProjectType;
 
 class ProjectController extends Controller {
@@ -27,8 +28,8 @@ class ProjectController extends Controller {
         // list of user contributors of a project
         $contributors = array("user1", "user2", "user6");
         $files = array("heros.png", "bad.jpg", "Cours01.tgr", "Cours2.tgr", "Cours11.tgr", );
-        $project->getGroup();
-
+        
+        
         return $this->render('TangaraTangaraBundle:Project:show.html.twig', array(
                     'project' => $project,
                     'user' => $user,

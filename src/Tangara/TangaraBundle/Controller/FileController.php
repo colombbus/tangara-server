@@ -1,28 +1,26 @@
 <?php
 
-namespace Tangara\ProjectBundle\Controller;
+namespace Tangara\TangaraBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
-use Tangara\ProjectBundle\Form\ProjectType;
-use Tangara\ProjectBundle\Entity\Document;
-use Tangara\ProjectBundle\Entity\Project;
-use Tangara\UserBundle\Entity\User;
-use Tangara\UserBundle\Entity\Group;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
+use Tangara\TangaraBundle\Form\ProjectType;
+use Tangara\TangaraBundle\Entity\Document;
+use Tangara\TangaraBundle\Entity\Project;
+use Tangara\UserBundle\Entity\User;
+use Tangara\UserBundle\Entity\Group;
+
 class FileController extends Controller {
 
-    public function fileAction() {
-        //$user_id = $request->get('security.context')->getToken()->getUser()->getId();
-        $project_id = 23;
-        $user_id = 2;
-        checkAction($user_id, $project_id);
-
-
+    public function fileAction(Project $project) {
+        $user = $request->get('security.context')->getToken()->getUser();
+        $user_id = $user->getId();
+        
         $request = $this->getRequest();
 
         $document = new Document();
@@ -30,13 +28,19 @@ class FileController extends Controller {
                 ->add('file')
                 ->getForm()
         ;
-
+        $fs = new Filesystem();
+        $project_user_path = "C:/Tangara/";
+        $fs->mkdir($project_user_path);
+        checkAction($user, $project);
+        
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
+            
+            
 
-            $document->upload($project_id);
             //$file_uploaded = $request->get('file');
+            $document->upload();
             //$fs->copy($file_uploaded, $project_user_path);
             $em->persist($document);
             $em->flush();
@@ -45,17 +49,19 @@ class FileController extends Controller {
             //return new \Symfony\Component\HttpFoundation\Response($ret);
         }
 
-        return $this->render('TangaraProjectBundle:Default:upload.html.twig', array(
+        return $this->render('TangaraTangaraBundle:Project:upload.html.twig', array(
                     'form' => $form->createView()
         ));
     }
 
     public function checkAction($user, $project) {
-        /* obtenir la liste des groupes de l'utilisateur */
-
-        /* obtenir le groupe du projet */
-
-        /* le groupe  */
+        // Check if 
+        $groupList = $user->getGroups();
+        $projectGroup = $project->getGroup();
+        
+        if (in_array($projectGroup, $groupList))
+                echo "granted !!!!";
+        exit();
 
         if ($user)
             return false;
@@ -131,14 +137,4 @@ class FileController extends Controller {
         
     }
 
-    public function getGrantedAction() {
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository('TangaraProjectBundle:Project');
-        
-        $query = $repository->findGranted();
-        
-        return $this->render('TangaraProjectBundle:Default:granted.html.twig', array(
-                    'query' => $query
-        ));
-    }
 }

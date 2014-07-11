@@ -11,7 +11,7 @@ class AdminControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/');
-
+        
         $this->assertTrue(true);
     }
 }

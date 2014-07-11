@@ -26,7 +26,7 @@ class Group extends BaseGroup {
     private $privateGroup;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Tangara\ProjectBundle\Entity\Project")
+     * @ORM\ManyToMany(targetEntity="Tangara\TangaraBundle\Entity\Project")
      * @ORM\JoinTable(name="projectsInGroup",
      *      joinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")}
@@ -35,11 +35,38 @@ class Group extends BaseGroup {
     protected $projectsInGroup;
     
     /**
+     *
+     * @ORM\OneToMany(targetEntity="Tangara\TangaraBundle\Entity\Project", mappedBy="group")
+     */
+    private $project;
+
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->project = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
+    //return la liste des groupes dont l'user n'est pas membre
+    public function allNoGroup($allgroups, $user_groups) {
+
+        foreach ($allgroups as $key) {
+            $dif = true;
+            foreach ($user_groups as $key2) {
+                if ($key->getName() == $key2->getName()) {
+                    $dif = false;
+                    break;
+                }
+            }
+            if ($dif == true) {
+                $tmp[] = $key;
+            }
+        }
+
+        return $tmp;
+    }
+    
 
 }
