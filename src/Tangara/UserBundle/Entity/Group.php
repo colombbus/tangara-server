@@ -48,17 +48,6 @@ class Group extends BaseGroup {
     {
         $this->project = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
     
     //return la liste des groupes dont l'user n'est pas membre
     public function allNoGroup($allgroups, $user_groups) {
@@ -79,6 +68,74 @@ class Group extends BaseGroup {
         return $tmp;
     }
     
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set privateGroup
+     *
+     * @param boolean $privateGroup
+     * @return Group
+     */
+    public function setPrivateGroup($privateGroup)
+    {
+        $this->privateGroup = $privateGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get privateGroup
+     *
+     * @return boolean 
+     */
+    public function getPrivateGroup()
+    {
+        return $this->privateGroup;
+    }
+
+    /**
+     * Add projectsInGroup
+     *
+     * @param \Tangara\TangaraBundle\Entity\Project $projectsInGroup
+     * @return Group
+     */
+    public function addProjectsInGroup(\Tangara\TangaraBundle\Entity\Project $projectsInGroup)
+    {
+        $this->projectsInGroup[] = $projectsInGroup;
+
+        return $this;
+    }
+
+    /**
+     * Remove projectsInGroup
+     *
+     * @param \Tangara\TangaraBundle\Entity\Project $projectsInGroup
+     */
+    public function removeProjectsInGroup(\Tangara\TangaraBundle\Entity\Project $projectsInGroup)
+    {
+        $this->projectsInGroup->removeElement($projectsInGroup);
+    }
+
+    /**
+     * Get projectsInGroup
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjectsInGroup()
+    {
+        return $this->projectsInGroup;
+    }
+
     /**
      * Add project
      *
@@ -111,6 +168,4 @@ class Group extends BaseGroup {
     {
         return $this->project;
     }
-    
-
 }
