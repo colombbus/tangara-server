@@ -25,11 +25,11 @@ class AppKernel extends Kernel
             //new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             
             // Tangara Bundles
-            new Tangara\UserBundle\TangaraUserBundle(),
+            //new Tangara\UserBundle\TangaraUserBundle(),
             //new Tangara\EditorBundle\TangaraEditorBundle(),
             //new Tangara\SVGEditorBundle\TangaraSVGEditorBundle(),
             //new Tangara\wPaintBundle\TangarawPaintBundle(),
-            new Tangara\TangaraBundle\TangaraTangaraBundle(),
+            new Tangara\CoreBundle\TangaraCoreBundle(),
             
         );
 

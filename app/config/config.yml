@@ -85,9 +85,9 @@ swiftmailer:
 fos_user:
     db-driver: orm
     firewall-name: main
-    user-class: Tangara\UserBundle\Entity\User
+    user-class: Tangara\CoreBundle\Entity\User
     group:
-        group-class: Tangara\UserBundle\Entity\Group
+        group-class: Tangara\CoreBundle\Entity\Group
 
 #norzechowicz_ace_editor:
 #    base_path: "http://rawgithub.com/ajaxorg/ace-builds/master"
@@ -103,4 +103,4 @@ parameters:
         
 services:
     tangara_project.uploader:
-        class: Tangara\TangaraBundle\Uploader\Uploader
+        class: Tangara\CoreBundle\Uploader\Uploader
