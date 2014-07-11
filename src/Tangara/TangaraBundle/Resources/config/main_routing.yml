@@ -1,4 +1,0 @@
-tangara_tangara_homepage:
-    pattern:  /
-    defaults: { _controller: TangaraTangaraBundle:Default:index }
-
