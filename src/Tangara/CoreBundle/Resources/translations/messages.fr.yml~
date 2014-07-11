@@ -14,6 +14,3 @@ registration.submit: __registration.submit
 fos_user_register: __fos_user_register
 layout.register: __layout.register
 _layout.register: Inscription
-_email: ___email
-_password: ___password
-security.login.submit: __security.login.submit
