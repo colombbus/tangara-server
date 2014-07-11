@@ -9,7 +9,9 @@ TANGARA-UI TODO LIST
         Group
             * User could have private group for managing private projects
             * Edition
-            * add upload
+            * Add upload
+            * Group manager mail confirmation sending
+            * Group template: list
         Project
             * Copy a project
             * Check an already project name existed
@@ -19,6 +21,8 @@ TANGARA-UI TODO LIST
         * Complete "check" function
         * Copy file in directory
         * BlueImp/DropZone
+  * Security
+    * re-plug security context (unplugged for dev)
 
   * Admin interface
     * user management : add/remove/changepassd
