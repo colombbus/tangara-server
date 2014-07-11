@@ -1,7 +1,0 @@
-parameters:
-#    tangara_user.example.class: Tangara\UserBundle\Example
-
-services:
-#    tangara_user.example:
-#        class: %tangara_user.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
