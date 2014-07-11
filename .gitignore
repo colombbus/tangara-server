@@ -22,9 +22,11 @@ web/app_dev.php
 
 # Composer
 composer.phar
+phpunit.phar
 
 # Netbeans
 nbproject/*
 /update.sh
 update.sh
 /web/
+/src/Tangara/TangaraBundle/Resources/translations/messages.fr.yml
