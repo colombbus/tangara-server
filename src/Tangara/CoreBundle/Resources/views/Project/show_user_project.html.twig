@@ -1,0 +1,27 @@
+{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
+
+{% block title %}Projets{% endblock %}
+
+{% block main_container %}
+    <div class="container">
+        <h1>Affichage du projet</h1>
+        <a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Édition</a>
+        <br/>
+        user name : {{ app.user.username }}
+        <br/>
+        user id : {{ app.user.id }}
+        <br/>
+        project id : {{ project.id }}
+        <br/>
+        project name : {{ project.name }}
+        <br/>
+        project manager : {{ project.ProjectManager }}
+        <br/>
+        Référence font : {{ project.ReferenceFont }}
+        <br/>
+        Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
+        <p>
+            <a href="{{ path( "tangara_project_upload", {id: project.id} ) }}">Ajouter un fichier au projet</a>
+        </p>
+    </div> 
+{% endblock %}

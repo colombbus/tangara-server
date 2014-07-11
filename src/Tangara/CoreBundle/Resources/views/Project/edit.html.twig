@@ -1,0 +1,14 @@
+{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
+
+{% block title %}Édition{% endblock %}
+
+{% block main_container %}
+    <div class="container">
+        <h1>Affichage du projet</h1>
+
+        <form action="{{ path( "tangara_project_edit", {id: project.id} ) }}" method="post">
+           {{ form_widget(form) }}
+           <input type="submit">
+        </form>
+    </div> 
+{% endblock %}
