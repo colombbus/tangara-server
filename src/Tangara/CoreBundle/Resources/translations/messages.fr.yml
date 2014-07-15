@@ -13,6 +13,8 @@ _view_details: Détails
 _layout.register: Inscription
 _navbar.profile: Profil
 _show.details: 'Détails du projet'
-_email: ___email
-_password: ___password
+_email: Courriel
+_password: 'Mot de passe'
 security.login.submit: __security.login.submit
+_learn: Apprendre
+_logout: Déconnecter

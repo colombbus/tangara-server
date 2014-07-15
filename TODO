@@ -11,6 +11,7 @@ TANGARA-UI TODO LIST
             * Edition
             * Add upload
             * Group manager mail confirmation sending
+            * Add textarea to join details to demand
             * Group template: list
         Project
             * Copy a project
@@ -51,3 +52,6 @@ TANGARA-UI TODO LIST
         http://localhost/tangara/project/12?action=programs
     * Get resourceObtenir la liste des ressources
         http://localhost/tangara/project/12?action=resources
+
+  * Installation page 
+    * A configuration page could be used to install Tangara-UI (DB settings, etc.)

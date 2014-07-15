@@ -8,8 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
-
-use Tangara\ProjectBundle\Controller\DefaultController as BaseController2;
+use Tangara\CoreBundle\Controller\ProjectController;
 
 use FOS\UserBundle\Controller\GroupController as BaseController;
 
@@ -52,7 +51,7 @@ class GroupController extends BaseController
 /*
  * This function give all groups where i am not a member
  */
-/*
+
 function groupsWithoutMe($allgroups, $user_groups) {
 
     foreach ($allgroups as $group) {
@@ -69,4 +68,3 @@ function groupsWithoutMe($allgroups, $user_groups) {
     }
     return $groupsWithoutMe;
 }
-*/

@@ -15,11 +15,11 @@
                 <target>Share</target>
             </trans-unit>
             <trans-unit id="4">
-                <source>_documentation</source>
-                <target>Documentation</target>
+                <source>_learn</source>
+                <target>Learn</target>
             </trans-unit>
             <trans-unit id="5">
-                <source>_deconnect</source>
+                <source>_logout</source>
                 <target>Déconnecter</target>
             </trans-unit>
             <trans-unit id="6">
@@ -61,6 +61,14 @@
             <trans-unit id="15">
                 <source>_show.details</source>
                 <target>Projects details</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>_email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>_password</source>
+                <target>Password</target>
             </trans-unit>
         </body>
     </file>

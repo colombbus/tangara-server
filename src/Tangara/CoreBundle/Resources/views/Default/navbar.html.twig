@@ -8,31 +8,27 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="http://tangara.colombbus.org">
-        <img class="logo" src="{{ asset('bundles/tangaraadministration/img/tangara.png')}}">TangaraJS</a></div>
+        <img class="logo" src="{{ asset('bundles/tangaracore/img/tangara.png')}}">TangaraJS</a></div>
 
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li class=""><a href="{{ path('tangara_tangara_homepage')}}">{{ '_home'|trans}}</a></li>
-            <li class=""><a href="{{ path('tangara_tangara_homepage')}}">{{ '_create'|trans}}</a></li>
+            <li class=""><a href="{{ path('tangara_project_create')}}">{{ '_create'|trans}}</a></li>
+            {% if is_granted('ROLE_USER') %}<li class=""><a href="{{ path('fos_user_profile_show')}}">{{ '_navbar.profile'|trans}}</a></li>{% endif %}
             <li class=""><a href="#">{{ '_share'|trans}}</a></li>
-            <li class=""><a href="#">{{ '_documentation'|trans}}</a></li>
+            <li class=""><a href="#">{{ '_learn'|trans}}</a></li>
         </ul>
         {% if is_granted('ROLE_ADMIN') %}
-            <a class="navbar-right btn-danger btn-small" id="admininterface" href="{{ path('fos_user_profile_show') }} ">
+            <a class="navbar-right btn-danger btn-small" id="admininterface" href="{{ path('tangara_admin_homepage') }} ">
                 Interface admin
             </a>
+        {% endif %}
+        {% if is_granted('ROLE_USER') %}
             <a class="navbar-right" id="connected" href="{{ path('fos_user_profile_show') }} ">
                 {{ app.user.username }}
             </a>
             <a class="navbar-right" id="deconnect" href="{{ path('fos_user_security_logout') }} ">
-                {{'_deconnect'|trans }} 
-            </a>
-        {% elseif is_granted('ROLE_USER') %}
-            <a class="navbar-right" id="connected" href="{{ path('fos_user_profile_show') }} ">
-                {{ app.user.username }}
-            </a>
-            <a class="navbar-right" id="deconnect" href="{{ path('fos_user_security_logout') }} ">
-                {{'_deconnect'|trans }} 
+                {{'_logout'|trans }} 
             </a>
         {% else %}
             {% render url('fos_user_security_login') %}

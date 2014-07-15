@@ -1,33 +1,3 @@
 tangara_tangara_homepage:
     pattern:  /
     defaults: { _controller: TangaraCoreBundle:Default:index }
-
-#tangara_admin:
-#    resource: "@TangaraTangaraBundle/Resources/config/routing_admin.yml"
-#    prefix:   /admin
-#
-##tangara_files:
-##    resource: "@TangaraProjectBundle/Resources/config/routing_files.yml"
-##    prefix:   /project
-#
-#tangara_project:
-#    resource: "@TangaraTangaraBundle/Resources/config/routing_project.yml"
-#    prefix:   /project
-#
-##tangara_editor:
-##    resource: "@TangaraEditorBundle/Resources/config/routing.yml"
-##    prefix:   /editor
-##
-##tangara_paint:
-##    resource: "@TangarawPaintBundle/Resources/config/routing.yml"
-##    prefix:   /paint
-#
-## Tangara Bundles router configuration
-#
-##tangara_user:
-##    resource: "@TangaraUserBundle/Resources/config/routing.yml"
-##    prefix:   /
-#
-#fos_user:
-#    resource: "@TangaraUserBundle/Resources/config/routing.yml"
-#    prefix: /
