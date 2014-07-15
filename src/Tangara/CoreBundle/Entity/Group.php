@@ -144,4 +144,106 @@ class Group extends BaseGroup {
         return $this->users;
     }
 
+
+    /**
+     * Set privateGroup
+     *
+     * @param boolean $privateGroup
+     * @return Group
+     */
+    public function setPrivateGroup($privateGroup)
+    {
+        $this->privateGroup = $privateGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get privateGroup
+     *
+     * @return boolean 
+     */
+    public function getPrivateGroup()
+    {
+        return $this->privateGroup;
+    }
+
+    /**
+     * Add projectsInGroup
+     *
+     * @param \Tangara\CoreBundle\Entity\Project $projectsInGroup
+     * @return Group
+     */
+    public function addProjectsInGroup(\Tangara\CoreBundle\Entity\Project $projectsInGroup)
+    {
+        $this->projectsInGroup[] = $projectsInGroup;
+
+        return $this;
+    }
+
+    /**
+     * Remove projectsInGroup
+     *
+     * @param \Tangara\CoreBundle\Entity\Project $projectsInGroup
+     */
+    public function removeProjectsInGroup(\Tangara\CoreBundle\Entity\Project $projectsInGroup)
+    {
+        $this->projectsInGroup->removeElement($projectsInGroup);
+    }
+
+    /**
+     * Get projectsInGroup
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjectsInGroup()
+    {
+        return $this->projectsInGroup;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \Tangara\CoreBundle\Entity\Project $projects
+     * @return Group
+     */
+    public function addProject(\Tangara\CoreBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \Tangara\CoreBundle\Entity\Project $projects
+     */
+    public function removeProject(\Tangara\CoreBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Add users
+     *
+     * @param \Tangara\CoreBundle\Entity\User $users
+     * @return Group
+     */
+    public function addUser(\Tangara\CoreBundle\Entity\User $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Tangara\CoreBundle\Entity\User $users
+     */
+    public function removeUser(\Tangara\CoreBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
 }

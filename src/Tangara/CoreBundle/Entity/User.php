@@ -191,6 +191,27 @@ class User extends BaseUser
     {
         return $this->projects;
     }
-    
-    
+
+    /**
+     * Add projects
+     *
+     * @param \Tangara\CoreBundle\Entity\Project $projects
+     * @return User
+     */
+    public function addProject(\Tangara\CoreBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \Tangara\CoreBundle\Entity\Project $projects
+     */
+    public function removeProject(\Tangara\CoreBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
 }
