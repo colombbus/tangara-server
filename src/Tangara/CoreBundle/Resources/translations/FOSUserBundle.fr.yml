@@ -1,6 +1,3 @@
-layout.logged_in_as: __layout.logged_in_as
-layout.logout: __layout.logout
-layout.register: __layout.register
 group.edit.submit: __group.edit.submit
 group.new.submit: __group.new.submit
 group.show.name: __group.show.name

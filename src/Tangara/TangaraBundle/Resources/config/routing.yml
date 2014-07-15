@@ -1,0 +1,12 @@
+tangara_tangara_homepage:
+    pattern:  /
+    defaults: { _controller: TangaraTangaraBundle:Default:index }
+
+#tangara_tangara_locale:
+#    pattern:  /locale
+#    defaults: { _controller: TangaraAdministrationBundle:Default:locale }
+#
+#tangara_tangara_gettgr:
+#    pattern:  /tgr
+#    defaults: { _controller: TangaraAdministrationBundle:Default:getTgr }
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        {% block header %}
+            {% include "TangaraTangaraBundle:Default:header.html.twig" %}
+            {% block header_stylesheets %}
+                {% include "TangaraTangaraBundle:Default:header_stylesheets.html.twig" %}
+            {% endblock %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <title>{% block header_title %}Tangara{% endblock %}</title>
+    </head>
+
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://www.mozilla.org/firefox/">Upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        {% block body %}
+            {% block navbar %}
+                {% include 'TangaraTangaraBundle:Default:navbar.html.twig' %}
+            {% endblock %}
+
+            {% block jumbotron %}
+            {% endblock %}
+
+            {% block main_container %}
+                <div class="container">
+                    {% block container_content %}
+                      {% include 'TangaraTangaraBundle:Default:container_content.html.twig' %}
+                    {% endblock %}
+
+                    {% block container_specifications %}
+                      {#{% include 'TangaraTangaraBundle:Default:container_specifications.html.twig' %}#}
+                    {% endblock %}
+                </div> 
+            {% endblock %}
+        
+            {% block container_footer%}
+                {% include 'TangaraTangaraBundle:Default:container_footer.html.twig' %}
+            {% endblock %}
+        
+            <!-- /container -->
+            {% block javascripts %}
+                {% include 'TangaraTangaraBundle:Default:javascript.html.twig' %}
+            {% endblock %}
+        {% endblock %}
+    </body>
+</html>

@@ -10,10 +10,9 @@ _project_description: 'Description du projet'
 _news: Actualités
 _shared_projects: 'Projets partagés'
 _view_details: Détails
-registration.submit: __registration.submit
-fos_user_register: __fos_user_register
-layout.register: __layout.register
 _layout.register: Inscription
+_navbar.profile: Profil
+_show.details: 'Détails du projet'
 _email: ___email
 _password: ___password
 security.login.submit: __security.login.submit
