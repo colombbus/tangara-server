@@ -11,6 +11,7 @@ TANGARA-UI TODO LIST
           * DONE User could have private group for managing private projects
           * Edition
           * Add upload
+          * Requested groups list on profile page
           * Group manager mail confirmation sending
           * DONE Group template: list of members
           * Add textarea to join details to demand
