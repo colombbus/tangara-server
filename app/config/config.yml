@@ -96,11 +96,10 @@ fos_user:
 #    debug: false # sources not minified with uglify.js
 #    noconflict: true # uses ace.require instead of require
 parameters:
-    tangara_project.uploader:
-        directory: %upload.directory%
-    tangarajs:
-        directory: %upload.directory%
+    tangara_core.settings:
+        directory.upload: %directory.upload%
+        directory.tangarajs: %directory.tangarajs%
         
 services:
-    tangara_project.uploader:
+    tangara_core.settings:
         class: Tangara\CoreBundle\Uploader\Uploader

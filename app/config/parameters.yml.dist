@@ -13,4 +13,5 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
-    upload.directory:  C:\Tangara
+    directory.upload: C:\Tangara
+    directory.tangarajs: ../../../../tangarajs/index.html
