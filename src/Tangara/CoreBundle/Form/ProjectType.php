@@ -40,6 +40,6 @@ class ProjectType extends AbstractType
      */
     public function getName()
     {
-        return 'tangara_tangarabundle_project';
+        return 'tangara_corebundle_project';
     }
 }
