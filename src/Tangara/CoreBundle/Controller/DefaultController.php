@@ -4,7 +4,9 @@ namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Tangara\CoreBundle\Entity;
+use Tangara\CoreBundle\Entity\Group;
+use Tangara\CoreBundle\Entity\User;
+
 
 class DefaultController extends Controller
 {
@@ -23,33 +25,31 @@ class DefaultController extends Controller
         $msg = $this->container->get('request')->get('object');
         //echo $this->container->get('request')->get('groups');
         $goupId = $this->container->get('request')->get('groups');
-        
-        
-                
+                      
         $group = $this->getDoctrine()->getManager()
                 ->getRepository('TangaraCoreBundle:Group')
                 ->find($goupId);
-        
-        
-        echo $group->getId();
-        
-        
+               
         //touver le leader du group, donc user puis som adresse email
-        $leader_mail = $group->getGroupLeader()->getMail();
+        //$leader_mail = $group->getGroupLeader()->getMail();
+        //$contenu_du_message = 'Bonjour je suis un Compte Test et je souhaite rejoindre ton groupe.';
         
+        $user = $group->getGroupsLeader();
         
+        $leader_mail = $user->getEmail();
+       
         
-        
-        /*
         //envoyer un mail au leader
         $message = \Swift_Message::newInstance()
         ->setSubject('Demande de rejoidre le groupe')
-        ->setFrom('test@example.com')
-        ->setTo('group_leader@example.com')
-        ->setBody($contenu_du_message)
+        ->setFrom('tangaraui@colombbus.org')
+        ->setTo('tangaraui@colombbus.org') //a changer avec le mail $leader_mail 
+        ->setBody($msg)
         ;
         $this->container->get('mailer')->send($message);
-        */
+        
+        
+        
        
         //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
         return new Response('Message envoyé');
