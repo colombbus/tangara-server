@@ -51,10 +51,6 @@ tangara_project_files:
 tangara_project_tgr_content:
     pattern:  /content
     defaults: { _controller: TangaraCoreBundle:File:getContent }
-    
-tangara_project_ajax:
-    pattern:  /ajax
-    defaults: { _controller: TangaraCoreBundle:Project:getAjax}
  
 # join group confirmation
 tangara_project_confirmation:
