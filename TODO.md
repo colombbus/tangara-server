@@ -19,7 +19,7 @@ Thematic list
       * Add textarea to join details to demand
     Project
       * Copy a project
-      * (ajax) Check an already project name existed
+      * DONE Check an already project name existed
       * DONE List of files uploaded
       * Check if file exists
       * bug: Private project edition: project manager can be transfered to all users
@@ -40,6 +40,8 @@ Thematic list
     * grp management : add/remove/rename/modify
     * project management : add/remove/rename/modify/move
     * user's informations managed by Slickgrid
+
+- All pages translated in en/fr
 
 - Tests
 
