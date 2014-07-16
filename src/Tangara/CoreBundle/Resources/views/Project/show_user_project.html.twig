@@ -3,25 +3,36 @@
 {% block title %}Projets{% endblock %}
 
 {% block main_container %}
-    <div class="container">
-        <h1>Affichage du projet</h1>
-        <a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Édition</a>
-        <br/>
-        user name : {{ app.user.username }}
-        <br/>
-        user id : {{ app.user.id }}
-        <br/>
-        project id : {{ project.id }}
-        <br/>
-        project name : {{ project.name }}
-        <br/>
-        project manager : {{ project.ProjectManager }}
-        <br/>
-        Référence font : {{ project.ReferenceFont }}
-        <br/>
-        Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
-        <p>
-            <a href="{{ path( "tangara_project_upload", {id: project.id} ) }}">Ajouter un fichier au projet</a>
-        </p>
-    </div> 
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Détails du projet</h1>
+            <a class="btn btn-warning" href="{{ path( "tangara_project_edit", {id: project.getId()} ) }}" >Édition</a>
+            <br/>
+            user name : {{ app.user.username }}
+            <br/>
+            user id : {{ app.user.id }}
+            <br/>
+            project id : {{ project.id }}
+            <br/>
+            project name : {{ project.name }}
+            <br/>
+            project manager : {{ project.ProjectManager }}
+            <br/>
+            Référence font : {{ project.ReferenceFont }}
+            <br/>
+            Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
+            <br/>
+        </div>
+        <div class="col-md-6">
+            <h1>Fichiers</h1>
+            <a class="btn btn-success" href="{{ path( "tangara_project_upload", {id: project.getId()} ) }} ">Ajouter un fichier au projet</a>
+            <ul>
+            {% for f in files %}
+                <li>{{ f.getPath() }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
