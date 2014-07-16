@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use Tangara\CoreBundle\Form\ProjectType;
@@ -17,41 +18,12 @@ use Tangara\CoreBundle\Entity\Group;
 
 class FileController extends Controller {
 
-    public function fileAction(Project $project) {
-        $user = $request->get('security.context')->getToken()->getUser();
-        $user_id = $user->getId();
-        
-        $request = $this->getRequest();
-
-        $document = new Document();
-        $form = $this->createFormBuilder($document)
-                ->add('file')
-                ->getForm()
-        ;
-        $fs = new Filesystem();
-        $project_user_path = "C:/Tangara/";
-        $fs->mkdir($project_user_path);
-        checkAction($user, $project);
-        
-        if ($this->getRequest()->isMethod('POST')) {
-            $form->bind($this->getRequest());
-            $em = $this->getDoctrine()->getManager();
-            
-            
-
-            //$file_uploaded = $request->get('file');
-            $document->upload();
-            //$fs->copy($file_uploaded, $project_user_path);
-            $em->persist($document);
-            $em->flush();
-
-            //$ret = 'done ' . $file_uploaded ; 
-            //return new \Symfony\Component\HttpFoundation\Response($ret);
-        }
-
-        return $this->render('TangaraCoreBundle:Project:upload.html.twig', array(
-                    'form' => $form->createView()
-        ));
+    public function testAction() {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $projectPath = $this->container->getParameter('tangara_core.settings.directory.upload');
+        echo "path" . $projectPath;
+    
+        return new Response("ok");
     }
 
     public function checkAction($user, $project) {

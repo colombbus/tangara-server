@@ -29,10 +29,6 @@ tangara_project_upload:
     defaults: { _controller: TangaraCoreBundle:Project:upload }
     requirements:
         id:  \d+
-        
-tangara_project_up:
-    pattern:  /ud
-    defaults: { _controller: TangaraCoreBundle:Project:up }
 
 tangara_project_edit:
     pattern:  /edit/{id}
@@ -48,9 +44,9 @@ tangara_project_files:
     pattern:  /files
     defaults: { _controller: TangaraCoreBundle:File:getFiles }
 
-tangara_project_tgr_content:
-    pattern:  /content
-    defaults: { _controller: TangaraCoreBundle:File:getContent }
+tangara_project_test:
+    pattern:  /test
+    defaults: { _controller: TangaraCoreBundle:File:test }
  
 
 
