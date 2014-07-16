@@ -1,30 +1,33 @@
 TANGARA-UI TODO LIST
 ==========
 
+Thematic list
+-------------
 - Project
   * auto detect locale 
-      User
-          * DONE Selector menu for ProjectOwnerGroup that contains groups of the user
-          * DONE Create a group in the same time user is created
-          * DONE user shouldn't have projects
-      Group
-          * DONE User could have private group for managing private projects
-          * Edition
-          * Add upload
-          * Requested groups list on profile page
-          * Group manager mail confirmation sending
-          * DONE Group template: list of members
-          * Add textarea to join details to demand
-      Project
-          * Copy a project
-          * (ajax) Check an already project name existed
-          * List of files uploaded
+    User
+      * DONE Selector menu for ProjectOwnerGroup that contains groups of the user
+      * DONE Create a group in the same time user is created
+      * DONE user shouldn't have projects
+    Group
+      * DONE User could have private group for managing private projects
+      * DONE Edition
+      * DONE Add upload
+      * Requested groups list on profile page
+      * Group manager mail confirmation sending
+      * DONE Group template: list of members
+      * Add textarea to join details to demand
+    Project
+      * Copy a project
+      * (ajax) Check an already project name existed
+      * DONE List of files uploaded
+      * Check if file exists
 
 - Files upload
-      * DONE File has to be linked to a project
-      * Complete "check" function
-      * Copy file in directory
-      * BlueImp/DropZone: jQuery Upload file
+  * DONE File has to be linked to a project
+  * Complete "check" function
+  * Copy file in directory
+  * BlueImp/DropZone: jQuery Upload file
 - Security
   * re-plug security context (unplugged for dev)
 
@@ -37,7 +40,7 @@ TANGARA-UI TODO LIST
 - Tests
 
 - Script 
-      * DEPRECATED After a modif on schema update
+  * DEPRECATED After a modif on schema update
 
 - Request
   * Projet personnel ou de groupe sont identiques niveau URL mais il y a un champ "perso" dans la table
@@ -58,3 +61,11 @@ TANGARA-UI TODO LIST
 
 - Installation page 
   * A configuration page could be used to install Tangara-UI (DB settings, etc.)
+
+
+Priority
+-------------
+
+
+
+
