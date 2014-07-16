@@ -11,7 +11,7 @@
                 <ul>
                     {% set userProjects = user.getProjects() %}
                     {% for project in userProjects %}
-                        <li><a href="{{ path( "tangara_project_show", {id: project.getId(), cat: 1} ) }}">{{ project.getName() }}</a></li>
+                        <li><a href="{{ path( "tangara_project_show", {cat: 1, id: project.getId()} ) }}">{{ project.getName() }}</a></li>
                     {% endfor %}
                 </ul>
             </fieldset>
@@ -24,7 +24,7 @@
                 <ul>
                     {% set userGroups = user.getGroups() %}
                     {% for group in userGroups %}
-                        <li><a href="{{ path( "tangara_user_groupInfo", {id: group.getId()} ) }}">{{ group.getName() }}</a></li>
+                        <li><a href="{{ path( "tangara_project_show", {cat: 2, id: group.id} ) }}">{{ group.getName() }}</a></li>
                     {% endfor %}
                 </ul>
                 <a href="{{ path('fos_user_group_list') }}">Liste de tous les groupes</a>
