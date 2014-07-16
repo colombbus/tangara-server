@@ -3,7 +3,7 @@
     <fieldset>
         <form action="{{ path( 'tangara_project_confirmation' ) }}" method="post">
             <p>Demander à rejoindre :</p>
-            <select id="ListeElement">
+            <select id="ListeElement" name="groups">
                 {% for group in nogroups %}
                     <option value="{{ group.getId() }}">{{ group.getName() }}</option>
                 {% endfor %}

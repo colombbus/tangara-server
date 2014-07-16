@@ -252,27 +252,4 @@ class Group extends BaseGroup {
     {
         $this->users->removeElement($users);
     }
-
-    /**
-     * Set groupsLeader
-     *
-     * @param \Tangara\CoreBundle\Entity\User $groupsLeader
-     * @return Group
-     */
-    public function setGroupsLeader(\Tangara\CoreBundle\Entity\User $groupsLeader = null)
-    {
-        $this->groupsLeader = $groupsLeader;
-
-        return $this;
-    }
-
-    /**
-     * Get groupsLeader
-     *
-     * @return \Tangara\CoreBundle\Entity\User 
-     */
-    public function getGroupsLeader()
-    {
-        return $this->groupsLeader;
-    }
 }

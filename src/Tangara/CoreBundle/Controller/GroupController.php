@@ -2,13 +2,11 @@
 
 namespace Tangara\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Response;
+
 use Tangara\CoreBundle\Entity\Group;
-use Tangara\CoreBundle\Controller\ProjectController;
+use Symfony\Component\HttpFoundation\Response;
+
+
 
 use FOS\UserBundle\Controller\GroupController as BaseController;
 
@@ -46,29 +44,71 @@ class GroupController extends BaseController
         return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:user_group_show.html.twig', array('group' => $group));
     }
     
-    //controleur vers la page de confirmation
-    public function confirmationAction() {
+    public function newAction(\Symfony\Component\HttpFoundation\Request $request) {
+        //parent::newAction($request);
         
-        //recuperer le formulaire
-        //...
-        //formulaire le message
-        $contenu_du_message = 'Demande de joindre le groupe...';
+         /** @var $groupManager \FOS\UserBundle\Model\GroupManagerInterface */
+        $groupManager = $this->container->get('fos_user.group_manager');
+        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
+        $formFactory = $this->container->get('fos_user.group.form.factory');
+        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+        $dispatcher = $this->container->get('event_dispatcher');
+
+        $group = $groupManager->createGroup('');
         
-        //envoyer un mail
-        $message = \Swift_Message::newInstance()
-        ->setSubject('Demande de rejoidre le groupe')
-        ->setFrom('test@example.com')
-        ->setTo('group_leader@example.com')
-        ->setBody($contenu_du_message)
-        ;
-        $this->container->get('mailer')->send($message);
-         
-       
-        //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
-        return new Response('Message envoyé');
+        
+
+        $dispatcher->dispatch(\FOS\UserBundle\FOSUserEvents::GROUP_CREATE_INITIALIZE, new \FOS\UserBundle\Event\GroupEvent($group, $request));
+
+        $form = $formFactory->createForm();
+        $form->setData($group);
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $event = new \FOS\UserBundle\Event\FormEvent($form, $request);
+                $dispatcher->dispatch(\FOS\UserBundle\FOSUserEvents::GROUP_CREATE_SUCCESS, $event);
+
+                $groupManager->updateGroup($group);
+
+                if (null === $response = $event->getResponse()) {
+                    $url = $this->container->get('router')->generate('fos_user_group_show', array('groupName' => $group->getName()));
+                    $response = new \Symfony\Component\HttpFoundation\RedirectResponse($url);
+                }
+                
+                
+                
+                //recuper le groupe creer puis rajouter le groupLeader  
+                $em = $this->container->get('doctrine.orm.entity_manager');
+                $repository = $em->getRepository('TangaraCoreBundle:Group');
+                $g = $repository->find($group->getId());
+                
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                
+                $g->setGroupsLeader($user);
+                $g->addUsers($user);
+                $user->addGroupLeader($g);
+                $user->addGroups($g);
+                
+                $em->persist($user);
+                $em->persist($g);
+                
+                $em->flush();
+                
+                $dispatcher->dispatch(\FOS\UserBundle\FOSUserEvents::GROUP_CREATE_COMPLETED, new \FOS\UserBundle\Event\FilterGroupResponseEvent($group, $request, $response));
+
+                
+                return $response;
+            }
+        }
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:new.html.'.$this->getEngine(), array(
+            'form' => $form->createview(),
+        ));
+        
     }
-    
-    
+        
 }
 
 /*

@@ -1,3 +1,8 @@
 tangara_tangara_homepage:
     pattern:  /
     defaults: { _controller: TangaraCoreBundle:Default:index }
+    
+# join group confirmation
+tangara_project_confirmation:
+    pattern:  /confirmation
+    defaults: { _controller: TangaraCoreBundle:Default:confirmation }

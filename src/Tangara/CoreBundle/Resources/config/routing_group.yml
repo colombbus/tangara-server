@@ -3,7 +3,8 @@ tangara_user_groupInfo:
     pattern:  /profil/group/{id}
     defaults: { _controller: TangaraCoreBundle:Group:infoGroup }
     
-# join group confirmation
-tangara_project_confirmation:
-    pattern:  /confirmation
-    defaults: { _controller: TangaraCoreBundle:Group:confirmation }
+Tangara_user_group_new:
+    pattern:  /new
+    defaults: { _controller: TangaraCoreBundle:Group:new }
+    
+ 
