@@ -4,7 +4,7 @@ tangara_core_main:
     
 tangara_core_project:
     resource: "@TangaraCoreBundle/Resources/config/routing_project.yml"
-    prefix:   /
+    prefix:   /project
     
 tangara_core_group:
     resource: "@TangaraCoreBundle/Resources/config/routing_group.yml"
