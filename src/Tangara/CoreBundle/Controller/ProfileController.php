@@ -29,6 +29,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\UserBundle\Controller\ProfileController as BaseController;
+use Tangara\CoreBundle\Entity\Group;
 
 class ProfileController extends BaseController {
 
@@ -38,8 +39,15 @@ class ProfileController extends BaseController {
         //$response = parent::profileAction();
         //$user = parent::showAction();
         $user = $this->container->get('security.context')->getToken()->getUser();
-   
+        $re = new Group();
+        $re->setName("AdminGroup9");
+        $re->addUser($user);
         
+        $this->container->get('session')->getFlashBag()->add(
+            'notice',
+            'Vos changements ont été sauvegardés!'
+        );
+                
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
                 array('user' => $user));
     }

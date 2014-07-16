@@ -22,9 +22,17 @@ class ProjectController extends Controller {
      */
 
     public function showAction(Project $project, $cat) {
+        $contributors = array("user1", "user2", "user6");
+        $manager = $this->getDoctrine()->getManager();
+        $request = $this->getRequest();
+        $files = $manager->getRepository('TangaraCoreBundle:Document')->findBy(array('ownerProject' => $project->getId()));
 
         if ($cat == 1) {//view for user project
-            return $this->render('TangaraCoreBundle:Project:show_user_project.html.twig', array('project' => $project));
+            return $this->render('TangaraCoreBundle:Project:show_user_project.html.twig', array(
+                        'project' => $project,
+                        'contributors' => $contributors,
+                        'files' => $files
+            ));
         } else if ($cat == 2) {//view for group project
             return $this->render('TangaraCoreBundle:Project:show_group_project.html.twig', array('project' => $project));
         }
@@ -202,12 +210,13 @@ class ProjectController extends Controller {
     public function uploadAction(Project $project) {
         $request = $this->getRequest();
         $user_id = $this->get('security.context')->getToken()->getUser()->getId();
-        $project_id = $project->getId();
+        $projectId = $project->getId();
 
         //$base_path = $this->get('tangara_project.uploader');
         $base_path = '/home/elise/NetBeansProjects/tangara-data';
         $project_user_path = $base_path . "/" . $user_id;
-        $project_path = $base_path . "/" . $project_id;
+        $project_path = $base_path . "/" . $projectId;
+        $cat = 1;
 
 
         $document = new Document();
@@ -216,12 +225,12 @@ class ProjectController extends Controller {
                 ->add('file')
                 ->getForm()
         ;
-        $fs = new Filesystem();
 
         if ($this->getRequest()->isMethod('POST')) {
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
-
+            $document->setOwnerProject($project);
+        
 
             $document->upload();
             //$file_uploaded = $request->get('file');
@@ -230,34 +239,18 @@ class ProjectController extends Controller {
             $em->flush();
 
             //$ret = 'done ' . $file_uploaded ; 
-            //return new \Symfony\Component\HttpFoundation\Response($ret);
+//            return $this->redirect('tangara_project_show', array(
+//                        'cat' => $cat,
+//                        'id' => $projectId
+//                            )
+//            );
+            return new Response("ok");
         }
 
-        return $this->render('TangaraCoreBundle:Project:upload.html.twig', array(
+        return $this->render('TangaraCoreBundle:Project:upload.html.twig', 
+                array(
                     'form' => $form->createView()
         ));
-    }
-
-    public function getAjaxAction() {
-        $data = "ok";
-        $request = $this->getRequest();
-
-        $data = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('TangaraCoreBundle:Project')
-                ->myFindAll();
-
-        if ($this->getRequest()->isMethod('POST')) {
-            $data = $request->request->get('data');
-            //var_dump($request->request->all());
-        }
-        if ($this->getRequest()) {
-            //$this->getRequest()->request();
-
-            return new Response('Reçu en POST : ' . $data);
-        }
-
-        //return new Response('<h1>Reçu en normal</h1>');
     }
 
   
