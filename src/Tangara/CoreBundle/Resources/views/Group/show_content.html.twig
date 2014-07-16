@@ -19,7 +19,8 @@
                     <li><a href="#">Jeux 1</a></li>
                     <li><a href="#">Jeux 1</a></li>
                 </ul>
-                <a class="btn btn-success" href="{{ path('tangara_project_group_new', { id: group.getId()} ) }}">Créer un projet dans ce groupe</a>
+                <a class="btn btn-success" href="{{ path('tangara_project_group_new', {group_id: group.getId()}) }}">Créer un projet dans ce groupe</a>
+
             </fieldset>
         </div>
         <div class="col-md-6">

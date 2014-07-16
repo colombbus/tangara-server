@@ -66,5 +66,10 @@ class ProjectRepository extends EntityRepository {
         $products = $em->getRepository('TangaraCoreBundle:Project')
                 ->findAllOrderedByName();
     }
+    
+    
+        
+    
+    
 
 }

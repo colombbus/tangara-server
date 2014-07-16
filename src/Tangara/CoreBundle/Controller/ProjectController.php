@@ -143,25 +143,57 @@ class ProjectController extends Controller {
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
             //$this->file->move($project_path, $this->file->getClientOriginalName());
+            /*
+              $allProjects = $user->getProjects();
+
+              foreach ($allProjects as $tmp){
+              echo $tmp->getName();
+              }
+             */
+            /*
+              $tmp = $em->getRepository('TangaraCoreBundle:User')
+              ->getAllProcjects($project->getName());
+
+              $tmp = $tmp->getProjects();
+
+              foreach ($tmp as $key){
+              echo $key->getName();
+              }
+             */
 
 
-
-            if ($user_id != null) { //project of user
+            
+            
+            
+              if ($user_id != null) { //project of user
+                
+                $allProjects = $user->getProjects();
+                $projectExist = isUserProjectExist($allProjects, $project->getName());
+                  
                 $user->addProjects($project);
                 $project->setUser($user);
                 $cat = 1;
+                
             } elseif ($group_id != null) { //project of group
                 $group = $em->getRepository('TangaraCoreBundle:Group')->find($group_id);
+                
+                $allProjects = $group->getProjects();
+                $projectExist = isGroupProjectExist($allProjects, $project->getName());
+                
                 $group->addProjects($project);
                 $project->setGroup($group);
                 $cat = 2;
+                
             }
-
-            $em->persist($project);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId(), 'cat' => $cat)
-            ));
+            
+            if($projectExist == false){
+                $em->persist($project);
+                $em->flush();
+                return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId(), 'cat' => $cat)
+                ));
+            }
+            return new Response('Un projet avec me meme nom existe deja.');
+            
         }
 
         return $this->render('TangaraCoreBundle:Project:new.html.twig', array(
@@ -221,10 +253,7 @@ class ProjectController extends Controller {
         ));
     }
 
-    //controleur vers la page de confirmation
-    public function confirmationAction() {
-        return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
-    }
+  
 
 }
 
@@ -252,3 +281,23 @@ class ProjectController extends Controller {
 //
 //    return $groupsWithoutMe;
 //}
+
+function isUserProjectExist($allProjects, $pname) {
+    
+    foreach ($allProjects as $p) {
+        if ($p->getName() == $pname) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function isGroupProjectExist($allProjects, $pname) {
+    
+    foreach ($allProjects as $p) {
+        if ($p->getName() == $pname) {
+            return true;
+        }
+    }
+    return false;
+}

@@ -52,9 +52,6 @@ tangara_project_tgr_content:
     pattern:  /content
     defaults: { _controller: TangaraCoreBundle:File:getContent }
  
-# join group confirmation
-tangara_project_confirmation:
-    pattern:  /confirmation
-    defaults: { _controller: TangaraCoreBundle:Project:confirmation }
+
 
 
