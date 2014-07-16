@@ -27,7 +27,7 @@ Thematic list
 - Files upload
     * DONE File has to be linked to a project
     * Complete "check" function
-    * Copy file in directory
+    * DONE Copy file in directory
     * BlueImp/DropZone: jQuery Upload file
     * files upload in directory configured in paramaters.yml
     * javascript: popup to preview file clicked
@@ -44,11 +44,11 @@ Thematic list
 - Tests
 
 - Script 
-    * DEPRECATED After a modif on schema update
+    * DONE DEPRECATED After a modif on schema update
 
 - Request
-    * Projet personnel ou de groupe sont identiques niveau URL mais il y a un champ "perso" dans la table
-    * GetLocale
+    * DONE identical private/group project
+    * DONE GetLocale
         http://localhost/tangara/locale
     * Ask file deletion
         http://localhost/tangara/project/12/remove?filename=fichier.tgr
