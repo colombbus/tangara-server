@@ -20,7 +20,6 @@ class DefaultController extends Controller
     public function confirmationAction() {
         
         //recuperer le formulaire
-        
         //echo $this->container->get('request')->get('object');
         $msg = $this->container->get('request')->get('object');
         //echo $this->container->get('request')->get('groups');
