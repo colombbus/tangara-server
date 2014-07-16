@@ -24,12 +24,6 @@ class GroupController extends BaseController
         
         $user = $this->container->get('security.context')->getToken()->getUser();
         
-        
-        //$em = $this->getDoctrine()->getManager();
-         
-        //$repository_group = $em->getRepository('TangaraUserBundle:Group');
-        //$allgroups = $repository_group->findAll();
-        
         $user_groups = $user->getGroups();
         $strangerGroups = groupsWithoutMe($groups, $user_groups);
 
@@ -38,12 +32,24 @@ class GroupController extends BaseController
             'nogroups' => $strangerGroups));
     }
     
+    public function newAction(\Symfony\Component\HttpFoundation\Request $request)
+    {       
+        $response = parent::newAction($request);
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        
+        $group = new Group();
+        $group->setName("AdminGroup11");
+        $group->addUser($user);
+        
+        return $response;
+    }    
+    
     /*
      * Give all informations about the group
      */
     public function infoGroupAction(Group $group)
     {       
-        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:user_group_show.html.twig', array('group' => $group));
+        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:new.html.twig', array('group' => $group));
     }
     
 }
