@@ -46,6 +46,29 @@ class GroupController extends BaseController
         return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:user_group_show.html.twig', array('group' => $group));
     }
     
+    //controleur vers la page de confirmation
+    public function confirmationAction() {
+        
+        //recuperer le formulaire
+        //...
+        //formulaire le message
+        $contenu_du_message = 'Demande de joindre le groupe...';
+        
+        //envoyer un mail
+        $message = \Swift_Message::newInstance()
+        ->setSubject('Demande de rejoidre le groupe')
+        ->setFrom('test@example.com')
+        ->setTo('group_leader@example.com')
+        ->setBody($contenu_du_message)
+        ;
+        $this->container->get('mailer')->send($message);
+         
+       
+        //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
+        return new Response('Message envoyé');
+    }
+    
+    
 }
 
 /*

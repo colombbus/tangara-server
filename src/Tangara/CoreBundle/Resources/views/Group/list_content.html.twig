@@ -1,12 +1,18 @@
 <div class="fos_user_group_list">
     
     <fieldset>
-        <p>Demander à rejoindre :</p>
-        <select id="ListeElement">
-            {% for group in nogroups %}
-                <option value="{{ group.getId() }}">{{ group.getName() }}</option>
-            {% endfor %}
-        </select> 
+        <form action="{{ path( 'tangara_project_confirmation' ) }}" method="post">
+            <p>Demander à rejoindre :</p>
+            <select id="ListeElement">
+                {% for group in nogroups %}
+                    <option value="{{ group.getId() }}">{{ group.getName() }}</option>
+                {% endfor %}
+            </select> 
+            <br />
+            <textarea name="object">Le message...</textarea>
+            <br />
+            <input type="submit" value="Confirmer" />
+        </form>
     </fieldset>
         
     <ul>

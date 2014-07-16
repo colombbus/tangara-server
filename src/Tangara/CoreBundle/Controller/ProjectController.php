@@ -260,10 +260,7 @@ class ProjectController extends Controller {
         //return new Response('<h1>Reçu en normal</h1>');
     }
 
-    //controleur vers la page de confirmation
-    public function confirmationAction() {
-        return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
-    }
+  
 
 }
 
