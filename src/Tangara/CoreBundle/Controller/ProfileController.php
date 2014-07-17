@@ -25,9 +25,6 @@
 
 namespace Tangara\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Response;
 use FOS\UserBundle\Controller\ProfileController as BaseController;
 use Tangara\CoreBundle\Entity\Group;
 
@@ -48,7 +45,7 @@ class ProfileController extends BaseController {
             'Vos changements ont été sauvegardés!'
         );
                 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
+        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
                 array('user' => $user));
     }
 

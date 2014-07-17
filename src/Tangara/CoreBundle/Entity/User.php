@@ -4,8 +4,7 @@ namespace Tangara\CoreBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Tangara\CoreBundle\Entity\Group;
-use Tangara\CoreBundle\Entity\Mail;
-use Tangara\CoreBundle\Entity\Project;
+
 
 /**
  * @ORM\Entity
@@ -276,4 +275,22 @@ class User extends BaseUser
     {
         return $this->groupLeader;
     }
+    
+    
+    //----------------------------Other Methods--------------------------------
+    
+    //verifie si il y a des groups 
+    public function isGroups() {
+
+        foreach ($this->groups as $key) {
+            if($key->getId()){
+                return true; //un group
+            }
+        }
+        
+        return false; //pas de group
+    }
+    
+    
+    
 }

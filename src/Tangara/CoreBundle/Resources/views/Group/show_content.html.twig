@@ -13,12 +13,20 @@
 {# {% set userGroups = user.getGroups() %}#}
         <div class="col-md-6">
             <fieldset>
-                <legend><a href="{{ path('tangara_project_list') }}">Les projets</a></legend>
+                <legend>Les projets</legend>
+   
+                {% set groupProjects = group.getProjects() %}
+                {% if isProjects %}
+                <p>Liste des projets du groupe:</p>   
                 <ul>
-                    <li><a href="#">Jeux 1</a></li>
-                    <li><a href="#">Jeux 1</a></li>
-                    <li><a href="#">Jeux 1</a></li>
-                </ul>
+                    {% for project in groupProjects %}
+                        <li><a href="{{ path( "tangara_project_show", {id: project.getId(), cat: 2} ) }}">{{ project.getName() }}</a></li>
+                    {% endfor %}
+                </ul> 
+                {% else %}
+                    <p>Pas de projets en cours.<p>
+                {% endif %}
+                
                 <a class="btn btn-success" href="{{ path('tangara_project_group_new', {group_id: group.getId()}) }}">Créer un projet dans ce groupe</a>
 
             </fieldset>
@@ -27,16 +35,13 @@
             <fieldset>
                 <legend><a href="{{ path('fos_user_group_list') }}">Membres</a></legend>
                 <p>Les membres de "{{ group.getName() }}"</p>
+                {% set groupUsers = group.getUsers() %}
                 <ul>
-                    <li><a href="{{ path( "fos_user_profile_show", {id: 1} ) }}">User 1</a></li>
-                    <li><a href="{{ path( "fos_user_profile_show", {id: 1} ) }}">User 2</a></li>
-                    <li><a href="{{ path( "fos_user_profile_show", {id: 1} ) }}">User 3</a></li>
-                    {#{% for group in joinedGroups %}
-<li>{{ group }}</li>
-{% endfor %}#}
-                </ul>
+                    {% for users in groupUsers %}
+                        <li>{{ users.getUserName() }}</li>
+                    {% endfor %}
+                </ul>  
             </fieldset>
         </div>
     </div>
 </div>
-

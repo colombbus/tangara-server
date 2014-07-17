@@ -4,8 +4,6 @@ namespace Tangara\CoreBundle\Controller;
 
 
 use Tangara\CoreBundle\Entity\Group;
-use Symfony\Component\HttpFoundation\Response;
-
 
 
 use FOS\UserBundle\Controller\GroupController as BaseController;
@@ -23,31 +21,22 @@ class GroupController extends BaseController
         $user = $this->container->get('security.context')->getToken()->getUser();
         
         $user_groups = $user->getGroups();
-        $strangerGroups = groupsWithoutMe($groups, $user_groups);
+        $g = new Group();
+        $strangerGroups = $g->groupsWithoutMe($groups, $user_groups);
 
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:list.html.'.$this->getEngine(), array(
             'groups' => $groups, 
             'nogroups' => $strangerGroups));
     }
     
-    public function newAction(\Symfony\Component\HttpFoundation\Request $request)
-    {       
-        $response = parent::newAction($request);
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        
-        $group = new Group();
-        $group->setName("AdminGroup11");
-        $group->addUser($user);
-        
-        return $response;
-    }    
-    
     /*
      * Give all informations about the group
      */
     public function infoGroupAction(Group $group)
-    {       
-        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:new.html.twig', array('group' => $group));
+    {     
+        $isProjects = $group->isProjects();
+                
+        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:show.html.twig', array('group' => $group, 'isProjects' => $isProjects));
     }
     
     public function newAction(\Symfony\Component\HttpFoundation\Request $request) {
@@ -79,7 +68,7 @@ class GroupController extends BaseController
                 $groupManager->updateGroup($group);
 
                 if (null === $response = $event->getResponse()) {
-                    $url = $this->container->get('router')->generate('fos_user_group_show', array('groupName' => $group->getName()));
+                    $url = $this->container->get('router')->generate('tangara_user_groupInfo', array('id' => $group->getId()));
                     $response = new \Symfony\Component\HttpFoundation\RedirectResponse($url);
                 }
                 
@@ -94,6 +83,8 @@ class GroupController extends BaseController
                 
                 $g->setGroupsLeader($user);
                 $g->addUsers($user);
+                //?????
+                $user->addRole('ROLE_ADMIN');
                 $user->addGroupLeader($g);
                 $user->addGroups($g);
                 
@@ -115,25 +106,4 @@ class GroupController extends BaseController
         
     }
         
-}
-
-/*
- * This function give all groups where i am not a member
- */
-
-function groupsWithoutMe($allgroups, $user_groups) {
-
-    foreach ($allgroups as $group) {
-        $trigger = true;
-        foreach ($user_groups as $user) {
-            if ($group->getId() == $user->getId()) {
-                $trigger = false;
-                break;
-            }
-        }
-        if ($trigger == true) {
-            $groupsWithoutMe[] = $group;
-        }
-    }
-    return $groupsWithoutMe;
 }

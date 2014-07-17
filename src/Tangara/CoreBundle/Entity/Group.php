@@ -57,6 +57,7 @@ class Group extends BaseGroup {
      */
     public function __construct()
     {
+        parent::__construct($name = null, $roles = array());
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -70,25 +71,6 @@ class Group extends BaseGroup {
     public function getId()
     {
         return $this->id;
-    }
-    
-    //return la liste des groupes dont l'user n'est pas membre
-    public function allNoGroup($allgroups, $user_groups) {
-
-        foreach ($allgroups as $key) {
-            $dif = true;
-            foreach ($user_groups as $key2) {
-                if ($key->getName() == $key2->getName()) {
-                    $dif = false;
-                    break;
-                }
-            }
-            if ($dif == true) {
-                $tmp[] = $key;
-            }
-        }
-
-        return $tmp;
     }
     
     /**
@@ -275,4 +257,45 @@ class Group extends BaseGroup {
     {
         return $this->groupsLeader;
     }
+    
+    
+    
+    //----------------------------Other Methods--------------------------------
+
+    
+    //return la liste des groupes dont l'user n'est pas membre
+    public function groupsWithoutMe($allgroups, $user_groups) {
+        
+        $tmp = null;
+        
+        foreach ($allgroups as $key) {
+            $dif = true;
+            foreach ($user_groups as $key2) {
+                if ($key->getName() == $key2->getName()) {
+                    $dif = false;
+                    break;
+                }
+            }
+            if ($dif == true) {
+                $tmp[] = $key;
+            }
+        }
+        
+        return $tmp;
+    }
+    
+    //verifie si il y a des projets en en cours dans le group
+    public function isProjects() {
+
+        foreach ($this->projects as $key) {
+            if($key->getId()){
+                return true; //un projet
+            }
+        }
+        
+        return false; //pas de projet
+    }
+    
+    
+    
 }

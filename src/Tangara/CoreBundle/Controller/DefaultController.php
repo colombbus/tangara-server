@@ -4,8 +4,7 @@ namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Tangara\CoreBundle\Entity\Group;
-use Tangara\CoreBundle\Entity\User;
+
 
 
 class DefaultController extends Controller
@@ -20,9 +19,7 @@ class DefaultController extends Controller
     public function confirmationAction() {
         
         //recuperer le formulaire
-        //echo $this->container->get('request')->get('object');
         $msg = $this->container->get('request')->get('object');
-        //echo $this->container->get('request')->get('groups');
         $goupId = $this->container->get('request')->get('groups');
                       
         $group = $this->getDoctrine()->getManager()
@@ -30,11 +27,7 @@ class DefaultController extends Controller
                 ->find($goupId);
                
         //touver le leader du group, donc user puis som adresse email
-        //$leader_mail = $group->getGroupLeader()->getMail();
-        //$contenu_du_message = 'Bonjour je suis un Compte Test et je souhaite rejoindre ton groupe.';
-        
-        $user = $group->getGroupsLeader();
-        
+        $user = $group->getGroupsLeader();     
         $leader_mail = $user->getEmail();
        
         

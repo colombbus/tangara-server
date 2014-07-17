@@ -1,4 +1,4 @@
-{% trans_default_domain 'FOSUserBundle' %}
+{#% trans_default_domain 'FOSUserBundle' %#}
 
 <div class="fos_user_user_show">
     <div class="row">
@@ -19,14 +19,18 @@
         <div class="col-md-6">
             <fieldset>
                 <legend>Mes groupes</legend>
-                <a class="btn btn-success" href="{{ path('Tangara_user_group_new') }}">Créer un nouveau groupe</a>
+                <a class="btn btn-success" href="{{ path('tangara_user_group_new') }}">Créer un nouveau groupe</a>
+                {% if user.isGroups() %}
                 <p>Tu es membre de :</p>
                 <ul>
                     {% set userGroups = user.getGroups() %}
                     {% for group in userGroups %}
-                        <li><a href="{{ path( "tangara_project_show", {cat: 2, id: group.id} ) }}">{{ group.getName() }}</a></li>
+                        <li><a href="{{ path( "tangara_user_groupInfo", {id: group.id} ) }}">{{ group.getName() }}</a></li>
                     {% endfor %}
                 </ul>
+                {% else %}
+                    <p>Vous n'avez pas de groupes.</p>
+                {% endif %}
                 <a href="{{ path('fos_user_group_list') }}">Liste de tous les groupes</a>
             </fieldset>
         </div>
