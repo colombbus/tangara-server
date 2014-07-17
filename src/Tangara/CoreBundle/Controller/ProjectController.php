@@ -14,7 +14,7 @@ use Tangara\CoreBundle\Form\ProjectType;
 class ProjectController extends Controller {
 
     public function indexAction() {
-        //return $this->redirect($this->generateUrl('tangara_tangara_homepage'));
+        //return $this->redirect($this->generateUrl('tangara_core_homepage'));
     }
 
     /*
