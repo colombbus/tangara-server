@@ -107,8 +107,11 @@ class ProjectController extends Controller {
     }
 
     public function createAction() {
-        //echo '**' . $this->get('kernel')->getRootDir() . '**';
         $tangarajs = $this->container->getParameter('tangara_core.settings.directory.tangarajs');
+        //if ($tangarajs == null) {
+        //
+        //
+        //}
         
         return $this->render('TangaraCoreBundle:Project:create.html.twig', array(
         'tangarajs' => $tangarajs
