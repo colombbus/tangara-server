@@ -19,7 +19,6 @@ tangara_project_group_new:
     pattern:  /group/{group_id}/new
     defaults: { _controller: TangaraCoreBundle:Project:new, user_id: 0, group_id: 0}
 
-
 tangara_project_list:
     pattern:  /list
     defaults: { _controller: TangaraCoreBundle:Project:list }
@@ -43,11 +42,4 @@ tangara_project_create:
 tangara_project_files:
     pattern:  /files
     defaults: { _controller: TangaraCoreBundle:File:getFiles }
-
-tangara_project_test:
-    pattern:  /test
-    defaults: { _controller: TangaraCoreBundle:File:test }
- 
-
-
 
