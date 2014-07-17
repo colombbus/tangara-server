@@ -50,8 +50,6 @@ class GroupController extends BaseController
         $dispatcher = $this->container->get('event_dispatcher');
 
         $group = $groupManager->createGroup('');
-        
-        
 
         $dispatcher->dispatch(\FOS\UserBundle\FOSUserEvents::GROUP_CREATE_INITIALIZE, new \FOS\UserBundle\Event\GroupEvent($group, $request));
 
@@ -71,8 +69,6 @@ class GroupController extends BaseController
                     $url = $this->container->get('router')->generate('tangara_user_groupInfo', array('id' => $group->getId()));
                     $response = new \Symfony\Component\HttpFoundation\RedirectResponse($url);
                 }
-                
-                
                 
                 //recuper le groupe creer puis rajouter le groupLeader  
                 $em = $this->container->get('doctrine.orm.entity_manager');
@@ -94,7 +90,6 @@ class GroupController extends BaseController
                 $em->flush();
                 
                 $dispatcher->dispatch(\FOS\UserBundle\FOSUserEvents::GROUP_CREATE_COMPLETED, new \FOS\UserBundle\Event\FilterGroupResponseEvent($group, $request, $response));
-
                 
                 return $response;
             }
@@ -103,7 +98,6 @@ class GroupController extends BaseController
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:new.html.'.$this->getEngine(), array(
             'form' => $form->createview(),
         ));
-        
     }
         
 }
