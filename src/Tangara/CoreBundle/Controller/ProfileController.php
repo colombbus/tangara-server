@@ -36,9 +36,7 @@ class ProfileController extends BaseController {
         //$response = parent::profileAction();
         //$user = parent::showAction();
         $user = $this->container->get('security.context')->getToken()->getUser();
-        $re = new Group();
-        $re->setName("AdminGroup9");
-        $re->addUser($user);
+
         
         $this->container->get('session')->getFlashBag()->add(
             'notice',
