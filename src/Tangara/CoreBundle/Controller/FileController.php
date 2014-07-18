@@ -47,25 +47,24 @@ class FileController extends Controller {
         echo "Uploadr path " . $projectPath . "<br/>";
         echo "Tangara path " . $tangaraPath . "<br/>";
         $this->check($user, $project);
-
-
+        
         $this->get('session')->getFlashBag()->add(
                 'notice', 'Vos changements ont été sauvegardés!'
         );
 
-
         return $this->render('TangaraCoreBundle::test.html.twig');
     }
 
-    public function sendContentAction() {
+    public function sendContentAction($cat, $project) {
         $request = $this->getRequest();
-        //$id = $request->get('security.context')->getToken()->getUser()->getId();
+        //$user = $request->get('security.context')->getToken()->getUser()->getId();
         if ($request->isXmlHttpRequest()) {
             if ($request->query->get('userproject'))
                 echo "USER PROJECT";
-
-            if ($request->query->get('filename')) {
-                $filename = $request->query->get('filename');
+            
+            $filename = $request->query->get('wanted');
+            
+            if ($filename) {
                 $project_id = 23;
                 $user_id = 2;
                 $base_path = 'C:\tangara';
@@ -87,13 +86,13 @@ class FileController extends Controller {
      */
     public function getResourcesAction(Project $project) {
 
-    // check($user, $project);
+        // check($user, $project);
         if ($request->isXmlHttpRequest()) {
             $projectList = $this->getDoctrine()
                     ->getManager()
                     ->getRepository('TangaraCoreBundle:Document')
                     ->findByOwnerProject($project->getId());
-            
+
             foreach ($projectList as $prj) {
                 $files[] = $prj->getPath();
             }
@@ -103,12 +102,13 @@ class FileController extends Controller {
             return $response;
         }
     }
+
     //getContentAction
     public function getFilesAction(Project $project) {
         $request = $this->getRequest();
         if ($request->query->get('filename'))
             echo "USER PROJECT";
-        return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        return new Response();
     }
 
     public function removeFileAction(Project $project) {
