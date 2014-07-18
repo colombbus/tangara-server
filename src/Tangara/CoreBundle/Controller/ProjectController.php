@@ -22,20 +22,15 @@ class ProjectController extends Controller {
      */
 
     public function showAction(Project $project, $cat) {
-        $contributors = array("user1", "user2", "user6");
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $files = $manager->getRepository('TangaraCoreBundle:Document')->findBy(array('ownerProject' => $project->getId()));
 
-        if ($cat == 1) {//view for user project
-            return $this->render('TangaraCoreBundle:Project:show_user_project.html.twig', array(
-                        'project' => $project,
-                        'contributors' => $contributors,
-                        'files' => $files
-            ));
-        } else if ($cat == 2) {//view for group project
-            return $this->render('TangaraCoreBundle:Project:show_group_project.html.twig', array('project' => $project));
-        }
+        return $this->render('TangaraCoreBundle:Project:show.html.twig', array(
+                    'project' => $project,
+                    'files' => $files,
+                    'cat' => $cat
+        ));
     }
 
     public function listAction() {
@@ -212,13 +207,11 @@ class ProjectController extends Controller {
             $em->persist($document);
             $em->flush();
 
-            //$ret = 'done ' . $file_uploaded ; 
-//            return $this->redirect('tangara_project_show', array(
-//                        'cat' => $cat,
-//                        'id' => $projectId
-//                            )
-//            );
-            return new Response("ok");
+            return $this->redirect($this->generateUrl('tangara_project_show', array(
+                                'cat' => $cat,
+                                'project' => $project
+                                    )
+            ));
         }
 
         return $this->render('TangaraCoreBundle:Project:upload.html.twig', array(
