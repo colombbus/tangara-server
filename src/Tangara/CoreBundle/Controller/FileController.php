@@ -146,5 +146,31 @@ class FileController extends Controller {
             $response = new BinaryFileResponse($file);
             
             return $response;
-        }*/
+        }
+        
+        
+            public function getAjaxAction() {
+        $data = "ok";
+        $request = $this->getRequest();
+
+        $data = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('TangaraCoreBundle:Project')
+                ->myFindAll();
+
+        if ($this->getRequest()->isMethod('POST')) {
+            $data = $request->request->get('data');
+            //var_dump($request->request->all());
+        }
+        if ($this->getRequest()) {
+            //$this->getRequest()->request();
+
+            return new Response('Reçu en POST : ' . $data);
+        }
+
+        //return new Response('<h1>Reçu en normal</h1>');
+    }
+        
+        
+        */
 }
