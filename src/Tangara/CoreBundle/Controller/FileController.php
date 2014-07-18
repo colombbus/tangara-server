@@ -136,5 +136,15 @@ class FileController extends Controller {
                     'query' => $query
         ));
     }
+    /*
+    public function getContentTgrAction() {
+        $request = $this->getRequest();
+        $locale = $request->getLocale();
 
+        if ($request) {
+            $file = 'C:/Bin/cmd_aliases.txt';
+            $response = new BinaryFileResponse($file);
+            
+            return $response;
+        }*/
 }
