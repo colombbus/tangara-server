@@ -80,11 +80,10 @@ class Project extends \Doctrine\ORM\EntityRepository {
     /**
      * To know if user project ever exists with this name
      * @param type $allProjects
-     * @param type $pname
-     * @return boolean
+     * @return boolean true if project exists
      */
-    function isUserProjectExist($allProjects, $pname) {
-
+    function isUserProjectExist($allProjects) {
+        $pname = $this->getName();
         foreach ($allProjects as $p) {
             if ($p->getName() == $pname) {
                 return true;
@@ -96,11 +95,10 @@ class Project extends \Doctrine\ORM\EntityRepository {
     /**
      * To know if group project ever exists with this name
      * @param type $allProjects
-     * @param type $pname
-     * @return boolean
+     * @return boolean true if project exists
      */
-    function isGroupProjectExist($allProjects, $pname) {
-
+    function isGroupProjectExist($allProjects) {
+        $pname = $this->getName();
         foreach ($allProjects as $p) {
             if ($p->getName() == $pname) {
                 return true;
