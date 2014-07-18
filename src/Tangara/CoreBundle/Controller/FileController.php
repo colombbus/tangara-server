@@ -87,18 +87,16 @@ class FileController extends Controller {
      */
     public function getResourcesAction(Project $project) {
 
-// check($user, $project);
+    // check($user, $project);
         if ($request->isXmlHttpRequest()) {
             $projectList = $this->getDoctrine()
                     ->getManager()
                     ->getRepository('TangaraCoreBundle:Document')
                     ->findByOwnerProject($project->getId());
-
+            
             foreach ($projectList as $prj) {
                 $files[] = $prj->getPath();
             }
-
-
             $response = new JsonResponse();
             $response->setData($files);
 

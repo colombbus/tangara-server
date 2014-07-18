@@ -4,7 +4,7 @@
 
 {% block main_container %}
     <div class="container">
-        <h1>{{ username }} > Création d'un projet</h1>
+        <h1>{{ app.user.getUsername() }} > Création d'un projet</h1>
         <div>
             Project manager : {{ project.getProjectManager() }}
         </div>
