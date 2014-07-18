@@ -119,8 +119,31 @@ class FileController extends Controller {
     }
 
     public function removeFileAction(Project $project) {
-        if ($request->query->get('filename'))
+        
+        $fileName = null;
+        
+        if ($request->query->get('filename')){
             echo "USER PROJECT";
+            $fileName = $request->query->get('filename');
+        }
+        
+        $request = $this->getRequest();
+        
+        if ($request->isXmlHttpRequest()) {
+            
+            //verifie si le fichier existe, si vrai
+            if ($fileName) {
+                $em = $this->getDoctrine()->getManager();
+                $fileRepository = $em->getRepository('TangaraCoreBundle:Document');
+
+                $file = $fileRepository->findBy(array('path' => $fileName));
+
+                $em->remove($file);
+                $em->flush();
+            }
+        }
+        
+        
     }
 
     public function getTgrContentAction(Project $project) {

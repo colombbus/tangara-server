@@ -6,3 +6,7 @@ tangara_tangara_homepage:
 tangara_project_confirmation:
     pattern:  /confirmation
     defaults: { _controller: TangaraCoreBundle:Default:confirmation }
+    
+tangara_project_ajax:
+    pattern:  /ajax
+    defaults: { _controller: TangaraCoreBundle:Default:ajax }
