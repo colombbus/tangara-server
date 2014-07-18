@@ -209,7 +209,7 @@ class ProjectController extends Controller {
 
             return $this->redirect($this->generateUrl('tangara_project_show', array(
                                 'cat' => $cat,
-                                'project' => $project
+                                'id' => $project->getId()
                                     )
             ));
         }

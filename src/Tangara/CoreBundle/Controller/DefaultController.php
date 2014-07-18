@@ -42,17 +42,19 @@ class DefaultController extends Controller {
     }
 
     public function localeAction() {
-
         $request = $this->getRequest();
-
         $locale = $request->getLocale();
-
+        
         if ($request) {
             $response = new JsonResponse();
             $response->setData(array(
                 'locale' => $locale));
             return $response;
         }
+    }
+    
+    public function ajaxAction(){
+        return $this->render('TangaraCoreBundle:Default:ajax_symfony.html.twig');
     }
 
 }

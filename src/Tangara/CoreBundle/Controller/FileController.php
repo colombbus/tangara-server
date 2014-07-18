@@ -59,10 +59,11 @@ class FileController extends Controller {
         $request = $this->getRequest();
         //$user = $request->get('security.context')->getToken()->getUser()->getId();
         if ($request->isXmlHttpRequest()) {
-            if ($request->query->get('userproject'))
+            if ($request->query->get('filename'))
                 echo "USER PROJECT";
             
-            $filename = $request->query->get('wanted');
+            //$filename = $request->query->get('wanted');
+            //$toSend = $request->request->get('filename');
             
             if ($filename) {
                 $project_id = 23;
@@ -84,15 +85,15 @@ class FileController extends Controller {
      * @param \Tangara\CoreBundle\Entity\Project $project
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function getResourcesAction(Project $project) {
-
+    public function getResourcesAction($cat, Project $project) {
+$request = $this->getRequest();
         // check($user, $project);
-        if ($request->isXmlHttpRequest()) {
+        //if ($request->isXmlHttpRequest()) {
             $projectList = $this->getDoctrine()
                     ->getManager()
                     ->getRepository('TangaraCoreBundle:Document')
                     ->findByOwnerProject($project->getId());
-
+            
             foreach ($projectList as $prj) {
                 $files[] = $prj->getPath();
             }
@@ -100,20 +101,42 @@ class FileController extends Controller {
             $response->setData($files);
 
             return $response;
-        }
+        //}
     }
 
     //getContentAction
-    public function getFilesAction(Project $project) {
+    public function getFilesAction($cat, Project $project) {
         $request = $this->getRequest();
         if ($request->query->get('filename'))
             echo "USER PROJECT";
-        return new Response();
+        return new Response("request");
     }
 
     public function removeFileAction(Project $project) {
-        if ($request->query->get('filename'))
-            echo "USER PROJECT";
+        
+        $fileName = null;
+        
+        if ($request->query->get('filename')){
+            $fileName = $request->query->get('filename');
+        }
+        
+        $request = $this->getRequest();
+        
+        if ($request->isXmlHttpRequest()) {
+            
+            //verifie si le fichier existe, si vrai
+            if ($fileName) {
+                $em = $this->getDoctrine()->getManager();
+                $fileRepository = $em->getRepository('TangaraCoreBundle:Document');
+
+                $file = $fileRepository->findBy(array('path' => $fileName));
+
+                $em->remove($file);
+                $em->flush();
+            }
+        }
+        
+        
     }
 
     public function getTgrContentAction(Project $project) {

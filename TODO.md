@@ -23,6 +23,8 @@ Thematic list
       * DONE List of files uploaded
       * Check if file exists
       * bug: Private project edition: project manager can be transfered to all users
+      * DONE Add file (picture or resource) with 
+            http://localhost/tangara/project/1/12/upload
 
 - Files upload
     * DONE File has to be linked to a project
@@ -55,18 +57,17 @@ Thematic list
     * DONE identical private/group project
     * DONE GetLocale
         http://localhost/tangara/locale
-    * Ask file deletion
-        http://localhost/tangara/project/12/remove?filename=fichier.tgr
     * Create a tgr file
-        http://localhost/tangara/project/12/addTgr
+        http://localhost/tangara/project/1/12/addTgr
     * Get file content
-        http://localhost/tangara/project/12/getContent?filename=fichier.tgr
-    * Ajouter un fichier (image ou ressource) manuellement
-        http://localhost/tangara/project/12/upload
+        http://localhost/tangara/project/1/12/getContent?filename=fichier.tgr
     * Get file Programs list
-        http://localhost/tangara/project/12/getProgramList
+        http://localhost/tangara/project/1/12/getProgramList
     * Get resourceObtenir la liste des ressources
-        http://localhost/tangara/project/12/getResources
+        http://localhost/tangara/project/1/12/getResources
+    * Remove file -> en POST filename: 'file.tgr'
+        http://localhost/tangara/project/1/12/remove
+
 
 - Installation page 
     * A configuration page could be used to install Tangara-UI (DB settings, etc.)

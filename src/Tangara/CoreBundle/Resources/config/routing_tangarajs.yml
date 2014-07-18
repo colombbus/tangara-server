@@ -6,13 +6,13 @@
 #    pattern:  /getGroups
 #    defaults: { _controller: TangaraCoreBundle:Project:getGroups }
 
-tangara_tangarajs_get:            
-    pattern:  /files/{cat}/{id}
+tangara_tangarajs_get_files:            
+    pattern:  /getfiles/{cat}/{id}
     defaults: { _controller: TangaraCoreBundle:File:getFiles }
     requirements:
         cat: 1|2
         id:  \d+
 
-#tangara_tangarajs_projects:            
-#    pattern:  /getProjects
-#    defaults: { _controller: TangaraCoreBundle:Project:getProjects }
+tangara_tangarajs_get_resources:            
+    pattern:  /getresources/{cat}/{id}
+    defaults: { _controller: TangaraCoreBundle:File:getResources }
