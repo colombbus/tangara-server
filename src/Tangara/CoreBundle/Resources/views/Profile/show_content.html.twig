@@ -25,7 +25,7 @@
                 <ul>
                     {% set userGroups = user.getGroups() %}
                     {% for group in userGroups %}
-                        <li><a href="{{ path( "tangara_user_groupInfo", {id: group.id} ) }}">{{ group.getName() }}</a></li>
+                        <li><a href="{{ path( "tangara_user_group_info", {id: group.id} ) }}">{{ group.getName() }}</a></li>
                     {% endfor %}
                 </ul>
                 {% else %}
