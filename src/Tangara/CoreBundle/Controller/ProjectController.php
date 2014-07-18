@@ -45,9 +45,6 @@ class ProjectController extends Controller {
         $request = $this->getRequest();
         $projects = $manager->getRepository('TangaraCoreBundle:Project')->findAll();
 
-
-        //echo $this->get('tangara_project.uploader')->getUploadDirectory();
-
         $repository = $manager->getRepository('TangaraCoreBundle:Project');
         $admin = '"admin"';
 
@@ -70,22 +67,10 @@ class ProjectController extends Controller {
     public function editAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
 
-        //$fs->copy($originFile, $targetFile)
-        //$fs->mkdir('C:\tangara\\' . $id);
-        //
-        //$fs->mkdir('C:\tangara\\' . $id); // projects
-        //$fs->mkdir('C:\tangara\user'.$id); // perso projects
-        //
-        //if ($fs->exists('/home/tangara/'..)){
-        //}
-
-        $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
+        $manager = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(new ProjectType(), $project);
-
-        //$request->query->get('page'); // retourne un paramètre $_GET
-        //$request->request->get('page'); // retourne un paramètre $_POST
 
         if ($request->isMethod('POST')) {
             $form->bind($request);
@@ -106,38 +91,32 @@ class ProjectController extends Controller {
         ));
     }
 
+    /**
+     * 
+     * Create a program with TangaraJS
+     * 
+     */
     public function createAction() {
         $tangarajs = $this->container->getParameter('tangara_core.settings.directory.tangarajs');
-        //if ($tangarajs == null) {
-        //
-        //
-        //}
-        
+        //if ($tangarajs == null) {}
+
         return $this->render('TangaraCoreBundle:Project:create.html.twig', array(
-        'tangarajs' => $tangarajs
+                    'tangarajs' => $tangarajs
         ));
-        
     }
 
-    /*
+    /**
+     * 
      * Create a new project
+     * 
      */
-
     public function newAction($user_id = null, $group_id = null) {
-
         $user = $this->get('security.context')->getToken()->getUser();
-
-        $userId = $user->getId();
 
         $project = new Project();
         $project->setProjectManager($user);
 
         $projectId = $project->getId();
-
-
-        $base_path = 'C:/tangara/';
-        $project_user_path = $base_path . $userId;
-        $project_path = $base_path . $projectId;
 
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
@@ -150,7 +129,6 @@ class ProjectController extends Controller {
 
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
-            //$this->file->move($project_path, $this->file->getClientOriginalName());
             /*
               $allProjects = $user->getProjects();
 
@@ -169,45 +147,35 @@ class ProjectController extends Controller {
               }
              */
 
-
-            
-            
-            
-              if ($user_id != null) { //project of user
-                
+            if ($user_id != null) { //project of user
                 $allProjects = $user->getProjects();
-                $projectExist = isUserProjectExist($allProjects, $project->getName());
-                  
+                $projectExist = $project->isUserProjectExist($allProjects);
+
                 $user->addProjects($project);
                 $project->setUser($user);
                 $cat = 1;
-                
             } elseif ($group_id != null) { //project of group
                 $group = $em->getRepository('TangaraCoreBundle:Group')->find($group_id);
-                
+
                 $allProjects = $group->getProjects();
-                $projectExist = isGroupProjectExist($allProjects, $project->getName());
-                
+                $projectExist = $project->isGroupProjectExist($allProjects);
+
                 $group->addProjects($project);
                 $project->setGroup($group);
                 $cat = 2;
-                
             }
-            
-            if($projectExist == false){
+
+            if ($projectExist == false) {
                 $em->persist($project);
                 $em->flush();
                 return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId(), 'cat' => $cat)
                 ));
             }
             return new Response('Un projet avec me meme nom existe deja.');
-            
         }
 
         return $this->render('TangaraCoreBundle:Project:new.html.twig', array(
                     'form' => $form->createView(),
-                    'userid' => $userId,
-                    'username' => $user,
                     'project' => $project,
                     'project_owner_group' => $group_member,
                     'g_id' => $group_id,
@@ -226,7 +194,6 @@ class ProjectController extends Controller {
         $project_path = $base_path . "/" . $projectId;
         $cat = 1;
 
-
         $document = new Document();
         $form = $this->createFormBuilder($document)
                 //->add('name')
@@ -234,11 +201,10 @@ class ProjectController extends Controller {
                 ->getForm()
         ;
 
-        if ($this->getRequest()->isMethod('POST')) {
-            $form->bind($this->getRequest());
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
             $em = $this->getDoctrine()->getManager();
             $document->setOwnerProject($project);
-        
 
             $document->upload();
             //$file_uploaded = $request->get('file');
@@ -255,57 +221,9 @@ class ProjectController extends Controller {
             return new Response("ok");
         }
 
-        return $this->render('TangaraCoreBundle:Project:upload.html.twig', 
-                array(
+        return $this->render('TangaraCoreBundle:Project:upload.html.twig', array(
                     'form' => $form->createView()
         ));
     }
 
-  
-
-}
-
-/**
- * Request group list that user isn't member
- * 
- * @param array $allgroups 
- * @param array $user_groups
- * @return groupsWithoutMe list that user isn't member
- */
-//function groupsWithoutMe($allgroups, $user_groups) {
-//
-//    foreach ($allgroups as $all) {
-//        $trigger = true;
-//        foreach ($user_groups as $ug) {
-//            if ($all->getName() == $ug->getName()) {
-//                $trigger = false;
-//                break;
-//            }
-//        }
-//        if ($trigger == true) {
-//            $groupsWithoutMe[] = $all;
-//        }
-//    }
-//
-//    return $groupsWithoutMe;
-//}
-
-function isUserProjectExist($allProjects, $pname) {
-    
-    foreach ($allProjects as $p) {
-        if ($p->getName() == $pname) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function isGroupProjectExist($allProjects, $pname) {
-    
-    foreach ($allProjects as $p) {
-        if ($p->getName() == $pname) {
-            return true;
-        }
-    }
-    return false;
 }
