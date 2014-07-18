@@ -26,7 +26,9 @@
 namespace Tangara\CoreBundle\Controller;
 
 use FOS\UserBundle\Controller\ProfileController as BaseController;
+use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
+use Tangara\CoreBundle\Entity\User;
 
 class ProfileController extends BaseController {
 
@@ -47,6 +49,46 @@ class ProfileController extends BaseController {
                 
         return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
                 array('user' => $user));
+    }
+    
+    //delete account
+    public function delAccountAction(){  
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        
+        
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $repositoryGroup = $em->getRepository('TangaraCoreBundle:Group');
+             
+        //supprimer les projets de l'user
+        $projects = $user->getProjects();
+        foreach ($projects as $p){
+            $em->remove($p);
+        }
+               
+        //supprimer dans la liste des groups aux quels il appartient  
+        $groups = $user->getGroups();
+        foreach ($groups as $g){
+            //supprimer le goupe si il est le Leader et les projets du group
+            if($g->getGroupsLeader()->getId() == $user->getId()){
+                
+                $gProjects = $g->getProjects();
+                foreach ($gProjects as $gp){
+                    $em->remove($gp);
+                }
+ 
+                $em->remove($g);
+            }
+            $user->removeGroups($g);
+        }
+          
+        
+        
+        //supprimer le compte user 
+        //$em->remove($user);
+        $em->flush();
+        
+        return new Response('Votre Compte a ete supprimer');
+        
     }
 
 }

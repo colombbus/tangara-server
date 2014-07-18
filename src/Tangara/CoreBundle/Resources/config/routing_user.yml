@@ -20,3 +20,8 @@ fos_user_change_password:
 fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"
     prefix: /group
+    
+    
+tangara_user_delete:
+    pattern:  /delete_account
+    defaults: { _controller: TangaraCoreBundle:Profile:delAccount }
