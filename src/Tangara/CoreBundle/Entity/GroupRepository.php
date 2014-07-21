@@ -13,9 +13,48 @@ use Doctrine\ORM\EntityRepository;
  */
 class GroupRepository extends EntityRepository {
     
+    //check if the group exist 
+    public function isGroupByName($name){
+   
+        $group = $this->findByName($name);
+        
+        if($group == null){
+            return false;
+        }
+        return true; 
+    }
     
+    public function isUserAsked($name){
+        
+        $query = $this->createQueryBuilder('a')
+                ->join('a.joinRequest', 'b')
+                ->where('b.username = :name')
+                ->setParameter('name', $name);
+        
+        $user = $query->getQuery()->getOneOrNullResult();
+        
+        
+        if($user == null){
+            return false;
+        }
+        return true;
+    }
     
-    
+    public function isGroupLeader($name){
+        
+         $query = $this->createQueryBuilder('a')
+                ->join('a.groupLeader', 'b')
+                ->where('b.username = :name')
+                ->setParameter('name', $name);
+        
+        $user = $query->getQuery()->getOneOrNullResult();
+        
+        
+        if($user == null){
+            return false;
+        }
+        return true;
+    }
     
     
 }

@@ -4,6 +4,7 @@ namespace Tangara\CoreBundle\Controller;
 
 
 use Tangara\CoreBundle\Entity\Group;
+use Tangara\CoreBundle\Entity\GroupRepository;
 
 
 use FOS\UserBundle\Controller\GroupController as BaseController;
@@ -162,6 +163,17 @@ class GroupController extends BaseController
     public function deleteAction(\Symfony\Component\HttpFoundation\Request $request, $groupName) {
         parent::deleteAction($request, $groupName);
         
+    }
+    
+    
+    public function joinRequestAction(Group $group){
+        
+        $usersRequest = $group->getJoinRequest();
+        
+        
+        
+       
+        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:group_leader.html.twig', array('usersRequest' => $usersRequest));
     }
         
 }

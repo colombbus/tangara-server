@@ -121,13 +121,12 @@ class FileController extends Controller {
     public function removeFileAction(Project $project) {
         
         $fileName = null;
+        $request = $this->getRequest();
         
-        if ($request->query->get('filename')){
+        if ($request->query->get('fileName')){
             echo "USER PROJECT";
             $fileName = $request->query->get('filename');
         }
-        
-        $request = $this->getRequest();
         
         if ($request->isXmlHttpRequest()) {
             
@@ -140,10 +139,15 @@ class FileController extends Controller {
 
                 $em->remove($file);
                 $em->flush();
+                
+                $response = new JsonResponse();
+                $response->setData(array(
+                    "bob.tgr", "pomme.tgr", "cubeQuest.tgr"
+                        //["bob.tgr", "pomme.tgr", "cubeQuest.tgr"]
+                ));
+                return $response;
             }
         }
-        
-        
     }
 
     public function getTgrContentAction(Project $project) {
@@ -169,5 +173,33 @@ class FileController extends Controller {
         return $this->render('TangaraCoreBundle:Default:granted.html.twig', array(
                     'query' => $query
         ));
-}
+    }
+    
+    public function createAction(){
+        
+        
+        $fileLoad = null;
+        $request = $this->getRequest();
+        
+
+        if ($request->query->get('fileLoad')){
+            echo "USER PROJECT";
+            $fileLoad = $request->query->get('fileLoad');
+        }
+        
+        if ($request->isXmlHttpRequest()) {
+            
+            //verifie si le fichier se charge, 
+            if ($fileLoad) {
+          
+                $response = new JsonResponse();
+                $response->setData(array(
+                    "Le fichier se charge"));
+                
+                return $response;
+            }
+        }
+        
+    }
+    
 }

@@ -25,3 +25,9 @@ fos_user_group:
 tangara_user_delete:
     pattern:  /delete_account
     defaults: { _controller: TangaraCoreBundle:Profile:delAccount }
+    
+    
+# user ask to join a group
+tangara_user_joinGroup:
+    pattern:  /join_group
+    defaults: { _controller: TangaraCoreBundle:Profile:askJoinGroup }

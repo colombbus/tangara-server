@@ -101,7 +101,7 @@
 		$.ajax({
 		type: "GET",
 		dataType: "json",
-		url: "http://localhost/tangara-ui/web/app_dev.php/project/getContent?=fichier.tgr",
+		url: "http://localhost:8888/tangara-ui/web/app_dev.php/project/getContent?=fichier.tgr",
 		error:function(msg){
 			alert( "Error !: " + msg );
 		},
@@ -147,27 +147,30 @@
 }
 
     function removeFile(){
+        var fileName = "Capture d’écran 2014-07-16 à 21.14.14.png"; 
         
         $.ajax({
 		type: "POST",
 		dataType: "json",
-		url: "http://localhost/tangara-ui/web/app_dev.php/project/data",
+		url: "{{ path('tangara_project_tgr_content') }}",
                 data: "fileName=" + fileName,
 		error:function(msg){
 			alert( "Error !: " + msg );
 		},
 		success:function(data){
+                    /*
 			var items = [];
 			 $.each( data, function( key, val ) {
 			items.push( "<li id='" + key + "'>" + val + "</li>" );
 			});
-			
 			$( "<ul/>", {
 			"class": "my-new-list",
 			html: items.join( "" )
 			}).appendTo( "#myDiv" );
 			//affiche le contenu du fichier dans le conteneur d�di�
 			//$('#contenu_fichier_ajax').html(data);
+                        */
+                       alert('ok');
 		}});
     }
 </script>

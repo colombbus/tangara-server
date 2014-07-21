@@ -2,7 +2,7 @@
     
     <fieldset>
         {% if nogroups %}
-        <form action="{{ path( 'tangara_project_confirmation' ) }}" method="post">
+        <form action="{{ path( 'tangara_user_joinGroup' ) }}" method="post">
             <p>Demander à rejoindre :</p>
             <select id="ListeElement" name="groups">
                 {% for group in nogroups %}

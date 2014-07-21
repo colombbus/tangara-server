@@ -7,4 +7,3 @@ tangara_user_group_new:
     pattern:  /new
     defaults: { _controller: TangaraCoreBundle:Group:new }
     
- 

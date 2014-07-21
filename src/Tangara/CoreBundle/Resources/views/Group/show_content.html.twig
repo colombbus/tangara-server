@@ -44,13 +44,21 @@
             </fieldset>
         </div>
                 
-         <div class="col-md-6">
-            <fieldset>
-                <legend>Gestion du groupe</legend>
-                <ul>
-                    <li><a href="#">Supprimer le groupe</a></li>
-                </ul>
-            </fieldset>
-        </div>
+         
+
+
     </div>
+                
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Gestion du groupe</legend>
+            <ul>
+                <li><a href="#">Supprimer le groupe</a></li>
+            </ul>
+        </fieldset>
+    </div>    
+                
+    <div class="col-md-6">
+        {{ render(controller("TangaraCoreBundle:Group:joinRequest", {'group': group})) }}
+    </div>  
 </div>

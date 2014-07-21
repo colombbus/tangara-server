@@ -1,0 +1,8 @@
+<fieldset>
+    <legend>Groupe leader</legend>
+    {% for ur in usersRequest %}
+        {{ ur.getUserName() }} 
+        <input type="button" value="Accepter" onclick="alert('Accepter')" />
+        <input type="button" value="Refuser" onclick="alert('Refuser')" />
+    {% endfor %}
+</fieldset>

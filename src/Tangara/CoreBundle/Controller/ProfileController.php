@@ -28,6 +28,7 @@ namespace Tangara\CoreBundle\Controller;
 use FOS\UserBundle\Controller\ProfileController as BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
+use Tangara\CoreBundle\Entity\GroupRepository;
 use Tangara\CoreBundle\Entity\User;
 
 class ProfileController extends BaseController {
@@ -90,5 +91,55 @@ class ProfileController extends BaseController {
         return new Response('Votre Compte a ete supprimer');
         
     }
+    
+    
+    
+    public function askJoinGroupAction(){
+        $user = $this->container->get('security.context')->getToken()->getUser();
+       
+        $msg = $this->container->get('request')->get('object');
+        $goupId = $this->container->get('request')->get('groups');
+        
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $groupRepository = $em->getRepository('TangaraCoreBundle:Group');
+        $group = $groupRepository->find($goupId);
+               
+        //touver le leader du group, donc user puis som adresse email
+        $groupLeader = $group->getGroupsLeader();     
+        $leader_mail = $groupLeader->getEmail();
+        
+        
+        
+        
+        
+        if($groupRepository->isUserAsked($user->getUserName()) == null){
+            //ajouter l'user dans la liste des demandes
+            $group->addJoinRequest($user);
+            $em->persist($group);
+            $em->flush();
+            
+            /*
+              //envoyer un mail au leader
+              $message = \Swift_Message::newInstance()
+              ->setSubject('Demande de rejoidre le groupe')
+              ->setFrom('tangaraui@colombbus.org')
+              ->setTo('tangaraui@colombbus.org') //a changer avec le mail $leader_mail
+              ->setBody($msg)
+              ;
+              $this->container->get('mailer')->send($message);
+             */
+            
+            //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
+            return new Response('Message envoyé.');
+        }
+        else{
+            //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
+            return new Response('Vous avez deja fait une demande de rejoindre ce groupe.');
+        }
+        
+        
+        
+    }
+    
 
 }

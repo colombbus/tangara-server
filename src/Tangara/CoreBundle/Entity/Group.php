@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\GroupRepository")
  * @ORM\Table(name="fos_group")
  */
 class Group extends BaseGroup {
@@ -48,10 +49,18 @@ class Group extends BaseGroup {
     
     /**
      *
-     * @ORM\ManytoOne(targetEntity="Tangara\CoreBundle\Entity\User", inversedBy="groupLeader")
+     * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\User", inversedBy="groupLeader")
      */
     private $groupsLeader;
     
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Tangara\CoreBundle\Entity\User")
+     * @ORM\JoinTable(name="userRequest")
+     */
+    private $joinRequest;
+
+
     /**
      * Constructor
      */
@@ -258,6 +267,39 @@ class Group extends BaseGroup {
         return $this->groupsLeader;
     }
     
+     
+    /**
+     * Add joinRequest
+     *
+     * @param \Tangara\CoreBundle\Entity\User $joinRequest
+     * @return Group
+     */
+    public function addJoinRequest(\Tangara\CoreBundle\Entity\User $joinRequest)
+    {
+        $this->joinRequest[] = $joinRequest;
+
+        return $this;
+    }
+
+    /**
+     * Remove joinRequest
+     *
+     * @param \Tangara\CoreBundle\Entity\User $joinRequest
+     */
+    public function removeJoinRequest(\Tangara\CoreBundle\Entity\User $joinRequest)
+    {
+        $this->joinRequest->removeElement($joinRequest);
+    }
+
+    /**
+     * Get joinRequest
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getJoinRequest()
+    {
+        return $this->joinRequest;
+    }
     
     
     //----------------------------Other Methods--------------------------------
@@ -296,6 +338,5 @@ class Group extends BaseGroup {
         return false; //pas de projet
     }
     
-    
-    
+   
 }

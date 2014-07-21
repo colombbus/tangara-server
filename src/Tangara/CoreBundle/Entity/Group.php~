@@ -48,15 +48,23 @@ class Group extends BaseGroup {
     
     /**
      *
-     * @ORM\ManytoOne(targetEntity="Tangara\CoreBundle\Entity\User", inversedBy="groupLeader")
+     * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\User", inversedBy="groupLeader")
      */
     private $groupsLeader;
     
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Tangara\CoreBundle\Entity\User")
+     */
+    private $joinRequest;
+
+
     /**
      * Constructor
      */
     public function __construct()
     {
+        parent::__construct($name = null, $roles = array());
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -70,25 +78,6 @@ class Group extends BaseGroup {
     public function getId()
     {
         return $this->id;
-    }
-    
-    //return la liste des groupes dont l'user n'est pas membre
-    public function allNoGroup($allgroups, $user_groups) {
-
-        foreach ($allgroups as $key) {
-            $dif = true;
-            foreach ($user_groups as $key2) {
-                if ($key->getName() == $key2->getName()) {
-                    $dif = false;
-                    break;
-                }
-            }
-            if ($dif == true) {
-                $tmp[] = $key;
-            }
-        }
-
-        return $tmp;
     }
     
     /**
@@ -251,5 +240,100 @@ class Group extends BaseGroup {
     public function removeUser(\Tangara\CoreBundle\Entity\User $users)
     {
         $this->users->removeElement($users);
+    }
+
+    /**
+     * Set groupsLeader
+     *
+     * @param \Tangara\CoreBundle\Entity\User $groupsLeader
+     * @return Group
+     */
+    public function setGroupsLeader(\Tangara\CoreBundle\Entity\User $groupsLeader = null)
+    {
+        $this->groupsLeader = $groupsLeader;
+
+        return $this;
+    }
+
+    /**
+     * Get groupsLeader
+     *
+     * @return \Tangara\CoreBundle\Entity\User 
+     */
+    public function getGroupsLeader()
+    {
+        return $this->groupsLeader;
+    }
+    
+    
+    
+    //----------------------------Other Methods--------------------------------
+
+    
+    //return la liste des groupes dont l'user n'est pas membre
+    public function groupsWithoutMe($allgroups, $user_groups) {
+        
+        $tmp = null;
+        
+        foreach ($allgroups as $key) {
+            $dif = true;
+            foreach ($user_groups as $key2) {
+                if ($key->getName() == $key2->getName()) {
+                    $dif = false;
+                    break;
+                }
+            }
+            if ($dif == true) {
+                $tmp[] = $key;
+            }
+        }
+        
+        return $tmp;
+    }
+    
+    //verifie si il y a des projets en en cours dans le group
+    public function isProjects() {
+
+        foreach ($this->projects as $key) {
+            if($key->getId()){
+                return true; //un projet
+            }
+        }
+        
+        return false; //pas de projet
+    }
+    
+    
+    /**
+     * Add joinRequest
+     *
+     * @param \Tangara\CoreBundle\Entity\User $joinRequest
+     * @return Group
+     */
+    public function addJoinRequest(\Tangara\CoreBundle\Entity\User $joinRequest)
+    {
+        $this->joinRequest[] = $joinRequest;
+
+        return $this;
+    }
+
+    /**
+     * Remove joinRequest
+     *
+     * @param \Tangara\CoreBundle\Entity\User $joinRequest
+     */
+    public function removeJoinRequest(\Tangara\CoreBundle\Entity\User $joinRequest)
+    {
+        $this->joinRequest->removeElement($joinRequest);
+    }
+
+    /**
+     * Get joinRequest
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getJoinRequest()
+    {
+        return $this->joinRequest;
     }
 }
