@@ -13,6 +13,10 @@ tangara_core_group:
 tangara_core_admin:
     resource: "@TangaraCoreBundle/Resources/config/routing_admin.yml"
     prefix:   /admin
+
+tangara_core_tangarajs:
+    resource: "@TangaraCoreBundle/Resources/config/routing_tangarajs.yml"
+    prefix:   /tangarajs
     
 ############################### FOS/UserBundle routing############################
 tangara_core_user:

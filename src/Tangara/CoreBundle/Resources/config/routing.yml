@@ -1,12 +1,18 @@
-tangara_tangara_homepage:
+tangara_core_homepage:
     pattern:  /
     defaults: { _controller: TangaraCoreBundle:Default:index }
     
+# join group confirmation
+tangara_core_confirmation:
+    pattern:  /confirmation
+    defaults: { _controller: TangaraCoreBundle:Default:confirmation }
 
-tangara_project_ajax:
-    pattern:  /ajax
-    defaults: { _controller: TangaraCoreBundle:Default:ajax }
+tangara_core_locale:
+    pattern: /locale
+    defaults: { _controller: TangaraCoreBundle:Default:locale } 
 
-tangara_project_ajax_test:
-    pattern:  /ajax/test
-    defaults: { _controller: TangaraCoreBundle:File:removeFile }
+tangara_test:
+    pattern:  /project/test/{id}
+    defaults: { _controller: TangaraCoreBundle:File:test }
+    requirements:
+        id:  \d+

@@ -19,7 +19,7 @@ Thematic list
       * Add textarea to join details to demand
     Project
       * Copy a project
-      * (ajax) Check an already project name existed
+      * DONE Check an already project name existed
       * DONE List of files uploaded
       * Check if file exists
       * bug: Private project edition: project manager can be transfered to all users
@@ -27,10 +27,13 @@ Thematic list
 - Files upload
     * DONE File has to be linked to a project
     * Complete "check" function
-    * Copy file in directory
+    * DONE Copy file in directory
     * BlueImp/DropZone: jQuery Upload file
-    * files upload in directory configured in paramaters.yml
+    * DONE files upload in directory configured in paramaters.yml
+    * DONE Tangara directory configured in paramaters.yml
     * javascript: popup to preview file clicked
+        text/js http://codecanyon.net/item/jquery-document-viewer/1732515
+        picture http://www.yoxigen.com/yoxview/
 
 - Security
     * re-plug security context (unplugged for dev)
@@ -41,14 +44,16 @@ Thematic list
     * project management : add/remove/rename/modify/move
     * user's informations managed by Slickgrid
 
+- All pages translated in en/fr
+
 - Tests
 
 - Script 
-    * DEPRECATED After a modif on schema update
+    * DONE DEPRECATED After a modif on schema update
 
 - Request
-    * Projet personnel ou de groupe sont identiques niveau URL mais il y a un champ "perso" dans la table
-    * GetLocale
+    * DONE identical private/group project
+    * DONE GetLocale
         http://localhost/tangara/locale
     * Ask file deletion
         http://localhost/tangara/project/12/remove?filename=fichier.tgr

@@ -18,12 +18,12 @@ class Document {
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    public $path;
+    private $path;
 
     public function getAbsolutePath() {
         return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
@@ -49,13 +49,13 @@ class Document {
      * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\Project")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id", nullable = false)
      */
-    public $ownerProject;
+    private $ownerProject;
 
     /**
      * @Assert\File(maxSize="6000000")
      * 
      */
-    public $file;
+    private $file;
 
 
     public function upload() {

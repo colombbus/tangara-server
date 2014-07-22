@@ -18,9 +18,7 @@ class GroupController extends BaseController
     public function listAction()
     {
         $groups = $this->container->get('fos_user.group_manager')->findGroups();
-        
         $user = $this->container->get('security.context')->getToken()->getUser();
-        
         $user_groups = $user->getGroups();
         $g = new Group();
         $strangerGroups = $g->groupsWithoutMe($groups, $user_groups);
@@ -51,8 +49,6 @@ class GroupController extends BaseController
         $dispatcher = $this->container->get('event_dispatcher');
 
         $group = $groupManager->createGroup('');
-        
-        
 
         $dispatcher->dispatch(\FOS\UserBundle\FOSUserEvents::GROUP_CREATE_INITIALIZE, new \FOS\UserBundle\Event\GroupEvent($group, $request));
 
@@ -69,13 +65,11 @@ class GroupController extends BaseController
                 $groupManager->updateGroup($group);
 
                 if (null === $response = $event->getResponse()) {
-                    $url = $this->container->get('router')->generate('tangara_user_groupInfo', array('id' => $group->getId()));
+                    $url = $this->container->get('router')->generate('tangara_user_group_info', array('id' => $group->getId()));
                     $response = new \Symfony\Component\HttpFoundation\RedirectResponse($url);
                 }
                 
-                
-                
-                //recuper le groupe creer puis rajouter le groupLeader  
+                // get group created then add groupLeader  
                 $em = $this->container->get('doctrine.orm.entity_manager');
                 $repository = $em->getRepository('TangaraCoreBundle:Group');
                 $g = $repository->find($group->getId());
@@ -84,7 +78,7 @@ class GroupController extends BaseController
                 
                 $g->setGroupsLeader($user);
                 $g->addUsers($user);
-                //?????
+                
                 $user->addRole('ROLE_ADMIN');
                 $user->addGroupLeader($g);
                 $user->addGroups($g);
@@ -95,7 +89,6 @@ class GroupController extends BaseController
                 $em->flush();
                 
                 $dispatcher->dispatch(\FOS\UserBundle\FOSUserEvents::GROUP_CREATE_COMPLETED, new \FOS\UserBundle\Event\FilterGroupResponseEvent($group, $request, $response));
-
                 
                 return $response;
             }
@@ -104,7 +97,6 @@ class GroupController extends BaseController
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:new.html.'.$this->getEngine(), array(
             'form' => $form->createview(),
         ));
-        
     }
     
     public function editAction(\Symfony\Component\HttpFoundation\Request $request, $groupName) {

@@ -1,10 +1,16 @@
-tangara_tangarajs_index:
-    pattern:  /
-    defaults: { _controller: TangaraCoreBundle:Project:index }
+#tangara_tangarajs_index:
+#    pattern:  /
+#    defaults: { _controller: TangaraCoreBundle:Project:index }
 
-tangara_tangarajs_groups:            
-    pattern:  /getGroups
-    defaults: { _controller: TangaraCoreBundle:Project:getGroups }
+#tangara_tangarajs_groups:            
+#    pattern:  /getGroups
+#    defaults: { _controller: TangaraCoreBundle:Project:getGroups }
+
+tangara_tangarajs_get:            
+    pattern:  /files/{id}
+    defaults: { _controller: TangaraCoreBundle:File:getFiles }
+    requirements:
+        id:  \d+
 
 #tangara_tangarajs_projects:            
 #    pattern:  /getProjects

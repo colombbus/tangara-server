@@ -4,7 +4,6 @@ namespace Tangara\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
  * Project
  *
@@ -65,19 +64,48 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @ORM\Column(name="DateCreation", type="datetime")
      */
     private $dateCreation;
-    
-    
+
     /**
      *
      * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\User", inversedBy="project")
      */
     private $user;
-    
+
     /**
      *
      * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\Group", inversedBy="project")
      */
     private $group;
+
+    /**
+     * To know if user project ever exists with this name
+     * @param type $allProjects
+     * @return boolean true if project exists
+     */
+    function isUserProjectExist($allProjects) {
+        $pname = $this->getName();
+        foreach ($allProjects as $p) {
+            if ($p->getName() == $pname) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * To know if group project ever exists with this name
+     * @param type $allProjects
+     * @return boolean true if project exists
+     */
+    function isGroupProjectExist($allProjects) {
+        $pname = $this->getName();
+        foreach ($allProjects as $p) {
+            if ($p->getName() == $pname) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function __construct() {
         $this->dateCreation = new \DateTime('NOW');
@@ -86,15 +114,12 @@ class Project extends \Doctrine\ORM\EntityRepository {
         $this->referenceFont = "Arial";
     }
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -104,8 +129,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @param string $name
      * @return Project
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -116,8 +140,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -127,8 +150,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @param integer $referenceWidth
      * @return Project
      */
-    public function setReferenceWidth($referenceWidth)
-    {
+    public function setReferenceWidth($referenceWidth) {
         $this->referenceWidth = $referenceWidth;
 
         return $this;
@@ -139,8 +161,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      *
      * @return integer 
      */
-    public function getReferenceWidth()
-    {
+    public function getReferenceWidth() {
         return $this->referenceWidth;
     }
 
@@ -150,8 +171,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @param integer $referenceHeight
      * @return Project
      */
-    public function setReferenceHeight($referenceHeight)
-    {
+    public function setReferenceHeight($referenceHeight) {
         $this->referenceHeight = $referenceHeight;
 
         return $this;
@@ -162,8 +182,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      *
      * @return integer 
      */
-    public function getReferenceHeight()
-    {
+    public function getReferenceHeight() {
         return $this->referenceHeight;
     }
 
@@ -173,8 +192,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @param string $referenceFont
      * @return Project
      */
-    public function setReferenceFont($referenceFont)
-    {
+    public function setReferenceFont($referenceFont) {
         $this->referenceFont = $referenceFont;
 
         return $this;
@@ -185,8 +203,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      *
      * @return string 
      */
-    public function getReferenceFont()
-    {
+    public function getReferenceFont() {
         return $this->referenceFont;
     }
 
@@ -196,8 +213,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @param \DateTime $dateCreation
      * @return Project
      */
-    public function setDateCreation($dateCreation)
-    {
+    public function setDateCreation($dateCreation) {
         $this->dateCreation = $dateCreation;
 
         return $this;
@@ -208,8 +224,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      *
      * @return \DateTime 
      */
-    public function getDateCreation()
-    {
+    public function getDateCreation() {
         return $this->dateCreation;
     }
 
@@ -219,8 +234,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @param \Tangara\CoreBundle\Entity\User $projectManager
      * @return Project
      */
-    public function setProjectManager(\Tangara\CoreBundle\Entity\User $projectManager = null)
-    {
+    public function setProjectManager(\Tangara\CoreBundle\Entity\User $projectManager = null) {
         $this->projectManager = $projectManager;
 
         return $this;
@@ -231,8 +245,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      *
      * @return \Tangara\CoreBundle\Entity\User 
      */
-    public function getProjectManager()
-    {
+    public function getProjectManager() {
         return $this->projectManager;
     }
 
@@ -242,8 +255,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @param \Tangara\CoreBundle\Entity\User $user
      * @return Project
      */
-    public function setUser(\Tangara\CoreBundle\Entity\User $user = null)
-    {
+    public function setUser(\Tangara\CoreBundle\Entity\User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -254,8 +266,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      *
      * @return \Tangara\CoreBundle\Entity\User 
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -265,8 +276,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @param \Tangara\CoreBundle\Entity\Group $group
      * @return Project
      */
-    public function setGroup(\Tangara\CoreBundle\Entity\Group $group = null)
-    {
+    public function setGroup(\Tangara\CoreBundle\Entity\Group $group = null) {
         $this->group = $group;
 
         return $this;
@@ -277,8 +287,8 @@ class Project extends \Doctrine\ORM\EntityRepository {
      *
      * @return \Tangara\CoreBundle\Entity\Group 
      */
-    public function getGroup()
-    {
+    public function getGroup() {
         return $this->group;
     }
+
 }
