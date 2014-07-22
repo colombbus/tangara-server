@@ -8,6 +8,7 @@ use Tangara\CoreBundle\Entity\Project;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Filesystem\Filesystem;
 
+
 /**
  * @ORM\Entity
  */
@@ -77,6 +78,10 @@ class Document {
 
         // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
         $this->file = null;
+    }
+    
+    public function isGranted(User $user){
+        echo $this->get('container');
     }
 
     /**
