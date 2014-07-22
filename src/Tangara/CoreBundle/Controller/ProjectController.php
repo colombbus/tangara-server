@@ -163,7 +163,9 @@ class ProjectController extends Controller {
             if ($projectExist == false) {
                 $em->persist($project);
                 $em->flush();
-                return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId(), 'cat' => $cat)
+                return $this->redirect($this->generateUrl('tangara_project_show', array(
+                    'id' => $project->getId(), 
+                    'cat' => $cat)
                 ));
             }
             return new Response('Un projet avec me meme nom existe deja.');
