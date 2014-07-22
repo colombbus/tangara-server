@@ -9,6 +9,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 use Tangara\CoreBundle\Form\ProjectType;
 use Tangara\CoreBundle\Entity\Document;
 use Tangara\CoreBundle\Entity\Project;
@@ -166,20 +167,18 @@ class FileController extends Controller {
     }
 
     public function createAction() {
-        $fileLoad = null;
+        $created = null;
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
             if ($request->query->get('createdfile')) {
-                echo "New file : " . $fileLoad;
-                $fileLoad = $request->query->get('createdfile');
+                echo "New file : " . $created;
+                $created = $request->query->get('createdfile');
             }
-
-            // Check if file is loaded 
-            if ($fileLoad) {
+            if ($created) {
                 $response = new JsonResponse();
                 $response->setData(array(
-                    "Le fichier se charge"));
+                    'created' => $created));
 
                 return $response;
             }
