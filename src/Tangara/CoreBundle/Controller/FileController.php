@@ -9,6 +9,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 use Tangara\CoreBundle\Form\ProjectType;
 use Tangara\CoreBundle\Entity\Document;
 use Tangara\CoreBundle\Entity\Project;
