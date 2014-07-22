@@ -9,7 +9,6 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-
 use Tangara\CoreBundle\Form\ProjectType;
 use Tangara\CoreBundle\Entity\Document;
 use Tangara\CoreBundle\Entity\Project;
@@ -88,13 +87,13 @@ class FileController extends Controller {
      */
     public function getResourcesAction(Project $project) {
 
-    // check($user, $project);
+        // check($user, $project);
         if ($request->isXmlHttpRequest()) {
             $projectList = $this->getDoctrine()
                     ->getManager()
                     ->getRepository('TangaraCoreBundle:Document')
                     ->findByOwnerProject($project->getId());
-            
+
             foreach ($projectList as $prj) {
                 $files[] = $prj->getPath();
             }
@@ -104,6 +103,7 @@ class FileController extends Controller {
             return $response;
         }
     }
+
     //getContentAction
     public function getFilesAction(Project $project) {
         $request = $this->getRequest();
@@ -113,17 +113,17 @@ class FileController extends Controller {
     }
 
     public function removeFileAction(Project $project) {
-        
+
         $fileName = null;
         $request = $this->getRequest();
-        
-        if ($request->query->get('fileName')){
+
+        if ($request->query->get('removedfile')) {
             echo "USER PROJECT";
-            $fileName = $request->query->get('filename');
+            $fileName = $request->query->get('removedfile');
         }
-        
+
         if ($request->isXmlHttpRequest()) {
-            
+
             //verifie si le fichier existe, si vrai
             if ($fileName) {
                 $em = $this->getDoctrine()->getManager();
@@ -133,7 +133,7 @@ class FileController extends Controller {
 
                 $em->remove($file);
                 $em->flush();
-                
+
                 $response = new JsonResponse();
                 $response->setData(array(
                     "bob.tgr", "pomme.tgr", "cubeQuest.tgr"
@@ -145,11 +145,12 @@ class FileController extends Controller {
     }
 
     public function getTgrContentAction(Project $project) {
-        if ($request->query->get('filename'))
+        if ($request->query->get('tgrfile'))
+            ;
     }
 
     public function getParseContentAction(Project $project) {
-        if ($request->query->get('filename'))
+        if ($request->query->get('parsefile'))
             echo "USER PROJECT";
     }
 
@@ -163,70 +164,63 @@ class FileController extends Controller {
                     'query' => $query
         ));
     }
-    
-    public function createAction(){
-        
-        
+
+    public function createAction() {
         $fileLoad = null;
         $request = $this->getRequest();
-        
 
-        if ($request->query->get('fileload')){
-            echo "USER PROJECT";
-            $fileLoad = $request->query->get('fileload');
-        }
-        
         if ($request->isXmlHttpRequest()) {
-            
-            //verifie si le fichier se charge, 
+            if ($request->query->get('createdfile')) {
+                echo "New file : " . $fileLoad;
+                $fileLoad = $request->query->get('createdfile');
+            }
+
+            // Check if file is loaded 
             if ($fileLoad) {
-          
                 $response = new JsonResponse();
                 $response->setData(array(
                     "Le fichier se charge"));
-                
+
                 return $response;
             }
         }
-        
     }
-    
 
     /*
-    public function getContentTgrAction() {
-        $request = $this->getRequest();
-        $locale = $request->getLocale();
+      public function getContentTgrAction() {
+      $request = $this->getRequest();
+      $locale = $request->getLocale();
 
-        if ($request) {
-            $file = 'C:/Bin/cmd_aliases.txt';
-            $response = new BinaryFileResponse($file);
-            
-            return $response;
-        }
-        
-        
-            public function getAjaxAction() {
-        $data = "ok";
-        $request = $this->getRequest();
+      if ($request) {
+      $file = 'C:/Bin/cmd_aliases.txt';
+      $response = new BinaryFileResponse($file);
 
-        $data = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('TangaraCoreBundle:Project')
-                ->myFindAll();
+      return $response;
+      }
 
-        if ($this->getRequest()->isMethod('POST')) {
-            $data = $request->request->get('data');
-            //var_dump($request->request->all());
-        }
-        if ($this->getRequest()) {
-            //$this->getRequest()->request();
 
-            return new Response('Reçu en POST : ' . $data);
-        }
+      public function getAjaxAction() {
+      $data = "ok";
+      $request = $this->getRequest();
 
-        //return new Response('<h1>Reçu en normal</h1>');
-    }
-        
-        
-        */
+      $data = $this->getDoctrine()
+      ->getManager()
+      ->getRepository('TangaraCoreBundle:Project')
+      ->myFindAll();
+
+      if ($this->getRequest()->isMethod('POST')) {
+      $data = $request->request->get('data');
+      //var_dump($request->request->all());
+      }
+      if ($this->getRequest()) {
+      //$this->getRequest()->request();
+
+      return new Response('Reçu en POST : ' . $data);
+      }
+
+      //return new Response('<h1>Reçu en normal</h1>');
+      }
+
+
+     */
 }
