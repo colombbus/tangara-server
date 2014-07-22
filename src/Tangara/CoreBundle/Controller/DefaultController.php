@@ -21,4 +21,5 @@ class DefaultController extends Controller
         return $this->render('TangaraCoreBundle:Default:ajax_symfony.html.twig');;
     }
     
+
 }

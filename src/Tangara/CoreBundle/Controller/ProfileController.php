@@ -28,11 +28,12 @@ namespace Tangara\CoreBundle\Controller;
 use FOS\UserBundle\Controller\ProfileController as BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
-use Tangara\CoreBundle\Entity\GroupRepository;
-use Tangara\CoreBundle\Entity\User;
 
-class ProfileController extends BaseController {
 
+class ProfileController extends BaseController 
+{
+
+   
     //Controller to get the user main page
     public function profileAction() {
 

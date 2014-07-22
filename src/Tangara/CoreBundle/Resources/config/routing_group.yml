@@ -7,3 +7,11 @@ tangara_user_group_new:
     pattern:  /new
     defaults: { _controller: TangaraCoreBundle:Group:new }
     
+tangara_group_acceptRequest:
+    pattern:  /accept_request
+    defaults: { _controller: TangaraCoreBundle:Group:acceptRequest }
+    
+tangara_group_refuseRequest:
+    pattern:  /refuse_request
+    defaults: { _controller: TangaraCoreBundle:Group:refuseRequest }
+    

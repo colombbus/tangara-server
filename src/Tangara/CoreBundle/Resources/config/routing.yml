@@ -10,3 +10,4 @@ tangara_project_ajax:
 tangara_project_ajax_test:
     pattern:  /ajax/test
     defaults: { _controller: TangaraCoreBundle:File:removeFile }
+    

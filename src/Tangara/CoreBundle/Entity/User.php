@@ -71,7 +71,7 @@ class User extends BaseUser
         parent::__construct();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->dateCreation = new \DateTime('now');
-        $this->project = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
