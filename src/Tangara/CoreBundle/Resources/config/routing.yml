@@ -16,3 +16,11 @@ tangara_test:
     defaults: { _controller: TangaraCoreBundle:File:test }
     requirements:
         id:  \d+
+
+tangara_core_ajax:
+    pattern:  /ajax
+    defaults: { _controller: TangaraCoreBundle:Default:ajax }
+
+tangara_core_ajax_test:
+    pattern:  /ajax/test
+    defaults: { _controller: TangaraCoreBundle:File:removeFile }
