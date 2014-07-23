@@ -16,7 +16,7 @@ Thematic list
       * Requested groups list on profile page
       * DONE Group manager mail confirmation sending
       * DONE Group template: list of members
-      * Add textarea to join details to demand
+      * DONE Add textarea to join details to demand
     Project
       * Copy a project
       * DONE Check an already project name existed
