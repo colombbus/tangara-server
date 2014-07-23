@@ -9,6 +9,7 @@ Thematic list
       * DONE Selector menu for ProjectOwnerGroup that contains groups of the user
       * DONE Create a group in the same time user is created
       * DONE user shouldn't have projects
+      * DONE Check if user is granted to project
     Group
       * DONE User could have private group for managing private projects
       * DONE Edition
@@ -22,7 +23,7 @@ Thematic list
       * DONE Check an already project name existed
       * DONE List of files uploaded
       * Check if file exists
-      * bug: Private project edition: project manager can be transfered to all users
+      * Bug: Private project edition: project manager can be transfered to all users
       * DONE Add file (picture or resource) with 
             http://localhost/tangara/project/1/12/upload
 
@@ -33,18 +34,18 @@ Thematic list
     * BlueImp/DropZone: jQuery Upload file
     * DONE files upload in directory configured in paramaters.yml
     * DONE Tangara directory configured in paramaters.yml
-    * javascript: popup to preview file clicked
+    * Javascript: popup to preview file clicked
         text/js http://codecanyon.net/item/jquery-document-viewer/1732515
         picture http://www.yoxigen.com/yoxview/
 
 - Security
-    * re-plug security context (unplugged for dev) (régis)
+    * Re-plug security context (unplugged for dev) (régis)
 
 - Admin interface
-    * user management : add/remove/changepassd
-    * grp management : add/remove/rename/modify
-    * project management : add/remove/rename/modify/move
-    * user's informations managed by Slickgrid
+    * User management : add/remove/changepassd
+    * Grp management : add/remove/rename/modify
+    * Project management : add/remove/rename/modify/move
+    * User s informations managed by Slickgrid
     * DONE make a javascript tool to activate the current item clicked
 
 - All pages translated in en/fr 
