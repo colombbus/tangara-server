@@ -38,20 +38,22 @@ Thematic list
         picture http://www.yoxigen.com/yoxview/
 
 - Security
-    * re-plug security context (unplugged for dev)
+    * re-plug security context (unplugged for dev) (régis)
 
 - Admin interface
     * user management : add/remove/changepassd
     * grp management : add/remove/rename/modify
     * project management : add/remove/rename/modify/move
     * user's informations managed by Slickgrid
+    * DONE make a javascript tool to activate the current item clicked
 
-- All pages translated in en/fr
+- All pages translated in en/fr 
 
 - Tests
 
 - Script 
     * DONE DEPRECATED After a modif on schema update
+    * Code tidy: all javascripts in js/vendors
 
 - Request
     * DONE identical private/group project
