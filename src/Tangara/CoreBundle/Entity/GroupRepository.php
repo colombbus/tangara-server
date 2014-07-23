@@ -24,6 +24,7 @@ class GroupRepository extends EntityRepository {
         return true; 
     }
     
+    //check if the user is in the joinRequest list
     public function isUserAsked($name){
         
         $query = $this->createQueryBuilder('a')
@@ -40,6 +41,7 @@ class GroupRepository extends EntityRepository {
         return true;
     }
     
+    //check if the user is a leader
     public function isGroupLeader($name){
         
          $query = $this->createQueryBuilder('a')

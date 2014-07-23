@@ -18,4 +18,20 @@ tangara_group_refuseRequest:
 tangara_group_edit:
     pattern:  /group/edit/{groupName}
     defaults: { _controller: TangaraCoreBundle:FOSGroup:edit }
+  
     
+    
+    
+    
+#route de redirection
+tangara_core_group_list:
+    pattern:  /group/list
+    defaults: { _controller: TangaraCoreBundle:Group:list }
+    
+tangara_core_group_new:
+    pattern:  /group/new
+    defaults: { _controller: TangaraCoreBundle:Group:new }
+
+tangara_core_group_edit:
+    pattern:  /group/edit
+    defaults: { _controller: TangaraCoreBundle:Group:new } 

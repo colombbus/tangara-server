@@ -25,41 +25,32 @@
 
 namespace Tangara\CoreBundle\Controller;
 
-use FOS\UserBundle\Controller\ProfileController as BaseController;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
 
 
-class ProfileController extends BaseController 
+class ProfileController extends Controller 
 {
 
-   
     //Controller to get the user main page
     public function profileAction() {
 
         //$response = parent::profileAction();
         //$user = parent::showAction();
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        $re = new Group();
-        $re->setName("AdminGroup9");
-        $re->addUser($user);
-        
-        $this->container->get('session')->getFlashBag()->add(
-            'notice',
-            'Vos changements ont été sauvegardés!'
-        );
+        $user = $this->get('security.context')->getToken()->getUser();
                 
-        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
+        return $this->render('TangaraCoreBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
                 array('user' => $user));
     }
     
     //delete account
     public function delAccountAction(){  
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
         
         
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $repositoryGroup = $em->getRepository('TangaraCoreBundle:Group');
              
         //supprimer les projets de l'user
         $projects = $user->getProjects();
@@ -142,5 +133,6 @@ class ProfileController extends BaseController
         
     }
     
+   
 
 }

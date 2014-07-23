@@ -44,6 +44,9 @@ class GroupController extends Controller
         return $this->render('TangaraCoreBundle:Group:show.html.twig', array('group' => $group, 'isProjects' => $isProjects));
     }
 
+    
+    
+    
     //a changer le contenu
     public function newAction(\Symfony\Component\HttpFoundation\Request $request) {
         
