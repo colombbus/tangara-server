@@ -18,7 +18,7 @@
  */
 
 /**
- * Description of Mailer
+ * Description of Uploader
  *
  * @author Régis
  */
