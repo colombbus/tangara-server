@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function($){
-    function activateMenu(menu) {
-        console.log("menu" + menu);
-    }
-    activateMenu("menu");
-    
-})(jQuery)
+
+function activateMenu(menuItem) {
+    $(menuItem).attr({
+        class: "active"
+    });
+}
