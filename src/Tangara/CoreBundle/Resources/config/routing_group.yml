@@ -5,13 +5,17 @@ tangara_user_groupInfo:
     
 tangara_user_group_new:
     pattern:  /new
-    defaults: { _controller: TangaraCoreBundle:Group:new }
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:new }
     
 tangara_group_acceptRequest:
     pattern:  /accept_request
-    defaults: { _controller: TangaraCoreBundle:Group:acceptRequest }
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:acceptRequest }
     
 tangara_group_refuseRequest:
     pattern:  /refuse_request
-    defaults: { _controller: TangaraCoreBundle:Group:refuseRequest }
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:refuseRequest }
+    
+tangara_group_edit:
+    pattern:  /group/edit/{groupName}
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:edit }
     

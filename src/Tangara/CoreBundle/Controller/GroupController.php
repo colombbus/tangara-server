@@ -2,56 +2,58 @@
 
 namespace Tangara\CoreBundle\Controller;
 
-
 use Tangara\CoreBundle\Entity\Group;
 use Tangara\CoreBundle\Entity\GroupRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 
-use FOS\UserBundle\Controller\GroupController as BaseController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
-class GroupController extends BaseController
+class GroupController extends Controller
 {
-    
     
     /**
      * Show all groups
      */
     public function listAction() {
-        $groups = $this->container->get('fos_user.group_manager')->findGroups();
+       
+        $user = $this->get('security.context')->getToken()->getUser();
+    
+        //on recupere tous les groupes
+        $em = $this->getDoctrine()->getManager();
+        $groupRepository = $em->getRepository('TangaraCoreBundle:Group');
+        $groups = $groupRepository->findAll();
+        
 
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
+        //les groupes dont l'user est membre
         $user_groups = $user->getGroups();
         $g = new Group();
         $strangerGroups = $g->groupsWithoutMe($groups, $user_groups);
-
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:list.html.' . $this->getEngine(), array(
-                    'groups' => $groups,
-                    'nogroups' => $strangerGroups));
+        
+        return $this->render('TangaraCoreBundle:Group:list.html.twig', array(
+            'groups' => $groups,
+            'nogroups' => $strangerGroups));
     }
 
     /*
      * Give all informations about the group
      */
-
     public function infoGroupAction(Group $group) {
         $isProjects = $group->isProjects();
 
-        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:show.html.twig', array('group' => $group, 'isProjects' => $isProjects));
+        return $this->render('TangaraCoreBundle:Group:show.html.twig', array('group' => $group, 'isProjects' => $isProjects));
     }
 
+    //a changer le contenu
     public function newAction(\Symfony\Component\HttpFoundation\Request $request) {
-        //parent::newAction($request);
-
+        
         /** @var $groupManager \FOS\UserBundle\Model\GroupManagerInterface */
         $groupManager = $this->container->get('fos_user.group_manager');
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->container->get('fos_user.group.form.factory');
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->container->get('event_dispatcher');
-
+ 
         $group = $groupManager->createGroup('');
 
 
@@ -102,12 +104,9 @@ class GroupController extends BaseController
                 return $response;
             }
         }
-
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Group:new.html.' . $this->getEngine(), array(
-                    'form' => $form->createview(),
-        ));
     }
 
+    //a changer le contenu
     public function editAction(\Symfony\Component\HttpFoundation\Request $request, $groupName) {
         //parent::editAction($request, $groupName);
 
@@ -163,6 +162,7 @@ class GroupController extends BaseController
     public function deleteAction(\Symfony\Component\HttpFoundation\Request $request, $groupName) {
         parent::deleteAction($request, $groupName);
     }
+    
     
     public function joinRequestAction(Group $group){
         
