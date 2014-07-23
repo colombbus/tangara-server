@@ -47,7 +47,7 @@ class FileController extends Controller {
         echo "Uploadr path " . $projectPath . "<br/>";
         echo "Tangara path " . $tangaraPath . "<br/>";
         $this->check($user, $project);
-        
+
         $this->get('session')->getFlashBag()->add(
                 'notice', 'Vos changements ont été sauvegardés!'
         );
@@ -61,9 +61,11 @@ class FileController extends Controller {
         if ($request->isXmlHttpRequest()) {
             if ($request->query->get('filename'))
                 echo "USER PROJECT";
-            
+
             //$filename = $request->query->get('wanted');
             //$toSend = $request->request->get('filename');
+
+ 
             
             if ($filename) {
                 $project_id = 23;
@@ -86,44 +88,54 @@ class FileController extends Controller {
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function getResourcesAction($cat, Project $project) {
-$request = $this->getRequest();
+        $request = $this->getRequest();
         // check($user, $project);
         //if ($request->isXmlHttpRequest()) {
-            $projectList = $this->getDoctrine()
-                    ->getManager()
-                    ->getRepository('TangaraCoreBundle:Document')
-                    ->findByOwnerProject($project->getId());
-            
-            foreach ($projectList as $prj) {
-                $files[] = $prj->getPath();
-            }
-            $response = new JsonResponse();
-            $response->setData($files);
+        $projectList = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('TangaraCoreBundle:Document')
+                ->findByOwnerProject($project->getId());
 
-            return $response;
+        foreach ($projectList as $prj) {
+            $files[] = $prj->getPath();
+        }
+        $response = new JsonResponse();
+        $response->setData($files);
+
+        return $response;
         //}
     }
 
     //getContentAction
     public function getFilesAction($cat, Project $project) {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+         
+        $prj = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+        var_dump($prj);
+        exit();
+        
         $request = $this->getRequest();
         if ($request->query->get('filename'))
             echo "USER PROJECT";
+        echo "reponse " . $project->isGranted($user);
+        exit();
+        
         return new Response("request");
+        
     }
 
     public function removeFileAction(Project $project) {
-        
+
         $fileName = null;
-        
-        if ($request->query->get('filename')){
+
+        if ($request->query->get('filename')) {
             $fileName = $request->query->get('filename');
         }
-        
+
         $request = $this->getRequest();
-        
+
         if ($request->isXmlHttpRequest()) {
-            
+
             //verifie si le fichier existe, si vrai
             if ($fileName) {
                 $em = $this->getDoctrine()->getManager();
@@ -135,8 +147,6 @@ $request = $this->getRequest();
                 $em->flush();
             }
         }
-        
-        
     }
 
     public function getTgrContentAction(Project $project) {

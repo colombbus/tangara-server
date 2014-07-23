@@ -3,14 +3,14 @@
 namespace Tangara\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\ORM\EntityRepository;
 /**
  * Project
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\ProjectRepository")
  */
-class Project extends \Doctrine\ORM\EntityRepository {
+class Project extends EntityRepository {
 
     /**
      * @var integer
@@ -76,7 +76,7 @@ class Project extends \Doctrine\ORM\EntityRepository {
      * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\Group", inversedBy="project")
      */
     private $group;
-
+    
     /**
      * To know if user project ever exists with this name
      * @param type $allProjects

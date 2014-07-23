@@ -104,3 +104,7 @@ parameters:
 services:
     tangara_core.settings:
         class: Tangara\CoreBundle\Uploader\Uploader
+    tangara_core.project_manager: 
+        class: Tangara\CoreBundle\Manager\ProjectManager
+        arguments: ["@doctrine.orm.entity_manager"]
+                

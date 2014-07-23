@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class ProjectRepository extends EntityRepository {
-
+    
     public function getLastPostedSQL($limit = 5) {
         return $this->get('doctrine')->getManager()->createQuery('
             SELECT 

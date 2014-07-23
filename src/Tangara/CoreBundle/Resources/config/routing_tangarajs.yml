@@ -16,3 +16,6 @@ tangara_tangarajs_get_files:
 tangara_tangarajs_get_resources:            
     pattern:  /getresources/{cat}/{id}
     defaults: { _controller: TangaraCoreBundle:File:getResources }
+    requirements:
+        cat: 1|2
+        id:  \d+
