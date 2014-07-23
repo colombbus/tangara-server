@@ -5,6 +5,33 @@ tangara_user_group_info:
     
 tangara_user_group_new:
     pattern:  /new
-    defaults: { _controller: TangaraCoreBundle:Group:new }
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:new }
     
- 
+tangara_group_acceptRequest:
+    pattern:  /accept_request
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:acceptRequest }
+    
+tangara_group_refuseRequest:
+    pattern:  /refuse_request
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:refuseRequest }
+    
+tangara_group_edit:
+    pattern:  /group/edit/{groupName}
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:edit }
+  
+    
+    
+    
+    
+#route de redirection
+tangara_core_group_list:
+    pattern:  /group/list
+    defaults: { _controller: TangaraCoreBundle:Group:list }
+    
+tangara_core_group_new:
+    pattern:  /group/new
+    defaults: { _controller: TangaraCoreBundle:Group:new }
+
+tangara_core_group_edit:
+    pattern:  /group/edit
+    defaults: { _controller: TangaraCoreBundle:Group:new } 

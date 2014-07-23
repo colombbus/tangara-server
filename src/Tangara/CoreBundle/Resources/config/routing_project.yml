@@ -2,22 +2,34 @@ tangara_project_index:
     pattern:  /
     defaults: { _controller: TangaraCoreBundle:Project:index }
 
-#showAction: information about the project
-tangara_project_show:            
-    pattern:  /show/{cat}/{id}
-    defaults: { _controller: TangaraCoreBundle:Project:show }
-    requirements:
-        id:  \d+
+
+
+
+#showGroupProjectAction: info about the group projects
+tangara_project_group_show:
+    pattern:  /show/group/{id}
+    defaults: { _controller: TangaraCoreBundle:Project:showGroupProjects }
+
+#showUserProjectAction: info about the user projects  
+tangara_project_user_show:
+    pattern:  /show/user/{id}
+    defaults: { _controller: TangaraCoreBundle:Project:showUserProjects }        
 
 #newAction: create a new project for user
 tangara_project_user_new:
     pattern:  /profil/{user_id}/new
-    defaults: { _controller: TangaraCoreBundle:Project:new, user_id: 0, group_id: 0 }
+    defaults: { _controller: TangaraCoreBundle:Project:newUserProject }
 
 #newAction: create a new project for group
 tangara_project_group_new:
     pattern:  /group/{group_id}/new
-    defaults: { _controller: TangaraCoreBundle:Project:new, user_id: 0, group_id: 0}
+    defaults: { _controller: TangaraCoreBundle:Project:newGroupProject }
+
+
+
+
+
+
 
 tangara_project_list:
     pattern:  /list

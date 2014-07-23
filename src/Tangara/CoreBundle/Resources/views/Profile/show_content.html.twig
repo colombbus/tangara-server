@@ -1,5 +1,3 @@
-{#% trans_default_domain 'FOSUserBundle' %#}
-
 <div class="fos_user_user_show">
     <div class="row">
         <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
@@ -11,7 +9,7 @@
                 <ul>
                     {% set userProjects = user.getProjects() %}
                     {% for project in userProjects %}
-                        <li><a href="{{ path( "tangara_project_show", {cat: 1, id: project.getId()} ) }}">{{ project.getName() }}</a></li>
+                        <li><a href="{{ path( "tangara_project_user_show", {id: project.getId()} ) }}">{{ project.getName() }}</a></li>
                     {% endfor %}
                 </ul>
             </fieldset>

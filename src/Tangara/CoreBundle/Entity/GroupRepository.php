@@ -14,8 +14,39 @@ use Doctrine\ORM\EntityRepository;
 class GroupRepository extends EntityRepository {
     
     
+    //check if the user is in the joinRequest list
+    public function isUserAsked($name){
+        
+        $query = $this->createQueryBuilder('a')
+                ->join('a.joinRequest', 'b')
+                ->where('b.username = :name')
+                ->setParameter('name', $name);
+        
+        $user = $query->getQuery()->getOneOrNullResult();
+        
+        
+        if($user == null){
+            return false;
+        }
+        return true;
+    }
     
-    
+    //check if the user is a leader
+    public function isGroupLeader($name){
+        
+         $query = $this->createQueryBuilder('a')
+                ->join('a.groupLeader', 'b')
+                ->where('b.username = :name')
+                ->setParameter('name', $name);
+        
+        $user = $query->getQuery()->getOneOrNullResult();
+        
+        
+        if($user == null){
+            return false;
+        }
+        return true;
+    }
     
     
 }

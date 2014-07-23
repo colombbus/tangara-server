@@ -20,7 +20,7 @@ tangara_core_tangarajs:
     
 ############################### FOS/UserBundle routing############################
 tangara_core_user:
-    resource: "@TangaraCoreBundle/Resources/config/routing_user.yml"
+    resource: "@TangaraCoreBundle/Resources/config/routing_profile.yml"
     prefix:   /
 
 #tangara_admin:

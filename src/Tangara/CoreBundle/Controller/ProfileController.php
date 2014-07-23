@@ -25,36 +25,32 @@
 
 namespace Tangara\CoreBundle\Controller;
 
-use FOS\UserBundle\Controller\ProfileController as BaseController;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
-use Tangara\CoreBundle\Entity\User;
 
-class ProfileController extends BaseController {
+
+class ProfileController extends Controller 
+{
 
     //Controller to get the user main page
     public function profileAction() {
 
         //$response = parent::profileAction();
         //$user = parent::showAction();
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        
-        $this->container->get('session')->getFlashBag()->add(
-            'notice',
-            'Vos changements ont été sauvegardés!'
-        );
+        $user = $this->get('security.context')->getToken()->getUser();
                 
-        return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
+        return $this->render('TangaraCoreBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
                 array('user' => $user));
     }
     
     //delete account
     public function delAccountAction(){  
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
         
         
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $repositoryGroup = $em->getRepository('TangaraCoreBundle:Group');
              
         //supprimer les projets de l'user
         $projects = $user->getProjects();
@@ -87,5 +83,56 @@ class ProfileController extends BaseController {
         return new Response('Votre Compte a ete supprimer');
         
     }
+    
+    
+    
+    public function askJoinGroupAction(){
+        $user = $this->container->get('security.context')->getToken()->getUser();
+       
+        $msg = $this->container->get('request')->get('object');
+        $goupId = $this->container->get('request')->get('groups');
+        
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $groupRepository = $em->getRepository('TangaraCoreBundle:Group');
+        $group = $groupRepository->find($goupId);
+               
+        //touver le leader du group, donc user puis som adresse email
+        $groupLeader = $group->getGroupsLeader();     
+        $leader_mail = $groupLeader->getEmail();
+        
+        
+        
+        
+        
+        if($groupRepository->isUserAsked($user->getUserName()) == null){
+            //ajouter l'user dans la liste des demandes
+            $group->addJoinRequest($user);
+            $em->persist($group);
+            $em->flush();
+            
+            /*
+              //envoyer un mail au leader
+              $message = \Swift_Message::newInstance()
+              ->setSubject('Demande de rejoidre le groupe')
+              ->setFrom('tangaraui@colombbus.org')
+              ->setTo('tangaraui@colombbus.org') //a changer avec le mail $leader_mail
+              ->setBody($msg)
+              ;
+              $this->container->get('mailer')->send($message);
+             */
+            
+            //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
+            return new Response('Message envoyé.');
+        }
+        else{
+            //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
+            return new Response('Vous avez deja fait une demande de rejoindre ce groupe.');
+        }
+        
+        
+        
+    }
+    
+   
 
 }

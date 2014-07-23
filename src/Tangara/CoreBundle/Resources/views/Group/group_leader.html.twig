@@ -1,0 +1,54 @@
+<fieldset>
+    <legend>Groupe leader</legend>
+    {% for ur in usersRequest %}
+        <span id="{{ ur.getId() }}">
+            {{ ur.getUserName() }} 
+            <input type="button" value="Accepter" id="accepter" onclick="foo({{ ur.getId() }}, {{ group.getId() }})" />
+            <input type="button" value="Refuser" id="refuser" onclick="foo2({{ ur.getId() }}, {{ group.getId() }})" />
+        </span>
+    {% endfor %}
+    <p id="msg"></p>
+</fieldset>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+</script>
+
+<script>
+
+function foo(id, groupid){
+//$(document).ready(function() {
+    //$('#accepter').click(function(){
+            $.ajax({
+                type: "GET",
+                    url: "{{path('tangara_group_acceptRequest')}}",             
+                    data: 'valeur=' + id + "&groupid=" + groupid,
+                success: function(msg) {
+                    $('#msg').html(msg);
+                    var span = document.getElementById(id);
+                    span.parentNode.removeChild(span);
+                }
+
+            }); // Ajax Call
+        //}); //event handler
+    //}); //document.ready
+ }       
+
+function foo2(id, groupid){
+//$(document).ready(function() {
+    //$('#refuser').click(function(){
+            $.ajax({
+                type: "GET",
+                    url: "{{path('tangara_group_refuseRequest')}}",             
+                    data: 'valeur=' + id + "&groupid=" + groupid,
+                success: function(msg) {
+                    $('#msg').html(msg);
+                    var span = document.getElementById(id);
+                    span.parentNode.removeChild(span);
+                }
+
+        }); // Ajax Call
+    //}); //event handler
+//}); //document.ready  
+}    
+</script>
