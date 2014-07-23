@@ -9,6 +9,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 use Tangara\CoreBundle\Form\ProjectType;
 use Tangara\CoreBundle\Entity\Document;
 use Tangara\CoreBundle\Entity\Project;
@@ -59,7 +60,7 @@ class FileController extends Controller {
         $request = $this->getRequest();
         //$user = $request->get('security.context')->getToken()->getUser()->getId();
         if ($request->isXmlHttpRequest()) {
-            if ($request->query->get('filename'))
+            if ($request->query->get('sendfile'))
                 echo "USER PROJECT";
 
             //$filename = $request->query->get('wanted');
@@ -109,8 +110,9 @@ class FileController extends Controller {
     //getContentAction
     public function getFilesAction($cat, Project $project) {
         $user = $this->container->get('security.context')->getToken()->getUser();
-         
-        $prj = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+        $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+        if (!$auth)
+            return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
         var_dump($prj);
         exit();
         
@@ -128,8 +130,8 @@ class FileController extends Controller {
 
         $fileName = null;
 
-        if ($request->query->get('filename')) {
-            $fileName = $request->query->get('filename');
+        if ($request->query->get('removedfile')) {
+            $fileName = $request->query->get('removedfile');
         }
 
         $request = $this->getRequest();
@@ -150,12 +152,12 @@ class FileController extends Controller {
     }
 
     public function getTgrContentAction(Project $project) {
-        if ($request->query->get('filename'))
+        if ($request->query->get('tgrfile'))
             echo "USER PROJECT";
     }
 
     public function getParseContentAction(Project $project) {
-        if ($request->query->get('filename'))
+        if ($request->query->get('parsefile'))
             echo "USER PROJECT";
     }
 
