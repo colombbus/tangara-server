@@ -281,4 +281,30 @@ class Project extends \Doctrine\ORM\EntityRepository {
     {
         return $this->group;
     }
+    
+    
+    
+    
+    //------------------------Auntres Methodes---------------------------------
+    
+    function isUserProjectExist($allProjects, $pname) {
+
+        foreach ($allProjects as $p) {
+            if ($p->getName() == $pname) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function isGroupProjectExist($allProjects, $pname) {
+
+        foreach ($allProjects as $p) {
+            if ($p->getName() == $pname) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -20,7 +20,7 @@
                 <p>Liste des projets du groupe:</p>   
                 <ul>
                     {% for project in groupProjects %}
-                        <li><a href="{{ path( "tangara_project_show", {id: project.getId(), cat: 2} ) }}">{{ project.getName() }}</a></li>
+                        <li><a href="{{ path( "tangara_project_group_show", {id: project.getId()} ) }}">{{ project.getName() }}</a></li>
                     {% endfor %}
                 </ul> 
                 {% else %}
