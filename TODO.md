@@ -45,7 +45,12 @@ Thematic list
     * User management : add/remove/changepassd
     * Grp management : add/remove/rename/modify
     * Project management : add/remove/rename/modify/move
+    * DONE Include SlickGrid
     * User s informations managed by Slickgrid
+        id
+        username
+        password
+
     * DONE make a javascript tool to activate the current item clicked
 
 - All pages translated in en/fr 
@@ -67,6 +72,7 @@ Thematic list
 
     * Get file content
         http://localhost/tangara/project/1/12/getContent?filename=fichier.tgr
+            * error: unowned
     * Get file Programs list 
         http://localhost/tangara/project/1/12/getProgramList
     * Get resourceObtenir la liste des ressources
@@ -81,6 +87,8 @@ Thematic list
 - Installation page 
     * A configuration page could be used to install Tangara-UI (DB settings, etc.)
 
+- Code cleaning
+    User/Group/Project functions in Managers
 
 Priority
 -------------
