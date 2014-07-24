@@ -52,5 +52,8 @@ class DefaultController extends Controller {
             return $response;
         }
     }
-
+    
+    public function ajaxAction(){
+        return $this->render('TangaraCoreBundle:Default:ajax_symfony.html.twig');
+    }
 }
