@@ -70,6 +70,10 @@ tangara_project_tgr_content:
 tangara_del_user_project:
     pattern:  /delproject
     defaults: { _controller: TangaraCoreBundle:Project:delUserProject }
+    
+tangara_del_group_project:
+    pattern:  /del_group_project
+    defaults: { _controller: TangaraCoreBundle:Project:delGroupProject }
  
 
 

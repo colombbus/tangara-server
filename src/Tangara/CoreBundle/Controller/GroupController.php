@@ -234,7 +234,16 @@ class GroupController extends Controller
         $user = $repositoryU->find($_GET['userid']);
         
         
+        $group->removeUsers($user);
+        $user->removeGroups($group);
+        $em->flush();
+        
+        
+        
+        
+        
         echo 'Un user a ete supprime du group.';
+        
         
         return new Response(NULL);
         

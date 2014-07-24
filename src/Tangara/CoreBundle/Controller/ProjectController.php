@@ -331,7 +331,52 @@ class ProjectController extends Controller {
     }
     
     
-    
+    //del user project
+    function delGroupProjectAction(){
+        
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('TangaraCoreBundle:Project');
+        $project = $repository->find($_GET['projectid']);
+        $repositoryU = $em->getRepository('TangaraCoreBundle:Group');
+        $group = $repositoryU->find($_GET['groupid']);
+        
+        //$this->get('request')->get('projectid');
+        
+        
+        $docs = $em->getRepository('TangaraCoreBundle:Document')
+                ->getAllProjectDocuments($project->getName());
+        
+        
+        //juste les id des docs
+        $tmp = " ";
+        foreach ($docs as $key){
+            
+            $em->remove($key);
+            $tmp += $key->getId();
+        }
+        
+        $em->remove($project);
+        $em->flush(); 
+        
+        
+        if($docs){
+            echo "Les documents on ete supprimer." .$tmp;
+        }
+        else{
+            echo "Il n'y a pas de document dans ce projet.";
+        }
+        
+        
+        
+        
+        
+        
+
+        //echo "Vous avez supprimmer le procjet id = ".$_GET['projectid'];
+
+        return new Response(NULL); 
+        
+    }
 
 }
 
