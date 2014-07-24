@@ -12,10 +12,10 @@ class DefaultController extends Controller {
         return $this->render('TangaraCoreBundle:Default:homepage.html.twig');
     }
 
-//controleur vers la page de confirmation
+    //controleur vers la page de confirmation
     public function confirmationAction() {
 
-//recuperer le formulaire
+        //get form
         $msg = $this->container->get('request')->get('object');
         $goupId = $this->container->get('request')->get('groups');
 
@@ -23,28 +23,28 @@ class DefaultController extends Controller {
                 ->getRepository('TangaraCoreBundle:Group')
                 ->find($goupId);
 
-//touver le leader du group, donc user puis som adresse email
+        //get Group Leader, then user and mail
         $user = $group->getGroupsLeader();
         $leader_mail = $user->getEmail();
 
 
-//envoyer un mail au leader
+        //Send mail
         $message = \Swift_Message::newInstance()
                 ->setSubject('Demande de rejoidre le groupe')
                 ->setFrom('tangaraui@colombbus.org')
-                ->setTo('tangaraui@colombbus.org') //a changer avec le mail $leader_mail 
+                ->setTo('tangaraui@colombbus.org') //TODO -> $leader_mail 
                 ->setBody($msg)
         ;
         $this->container->get('mailer')->send($message);
 
-//return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
+        //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
         return new Response('Message envoyé');
     }
 
     public function localeAction() {
         $request = $this->getRequest();
         $locale = $request->getLocale();
-        
+
         if ($request) {
             $response = new JsonResponse();
             $response->setData(array(
@@ -52,6 +52,5 @@ class DefaultController extends Controller {
             return $response;
         }
     }
-    
 
 }
