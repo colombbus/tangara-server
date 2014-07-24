@@ -14,7 +14,7 @@ Thematic list
       * DONE User could have private group for managing private projects
       * DONE Edition
       * DONE Add upload
-      * Requested groups list on profile page
+      * DONE Requested groups list on profile page
       * DONE Group manager mail confirmation sending
       * DONE Group template: list of members
       * DONE Add textarea to join details to demand
@@ -62,15 +62,21 @@ Thematic list
         http://localhost/tangara/locale
     * Create a tgr file
         http://localhost/tangara/project/1/12/addTgr
+            * Unexist file
+                error: file
+
     * Get file content
         http://localhost/tangara/project/1/12/getContent?filename=fichier.tgr
-    * Get file Programs list
+    * Get file Programs list 
         http://localhost/tangara/project/1/12/getProgramList
     * Get resourceObtenir la liste des ressources
         http://localhost/tangara/project/1/12/getResources
-    * Remove file -> en POST filename: 'file.tgr'
+    * Remove file -> en POST remove: 'file.tgr'
         http://localhost/tangara/project/1/12/remove
+        success -> removed: 'file.tgr'
+        error unremoved: 'file.tgr'
 
+    * Open a file
 
 - Installation page 
     * A configuration page could be used to install Tangara-UI (DB settings, etc.)
