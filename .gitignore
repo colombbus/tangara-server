@@ -31,3 +31,5 @@ nbproject/*
 update.sh
 /web/
 /src/Tangara/TangaraBundle/Resources/translations/messages.fr.yml
+/bin/doctrine.bat
+/bin/doctrine.php.bat
