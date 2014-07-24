@@ -9,7 +9,6 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-
 use Tangara\CoreBundle\Form\ProjectType;
 use Tangara\CoreBundle\Entity\Document;
 use Tangara\CoreBundle\Entity\Project;
@@ -47,7 +46,7 @@ class FileController extends Controller {
 
         echo "Uploadr path " . $projectPath . "<br/>";
         echo "Tangara path " . $tangaraPath . "<br/>";
-        $this->check($user, $project);
+
 
         $this->get('session')->getFlashBag()->add(
                 'notice', 'Vos changements ont été sauvegardés!'
@@ -66,8 +65,6 @@ class FileController extends Controller {
             //$filename = $request->query->get('wanted');
             //$toSend = $request->request->get('filename');
 
- 
-            
             if ($filename) {
                 $project_id = 23;
                 $user_id = 2;
@@ -109,24 +106,49 @@ class FileController extends Controller {
 
     //getContentAction
     public function getFilesAction($cat, Project $project) {
+        $request = $this->getRequest();
         $user = $this->container->get('security.context')->getToken()->getUser();
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
-        if (!$auth)
-            return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
-        var_dump($prj);
-        exit();
-        
-        $request = $this->getRequest();
-        if ($request->query->get('filename'))
-            echo "USER PROJECT";
-        echo "reponse " . $project->isGranted($user);
-        exit();
-        
+        //return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
+
+        if (!$request->isXmlHttpRequest())
+            return new Response('XHR only...');
+
+        if (!$auth) {
+            $response = new JsonResponse();
+            $response->setData(array('error' => 'unauthorized'));
+
+            return $response;
+        }
+
+
+        $file = $request->query->get('filename');
+
+        if ($file) {
+            $ownedFile = $this->get('tangara_core.project_manager')->isProjectFile($project, $file);
+            if (!$ownedFile) {
+                $error = new JsonResponse();
+                $error->setData(array('error' => 'unowned'));
+                return $error;
+            }
+            
+            $response = new JsonResponse();
+            $response->setData(array('filecontent' => $a));
+
+            return $response;
+        }
+
         return new Response("request");
-        
     }
 
     public function removeFileAction(Project $project) {
+        $request = $this->getRequest();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+
+        if (!$auth) {
+            return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
+        }
 
         $fileName = null;
 
@@ -143,7 +165,7 @@ class FileController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $fileRepository = $em->getRepository('TangaraCoreBundle:Document');
 
-                $file = $fileRepository->findBy(array('path' => $fileName));
+                $file = $fileRepository->findByPath($fileName);
 
                 $em->remove($file);
                 $em->flush();
@@ -152,24 +174,29 @@ class FileController extends Controller {
     }
 
     public function getTgrContentAction(Project $project) {
+        $request = $this->getRequest();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+
+        if (!$auth) {
+            return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
+        }
+
         if ($request->query->get('tgrfile'))
             echo "USER PROJECT";
     }
 
     public function getParseContentAction(Project $project) {
+        $request = $this->getRequest();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+
+        if (!$auth) {
+            return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
+        }
+
         if ($request->query->get('parsefile'))
             echo "USER PROJECT";
-    }
-
-    public function getGrantedAction() {
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository('TangaraCoreBundle:Project');
-
-        $query = $repository->findGranted();
-
-        return $this->render('TangaraCoreBundle:Default:granted.html.twig', array(
-                    'query' => $query
-        ));
     }
 
 }
