@@ -38,9 +38,13 @@
                 {% set groupUsers = group.getUsers() %}
                 <ul>
                     {% for users in groupUsers %}
-                        <li>{{ users.getUserName() }}</li>
+                        <li id="{{ users.getId() }}">
+                            {{ users.getUserName() }}
+                            <input type="button" value="Supprimer" onclick="foo({{ users.getId() }}, {{ group.getId() }});" />
+                        </li>
                     {% endfor %}
                 </ul>  
+                <p id="msg"></p>
             </fieldset>
         </div>
                 
@@ -62,3 +66,24 @@
         {{ render(controller("TangaraCoreBundle:Group:joinRequest", {'group': group})) }}
     </div>  
 </div>
+
+    
+    
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+                </script>
+
+                <script>
+                    function foo(userId, groupId){
+                        $.ajax({
+                        type: "GET",
+                        url: "{{path('tangara_group_del_user')}}",             
+                        data: 'groupid=' + groupId + "&userid=" + userId,
+                        success: function(msg) {
+                            $('#msg').html(msg);
+                            var li = document.getElementById(userId);
+                            li.parentNode.removeChild(li);
+                        }
+
+                        }); // Ajax Call
+                    }
+                </script>

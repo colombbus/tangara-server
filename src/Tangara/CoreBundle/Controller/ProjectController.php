@@ -3,12 +3,10 @@
 namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Document;
+use Tangara\CoreBundle\Entity\DocumentRepository;
 use Tangara\CoreBundle\Entity\Project;
-use Tangara\CoreBundle\Entity\User;
-use Tangara\CoreBundle\Entity\Group;
 use Tangara\CoreBundle\Form\ProjectType;
 
 class ProjectController extends Controller {
@@ -281,6 +279,58 @@ class ProjectController extends Controller {
                     'files' => $files
         ));
     }
+    
+    
+    
+    
+    
+    //del user project
+    function delUserProjectAction(){
+        
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('TangaraCoreBundle:Project');
+        $project = $repository->find($_GET['projectid']);
+        $repositoryU = $em->getRepository('TangaraCoreBundle:User');
+        $user = $repositoryU->find($_GET['userid']);
+        
+        //$this->get('request')->get('projectid');
+        
+        
+        $docs = $em->getRepository('TangaraCoreBundle:Document')
+                ->getAllProjectDocuments($project->getName());
+        
+        
+        $tmp = " ";
+        foreach ($docs as $key){
+            
+            $em->remove($key);
+            $tmp += $key->getId();
+        }
+        
+        $em->remove($project);
+        $em->flush(); 
+        
+        
+        if($docs){
+            echo "Les fichiers on ete supprimer." .$tmp;
+        }
+        else{
+            echo "Il n'y a pas de document dans ce projet.";
+        }
+        
+        
+        
+        
+        
+        
+
+        //echo "Vous avez supprimmer le procjet id = ".$_GET['projectid'];
+
+        return new Response(NULL); 
+        
+    }
+    
+    
     
 
 }

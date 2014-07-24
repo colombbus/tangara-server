@@ -10,6 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\DocumentRepository")
  */
 class Document {
 

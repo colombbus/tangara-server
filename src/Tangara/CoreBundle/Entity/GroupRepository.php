@@ -49,10 +49,10 @@ class GroupRepository extends EntityRepository {
                 ->where('b.username = :name')
                 ->setParameter('name', $name);
         
-        $user = $query->getQuery()->getOneOrNullResult();
+        $group = $query->getQuery()->getOneOrNullResult();
         
         
-        if($user == null){
+        if($group == null){
             return false;
         }
         return true;

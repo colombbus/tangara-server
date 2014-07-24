@@ -221,6 +221,24 @@ class GroupController extends Controller
         return new Response(NULL); 
         
     }
+    
+    
+    
+    
+    public function delUserAction(){
+        
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $repository = $em->getRepository('TangaraCoreBundle:Group');
+        $group = $repository->find($_GET['groupid']);
+        $repositoryU = $em->getRepository('TangaraCoreBundle:User');
+        $user = $repositoryU->find($_GET['userid']);
+        
+        
+        echo 'Un user a ete supprime du group.';
+        
+        return new Response(NULL);
+        
+    }
 
         
 }
