@@ -1,209 +1,246 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  <style>
-  button {
-	width:150px;
-	margin-top: 10px;
-  }
-  #title {
-	  float:left;
-	  position: relative;
-  }
-  #myDiv2 {
-	  float:left;
-	  position: relative;
-  }
-  
-  </style>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
-    <script>
-  function getTangaraFiles()
-{
-		$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: "http://localhost/tangara-ui/web/app_dev.php/tangarajs/getresources/1/1",
-		error:function(msg){
-			alert( "Error !: " + msg );
-		},
-		success:function(data){
-			var items = [];
-			 $.each( data, function( key, val ) {
-			items.push( "<li id='" + key + "'>" + val + "</li>" );
-			});
-			
-			$( "<ul/>", {
-			"class": "my-new-list",
-			html: items.join( "" )
-			}).appendTo( "#myDiv" );
-			//affiche le contenu du fichier dans le conteneur d�di�
-			//$('#contenu_fichier_ajax').html(data);
-		}});
-}
-  function createProgram()
-{
-    var file = "ajax_info.txt";
-	$.post("http://localhost/tangara-ui/web/app_dev.php/project/upload", {file:file}, function(data){
-        $('#zoneReponse').html(data);
-    });
-}
-  function sendProgramToSave()
-{
-	
-	$('#file').submit(function(event) {
-        event.preventDefault();
-	$.post("http://localhost/tangara-ui/web/app_dev.php/project/upload", {
-	file:file,
-	}, function(data){
-        
-		$('#myDiv').append("<ul><li>" + data + "</li></ul>");
-    });
-      });
-	
-}
-  function getProgramContent()
-{
-		$.ajax({
-		type: "GET",
-		url: "http://localhost/tangara-ui/web/app_dev.php/locale",
-		success:function(data){
-			$( "#myDiv" ).html(data);
-			//affiche le contenu du fichier dans le conteneur d�di�
-			//$('#contenu_fichier_ajax').html(data);
-		}});
-}
-  function getProjectResources()
-{
-		$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: "http://localhost/tangara-ui/web/app_dev.php/project/getContent?=fichier.tgr",
-		error:function(msg){
-			alert( "Error !: " + msg );
-		},
-		success:function(data){
-			var items = [];
-			 $.each( data, function( key, val ) {
-			items.push( "<li id='" + key + "'>" + val + "</li>" );
-			});
-			
-			$( "<ul/>", {
-			"class": "my-new-list",
-			html: items.join( "" )
-			}).appendTo( "#myDiv" );
-			//affiche le contenu du fichier dans le conteneur d�di�
-			//$('#contenu_fichier_ajax').html(data);
-		}});
-}
-  function getResources()
-{
-		$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: "http://localhost/tangara-ui/web/app_dev.php/project/getContent?=fichier.tgr",
-		error:function(msg){
-			alert( "Error !: " + msg );
-		},
-		success:function(data){
-			var items = [];
-			 $.each( data, function( key, val ) {
-			items.push( "<li id='" + key + "'>" + val + "</li>" );
-			});
-			
-			$( "<ul/>", {
-			"class": "my-new-list",
-			html: items.join( "" )
-			}).appendTo( "#myDiv" );
-			//affiche le contenu du fichier dans le conteneur d�di�
-			//$('#contenu_fichier_ajax').html(data);
-		}});
-}
-  function getlocale()
-{
-		$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: "http://localhost/tangara-ui/web/app_dev.php/locale",
-		error:function(msg){
-			alert( "Error !: " + msg );
-		},
-		success:function(data){
-			var items = [];
-			 $.each( data, function( key, val ) {
-			items.push( "<li id='" + key + "'>" + val + "</li>" );
-			});
-			$( "<ul/>", {
-			"class": "my-new-list",
-			html: items.join( "" )
-			}).appendTo( "#myDiv" );
-			//affiche le contenu du fichier dans le conteneur d�di�
-			//$('#contenu_fichier_ajax').html(data);
-		}});
-}
-  function clearDiv()
-{
-	$('#myDiv').empty();
-}
+    <head>
+        <style>
+            button {
+                width:150px;
+                margin-top: 10px;
+            }
+            #title {
+                float:left;
+                position: relative;
+            }
+            #myDiv2 {
+                float:left;
+                position: relative;
+            }
+            input {
+                width: 50%;
+            }
+            .endurl{
+                width: 200px;
+            }
+        </style>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+        <script>
+            function getUrl(balise) {
+                baseurl = $(".url").val();
+                endurl = $("#" + balise).val();
+                url = baseurl + endurl;
+                $("#" + balise).focus();
+                return url;
+            }
+            function getFile(balise) {
+                file = $("#" + balise + "Files").val();
+                return file;
+            }
+            function getTangaraFiles()
+            {
+                var url = getUrl("getTangaraFiles");
 
-    function removeFile(){
-        
-        $.ajax({
-		type: "POST",
-		dataType: "json",
-		url: "http://localhost/tangara-ui/web/app_dev.php/project/data",
-                data: "fileName=" + fileName,
-		error:function(msg){
-			alert( "Error !: " + msg );
-		},
-		success:function(data){
-			var items = [];
-			 $.each( data, function( key, val ) {
-			items.push( "<li id='" + key + "'>" + val + "</li>" );
-			});
-			
-			$( "<ul/>", {
-			"class": "my-new-list",
-			html: items.join( "" )
-			}).appendTo( "#myDiv" );
-			//affiche le contenu du fichier dans le conteneur d�di�
-			//$('#contenu_fichier_ajax').html(data);
-		}});
-    }
-</script>
-    <title></title>
-  </head>
-  <body>
-  
-    <div id="title">
-      <h2>Actions</h2>
 
-    <button type="button" onclick="getTangaraFiles()">getTangaraFiles</button>
-	<br/>
-    <button type="button" onclick="createProgram()">createProgram</button>
-	<br/>
-    <button type="button" onclick="getProgramContent()">getProgramContent</button>
-	<br/>
-    <button type="button" onclick="getProjectResources()">getProjectResources</button>
-	<br/>
-    <button type="button" onclick="getResource()">getResource</button>
-	<br/>
-	<button type="button" onclick="getlocale()">getLocale</button>
-	<br/>
-    <button type="button" onclick="clearDiv()">clearDiv</button>
-	<br/>
-      <button type="button" onclick="removeFile()">removeFile</button>
-	</div>
-	
 
-    
-	<div id="myDiv2">
-      <h2>Ajax Results</h2>
-	  <div id="myDiv">
-		<h2>Let AJAX change this text</h2>
-    </div>
-    </div>
-  </body>
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: url,
+                    error: function(msg) {
+                        alert("Error !: " + msg);
+                    },
+                    success: function(data) {
+                        var items = [];
+                        $.each(data, function(key, val) {
+                            items.push("<li id='" + key + "'>" + val + "</li>");
+                        });
+                        
+                        $("<ul/>", {
+                            "class": "my-new-list",
+                            html: items.join("")
+                        }).appendTo("#myDiv");
+                        //affiche le contenu du fichier dans le conteneur d�di�
+                        $('#myDiv').append(JSON.stringify(data));
+
+                    }});
+            }
+            function createProgram()
+            {
+                var url = getUrl("getTangaraFiles");
+                var file = getFile("getTangaraFiles");
+                var file = "ajax_info.txt";
+                $.post(url, {file: file}, function(data) {
+                    $('#zoneReponse').html(data);
+                });
+            }
+            function sendProgramToSave()
+            {
+
+                $('#file').submit(function(event) {
+                    event.preventDefault();
+                    $.post("http://localhost/tangara-ui/web/app_dev.php/project/upload", {
+                        file: file,
+                    }, function(data) {
+
+                        $('#myDiv').append("<ul><li>" + data + "</li></ul>");
+                    });
+                });
+
+            }
+            function getProgramContent()
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost/tangara-ui/web/app_dev.php/locale",
+                    success: function(data) {
+                        $("#myDiv").html(data);
+                        //affiche le contenu du fichier dans le conteneur d�di�
+                        //$('#contenu_fichier_ajax').html(data);
+                    }});
+            }
+            function getProjectResources()
+            {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "http://localhost/tangara-ui/web/app_dev.php/project/getContent?=fichier.tgr",
+                    error: function(msg) {
+                        alert("Error !: " + msg);
+                    },
+                    success: function(data) {
+                        var items = [];
+                        $.each(data, function(key, val) {
+                            items.push("<li id='" + key + "'>" + val + "</li>");
+                        });
+
+                        $("<ul/>", {
+                            "class": "my-new-list",
+                            html: items.join("")
+                        }).appendTo("#myDiv");
+                        //affiche le contenu du fichier dans le conteneur d�di�
+                        //$('#contenu_fichier_ajax').html(data);
+                    }});
+            }
+            function getResources()
+            {
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "http://localhost/tangara-ui/web/app_dev.php/project/getContent?=fichier.tgr",
+                    error: function(msg) {
+                        alert("Error !: " + msg);
+                    },
+                    success: function(data) {
+                        var items = [];
+                        $.each(data, function(key, val) {
+                            items.push("<li id='" + key + "'>" + val + "</li>");
+                        });
+
+                        $("<ul/>", {
+                            "class": "my-new-list",
+                            html: items.join("")
+                        }).appendTo("#myDiv");
+                        //affiche le contenu du fichier dans le conteneur d�di�
+                        //$('#contenu_fichier_ajax').html(data);
+                    }});
+            }
+            function getlocale()
+            {
+                var url = getUrl("getlocale");
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "http://localhost/tangara-ui/web/app_dev.php/locale",
+                    error: function(msg) {
+                        alert("Error !: " + msg);
+                    },
+                    success: function(data) {
+                        var items = [];
+                        $.each(data, function(key, val) {
+                            items.push("<li id='" + key + "'>" + val + "</li>");
+                        });
+                        $("<ul/>", {
+                            "class": "my-new-list",
+                            html: items.join("")
+                        }).appendTo("#myDiv");
+                        //affiche le contenu du fichier dans le conteneur d�di�
+                        //$('#contenu_fichier_ajax').html(data);
+                    }});
+            }
+            function clearDiv()
+            {
+                $('#myDiv').empty();
+            }
+
+            function removeFile() {
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "http://localhost/tangara-ui/web/app_dev.php/project/data",
+                    data: "filename=" + fileName,
+                    error: function(msg) {
+                        alert("Error !: " + msg);
+                    },
+                    success: function(data) {
+                        var items = [];
+                        $.each(data, function(key, val) {
+                            items.push("<li id='" + key + "'>" + val + "</li>");
+                        });
+
+                        $("<ul/>", {
+                            "class": "my-new-list",
+                            html: items.join("")
+                        }).appendTo("#myDiv");
+                        //affiche le contenu du fichier dans le conteneur d�di�
+                        //$('#contenu_fichier_ajax').html(data);
+                    }});
+            }
+        </script>
+        <title>TangaraUI Ajax tests</title>
+    </head>
+    <body>
+        <input class="url" name="regis" value="http://localhost/tangara-ui/web/app_dev.php"><br/>
+        <div id="title">
+            <h2>Actions for Benoit</h2>
+            <button type="button" onclick="getTangaraFiles()">getTangaraFiles</button>
+            <input class="endurl" name="un" id="getTangaraFiles" value="/tangarajs/getresources/1/1">
+            <input class="endurl" name="un" id="getTangaraFilesFiles" value="no value">
+            <br/>
+            <button type="button" onclick="createProgram()">createProgram</button>
+            <input class="endurl" name="deux" id="createProgram" value="/tangarajs/getresources/1/1">
+            <input class="endurl" name="deux" id="createProgramFiles" value="filename='fichier'">
+            <br/>
+            <button type="button" onclick="getProgramContent()">getProgramContent</button>
+            <input class="endurl" name="trois" id="getProgramContent" value="/tangarajs/getresources/1/1">
+            <input class="endurl" name="trois" id="getProgramContentFiles">
+            <br/>
+            <button type="button" onclick="getProjectResources()">getProjectResources</button>
+            <input class="endurl" name="quatre" id="getProjectResources" value="/tangarajs/getresources/1/1">
+            <input class="endurl" name="quatre" id="getProjectResourcesFiles">
+            <br/>
+            <button type="button" onclick="getResource()">getResource</button>
+            <input class="endurl" name="cinq" id="getResource" value="/tangarajs/getresources/1/1">
+            <input class="endurl" name="cinq" id="getResourceFiles">
+            <br/>
+            <button type="button" onclick="getlocale()">getLocale</button>
+            <input class="endurl" name="six" id="getlocale" value="/locale">
+            <input class="endurl" name="six" id="getlocaleFiles" value="no value">
+            <br/>
+            <button type="button" onclick="removeFile()">removeFile</button>
+            <input class="endurl" name="huit" id="removeFile" value="/tangarajs/getresources/1/1">
+            <input class="endurl" name="huit" id="removeFileFiles">
+            <br/>
+            <button type="button" onclick="clearDiv()">clearDiv</button>
+            <input class="endurl" name="sept" id="clearDiv" value="/tangarajs/getresources/1/1">
+            <input class="endurl" name="sept" id="clearDivFiles" value="no value">>
+        </div>
+
+        <div id="myDiv2">
+            <h2>Ajax Results</h2>
+            <div id="myDiv">
+                <h2>Let AJAX change this text</h2>
+            </div>
+        </div>
+    </body>
 </html>
 
 
