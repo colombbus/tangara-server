@@ -28,6 +28,7 @@ namespace Tangara\CoreBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use Tangara\CoreBundle\Manager\BaseManager;
 use Tangara\CoreBundle\Entity\Project;
+use Tangara\CoreBundle\Entity\Document;
 use Tangara\CoreBundle\Entity\User as User;
 
 class ProjectManager extends BaseManager {
@@ -50,22 +51,6 @@ class ProjectManager extends BaseManager {
      */
     public function saveProject(Project $project) {
         $this->persistAndFlush($project);
-    }
-
-    public function getPreviousProject($projectId) {
-        return $this->getRepository()
-                        ->getAdjacentProject($projectId, false)
-                        ->getQuery()
-                        ->setMaxResults(1)
-                        ->getOneOrNullResult();
-    }
-
-    public function getNextProject($projectId) {
-        return $this->getRepository()
-                        ->getAdjacentProject($projectId, true)
-                        ->getQuery()
-                        ->setMaxResults(1)
-                        ->getOneOrNullResult();
     }
 
     public function isAuthorized(Project $project, User $testedUser) {
@@ -92,13 +77,17 @@ class ProjectManager extends BaseManager {
         }
 
     }
-
-    public function getPreviousAndNextProject($project) {
-        return array(
-            'prev' => $this->getPreviousProject($project->getId()),
-            'project' => $project,
-            'next' => $this->getNextProject($project->getId())
-        );
+    
+    public function isProjectFile(Project $project, $filename) {
+        $documentList = $this->em->getRepository('TangaraCoreBundle:Document')
+                ->findByOwnerProject($project->getId());
+        
+        foreach ($documentList as $d) {
+            if ($d->getPath() == $filename)
+                return true;
+        }
+        return false;
+       
     }
 
     public function getRepository() {
