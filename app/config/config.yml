@@ -102,9 +102,12 @@ parameters:
     tangara_core.settings.directory.tangarajs: %directory.tangarajs%
         
 services:
-    tangara_core.settings:
-        class: Tangara\CoreBundle\Uploader\Uploader
     tangara_core.project_manager: 
         class: Tangara\CoreBundle\Manager\ProjectManager
         arguments: ["@doctrine.orm.entity_manager"]
+    tangara_core.document_manager: 
+        class: Tangara\CoreBundle\Manager\DocumentManager
+        arguments: ["@doctrine.orm.entity_manager"]
+    tangara_core.settings:
+        class: Tangara\CoreBundle\Entity\Document
                 
