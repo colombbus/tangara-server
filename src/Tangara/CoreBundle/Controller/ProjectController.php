@@ -16,8 +16,7 @@ class ProjectController extends Controller {
     }
 
     public function listAction() {
-
-        $user = $this->get('security.context')->getToken()->getUser();
+    $user = $this->get('security.context')->getToken()->getUser();
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $projects = $manager->getRepository('TangaraCoreBundle:Project')->findAll();
@@ -244,6 +243,8 @@ class ProjectController extends Controller {
 
     //user project info
     public function showUserProjectsAction(Project $project) {
+        
+        
         //view for user project
         $contributors = array("user1", "user2", "user6");
         $manager = $this->getDoctrine()->getManager();
