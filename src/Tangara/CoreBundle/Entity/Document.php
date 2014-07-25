@@ -10,6 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\DocumentRepository")
  */
 class Document {
 
@@ -28,7 +29,7 @@ class Document {
     private $uploadDir;
 
     protected function getUploadDir() {
-        return $uploadDir;
+        return $this->uploadDir;
     }
      /**
      * Set Upload Directory
