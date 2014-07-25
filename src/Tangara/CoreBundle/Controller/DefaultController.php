@@ -18,8 +18,10 @@ class DefaultController extends Controller
     
     
     public function ajaxAction(){
-        return $this->render('TangaraCoreBundle:Default:ajax_symfony.html.twig');;
+        return $this->render('TangaraCoreBundle:Default:ajax_symfony.html.twig');
     }
+    
+    
     
 
 }
