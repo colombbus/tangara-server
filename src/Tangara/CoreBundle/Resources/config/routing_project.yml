@@ -51,10 +51,6 @@ tangara_project_create:
     pattern:  /create
     defaults: { _controller: TangaraCoreBundle:Project:create}
 
-tangara_project_files:
-    pattern:  /files
-    defaults: { _controller: TangaraCoreBundle:File:getFiles }
-
 tangara_project_tgr_content:
     pattern:  /content
     defaults: { _controller: TangaraCoreBundle:File:getContent }
@@ -63,12 +59,12 @@ tangara_project_tgr_content:
     
 #del project
 tangara_del_user_project:
-    pattern:  /delproject
-    defaults: { _controller: TangaraCoreBundle:Project:delUserProject }
+    pattern:  /delete
+    defaults: { _controller: TangaraCoreBundle:Project:delUser }
     
 tangara_del_group_project:
-    pattern:  /del_group_project
-    defaults: { _controller: TangaraCoreBundle:Project:delGroupProject }
+    pattern:  /delete_group
+    defaults: { _controller: TangaraCoreBundle:Project:delGroup }
  
 
 
