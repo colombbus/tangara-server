@@ -20,9 +20,15 @@
                 <p>Liste des projets du groupe:</p>   
                 <ul>
                     {% for project in groupProjects %}
-                        <li><a href="{{ path( "tangara_project_group_show", {id: project.getId()} ) }}">{{ project.getName() }}</a></li>
+                        <li id="{{ project.getId() }}p">
+                            <a href="{{ path( "tangara_project_group_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
+                            {% if group.getGroupsLeader().getId() == app.user.getId() %}
+                            <input type="button" value="Supprimer" onclick="foo4({{ project.getId() }}, {{ group.getId() }});" />
+                            {% endif %}
+                        </li>
                     {% endfor %}
                 </ul> 
+                <p id="msg"><p>
                 {% else %}
                     <p>Pas de projets en cours.<p>
                 {% endif %}
@@ -37,10 +43,16 @@
                 <p>Les membres de "{{ group.getName() }}"</p>
                 {% set groupUsers = group.getUsers() %}
                 <ul>
-                    {% for users in groupUsers %}
-                        <li>{{ users.getUserName() }}</li>
+                    {% for users in groupUsers %}                    
+                        <li id="{{ users.getId() }}">
+                            {{ users.getUserName() }}
+                            {% if group.getGroupsLeader().getUserName() != users.getUserName() %}
+                            <input type="button" value="Supprimer" onclick="foo3({{ users.getId() }}, {{ group.getId() }});" />
+                            {% endif %}
+                        </li>
                     {% endfor %}
                 </ul>  
+                <p id="msg"></p>
             </fieldset>
         </div>
                 
@@ -67,3 +79,40 @@
         {{ render(controller("TangaraCoreBundle:Group:joinRequest", {'group': group})) }}
     </div>  
 </div>
+
+    
+    
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+                </script>
+
+                <script>
+                    function foo3(userId, groupId){
+                        $.ajax({
+                        type: "GET",
+                        url: "{{path('tangara_group_del_user')}}",             
+                        data: 'groupid=' + groupId + "&userid=" + userId,
+                        success: function(msg) {
+                            $('#msg').html(msg);
+                            var li = document.getElementById(userId);
+                            li.parentNode.removeChild(li);
+                        }
+
+                        }); // Ajax Call
+                    }
+
+                    //del group project
+                    function foo4(projectId, groupId){
+                        $.ajax({
+                        type: "GET",
+                        url: "{{path('tangara_del_group_project')}}",             
+                        data: 'projectid=' + projectId + "&groupid=" + groupId,
+                        success: function(msg) {
+                            $('#msg').html(msg);
+                            var li = document.getElementById(projectId+'p');
+                            li.parentNode.removeChild(li);
+                        }
+
+                        }); // Ajax Call
+                    }
+                    
+                </script>

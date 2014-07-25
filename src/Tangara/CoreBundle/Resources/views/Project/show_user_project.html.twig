@@ -1,0 +1,47 @@
+{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
+
+{% block title %}Projets{% endblock %}
+
+{% block main_container %}
+    <div class="container">
+        <h1>Affichage du projet</h1>
+        <a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Édition</a>
+        <br/>
+        user name : {{ app.user.username }}
+        <br/>
+        user id : {{ app.user.id }}
+        <br/>
+        project id : {{ project.id }}
+        <br/>
+        project name : {{ project.name }}
+        <br/>
+        project manager : {{ project.ProjectManager }}
+        <br/>
+        Référence font : {{ project.ReferenceFont }}
+        <br/>
+        Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
+        <br/>
+        {% if project.getGroup() %}
+        listes des contributeurs :
+        <ul>
+            {% set contributors = project.getGroup().getUsers() %}
+            {% for usr in contributors %}
+                <li>{{ usr.getUserName() }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        Un seul contributeur pour l'instant.
+        {% endif %}
+        
+        
+        <br/>
+        <a href="{{ path( "tangara_project_upload", {id: project.id} ) }} ">Ajouter un fichier au projet</a>
+                <div class="col-md-6">
+            <ul>
+                {% for f in files %}
+                <li>{{ f.getPath() }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

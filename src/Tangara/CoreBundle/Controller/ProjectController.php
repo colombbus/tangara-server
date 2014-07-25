@@ -3,12 +3,10 @@
 namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Document;
+use Tangara\CoreBundle\Entity\DocumentRepository;
 use Tangara\CoreBundle\Entity\Project;
-use Tangara\CoreBundle\Entity\User;
-use Tangara\CoreBundle\Entity\Group;
 use Tangara\CoreBundle\Form\ProjectType;
 
 class ProjectController extends Controller {
@@ -92,13 +90,12 @@ class ProjectController extends Controller {
         $user_id = $this->get('security.context')->getToken()->getUser()->getId();
         $projectId = $project->getId();
 
-        //$base_path = $this->get('tangara_project.uploader');
-        $base_path = '/home/elise/NetBeansProjects/tangara-data';
-        $project_user_path = $base_path . "/" . $user_id;
-        $project_path = $base_path . "/" . $projectId;
+        $base_path = $this->container->getParameter('tangara_core.settings.directory.upload');
+        //$base_path = '/home/elise/NetBeansProjects/tangara-data';
         $cat = 1;
 
         $document = new Document();
+        $document->setUploadDir($base_path);
         $form = $this->createFormBuilder($document)
                 //->add('name')
                 ->add('file')
@@ -116,11 +113,7 @@ class ProjectController extends Controller {
             $em->persist($document);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tangara_project_show', array(
-                                'cat' => $cat,
-                                'id' => $project->getId()
-                                    )
-            ));
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
         }
 
         return $this->render('TangaraCoreBundle:Project:upload.html.twig', array(
@@ -271,6 +264,103 @@ class ProjectController extends Controller {
         ));
     }
     
+    
+    
+    
+    
+    //del user project
+    function delUserProjectAction(){
+        
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('TangaraCoreBundle:Project');
+        $project = $repository->find($_GET['projectid']);
+        $repositoryU = $em->getRepository('TangaraCoreBundle:User');
+        $user = $repositoryU->find($_GET['userid']);
+        
+        //$this->get('request')->get('projectid');
+        
+        
+        $docs = $em->getRepository('TangaraCoreBundle:Document')
+                ->getAllProjectDocuments($project->getName());
+        
+        
+        $tmp = " ";
+        foreach ($docs as $key){
+            
+            $em->remove($key);
+            $tmp += $key->getId();
+        }
+        
+        $em->remove($project);
+        $em->flush(); 
+        
+        
+        if($docs){
+            echo "Les fichiers on ete supprimer." .$tmp;
+        }
+        else{
+            echo "Il n'y a pas de document dans ce projet.";
+        }
+        
+        
+        
+        
+        
+        
+
+        //echo "Vous avez supprimmer le procjet id = ".$_GET['projectid'];
+
+        return new Response(NULL); 
+        
+    }
+    
+    
+    //del user project
+    function delGroupProjectAction(){
+        
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('TangaraCoreBundle:Project');
+        $project = $repository->find($_GET['projectid']);
+        $repositoryU = $em->getRepository('TangaraCoreBundle:Group');
+        $group = $repositoryU->find($_GET['groupid']);
+        
+        //$this->get('request')->get('projectid');
+        
+        
+        $docs = $em->getRepository('TangaraCoreBundle:Document')
+                ->getAllProjectDocuments($project->getName());
+        
+        
+        //juste les id des docs
+        $tmp = " ";
+        foreach ($docs as $key){
+            
+            $em->remove($key);
+            $tmp += $key->getId();
+        }
+        
+        $em->remove($project);
+        $em->flush(); 
+        
+        
+        if($docs){
+            echo "Les documents on ete supprimer." .$tmp;
+        }
+        else{
+            echo "Il n'y a pas de document dans ce projet.";
+        }
+        
+        
+        
+        
+        
+        
+
+        //echo "Vous avez supprimmer le procjet id = ".$_GET['projectid'];
+
+        return new Response(NULL); 
+        
+    }
 
 }
 
