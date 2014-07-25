@@ -20,6 +20,7 @@ class FileController extends Controller {
     function check($project, $user) {
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $project->getId();
+        $fs = new Filesystem();
 
         if (!$fs->exists($projectPath)) {
             $fs->mkdir($projectPath);
