@@ -15,7 +15,6 @@ class ProjectController extends Controller {
         //return $this->redirect($this->generateUrl('tangara_core_homepage'));
     }
 
-  
     public function listAction() {
 
         $user = $this->get('security.context')->getToken()->getUser();
@@ -77,25 +76,25 @@ class ProjectController extends Controller {
     public function createAction() {
         $tangarajs = $this->container->getParameter('tangara_core.settings.directory.tangarajs');
         //if ($tangarajs == null) {}
+        $fileToOpen = $this->get('request')->get('projectid');
 
         return $this->render('TangaraCoreBundle:Project:create.html.twig', array(
-                    'tangarajs' => $tangarajs
+                    'tangarajs' => $tangarajs,
+                    'projectid' => $fileToOpen
         ));
     }
-
-   
 
     public function uploadAction(Project $project) {
         $request = $this->getRequest();
         $user_id = $this->get('security.context')->getToken()->getUser()->getId();
         $projectId = $project->getId();
 
-        $base_path = $this->container->getParameter('tangara_core.settings.directory.upload');
-        //$base_path = '/home/elise/NetBeansProjects/tangara-data';
+        $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
+        $projectPath = $uploadPath . '/' . $project->getId();
         $cat = 1;
 
         $document = new Document();
-        $document->setUploadDir($base_path);
+        $document->setUploadDir($projectPath);
         $form = $this->createFormBuilder($document)
                 //->add('name')
                 ->add('file')
@@ -106,10 +105,8 @@ class ProjectController extends Controller {
             $form->bind($request);
             $em = $this->getDoctrine()->getManager();
             $document->setOwnerProject($project);
-
             $document->upload();
-            //$file_uploaded = $request->get('file');
-            //$fs->copy($file_uploaded, $project_user_path);
+
             $em->persist($document);
             $em->flush();
 
@@ -121,14 +118,12 @@ class ProjectController extends Controller {
         ));
     }
 
-    
-    
-     /*
+    /*
      * Create a new project
      */
 
     public function newGroupProjectAction($group_id = null) {
-        
+
         $user = $this->get('security.context')->getToken()->getUser();
 
         $userId = $user->getId();
@@ -151,7 +146,7 @@ class ProjectController extends Controller {
         $form = $this->createForm(new ProjectType(), $project);
 
         if ($request->isMethod('POST')) {
-            
+
             $p = new Project();
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
@@ -165,14 +160,13 @@ class ProjectController extends Controller {
             $project->setGroup($group);
 
 
-            if($projectExist == false){
+            if ($projectExist == false) {
                 $em->persist($project);
                 $em->flush();
                 return $this->redirect($this->generateUrl('tangara_project_group_show', array('id' => $project->getId())
                 ));
             }
             return new Response('Un projet avec me meme nom existe deja.');
-            
         }
 
         return $this->render('TangaraCoreBundle:Project:new.html.twig', array(
@@ -185,7 +179,7 @@ class ProjectController extends Controller {
                     'u_id' => NULL,
         ));
     }
-    
+
     public function newUserProjectAction($user_id = null) {
 
         $user = $this->get('security.context')->getToken()->getUser();
@@ -222,14 +216,13 @@ class ProjectController extends Controller {
             $project->setUser($user);
 
 
-            if($projectExist == false){
+            if ($projectExist == false) {
                 $em->persist($project);
                 $em->flush();
                 return $this->redirect($this->generateUrl('tangara_project_user_show', array('id' => $project->getId())
                 ));
             }
             return new Response('Un projet avec me meme nom existe deja.');
-            
         }
 
         return $this->render('TangaraCoreBundle:Project:new.html.twig', array(
@@ -242,8 +235,7 @@ class ProjectController extends Controller {
                     'u_id' => $user_id
         ));
     }
-    
-    
+
     //group project info
     public function showGroupProjectsAction(Project $project) {
         //view for group project
@@ -263,104 +255,89 @@ class ProjectController extends Controller {
                     'files' => $files
         ));
     }
-    
-    
-    
-    
-    
+
     //del user project
-    function delUserProjectAction(){
-        
+    function delUserAction() {
+
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('TangaraCoreBundle:Project');
         $project = $repository->find($_GET['projectid']);
         $repositoryU = $em->getRepository('TangaraCoreBundle:User');
         $user = $repositoryU->find($_GET['userid']);
-        
+
         //$this->get('request')->get('projectid');
-        
-        
+
+
         $docs = $em->getRepository('TangaraCoreBundle:Document')
                 ->getAllProjectDocuments($project->getName());
-        
-        
+
+
         $tmp = " ";
-        foreach ($docs as $key){
-            
+        foreach ($docs as $key) {
+
             $em->remove($key);
             $tmp += $key->getId();
         }
-        
+
         $em->remove($project);
-        $em->flush(); 
-        
-        
-        if($docs){
-            echo "Les fichiers on ete supprimer." .$tmp;
-        }
-        else{
+        $em->flush();
+
+
+        if ($docs) {
+            echo "Les fichiers on ete supprimer." . $tmp;
+        } else {
             echo "Il n'y a pas de document dans ce projet.";
         }
-        
-        
-        
-        
-        
-        
+
 
         //echo "Vous avez supprimmer le procjet id = ".$_GET['projectid'];
 
-        return new Response(NULL); 
-        
+        return new Response(NULL);
     }
-    
-    
+
     //del user project
-    function delGroupProjectAction(){
-        
+    function delGroupAction() {
+
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('TangaraCoreBundle:Project');
         $project = $repository->find($_GET['projectid']);
         $repositoryU = $em->getRepository('TangaraCoreBundle:Group');
         $group = $repositoryU->find($_GET['groupid']);
-        
+
         //$this->get('request')->get('projectid');
-        
-        
+
+
         $docs = $em->getRepository('TangaraCoreBundle:Document')
                 ->getAllProjectDocuments($project->getName());
-        
-        
+
+
         //juste les id des docs
         $tmp = " ";
-        foreach ($docs as $key){
-            
+        foreach ($docs as $key) {
+
             $em->remove($key);
             $tmp += $key->getId();
         }
-        
+
         $em->remove($project);
-        $em->flush(); 
-        
-        
-        if($docs){
-            echo "Les documents on ete supprimer." .$tmp;
-        }
-        else{
+        $em->flush();
+
+
+        if ($docs) {
+            echo "Les documents on ete supprimer." . $tmp;
+        } else {
             echo "Il n'y a pas de document dans ce projet.";
         }
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
 
         //echo "Vous avez supprimmer le procjet id = ".$_GET['projectid'];
 
-        return new Response(NULL); 
-        
+        return new Response(NULL);
     }
 
 }
-

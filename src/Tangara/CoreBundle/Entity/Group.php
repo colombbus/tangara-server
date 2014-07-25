@@ -24,7 +24,7 @@ class Group extends BaseGroup {
      * @ORM\Column(name="privateGroup", type="boolean", nullable=true)
      */
     private $privateGroup;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Tangara\CoreBundle\Entity\Project")
      * @ORM\JoinTable(name="projectsInGroup",
@@ -33,54 +33,57 @@ class Group extends BaseGroup {
      * )
      */
     protected $projectsInGroup;
-    
+
     /**
      *
      * @ORM\OneToMany(targetEntity="Tangara\CoreBundle\Entity\Project", mappedBy="group")
      */
     private $projects;
-    
+
     /**
      *
      * @ORM\ManyToMany(targetEntity="Tangara\CoreBundle\Entity\User", mappedBy="groups")
      */
     private $users;
-    
+
     /**
      *
      * @ORM\ManytoOne(targetEntity="Tangara\CoreBundle\Entity\User", inversedBy="groupLeader")
      */
     private $groupsLeader;
-    
+
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Tangara\CoreBundle\Entity\User")
+     * @ORM\JoinTable(name="userRequest")
+     */
+    private $joinRequest;
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct($name = null, $roles = array());
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
-    
+
     /**
      * Add projects
      *
      * @param \Tangara\CoreBundle\Entity\Project $project
      * @return Group
      */
-    public function addProjects(\Tangara\CoreBundle\Entity\Project $project)
-    {
+    public function addProjects(\Tangara\CoreBundle\Entity\Project $project) {
         $this->projects[] = $project;
 
         return $this;
@@ -104,7 +107,6 @@ class Group extends BaseGroup {
         return $this->projects;
     }
 
-    
     /**
      * Add users
      *
@@ -119,7 +121,7 @@ class Group extends BaseGroup {
      *
      * @param Tangara\CoreBundle\Entity\User $users
      */
-    public function removeUsers(\Tangara\CoreBundle\Entity\User $users) { 
+    public function removeUsers(\Tangara\CoreBundle\Entity\User $users) {
         $this->users->removeElement($users);
     }
 
@@ -128,10 +130,9 @@ class Group extends BaseGroup {
      *
      * @return Doctrine\Common\Collections\Collection
      */
-    public function getUsers() { 
+    public function getUsers() {
         return $this->users;
     }
-
 
     /**
      * Set privateGroup
@@ -139,8 +140,7 @@ class Group extends BaseGroup {
      * @param boolean $privateGroup
      * @return Group
      */
-    public function setPrivateGroup($privateGroup)
-    {
+    public function setPrivateGroup($privateGroup) {
         $this->privateGroup = $privateGroup;
 
         return $this;
@@ -151,8 +151,7 @@ class Group extends BaseGroup {
      *
      * @return boolean 
      */
-    public function getPrivateGroup()
-    {
+    public function getPrivateGroup() {
         return $this->privateGroup;
     }
 
@@ -162,8 +161,7 @@ class Group extends BaseGroup {
      * @param \Tangara\CoreBundle\Entity\Project $projectsInGroup
      * @return Group
      */
-    public function addProjectsInGroup(\Tangara\CoreBundle\Entity\Project $projectsInGroup)
-    {
+    public function addProjectsInGroup(\Tangara\CoreBundle\Entity\Project $projectsInGroup) {
         $this->projectsInGroup[] = $projectsInGroup;
 
         return $this;
@@ -174,8 +172,7 @@ class Group extends BaseGroup {
      *
      * @param \Tangara\CoreBundle\Entity\Project $projectsInGroup
      */
-    public function removeProjectsInGroup(\Tangara\CoreBundle\Entity\Project $projectsInGroup)
-    {
+    public function removeProjectsInGroup(\Tangara\CoreBundle\Entity\Project $projectsInGroup) {
         $this->projectsInGroup->removeElement($projectsInGroup);
     }
 
@@ -184,8 +181,7 @@ class Group extends BaseGroup {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProjectsInGroup()
-    {
+    public function getProjectsInGroup() {
         return $this->projectsInGroup;
     }
 
@@ -195,8 +191,7 @@ class Group extends BaseGroup {
      * @param \Tangara\CoreBundle\Entity\Project $projects
      * @return Group
      */
-    public function addProject(\Tangara\CoreBundle\Entity\Project $projects)
-    {
+    public function addProject(\Tangara\CoreBundle\Entity\Project $projects) {
         $this->projects[] = $projects;
 
         return $this;
@@ -207,8 +202,7 @@ class Group extends BaseGroup {
      *
      * @param \Tangara\CoreBundle\Entity\Project $projects
      */
-    public function removeProject(\Tangara\CoreBundle\Entity\Project $projects)
-    {
+    public function removeProject(\Tangara\CoreBundle\Entity\Project $projects) {
         $this->projects->removeElement($projects);
     }
 
@@ -218,8 +212,7 @@ class Group extends BaseGroup {
      * @param \Tangara\CoreBundle\Entity\User $users
      * @return Group
      */
-    public function addUser(\Tangara\CoreBundle\Entity\User $users)
-    {
+    public function addUser(\Tangara\CoreBundle\Entity\User $users) {
         $this->users[] = $users;
 
         return $this;
@@ -230,8 +223,7 @@ class Group extends BaseGroup {
      *
      * @param \Tangara\CoreBundle\Entity\User $users
      */
-    public function removeUser(\Tangara\CoreBundle\Entity\User $users)
-    {
+    public function removeUser(\Tangara\CoreBundle\Entity\User $users) {
         $this->users->removeElement($users);
     }
 
@@ -241,8 +233,7 @@ class Group extends BaseGroup {
      * @param \Tangara\CoreBundle\Entity\User $groupsLeader
      * @return Group
      */
-    public function setGroupsLeader(\Tangara\CoreBundle\Entity\User $groupsLeader = null)
-    {
+    public function setGroupsLeader(\Tangara\CoreBundle\Entity\User $groupsLeader = null) {
         $this->groupsLeader = $groupsLeader;
 
         return $this;
@@ -253,21 +244,16 @@ class Group extends BaseGroup {
      *
      * @return \Tangara\CoreBundle\Entity\User 
      */
-    public function getGroupsLeader()
-    {
+    public function getGroupsLeader() {
         return $this->groupsLeader;
     }
-    
-    
-    
-    //----------------------------Other Methods--------------------------------
 
-    
+    //----------------------------Other Methods--------------------------------
     //return la liste des groupes dont l'user n'est pas membre
     public function groupsWithoutMe($allgroups, $user_groups) {
-        
+
         $tmp = null;
-        
+
         foreach ($allgroups as $key) {
             $dif = true;
             foreach ($user_groups as $key2) {
@@ -280,22 +266,50 @@ class Group extends BaseGroup {
                 $tmp[] = $key;
             }
         }
-        
+
         return $tmp;
     }
-    
+
     //verifie si il y a des projets en en cours dans le group
     public function isProjects() {
 
         foreach ($this->projects as $key) {
-            if($key->getId()){
+            if ($key->getId()) {
                 return true; //un projet
             }
         }
-        
+
         return false; //pas de projet
     }
-    
-    
-    
+
+    /**
+     * Add joinRequest
+     *
+     * @param \Tangara\CoreBundle\Entity\User $joinRequest
+     * @return Group
+     */
+    public function addJoinRequest(\Tangara\CoreBundle\Entity\User $joinRequest) {
+        $this->joinRequest[] = $joinRequest;
+
+        return $this;
+    }
+
+    /**
+     * Remove joinRequest
+     *
+     * @param \Tangara\CoreBundle\Entity\User $joinRequest
+     */
+    public function removeJoinRequest(\Tangara\CoreBundle\Entity\User $joinRequest) {
+        $this->joinRequest->removeElement($joinRequest);
+    }
+
+    /**
+     * Get joinRequest
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getJoinRequest() {
+        return $this->joinRequest;
+    }
+
 }
