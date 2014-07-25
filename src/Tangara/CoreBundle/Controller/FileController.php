@@ -18,25 +18,12 @@ use Tangara\CoreBundle\Entity\Group;
 class FileController extends Controller {
 
     function check($user, $project) {
-        // Check if 
-        $groupList = $user->getGroups();
-        $projectGroup = $project->getGroup();
+        $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
+        $projectPath = $uploadPath . '/' . $project->getId();
 
-//        if (in_array($projectGroup, $groupList))
-//                echo "granted !!!!";
-//        exit();
-//
-//        if ($user)
-//            return false;
-//        else {
-//            return true;
-//            /* check if directory exists */
-//            $project_path = $base_path . "/" . $project_id;
-//
-//            if (!$fs->exists($project_path)) {
-//                $fs->mkdir($project_path);
-//            }
-//        }
+        if (!$fs->exists($projectPath)) {
+            $fs->mkdir($projectPath);
+        }
     }
 
     public function testAction(Project $project) {
@@ -58,25 +45,24 @@ class FileController extends Controller {
     public function sendContentAction($cat, $project) {
         $request = $this->getRequest();
         //$user = $request->get('security.context')->getToken()->getUser()->getId();
-        if ($request->isXmlHttpRequest()) {
-            if ($request->query->get('sendfile'))
-                echo "USER PROJECT";
 
-            //$filename = $request->query->get('wanted');
-            //$toSend = $request->request->get('filename');
+        if ($request->query->get('sendfile'))
+            echo "USER PROJECT";
 
-            if ($filename) {
-                $project_id = 23;
-                $user_id = 2;
-                $base_path = 'C:\tangara';
-                $project_user_path = $base_path . "/" . $user_id;
-                $project_path = $base_path . "/" . $project_id;
-                $filepath = $project_path . "/" . $filename;
-                $fs = new Filesystem();
+        //$filename = $request->query->get('wanted');
+        //$toSend = $request->request->get('filename');
 
-                if ($fs->exists($filepath))
-                    return new BinaryFileResponse($filepath);
-            }
+        if ($filename) {
+            $project_id = 23;
+            $user_id = 2;
+            $base_path = 'C:\tangara';
+            $project_user_path = $base_path . "/" . $user_id;
+            $project_path = $base_path . "/" . $project_id;
+            $filepath = $project_path . "/" . $filename;
+            $fs = new Filesystem();
+
+            if ($fs->exists($filepath))
+                return new BinaryFileResponse($filepath);
         }
     }
 
@@ -95,15 +81,40 @@ class FileController extends Controller {
                 ->findByOwnerProject($project->getId());
 
         foreach ($projectList as $prj) {
-            $files[] = $prj->getPath();
+            $ext = pathinfo($prj->getPath(), PATHINFO_EXTENSION);
+            if ($ext != 'tgr')
+                $files[] = $prj->getPath();
         }
         $response = new JsonResponse();
         $response->setData($files);
 
         return $response;
-        //}
     }
 
+    /**
+     * Get all tgr included in a project
+     * @param \Tangara\CoreBundle\Entity\Project $project
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getTangaraFilesAction($cat, Project $project) {
+        $request = $this->getRequest();
+        // check($user, $project);
+        //if ($request->isXmlHttpRequest()) {
+        $projectList = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('TangaraCoreBundle:Document')
+                ->findByOwnerProject($project->getId());
+
+        foreach ($projectList as $prj) {
+            $ext = pathinfo($prj->getPath(), PATHINFO_EXTENSION);
+            if ($ext == 'tgr')
+                $files[] = $prj->getPath();
+        }
+        $response = new JsonResponse();
+        $response->setData($files);
+
+        return $response;
+    }
     //getContentAction
     public function getFilesAction($cat, Project $project) {
         $request = $this->getRequest();
@@ -120,20 +131,20 @@ class FileController extends Controller {
 
             return $response;
         }
-
-
         $file = $request->query->get('filename');
 
         if ($file) {
-            $ownedFile = $this->get('tangara_core.project_manager')->isProjectFile($project, $file);
+            $ownedFile = $this
+                    ->get('tangara_core.project_manager')
+                    ->isProjectFile($project, $file);
             if (!$ownedFile) {
                 $error = new JsonResponse();
                 $error->setData(array('error' => 'unowned'));
                 return $error;
             }
-            
+
             $response = new JsonResponse();
-            $response->setData(array('filecontent' => $a));
+            $response->setData(array('filecontent' => $file)); //TODO $file
 
             return $response;
         }
