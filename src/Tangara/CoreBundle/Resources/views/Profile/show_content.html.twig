@@ -1,0 +1,76 @@
+<div class="fos_user_user_show">
+    <div class="row">
+        <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+        <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+        <div class="col-md-6">
+            <fieldset>
+                <legend>Mes projets</legend>
+                <a class="btn btn-success" href="{{ path('tangara_project_user_new', {user_id: user.getId()}) }}">Créer un nouveau projet</a>
+                <ul>
+                    {% set userProjects = user.getProjects() %}
+                    {% for project in userProjects %}
+                        <li id="{{ project.getId() }}">
+                            <a href="{{ path( "tangara_project_user_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
+                            <input type="button" value="Supprimer"  onclick="foo({{ project.getId() }});" />
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p id="msg"></p>
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <fieldset>
+                <legend>Mes groupes</legend>
+                <a class="btn btn-success" href="{{ path('tangara_user_group_new') }}">Créer un nouveau groupe</a>
+                {% if user.isGroups() %}
+                <p>Tu es membre de :</p>
+                <ul>
+                    {% set userGroups = user.getGroups() %}
+                    {% for group in userGroups %}
+                        <li><a href="{{ path( "tangara_user_group_info", {id: group.id} ) }}">{{ group.getName() }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p>Vous n'avez pas de groupes.</p>
+                {% endif %}
+                <a href="{{ path('fos_user_group_list') }}">Liste de tous les groupes</a>
+            </fieldset>
+        </div>
+    </div>
+            
+    <div class="row">
+        <fieldset>
+            <legend>Gestion du compte</legend>
+            <ul>
+                <li><a href="{{ path('tangara_user_delete') }}">Supprimer le compte</a></li>
+                <li><a href="{{ path('fos_user_change_password') }}">Changer mot de passe</a></li>
+            </ul>
+        </fieldset>
+    </div>
+
+</div>
+
+            
+            
+            
+            
+            
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+                </script>
+
+                <script>
+                    function foo(projectId, userId){
+                        $.ajax({
+                        type: "GET",
+                        url: "{{path('tangara_del_user_project')}}",             
+                        data: 'projectid=' + projectId + "&userid=" + userId,
+                        success: function(msg) {
+                            $('#msg').html(msg);
+                            var li = document.getElementById(projectId);
+                            li.parentNode.removeChild(li);
+                        }
+
+                        }); // Ajax Call
+                    }
+                </script>

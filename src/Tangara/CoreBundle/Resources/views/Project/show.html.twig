@@ -1,0 +1,91 @@
+{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
+
+{% block title %}Projets{% endblock %}
+
+{% block main_container %}
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Détails du projet</h1>
+            <a class="btn btn-warning" href="{{ path( "tangara_project_edit", {id: project.getId()} ) }}" >Édition</a>
+        </div>
+        <div class="col-md-6">
+            <h1>Fichiers</h1>
+            <a class="btn btn-success" href="{{ path( "tangara_project_upload", {id: project.getId()} ) }} ">Ajouter un fichier au projet</a>
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-lg btn-block btn-default" href="{{ path( "tangara_project_create", { id: project.getId(), cat: 1 } ) }}" >Programmer</a>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Nom</label>
+                    <div class="col-sm-3">
+                        <p class="form-control-static">{{ app.user.getUsername() }}</p>               
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">userid</label>
+                    <div class="col-sm-3">
+                        <p class="form-control-static">{{ app.user.getId() }}</p>               
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">projectId</label>
+                    <div class="col-sm-3">
+                        <p class="form-control-static">{{ project.getId() }}</p>               
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">project name</label>
+                    <div class="col-sm-3">
+                        <p class="form-control-static">{{ project.getName() }}</p>               
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">project manager</label>
+                    <div class="col-sm-3">
+                        <p class="form-control-static">{{ project.getProjectManager() }}</p>               
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Référence font</label>
+                    <div class="col-sm-3">
+                        <p class="form-control-static">{{ project.getReferenceFont() }}</p>               
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Date Création</label>
+                    <div class="col-sm-3">
+                        <p class="form-control-static">{{ project.dateCreation|date('d-m-Y H:i') }}</p>               
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <ul>
+                {% for f in files %}
+                <li>{{ f.getPath() }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% if cat == 2 %}
+        {% if project.getGroup() %}
+            listes des contributeurs : 
+            <ul>
+                {% set contributors = project.getGroup().getUsers() %}
+                {% for usr in contributors %}
+                    <li>{{ usr.getUserName() }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                Un seul contributeur pour l'instant.
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

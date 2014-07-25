@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>_home</source>
+                <target>Home</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>_create</source>
+                <target>Create</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>_share</source>
+                <target>Share</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>_learn</source>
+                <target>Learn</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>_logout</source>
+                <target>Déconnecter</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>_Welcome</source>
+                <target>Welcome in the TangaraJS Project</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>_site_description</source>
+                <target>This is the official website of the TangaraJS web app, Android, PC. The old version of the Tangara written in Java can be found here.</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>_more</source>
+                <target>Learn more</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>_project_description</source>
+                <target>Project description</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>_news</source>
+                <target>News</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>_shared_projects</source>
+                <target>Shared projects</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>_view_details</source>
+                <target>View details</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>_layout.register</source>
+                <target>Register</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>_navbar.profile</source>
+                <target>Profile</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>_show.details</source>
+                <target>Projects details</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>_email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>_password</source>
+                <target>Password</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,10 @@
+parameters:
+    tangara_core.uploader.class: Tangara\CoreBundle\Uploader\Uploader
+    tangara_core.uploader.directory: C:\tangara
+    tangara_core.tangarajs: C:\tangara
+    
+services:
+    tangara_core.uploader:
+        class: "%tangara_core.uploader.class%"
+        arguments: ["%tangara_core.uploader.directory%"]
+

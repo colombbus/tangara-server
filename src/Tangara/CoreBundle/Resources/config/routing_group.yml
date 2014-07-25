@@ -1,0 +1,44 @@
+#infoAction: info about group of the user   
+tangara_user_group_info:
+    pattern:  /profil/group/{id}
+    defaults: { _controller: TangaraCoreBundle:Group:infoGroup }
+    
+tangara_user_group_new:
+    pattern:  /new
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:new }
+        
+tangara_group_edit:
+    pattern:  /group/edit/{groupName}
+    defaults: { _controller: TangaraCoreBundle:FOSGroup:edit }
+  
+    
+    
+    
+    
+#route de redirection
+tangara_core_group_list:
+    pattern:  /group/list
+    defaults: { _controller: TangaraCoreBundle:Group:list }
+    
+tangara_core_group_new:
+    pattern:  /group/new
+    defaults: { _controller: TangaraCoreBundle:Group:new }
+
+tangara_core_group_edit:
+    pattern:  /group/edit
+    defaults: { _controller: TangaraCoreBundle:Group:new } 
+    
+    
+#ajax    
+tangara_group_acceptRequest:
+    pattern:  /accept_request
+    defaults: { _controller: TangaraCoreBundle:Group:acceptRequest }
+    
+tangara_group_refuseRequest:
+    pattern:  /refuse_request
+    defaults: { _controller: TangaraCoreBundle:Group:refuseRequest }
+
+
+tangara_group_del_user:
+    pattern:  /group/del_user
+    defaults: { _controller: TangaraCoreBundle:Group:delUser }

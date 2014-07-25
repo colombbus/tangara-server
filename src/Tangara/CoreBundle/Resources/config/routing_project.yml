@@ -1,0 +1,74 @@
+tangara_project_index:
+    pattern:  /
+    defaults: { _controller: TangaraCoreBundle:Project:index }
+
+
+
+
+#showGroupProjectAction: info about the group projects
+tangara_project_group_show:
+    pattern:  /show/group/{id}
+    defaults: { _controller: TangaraCoreBundle:Project:showGroupProjects }
+
+#showUserProjectAction: info about the user projects  
+tangara_project_user_show:
+    pattern:  /show/user/{id}
+    defaults: { _controller: TangaraCoreBundle:Project:showUserProjects }        
+
+#newAction: create a new project for user
+tangara_project_user_new:
+    pattern:  /profil/{user_id}/new
+    defaults: { _controller: TangaraCoreBundle:Project:newUserProject }
+
+#newAction: create a new project for group
+tangara_project_group_new:
+    pattern:  /group/{group_id}/new
+    defaults: { _controller: TangaraCoreBundle:Project:newGroupProject }
+
+
+
+
+
+
+
+tangara_project_list:
+    pattern:  /list
+    defaults: { _controller: TangaraCoreBundle:Project:list }
+
+tangara_project_upload:
+    pattern:  /upload/{id}
+    defaults: { _controller: TangaraCoreBundle:Project:upload }
+    requirements:
+        id:  \d+
+
+tangara_project_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: TangaraCoreBundle:Project:edit }
+    requirements:
+        id:  \d+
+
+tangara_project_create:
+    pattern:  /create
+    defaults: { _controller: TangaraCoreBundle:Project:create}
+
+tangara_project_files:
+    pattern:  /files
+    defaults: { _controller: TangaraCoreBundle:File:getFiles }
+
+tangara_project_tgr_content:
+    pattern:  /content
+    defaults: { _controller: TangaraCoreBundle:File:getContent }
+    
+    
+    
+#del project
+tangara_del_user_project:
+    pattern:  /delproject
+    defaults: { _controller: TangaraCoreBundle:Project:delUserProject }
+    
+tangara_del_group_project:
+    pattern:  /del_group_project
+    defaults: { _controller: TangaraCoreBundle:Project:delGroupProject }
+ 
+
+

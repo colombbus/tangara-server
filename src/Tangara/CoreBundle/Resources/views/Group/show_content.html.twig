@@ -1,0 +1,118 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="fos_user_group_show">
+    <p>{{ 'group.show.name'|trans }}: {{ group.getName() }}</p>
+    <div class="row">
+        <a class="btn btn-success" href="{{ path('tangara_group_edit', {groupName: group.name } ) }}">Édition du groupe</a>
+    </div>
+    </br>
+
+    <div class="row">
+{# <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>#}
+
+{# {% set userGroups = user.getGroups() %}#}
+        <div class="col-md-6">
+            <fieldset>
+                <legend>Les projets</legend>
+   
+                {% set groupProjects = group.getProjects() %}
+                {% if isProjects %}
+                <p>Liste des projets du groupe:</p>   
+                <ul>
+                    {% for project in groupProjects %}
+                        <li id="{{ project.getId() }}p">
+                            <a href="{{ path( "tangara_project_group_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
+                            {% if group.getGroupsLeader().getId() == app.user.getId() %}
+                            <input type="button" value="Supprimer" onclick="foo4({{ project.getId() }}, {{ group.getId() }});" />
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul> 
+                <p id="msg"><p>
+                {% else %}
+                    <p>Pas de projets en cours.<p>
+                {% endif %}
+                
+                <a class="btn btn-success" href="{{ path('tangara_project_group_new', {group_id: group.getId()}) }}">Créer un projet dans ce groupe</a>
+
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <fieldset>
+                <legend><a href="{{ path('fos_user_group_list') }}">Membres</a></legend>
+                <p>Les membres de "{{ group.getName() }}"</p>
+                {% set groupUsers = group.getUsers() %}
+                <ul>
+                    {% for users in groupUsers %}                    
+                        <li id="{{ users.getId() }}">
+                            {{ users.getUserName() }}
+                            {% if group.getGroupsLeader().getUserName() != users.getUserName() %}
+                            <input type="button" value="Supprimer" onclick="foo3({{ users.getId() }}, {{ group.getId() }});" />
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>  
+                <p id="msg"></p>
+            </fieldset>
+        </div>
+                
+         <div class="col-md-6">
+            <fieldset>
+                <legend>Gestion du groupe</legend>
+                <ul>
+                    <li><a href="#">Supprimer le groupe</a></li>
+                </ul>
+            </fieldset>
+        </div>
+    </div>
+                
+    <div class="col-md-6">
+        <fieldset>
+            <legend>Gestion du groupe</legend>
+            <ul>
+                <li><a href="">Supprimer le groupe</a></li>
+            </ul>
+        </fieldset>
+    </div>    
+                
+    <div class="col-md-6">
+        {{ render(controller("TangaraCoreBundle:Group:joinRequest", {'group': group})) }}
+    </div>  
+</div>
+
+    
+    
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+                </script>
+
+                <script>
+                    function foo3(userId, groupId){
+                        $.ajax({
+                        type: "GET",
+                        url: "{{path('tangara_group_del_user')}}",             
+                        data: 'groupid=' + groupId + "&userid=" + userId,
+                        success: function(msg) {
+                            $('#msg').html(msg);
+                            var li = document.getElementById(userId);
+                            li.parentNode.removeChild(li);
+                        }
+
+                        }); // Ajax Call
+                    }
+
+                    //del group project
+                    function foo4(projectId, groupId){
+                        $.ajax({
+                        type: "GET",
+                        url: "{{path('tangara_del_group_project')}}",             
+                        data: 'projectid=' + projectId + "&groupid=" + groupId,
+                        success: function(msg) {
+                            $('#msg').html(msg);
+                            var li = document.getElementById(projectId+'p');
+                            li.parentNode.removeChild(li);
+                        }
+
+                        }); // Ajax Call
+                    }
+                    
+                </script>

@@ -1,0 +1,50 @@
+{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
+
+
+{% block header_title %}Administration{% endblock %}
+
+{% block main_container %}
+<div class="container-fluid">
+    <h1>Administration</h1>
+    <div class="row-fluid">
+        <div class="col-md-3">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Membres</li>
+                    <li id="link1"><a href="#">Link</a></li>
+                    <li id="link2"><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="nav-header">Groupes</li>
+                    <li id="link3"><a href="#">Link</a></li>
+                    <li id="link4"><a href="#">Link</a></li>
+                    <li class="nav-header">Projets</li>
+                    <li id="link5"><a href="{{ path('tangara_admin_test') }}">Test</a></li>
+                </ul>
+            </div><!--/.well -->
+        </div><!--/span-->
+        <div class="col-md-9">
+            <fieldset>
+                <form class="form-search">
+                    <div class="input-append">
+                        <input type="text" class="span2 search-query">
+                        <button type="submit" class="btn">Search</button>
+                    </div>
+                </form>
+                Contenu
+                Contenu
+                Contenu
+                Contenu
+            </fieldset>
+
+
+        </div><!--/span-->
+    </div>
+</div> 
+{% endblock %}
+
+
+{% block custom_javascript %}<script type="text/javascript" src="{{ asset('bundles/tangaracore/js/admin-menu.js') }}"></script>
+    <script type="text/javascript">
+        activateMenu("#link5");
+    </script>
+{% endblock %}

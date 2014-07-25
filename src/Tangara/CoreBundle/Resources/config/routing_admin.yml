@@ -1,0 +1,7 @@
+tangara_admin_homepage:
+    pattern: /
+    defaults: { _controller: TangaraCoreBundle:Admin:index}
+
+tangara_admin_test:
+    pattern: /test
+    defaults: { _controller: TangaraCoreBundle:Admin:test}

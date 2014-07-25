@@ -1,0 +1,30 @@
+<div class="fos_user_group_list">
+    
+    <fieldset>
+        {% if nogroups %}
+        <form action="{{ path( 'tangara_project_confirmation' ) }}" method="post">
+            <p>Demander à rejoindre :</p>
+            <select id="ListeElement" name="groups">
+                {% for group in nogroups %}
+                    <option value="{{ group.getId() }}">{{ group.getName() }}</option>
+                {% endfor %}
+            </select> 
+            <br />
+            <textarea name="object" class="ckeditor">Le message...</textarea>
+            <br />
+            <input type="submit" value="Confirmer" />
+        </form>
+        {% else %}  
+            <p>Pas de groupes disponible.<p>
+        {% endif %}    
+    </fieldset>
+        
+    <ul>
+    {% for group in groups %}
+        <li><!--a href="{#{ path('fos_user_group_show', {'groupName': group.getName()} ) }#}"-->{{ group.getName() }}<!--/a--></li>
+    {% endfor %}
+    </ul>
+    
+    <!--a href="{#{ path('tangara_project_listnogroup') }#}">Liste des groupes dont je ne suis pas membre</a-->
+
+</div>

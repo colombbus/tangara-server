@@ -1,0 +1,11 @@
+{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
+
+{% block main_container %}
+    <div class="container">
+        <h1>Profil > {{ app.user }}</h1>
+        {% block fos_user_content %}
+            {% include "TangaraCoreBundle:Profile:show_content.html.twig" %}
+        {% endblock fos_user_content %}
+
+    </div> 
+{% endblock %}

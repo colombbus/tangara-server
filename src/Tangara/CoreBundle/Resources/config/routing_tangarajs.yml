@@ -1,0 +1,42 @@
+#tangara_tangarajs_index:
+#    pattern:  /
+#    defaults: { _controller: TangaraCoreBundle:Project:index }
+
+#tangara_tangarajs_groups:            
+#    pattern:  /getGroups
+#    defaults: { _controller: TangaraCoreBundle:Project:getGroups }
+
+tangara_tangarajs_get_tangara_files:            
+    pattern:  /gettangarafiles/{cat}/{id}
+    defaults: { _controller: TangaraCoreBundle:File:getTangaraFiles }
+    requirements:
+        cat: 1|2
+        id:  \d+
+
+tangara_tangarajs_get_resources:            
+    pattern:  /getresources/{cat}/{id}
+    defaults: { _controller: TangaraCoreBundle:File:getResources }
+    requirements:
+        cat: 1|2
+        id:  \d+
+
+tangara_tangarajs_get_program_content:
+    pattern:  /getcontent/{cat}/{id}
+    defaults: { _controller: TangaraCoreBundle:File:getProgramContent }
+    requirements:
+        cat: 1|2
+        id:  \d+
+
+tangara_tangarajs_remove:
+    pattern:  /remove/{cat}/{id}
+    defaults: { _controller: TangaraCoreBundle:File:removeFile }
+    requirements:
+        cat: 1|2
+        id:  \d+   
+
+tangara_tangarajs_create:
+    pattern:  /create/{cat}/{id}
+    defaults: { _controller: TangaraCoreBundle:File:create }
+    requirements:
+        cat: 1|2
+        id:  \d+   
