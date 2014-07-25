@@ -3,6 +3,7 @@
 {% block title %}Projets{% endblock %}
 
 {% block main_container %}
+    <input type="button" value="Open with Tangara" onclick="openTgr();"/>
     <div class="container">
         <h1>Affichage du projet</h1>
         <a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Édition</a>
@@ -44,4 +45,14 @@
             </ul>
         </div>
     </div>
+{% endblock %}
+    
+{% block custom_javascript %}
+    <script>
+        function openTgr(){
+            $.ajax({
+                type: ""
+            });
+        }
+    </script>
 {% endblock %}
