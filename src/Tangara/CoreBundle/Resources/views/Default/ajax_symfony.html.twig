@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
         <style>
             button {
                 width:150px;
@@ -24,6 +25,11 @@
                 width: 500px;
                 position: absolute;
             }
+            .setProgramContent{
+                width: 100%;
+                height: 150px;
+                background-color: gray;
+            }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
         <script>
@@ -38,6 +44,7 @@
                 file = $("#" + balise + "Files").val();
                 return file;
             }
+            
             function getTangaraFiles()
             {
                 var url = getUrl("getTangaraFiles");
@@ -87,7 +94,6 @@
                         }).appendTo("#myDiv");
                         //affiche le contenu du fichier dans le conteneur dédié
                         $('#myDiv').append(JSON.stringify(data));
-
                     }});
             }
             function createProgram()
@@ -99,20 +105,17 @@
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
             }
-            function sendProgramToSave()
+            function setProgramContent()
             {
-
-                $('#file').submit(function(event) {
-                    event.preventDefault();
-                    $.post("http://localhost/tangara-ui/web/app_dev.php/project/upload", {
-                        file: file,
-                    }, function(data) {
-
-                        $('#myDiv').append("<ul><li>" + data + "</li></ul>");
-                    });
+                var url = getUrl("setProgramContent");
+                var file = getFile("setProgramContent");
+                var content = $(".setProgramContent").val();
+                $.post(url, {file: file,data:content}, function(data) {
+                    $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
 
             }
+
             function getProgramContent()
             {
                 var url = getUrl("getProgramContent");
@@ -127,7 +130,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: "http://localhost/tangara-ui/web/app_dev.php/locale",
+                    url: url,
                     error: function(msg) {
                         alert("Error !: " + msg);
                     },
@@ -165,32 +168,38 @@
         <div id="title">
             <h2>Actions for Benoit</h2>
             <button type="button" onclick="getTangaraFiles()">getTangaraFiles</button>
-            <input class="endurl" name="un" id="getTangaraFiles" value="tangarajs/gettangarafiles/1/1"/>
+            <input class="endurl" name="un" id="getTangaraFiles" value="tangarajs/gettangarafiles/1"/>
             <input class="endurl" name="un" id="getTangaraFilesFiles" value="no value" disabled/>
             <br/>
             <button type="button" onclick="getResources()">getResources</button>
-            <input class="endurl" name="quatre" id="getResources" value="tangarajs/getresources/1/1"/>
+            <input class="endurl" name="quatre" id="getResources" value="tangarajs/getresources/1"/>
             <input class="endurl" name="quatre" id="getResourcesFiles" value="no value" disabled/>
             <br/>
             <button type="button" onclick="createProgram()">createProgram</button>
-            <input class="endurl" name="deux" id="createProgram" value="tangarajs/create/1/1"/>
+            <input class="endurl" name="deux" id="createProgram" value="tangarajs/create/1"/>
             <input class="endurl" name="deux" id="createProgramFiles" value="bob.tgr"/>
             <br/>
             <button type="button" onclick="getProgramContent()">getProgramContent</button>
-            <input class="endurl" name="trois" id="getProgramContent" value="tangarajs/getcontent/1/1"/>
+            <input class="endurl" name="trois" id="getProgramContent" value="tangarajs/getcontent/1"/>
             <input class="endurl" name="trois" id="getProgramContentFiles"value="bob.tgr"/>
             <br/>
+            <button type="button" onclick="setProgramContent()">setProgramContent</button>
+            <input class="endurl" name="neuf" id="setProgramContent" value="tangarajs/setcontent/1"/>
+            <input class="endurl" name="neuf" id="setProgramContentFiles"value="bob.tgr"/>
+            <br/>
             <button type="button" onclick="getlocale()">getLocale</button>
-            <input class="endurl" name="six" id="getlocale" value="/locale"/>
+            <input class="endurl" name="six" id="getlocale" value="locale"/>
             <input class="endurl" name="six" id="getlocaleFiles" value="no value" disabled/>
             <br/>
             <button type="button" onclick="removeFile()">removeFile</button>
-            <input class="endurl" name="huit" id="removeFile" value="tangarajs/remove/1/1"/>
+            <input class="endurl" name="huit" id="removeFile" value="tangarajs/remove/1"/>
             <input class="endurl" name="huit" id="removeFileFiles" value="bob.tgr"/>
             <br/>
             <button type="button" onclick="clearDiv()">clearDiv</button>
-            <input class="endurl" name="sept" id="clearDiv" value="tangarajs/getresources/1/1"/>
+            <input class="endurl" name="sept" id="clearDiv" value="tangarajs/getresources/1"/>
             <input class="endurl" name="sept" id="clearDivFiles" value="no value" disabled/>
+            <br/>
+            <textarea class="setProgramContent" name="content">file content</textarea>
         </div>
 
         <div id="myDiv2">
