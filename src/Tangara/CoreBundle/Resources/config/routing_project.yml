@@ -25,12 +25,6 @@ tangara_project_group_new:
     pattern:  /group/{group_id}/new
     defaults: { _controller: TangaraCoreBundle:Project:newGroupProject }
 
-
-
-
-
-
-
 tangara_project_list:
     pattern:  /list
     defaults: { _controller: TangaraCoreBundle:Project:list }
@@ -49,13 +43,7 @@ tangara_project_edit:
 
 tangara_project_create:
     pattern:  /create
-    defaults: { _controller: TangaraCoreBundle:Project:create}
-
-tangara_project_tgr_content:
-    pattern:  /content
-    defaults: { _controller: TangaraCoreBundle:File:getContent }
-    
-    
+    defaults: { _controller: TangaraCoreBundle:Project:create }
     
 #del project
 tangara_del_user_project:
