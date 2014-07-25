@@ -26,10 +26,13 @@ Thematic list
       * Bug: Private project edition: project manager can be transfered to all users
       * DONE Add file (picture or resource) with 
             http://localhost/tangara/project/1/12/upload
+    Document
+      * check if exists Path property
 
 - Files upload
     * DONE File has to be linked to a project
-    * Complete "check" function
+    * DONE Complete "check" function
+    * Clean filename & manage upload cycles
     * DONE Copy file in directory
     * BlueImp/DropZone: jQuery Upload file
     * DONE files upload in directory configured in paramaters.yml
@@ -70,14 +73,14 @@ Thematic list
             * Unexist file
                 error: file
 
-    * Get file content
+    * DONE Get file content
         http://localhost/tangara/project/1/12/getContent?filename=fichier.tgr
             * error: unowned
-    * Get file Programs list 
+    * DONE Get file Programs list 
         http://localhost/tangara/project/1/12/getProgramList
-    * Get resourceObtenir la liste des ressources
+    * DONE Get resources list
         http://localhost/tangara/project/1/12/getResources
-    * Remove file -> en POST remove: 'file.tgr'
+    * DONE Remove file -> en POST remove: 'file.tgr'
         http://localhost/tangara/project/1/12/remove
         success -> removed: 'file.tgr'
         error unremoved: 'file.tgr'
@@ -93,6 +96,7 @@ Thematic list
 Priority
 -------------
 
-
-
+  * Clean file upload
+  * Delete crap system (category for group)
+  * Security system re plug
 
