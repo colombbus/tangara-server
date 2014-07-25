@@ -24,24 +24,21 @@ class Document {
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $path;
-
-    public function getAbsolutePath() {
-        return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
-    }
-
-    public function getWebPath() {
-        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
-    }
-
-    protected function getUploadRootDir() {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
-    }
+    
+    private $uploadDir;
 
     protected function getUploadDir() {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
-        return 'uploads/documents';
+        return $uploadDir;
+    }
+     /**
+     * Set Upload Directory
+     *
+     * @param string $directory
+     * @return Document
+     */
+    public function setUploadDir($directory) {
+        $this->uploadDir = $directory;
+        return $this;
     }
 
     /**
@@ -59,23 +56,16 @@ class Document {
 
 
     public function upload() {
-        // la propriété « file » peut être vide si le champ n'est pas requis
         if (null === $this->file) {
             return;
         }
+        //TODO: Clean filename for security
+        // « move » method has 2 arguments: target directory 
+        // and target filename in new directory
+        $this->file->move($this->getUploadDir(), $this->file->getClientOriginalName());
 
-        // utilisez le nom de fichier original ici mais
-        // vous devriez « l'assainir » pour au moins éviter
-        // quelconques problèmes de sécurité
-        // la méthode « move » prend comme arguments le répertoire cible et
-        // le nom de fichier cible où le fichier doit être déplacé
-        $this->file->move($this->getUploadRootDir(), $this->file->getClientOriginalName());
-
-        // définit la propriété « path » comme étant le nom de fichier où vous
-        // avez stocké le fichier
+        // path: filename in directory
         $this->path = $this->file->getClientOriginalName();
-
-        // « nettoie » la propriété « file » comme vous n'en aurez plus besoin
         $this->file = null;
     }
 
@@ -83,6 +73,7 @@ class Document {
      * Constructor
      */
     public function __construct() {
+        $this->setUploadDir('/home/tangara');
     }
 
 
