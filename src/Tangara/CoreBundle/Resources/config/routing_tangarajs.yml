@@ -24,26 +24,22 @@ tangara_tangarajs_get_program_content:
     pattern:  /getcontent/{id}
     defaults: { _controller: TangaraCoreBundle:File:getProgramContent }
     requirements:
-        cat: 1|2
         id:  \d+
 
 tangara_tangarajs_set_program_content:
     pattern:  /setcontent/{id}
     defaults: { _controller: TangaraCoreBundle:File:setProgramContent }
     requirements:
-        cat: 1|2
         id:  \d+
 
 tangara_tangarajs_remove:
     pattern:  /remove/{id}
     defaults: { _controller: TangaraCoreBundle:File:removeFile }
     requirements:
-        cat: 1|2
         id:  \d+   
 
 tangara_tangarajs_create:
     pattern:  /create/{id}
     defaults: { _controller: TangaraCoreBundle:File:create }
     requirements:
-        cat: 1|2
         id:  \d+   
