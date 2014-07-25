@@ -22,7 +22,7 @@ Thematic list
       * Copy a project
       * DONE Check an already project name existed
       * DONE List of files uploaded
-      * Check if file exists
+      * DONE Check if file exists
       * Bug: Private project edition: project manager can be transfered to all users
       * DONE Add file (picture or resource) with 
             http://localhost/tangara/project/1/12/upload
@@ -30,6 +30,7 @@ Thematic list
       * check if exists Path property
 
 - Files upload
+    * php files couldn't be loaded
     * DONE File has to be linked to a project
     * DONE Complete "check" function
     * Clean filename & manage upload cycles
