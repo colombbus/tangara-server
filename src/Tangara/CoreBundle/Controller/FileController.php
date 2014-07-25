@@ -158,6 +158,8 @@ class FileController extends Controller {
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $project->getId();
+        
+        $this->check($project, $user);
 
         if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
@@ -198,6 +200,8 @@ class FileController extends Controller {
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $project->getId();
+        
+        $this->check($project, $user);
 
         if (!$request->isXmlHttpRequest())
             return new Response('XHR only...');
