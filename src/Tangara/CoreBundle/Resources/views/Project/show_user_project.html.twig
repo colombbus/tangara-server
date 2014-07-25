@@ -3,56 +3,49 @@
 {% block title %}Projets{% endblock %}
 
 {% block main_container %}
-    <input type="button" value="Open with Tangara" onclick="openTgr();"/>
-    <div class="container">
-        <h1>Affichage du projet</h1>
-        <a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Édition</a>
-        <br/>
-        user name : {{ app.user.username }}
-        <br/>
-        user id : {{ app.user.id }}
-        <br/>
-        project id : {{ project.id }}
-        <br/>
-        project name : {{ project.name }}
-        <br/>
-        project manager : {{ project.ProjectManager }}
-        <br/>
-        Référence font : {{ project.ReferenceFont }}
-        <br/>
-        Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
-        <br/>
+<form action="{{ path ('tangara_core_session', {id: project.id }) }}">
+    <input type="submit" value="Open with Tangara"/>
+</form>
+<div class="container">
+    <h1>Affichage du projet</h1>
+    <a href="{{ path( "tangara_project_edit", {id: project.id} ) }}" >Édition</a>
+    <br/>
+    user name : {{ app.user.username }}
+    <br/>
+    user id : {{ app.user.id }}
+    <br/>
+    project id : {{ project.id }}
+    <br/>
+    project name : {{ project.name }}
+    <br/>
+    project manager : {{ project.ProjectManager }}
+    <br/>
+    Référence font : {{ project.ReferenceFont }}
+    <br/>
+    Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
+    <br/>
         {% if project.getGroup() %}
-        listes des contributeurs :
-        <ul>
+    listes des contributeurs :
+    <ul>
             {% set contributors = project.getGroup().getUsers() %}
             {% for usr in contributors %}
-                <li>{{ usr.getUserName() }}</li>
+        <li>{{ usr.getUserName() }}</li>
             {% endfor %}
-        </ul>
+    </ul>
         {% else %}
-        Un seul contributeur pour l'instant.
+    Un seul contributeur pour l'instant.
         {% endif %}
-        
-        
-        <br/>
-        <a href="{{ path( "tangara_project_upload", {id: project.id} ) }} ">Ajouter un fichier au projet</a>
-                <div class="col-md-6">
-            <ul>
+
+
+    <br/>
+    <a href="{{ path( "tangara_project_upload", {id: project.id} ) }} ">Ajouter un fichier au projet</a>
+    <div class="col-md-6">
+        <ul>
                 {% for f in files %}
-                <li>{{ f.getPath() }}</li>
+            <li>{{ f.getPath() }}</li>
                 {% endfor %}
-            </ul>
-        </div>
+        </ul>
     </div>
+</div>
 {% endblock %}
-    
-{% block custom_javascript %}
-    <script>
-        function openTgr(){
-            $.ajax({
-                type: ""
-            });
-        }
-    </script>
-{% endblock %}
+

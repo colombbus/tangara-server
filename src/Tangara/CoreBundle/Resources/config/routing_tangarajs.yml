@@ -7,39 +7,32 @@
 #    defaults: { _controller: TangaraCoreBundle:Project:getGroups }
 
 tangara_tangarajs_get_tangara_files:            
-    pattern:  /gettangarafiles/{id}
+    pattern:  /gettangarafiles
     defaults: { _controller: TangaraCoreBundle:File:getTangaraFiles }
     requirements:
-        cat: 1|2
-        id:  \d+
 
 tangara_tangarajs_get_resources:            
-    pattern:  /getresources/{id}
+    pattern:  /getresources
     defaults: { _controller: TangaraCoreBundle:File:getResources }
     requirements:
-        cat: 1|2
-        id:  \d+
 
 tangara_tangarajs_get_program_content:
-    pattern:  /getcontent/{id}
+    pattern:  /getcontent
     defaults: { _controller: TangaraCoreBundle:File:getProgramContent }
     requirements:
-        id:  \d+
 
 tangara_tangarajs_set_program_content:
-    pattern:  /setcontent/{id}
+    pattern:  /setcontent
     defaults: { _controller: TangaraCoreBundle:File:setProgramContent }
     requirements:
-        id:  \d+
 
 tangara_tangarajs_remove:
-    pattern:  /remove/{id}
+    pattern:  /remove
     defaults: { _controller: TangaraCoreBundle:File:removeFile }
     requirements:
-        id:  \d+   
-
+   
 tangara_tangarajs_create:
-    pattern:  /create/{id}
+    pattern:  /create
     defaults: { _controller: TangaraCoreBundle:File:create }
     requirements:
-        id:  \d+   
+   
