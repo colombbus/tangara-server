@@ -2,9 +2,6 @@ tangara_project_index:
     pattern:  /
     defaults: { _controller: TangaraCoreBundle:Project:index }
 
-
-
-
 #showGroupProjectAction: info about the group projects
 tangara_project_group_show:
     pattern:  /show/group/{id}

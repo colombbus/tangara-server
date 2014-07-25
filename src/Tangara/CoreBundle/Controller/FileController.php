@@ -42,14 +42,18 @@ class FileController extends Controller {
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Document')
                 ->findByOwnerProject($projectid);
-
+$files= null;
         foreach ($projectList as $prj) {
             $ext = pathinfo($prj->getPath(), PATHINFO_EXTENSION);
             if ($ext !== 'tgr')
                 $files[] = $prj->getPath();
         }
         $response = new JsonResponse();
-        $response->setData($files);
+        
+        if ($files)
+            $response->setData(array('files' => $files));
+        else
+            $response->setData(array('files' => ''));
 
         return $response;
     }
@@ -75,7 +79,10 @@ class FileController extends Controller {
                 $files[] = $prj->getPath();
         }
         $response = new JsonResponse();
-        $response->setData($files);
+        if ($files)
+            $response->setData($files);
+        else
+            $response->setData(array(''));
 
         return $response;
     }
@@ -121,8 +128,12 @@ class FileController extends Controller {
                 $filepath = $projectPath . '/' . $filename;
 
                 $fs = new Filesystem();
-                if ($fs->exists($filepath))
-                    return new BinaryFileResponse($filepath);
+                if ($fs->exists($filepath)) {
+                    
+                    $response = new BinaryFileResponse($filepath);
+                    $response->headers->set('Content-Type', 'text/plain');
+                    return $response;
+                }
                 else
                     return new Response("file doesn't exist");
             }
@@ -182,6 +193,7 @@ class FileController extends Controller {
                 ->getRepository('TangaraCoreBundle:Project')
                 ->findOneById($projectid);
 
+
         $user = $this->container->get('security.context')->getToken()->getUser();
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
@@ -198,9 +210,18 @@ class FileController extends Controller {
         }
 
         $filename = $request->request->get('file');
+        $everExistDocument = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('TangaraCoreBundle:Document')
+                ->findOneByPath($filename);
 
+        if ($everExistDocument) {
+            $response = new JsonResponse();
+            return $response->setData(array('error' => 'exists'));
+        }
         if ($filename) {
             $em = $this->getDoctrine()->getManager();
+
             $document = new Document();
             $document->setOwnerProject($project);
             $document->setUploadDir($projectPath);

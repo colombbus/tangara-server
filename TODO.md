@@ -41,6 +41,7 @@ Thematic list
     * Javascript: popup to preview file clicked
         text/js http://codecanyon.net/item/jquery-document-viewer/1732515
         picture http://www.yoxigen.com/yoxview/
+    * parsing statement/code
 
 - Security
     * Re-plug security context (unplugged for dev) (régis)
