@@ -25,7 +25,7 @@ Thematic list
       * DONE Check if file exists
       * Bug: Private project edition: project manager can be transfered to all users
       * DONE Add file (picture or resource) with 
-            http://localhost/tangara/project/1/12/upload
+            * http://localhost/tangara/project/1/12/upload
     Document
       * check if exists Path property
 
@@ -51,9 +51,9 @@ Thematic list
     * Project management : add/remove/rename/modify/move
     * DONE Include SlickGrid
     * User s informations managed by Slickgrid
-        id
-        username
-        password
+        * id
+        * username
+        * password
 
     * DONE make a javascript tool to activate the current item clicked
 
@@ -75,16 +75,16 @@ Thematic list
                 error: file
 
     * DONE Get file content
-        http://localhost/tangara/project/1/12/getContent?filename=fichier.tgr
+        * http://localhost/tangara/project/1/12/getContent?filename=fichier.tgr
             * error: unowned
     * DONE Get file Programs list 
-        http://localhost/tangara/project/1/12/getProgramList
+        * http://localhost/tangara/project/1/12/getProgramList
     * DONE Get resources list
-        http://localhost/tangara/project/1/12/getResources
+        * http://localhost/tangara/project/1/12/getResources
     * DONE Remove file -> en POST remove: 'file.tgr'
-        http://localhost/tangara/project/1/12/remove
-        success -> removed: 'file.tgr'
-        error unremoved: 'file.tgr'
+        * http://localhost/tangara/project/1/12/remove
+        * success -> removed: 'file.tgr'
+        * error unremoved: 'file.tgr'
 
     * Open a file
 
@@ -92,7 +92,7 @@ Thematic list
     * A configuration page could be used to install Tangara-UI (DB settings, etc.)
 
 - Code cleaning
-    User/Group/Project functions in Managers
+    * User/Group/Project functions in Managers
 
 Priority
 -------------
