@@ -39,8 +39,8 @@ Thematic list
     * DONE files upload in directory configured in paramaters.yml
     * DONE Tangara directory configured in paramaters.yml
     * Javascript: popup to preview file clicked
-        text/js http://codecanyon.net/item/jquery-document-viewer/1732515
-        picture http://www.yoxigen.com/yoxview/
+        * text/js http://codecanyon.net/item/jquery-document-viewer/1732515
+        * picture http://www.yoxigen.com/yoxview/
 
 - Security
     * Re-plug security context (unplugged for dev) (régis)
