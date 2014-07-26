@@ -68,11 +68,11 @@ Thematic list
 - Request
     * DONE identical private/group project
     * DONE GetLocale
-        http://localhost/tangara/locale
+        * http://localhost/tangara/locale
     * Create a tgr file
-        http://localhost/tangara/project/1/12/addTgr
+        * http://localhost/tangara/project/1/12/addTgr
             * Unexist file
-                error: file
+               * {"error": "file"}
 
     * DONE Get file content
         * http://localhost/tangara/project/1/12/getContent?filename=fichier.tgr
