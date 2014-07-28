@@ -10,8 +10,8 @@
                     {% set userProjects = user.getProjects() %}
                     {% for project in userProjects %}
                         <li id="{{ project.getId() }}">
-                            <a href="{{ path( "tangara_project_user_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
-                            <input type="button" value="Supprimer"  onclick="foo({{ project.getId() }});" />
+                            <a href="{{ path( "tangara_project_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
+                            <input type="button" value="Supprimer"  onclick="delUserProject({{ project.getId() }});" />
                         </li>
                     {% endfor %}
                 </ul>
@@ -60,11 +60,11 @@
                 </script>
 
                 <script>
-                    function foo(projectId, userId){
+                    function delUserProject(projectId){
                         $.ajax({
                         type: "GET",
-                        url: "{{path('tangara_del_user_project')}}",             
-                        data: 'projectid=' + projectId + "&userid=" + userId,
+                        url: "{{path('tangara_del_project')}}",             
+                        data: 'projectid=' + projectId,
                         success: function(msg) {
                             $('#msg').html(msg);
                             var li = document.getElementById(projectId);

@@ -3,8 +3,8 @@
     {% for ur in usersRequest %}
         <span id="{{ ur.getId() }}">
             {{ ur.getUserName() }} 
-            <input type="button" value="Accepter" id="accepter" onclick="foo({{ ur.getId() }}, {{ group.getId() }})" />
-            <input type="button" value="Refuser" id="refuser" onclick="foo2({{ ur.getId() }}, {{ group.getId() }})" />
+            <input type="button" value="Accepter" id="accepter" onclick="addUser({{ ur.getId() }}, {{ group.getId() }})" />
+            <input type="button" value="Refuser" id="refuser" onclick="refuseUser({{ ur.getId() }}, {{ group.getId() }})" />
         </span>
     {% endfor %}
     <p id="msg"></p>
@@ -16,7 +16,7 @@
 
 <script>
 
-function foo(id, groupid){
+function addUser(id, groupid){
 //$(document).ready(function() {
     //$('#accepter').click(function(){
             $.ajax({
@@ -34,7 +34,7 @@ function foo(id, groupid){
     //}); //document.ready
  }       
 
-function foo2(id, groupid){
+function refuseUser(id, groupid){
 //$(document).ready(function() {
     //$('#refuser').click(function(){
             $.ajax({

@@ -141,10 +141,9 @@ class ProjectController extends Controller {
     
      /*
      * Create a new project
-     */
+     */    
+    public function newAction($user_id, $group_id) {
 
-    public function newGroupProjectAction($group_id = null) {
-        
         $user = $this->get('security.context')->getToken()->getUser();
 
         $userId = $user->getId();
@@ -165,26 +164,36 @@ class ProjectController extends Controller {
         $group_member = $user->getGroups();
 
         $form = $this->createForm(new ProjectType(), $project);
+        
+
 
         if ($request->isMethod('POST')) {
-            
-            $p = new Project();
+
             $form->bind($this->getRequest());
             $em = $this->getDoctrine()->getManager();
+            $p = new Project();
+        
+            if($user_id){           
+                $allProjects = $user->getProjects();
+                $projectExist = $p->isUserProjectExist($allProjects, $project->getName());
 
-            $group = $em->getRepository('TangaraCoreBundle:Group')->find($group_id);
+                $user->addProjects($project);
+                $project->setUser($user);
+            }
+            else if($group_id){
+                $group = $em->getRepository('TangaraCoreBundle:Group')->find($group_id);
 
-            $allProjects = $group->getProjects();
-            $projectExist = $p->isGroupProjectExist($allProjects, $project->getName());
+                $allProjects = $group->getProjects();
+                $projectExist = $p->isGroupProjectExist($allProjects, $project->getName());
 
-            $group->addProjects($project);
-            $project->setGroup($group);
-
+                $group->addProjects($project);
+                $project->setGroup($group);
+            }
 
             if($projectExist == false){
                 $em->persist($project);
                 $em->flush();
-                return $this->redirect($this->generateUrl('tangara_project_group_show', array('id' => $project->getId())
+                return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId())
                 ));
             }
             return new Response('Un projet avec me meme nom existe deja.');
@@ -198,185 +207,55 @@ class ProjectController extends Controller {
                     'project' => $project,
                     'project_owner_group' => $group_member,
                     'g_id' => $group_id,
-                    'u_id' => NULL,
-        ));
-    }
-    
-    public function newUserProjectAction($user_id = null) {
-
-        $user = $this->get('security.context')->getToken()->getUser();
-
-        $userId = $user->getId();
-
-        $project = new Project();
-        $project->setProjectManager($user);
-
-        $projectId = $project->getId();
-
-
-        $base_path = 'C:/tangara/';
-        $project_user_path = $base_path . $userId;
-        $project_path = $base_path . $projectId;
-
-        $manager = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
-
-        $group_member = $user->getGroups();
-
-        $form = $this->createForm(new ProjectType(), $project);
-
-        if ($request->isMethod('POST')) {
-
-            $form->bind($this->getRequest());
-            $em = $this->getDoctrine()->getManager();
-
-            $p = new Project();
-            $allProjects = $user->getProjects();
-            $projectExist = $p->isUserProjectExist($allProjects, $project->getName());
-
-            $user->addProjects($project);
-            $project->setUser($user);
-
-
-            if($projectExist == false){
-                $em->persist($project);
-                $em->flush();
-                return $this->redirect($this->generateUrl('tangara_project_user_show', array('id' => $project->getId())
-                ));
-            }
-            return new Response('Un projet avec me meme nom existe deja.');
-            
-        }
-
-        return $this->render('TangaraCoreBundle:Project:new.html.twig', array(
-                    'form' => $form->createView(),
-                    'userid' => $userId,
-                    'username' => $user,
-                    'project' => $project,
-                    'project_owner_group' => $group_member,
-                    'g_id' => NULL,
                     'u_id' => $user_id
         ));
     }
     
     
-    //group project info
-    public function showGroupProjectsAction(Project $project) {
-        //view for group project
-        return $this->render('TangaraCoreBundle:Project:show_group_project.html.twig', array('project' => $project));
-    }
+    
+    //user and group project info
+    public function showAction(Project $project) {
 
-    //user project info
-    public function showUserProjectsAction(Project $project) {
-        //view for user project
         $contributors = array("user1", "user2", "user6");
         $manager = $this->getDoctrine()->getManager();
         $files = $manager->getRepository('TangaraCoreBundle:Document')->findBy(array('ownerProject' => $project->getId()));
 
-        return $this->render('TangaraCoreBundle:Project:show_user_project.html.twig', array(
+        return $this->render('TangaraCoreBundle:Project:show.html.twig', array(
                     'project' => $project,
                     'contributors' => $contributors,
                     'files' => $files
         ));
     }
-    
-    
-    
-    
-    
+
     //del user project
-    function delUserProjectAction(){
+    function delProjectAction(){
+        
+        $projectid = $this->get('request')->get('projectid');
         
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('TangaraCoreBundle:Project');
-        $project = $repository->find($_GET['projectid']);
-        $repositoryU = $em->getRepository('TangaraCoreBundle:User');
-        $user = $repositoryU->find($_GET['userid']);
-        
-        //$this->get('request')->get('projectid');
-        
-        
+        $project = $repository->find($projectid);
+     
+
         $docs = $em->getRepository('TangaraCoreBundle:Document')
                 ->getAllProjectDocuments($project->getName());
-        
-        
-        $tmp = " ";
-        foreach ($docs as $key){
-            
+
+        foreach ($docs as $key){           
             $em->remove($key);
-            $tmp += $key->getId();
         }
         
         $em->remove($project);
         $em->flush(); 
-        
-        
+   
         if($docs){
-            echo "Les fichiers on ete supprimer." .$tmp;
+            echo "Les fichiers on ete supprimer.";
         }
         else{
             echo "Il n'y a pas de document dans ce projet.";
         }
         
-        
-        
-        
-        
-        
-
-        //echo "Vous avez supprimmer le procjet id = ".$_GET['projectid'];
-
         return new Response(NULL); 
         
-    }
-    
-    
-    //del user project
-    function delGroupProjectAction(){
-        
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('TangaraCoreBundle:Project');
-        $project = $repository->find($_GET['projectid']);
-        $repositoryU = $em->getRepository('TangaraCoreBundle:Group');
-        $group = $repositoryU->find($_GET['groupid']);
-        
-        //$this->get('request')->get('projectid');
-        
-        
-        $docs = $em->getRepository('TangaraCoreBundle:Document')
-                ->getAllProjectDocuments($project->getName());
-        
-        
-        //juste les id des docs
-        $tmp = " ";
-        foreach ($docs as $key){
-            
-            $em->remove($key);
-            $tmp += $key->getId();
-        }
-        
-        $em->remove($project);
-        $em->flush(); 
-        
-        
-        if($docs){
-            echo "Les documents on ete supprimer." .$tmp;
-        }
-        else{
-            echo "Il n'y a pas de document dans ce projet.";
-        }
-        
-        
-        
-        
-        
-        
-
-        //echo "Vous avez supprimmer le procjet id = ".$_GET['projectid'];
-
-        return new Response(NULL); 
-        
-    }
-
+    } 
 }
 

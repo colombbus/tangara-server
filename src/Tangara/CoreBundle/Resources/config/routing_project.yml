@@ -5,25 +5,20 @@ tangara_project_index:
 
 
 
-#showGroupProjectAction: info about the group projects
-tangara_project_group_show:
-    pattern:  /show/group/{id}
-    defaults: { _controller: TangaraCoreBundle:Project:showGroupProjects }
-
-#showUserProjectAction: info about the user projects  
-tangara_project_user_show:
-    pattern:  /show/user/{id}
-    defaults: { _controller: TangaraCoreBundle:Project:showUserProjects }        
+#showAction: info about the user and the group projects  
+tangara_project_show:
+    pattern:  /show/{id}
+    defaults: { _controller: TangaraCoreBundle:Project:show }        
 
 #newAction: create a new project for user
 tangara_project_user_new:
     pattern:  /profil/{user_id}/new
-    defaults: { _controller: TangaraCoreBundle:Project:newUserProject }
+    defaults: { _controller: TangaraCoreBundle:Project:new, group_id: NULL }
 
 #newAction: create a new project for group
 tangara_project_group_new:
     pattern:  /group/{group_id}/new
-    defaults: { _controller: TangaraCoreBundle:Project:newGroupProject }
+    defaults: { _controller: TangaraCoreBundle:Project:new, user_id: NULL }
 
 
 
@@ -66,14 +61,11 @@ tangara_project_tgr_content:
     
     
     
-#del project
-tangara_del_user_project:
+#remove project
+tangara_del_project:
     pattern:  /delproject
-    defaults: { _controller: TangaraCoreBundle:Project:delUserProject }
+    defaults: { _controller: TangaraCoreBundle:Project:delProject }
     
-tangara_del_group_project:
-    pattern:  /del_group_project
-    defaults: { _controller: TangaraCoreBundle:Project:delGroupProject }
  
 
 

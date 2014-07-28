@@ -44,9 +44,6 @@ class GroupController extends Controller
         return $this->render('TangaraCoreBundle:Group:show.html.twig', array('group' => $group, 'isProjects' => $isProjects));
     }
 
-    
-    
-    
     //a changer le contenu
     public function newAction(\Symfony\Component\HttpFoundation\Request $request) {
         
@@ -176,15 +173,16 @@ class GroupController extends Controller
     
    
     public function acceptRequestAction() {
+        
+        $group_id = $this->container->get('request')->get('groupid');
+        $user_id = $this->container->get('request')->get('valeur');
 
         $em = $this->container->get('doctrine.orm.entity_manager');
         $repository = $em->getRepository('TangaraCoreBundle:Group');
-        $group = $repository->find($_GET['groupid']);
+        $group = $repository->find($group_id);
         $repositoryU = $em->getRepository('TangaraCoreBundle:User');
-        $user = $repositoryU->find($_GET['valeur']);
-        
-        
-        
+        $user = $repositoryU->find($user_id);
+  
         //$group->addUser($user);
         $user->addGroup($group);
         $group->removeJoinRequest($user);
@@ -202,51 +200,45 @@ class GroupController extends Controller
     
     public function refuseRequestAction() {
         
+        $group_id = $this->container->get('request')->get('groupid');
+        $user_id = $this->container->get('request')->get('valeur');
+        
         $em = $this->container->get('doctrine.orm.entity_manager');
         $repository = $em->getRepository('TangaraCoreBundle:Group');
-        $group = $repository->find($_GET['groupid']);
+        $group = $repository->find($group_id);
         $repositoryU = $em->getRepository('TangaraCoreBundle:User');
-        $user = $repositoryU->find($_GET['valeur']);
+        $user = $repositoryU->find($user_id);
         
-        
- 
         $group->removeJoinRequest($user);
         
         $em->persist($group);
         $em->flush();
         
+        echo "Refuser l'user id = ".$user_id;
 
-        echo "Refuser l'user id = ".$_GET['valeur'];
-
-        return new Response(NULL); 
-        
+        return new Response(NULL);        
     }
     
-    
-    
-    
+
     public function delUserAction(){
+        
+        $group_id = $this->container->get('request')->get('groupid');
+        $user_id = $this->container->get('request')->get('userid');
         
         $em = $this->container->get('doctrine.orm.entity_manager');
         $repository = $em->getRepository('TangaraCoreBundle:Group');
-        $group = $repository->find($_GET['groupid']);
+        $group = $repository->find($group_id);
         $repositoryU = $em->getRepository('TangaraCoreBundle:User');
-        $user = $repositoryU->find($_GET['userid']);
+        $user = $repositoryU->find($user_id);
         
         
         $group->removeUsers($user);
         $user->removeGroups($group);
         $em->flush();
-        
-        
-        
-        
-        
+     
         echo 'Un user a ete supprime du group.';
-        
-        
-        return new Response(NULL);
-        
+ 
+        return new Response(NULL);      
     }
 
         
