@@ -1,0 +1,17 @@
+#mots
+projects: projects
+my.p: my
+groups: groups
+group: group
+members: members
+delete: delete
+
+#mots long
+profile.management: 'Profil management'
+delete.profile: 'Delete profil'
+change.pass: 'Change password'
+list.all.groups: 'List of all groups'
+msg.no.groups: "You don't any have"
+be.member: 'You are member of'
+new.project: 'Create a new project'
+new.group: 'Create a new group'

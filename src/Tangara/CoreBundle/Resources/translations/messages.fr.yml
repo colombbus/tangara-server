@@ -20,3 +20,21 @@ _learn: Apprendre
 _logout: Déconnecter
 profile.show.username: Pseudo
 profile.show.email: Mail
+
+#mots
+projects: projets
+my.p: mes
+groups: groupes
+group: groupe
+members: membres
+delete: supprimer
+
+#mots long
+profile.management: 'Gestion du compte'
+delete.profile: 'Supprimer le compte'
+change.pass: 'Changer mot de passe'
+list.all.groups: 'Liste de tous les groupes'
+msg.no.groups: "Vous n'avez pas de groupes"
+be.member: 'Tu es membre de'
+new.project: 'Créer un nouveau projet'
+new.group: 'Créer un nouveau groupe'

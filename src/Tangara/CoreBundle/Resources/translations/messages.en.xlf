@@ -20,7 +20,7 @@
             </trans-unit>
             <trans-unit id="5">
                 <source>_logout</source>
-                <target>Déconnecter</target>
+                <target>Logout</target>
             </trans-unit>
             <trans-unit id="6">
                 <source>_Welcome</source>
@@ -69,6 +69,18 @@
             <trans-unit id="17">
                 <source>_password</source>
                 <target>Password</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>profile.show.username</source>
+                <target>Username</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>profile.show.email</source>
+                <target>e-Mail</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>security.login.submit</source>
+                <target>Login</target>
             </trans-unit>
         </body>
     </file>

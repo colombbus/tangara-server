@@ -20,4 +20,3 @@ _learn: Apprendre
 _logout: Déconnecter
 profile.show.username: Pseudo
 profile.show.email: Mail
-group.show.name: 'Nom du groupe'

@@ -1,6 +1,5 @@
 group.edit.submit: __group.edit.submit
 group.new.submit: __group.new.submit
-group.show.name: __group.show.name
 profile.edit.submit: __profile.edit.submit
 profile.show.username: __profile.show.username
 profile.show.email: __profile.show.email
@@ -19,3 +18,4 @@ resetting.request.invalid_username: __resetting.request.invalid_username
 resetting.request.username: __resetting.request.username
 resetting.request.submit: __resetting.request.submit
 resetting.reset.submit: __resetting.reset.submit
+group.show.name: __group.show.name

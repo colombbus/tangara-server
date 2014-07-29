@@ -20,7 +20,7 @@ class DefaultController extends Controller
     }
      
     public function translationAction(){
-        $t = $this->get('translator')->trans('_logout');
+        $t = $this->get('translator')->trans('be.member');
         return new Response($t);
     }
 
