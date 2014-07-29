@@ -3,28 +3,32 @@
 namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Tangara\CoreBundle\Form\ProjectType;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Tangara\CoreBundle\Entity\Document;
-use Tangara\CoreBundle\Entity\Project;
-use Tangara\CoreBundle\Entity\User;
-use Tangara\CoreBundle\Entity\Group;
 
 class FileController extends Controller {
 
-    function check($project, $user) {
+    /**
+     * Checks if directory exists
+     * 
+     * @param \Tangara\CoreBundle\Entity\Project $project
+     * @param \Tangara\CoreBundle\Entity\User $user
+     * @return true if directory exists
+     */
+    function checkDirectory($project, $user) {
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $project->getId();
         $fs = new Filesystem();
 
         if (!$fs->exists($projectPath)) {
             $fs->mkdir($projectPath);
+            return false;
         }
+        return true;
     }
 
     /**
@@ -35,21 +39,21 @@ class FileController extends Controller {
     public function getResourcesAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $projectid = $session->get('projectid');
+        $projectId = $session->get('projectid');
 
         //if ($request->isXmlHttpRequest()) {
         $projectList = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Document')
-                ->findByOwnerProject($projectid);
-$files= null;
+                ->findByOwnerProject($projectId);
+        $files = null;
         foreach ($projectList as $prj) {
             $ext = pathinfo($prj->getPath(), PATHINFO_EXTENSION);
             if ($ext !== 'tgr')
                 $files[] = $prj->getPath();
         }
         $response = new JsonResponse();
-        
+
         if ($files)
             $response->setData(array('files' => $files));
         else
@@ -66,12 +70,12 @@ $files= null;
     public function getTangaraFilesAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $projectid = $session->get('projectid');
+        $projectId = $session->get('projectid');
 
         $projectList = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Document')
-                ->findByOwnerProject($projectid);
+                ->findByOwnerProject($projectId);
 
         foreach ($projectList as $prj) {
             $ext = pathinfo($prj->getPath(), PATHINFO_EXTENSION);
@@ -87,20 +91,27 @@ $files= null;
         return $response;
     }
 
+    /**
+     * Get a content for a Tangara File given in a 'file' field 
+     * POST request 
+     * Related current project is in 'projectid' field stored in session
+     * 
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function getProgramContentAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $projectid = $session->get('projectid');
+        $projectId = $session->get('projectid');
 
         $project = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Project')
-                ->findOneById($projectid);
+                ->findOneById($projectId);
 
         $user = $this->container->get('security.context')->getToken()->getUser();
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user); //TODO GET PROJECT 
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
-        $projectPath = $uploadPath . '/' . $projectid;
+        $projectPath = $uploadPath . '/' . $projectId;
         //return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
         if (!$request->isXmlHttpRequest())
             return new Response('XHR only...');
@@ -123,37 +134,42 @@ $files= null;
                 return $error;
             }
 
-
             if ($filename) {
                 $filepath = $projectPath . '/' . $filename;
 
                 $fs = new Filesystem();
                 if ($fs->exists($filepath)) {
-                    
                     $response = new BinaryFileResponse($filepath);
                     $response->headers->set('Content-Type', 'text/plain');
                     return $response;
+                } else {
+                    return new FileNotFoundException();
+                    //return new Response("file doesn't exist");
                 }
-                else
-                    return new Response("file doesn't exist");
             }
         }
     }
-
+    /**
+     * Remove from a project a file given in a 'file' field 
+     * POST request 
+     * Related current project is in 'projectid' field stored in session
+     * 
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function removeFileAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $projectid = $session->get('projectid');
+        $projectId = $session->get('projectid');
 
         $project = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Project')
-                ->findOneById($projectid);
+                ->findOneById($projectId);
 
         $user = $this->container->get('security.context')->getToken()->getUser();
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
-        $projectPath = $uploadPath . '/' . $projectid;
+        $projectPath = $uploadPath . '/' . $projectId;
 
         if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
@@ -186,20 +202,20 @@ $files= null;
     public function createAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $projectid = $session->get('projectid');
+        $projectId = $session->get('projectid');
 
         $project = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Project')
-                ->findOneById($projectid);
+                ->findOneById($projectId);
 
 
         $user = $this->container->get('security.context')->getToken()->getUser();
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
-        $projectPath = $uploadPath . '/' . $projectid;
+        $projectPath = $uploadPath . '/' . $projectId;
 
-        $this->check($project, $user);
+        $this->checkDirectory($project, $user);
 
         if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
@@ -246,22 +262,23 @@ $files= null;
     public function setProgramContentAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $projectid = $session->get('projectid');
+        $projectId = $session->get('projectid');
 
         $project = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Project')
-                ->findOneById($projectid);
+                ->findOneById($projectId);
 
         $user = $this->container->get('security.context')->getToken()->getUser();
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
-        $projectPath = $uploadPath . '/' . $projectid;
+        $projectPath = $uploadPath . '/' . $projectId;
 
-        $this->check($project, $user);
+        $this->checkDirectory($project, $user);
 
-        if (!$request->isXmlHttpRequest())
+        if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
+        }
 
         if (!$auth) {
             $response = new JsonResponse();
@@ -289,8 +306,9 @@ $files= null;
                 $response = new JsonResponse();
                 $response->setData(array('modified' => $filename));
                 return $response;
-            } else
+            } else {
                 return new Response("file doesn't exist");
+            }
         }
     }
 
