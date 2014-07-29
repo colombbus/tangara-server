@@ -12,12 +12,6 @@ class DefaultController extends Controller {
     public function indexAction() {
         return $this->render('TangaraCoreBundle:Default:homepage.html.twig');
     }
-    
-    
-    
-    public function ajaxAction(){
-        return $this->render('TangaraCoreBundle:Default:ajax_symfony.html.twig');
-    }
 
     public function localeAction() {
         $request = $this->getRequest();
@@ -36,11 +30,26 @@ class DefaultController extends Controller {
     }
 
     public function sessionAction(Project $project) {
-        
+
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('projectid', $project->getId());
         return $this->forward('TangaraCoreBundle:Project:create');
+    }
+
+    /**
+     * Create a program with TangaraJS
+     * 
+     */
+    public function createAction() {
+        $tangarajs = $this->container->getParameter('tangara_core.settings.directory.tangarajs');
+        //if ($tangarajs == null) {}
+        $fileToOpen = $this->get('request')->get('projectid');
+
+        return $this->render('TangaraCoreBundle:Project:create.html.twig', array(
+                    'tangarajs' => $tangarajs,
+                    'projectid' => $fileToOpen
+        ));
     }
 
 }

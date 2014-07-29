@@ -13,7 +13,7 @@
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li class=""><a href="{{ path('tangara_core_homepage')}}">{{ '_home'|trans}}</a></li>
-            <li class=""><a href="{{ path('tangara_project_create')}}">{{ '_create'|trans}}</a></li>
+            <li class=""><a href="{{ path('tangara_core_create')}}">{{ '_create'|trans}}</a></li>
             {% if is_granted('ROLE_USER') %}<li class=""><a href="{{ path('fos_user_profile_show')}}">{{ '_navbar.profile'|trans}}</a></li>{% endif %}
             <li class=""><a href="#">{{ '_share'|trans}}</a></li>
             <li class=""><a href="#">{{ '_learn'|trans}}</a></li>

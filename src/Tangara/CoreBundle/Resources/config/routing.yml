@@ -25,8 +25,7 @@ tangara_project_ajax_test:
     pattern:  /ajax/test
     defaults: { _controller: TangaraCoreBundle:File:removeFile }
     
-
-    
-    
-    
+tangara_core_create:
+    pattern:  /create
+    defaults: { _controller: TangaraCoreBundle:Default:create}
    
