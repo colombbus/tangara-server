@@ -2,9 +2,6 @@ tangara_project_index:
     pattern:  /
     defaults: { _controller: TangaraCoreBundle:Project:index }
 
-
-
-
 #showAction: info about the user and the group projects  
 tangara_project_show:
     pattern:  /show/{id}
@@ -24,21 +21,11 @@ tangara_project_list:
     pattern:  /list
     defaults: { _controller: TangaraCoreBundle:Project:list }
 
-tangara_project_upload:
-    pattern:  /upload/{id}
-    defaults: { _controller: TangaraCoreBundle:Project:upload }
-    requirements:
-        id:  \d+
-
 tangara_project_edit:
     pattern:  /edit/{id}
     defaults: { _controller: TangaraCoreBundle:Project:edit }
     requirements:
         id:  \d+
-
-tangara_project_create:
-    pattern:  /create
-    defaults: { _controller: TangaraCoreBundle:Project:create}
 
 tangara_project_files:
     pattern:  /files
@@ -48,13 +35,14 @@ tangara_project_tgr_content:
     pattern:  /content
     defaults: { _controller: TangaraCoreBundle:File:getContent }
     
-    
-    
-#remove project
-tangara_del_project:
-    pattern:  /delproject
-    defaults: { _controller: TangaraCoreBundle:Project:delProject }
-    
- 
+tangara_project_remove:
+    pattern:  /remove
+    defaults: { _controller: TangaraCoreBundle:Project:remove }
 
+#tangara_project_remove_group:
 
+tangara_project_upload:
+    pattern:  /upload/{id}
+    defaults: { _controller: TangaraCoreBundle:Project:upload }
+    requirements:
+        id:  \d+

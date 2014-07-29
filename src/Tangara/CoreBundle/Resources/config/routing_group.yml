@@ -10,10 +10,6 @@ tangara_user_group_new:
 tangara_group_edit:
     pattern:  /group/edit/{groupName}
     defaults: { _controller: TangaraCoreBundle:FOSGroup:edit }
-  
-    
-    
-    
     
 #route de redirection
 tangara_core_group_list:
@@ -28,8 +24,6 @@ tangara_core_group_edit:
     pattern:  /group/edit
     defaults: { _controller: TangaraCoreBundle:Group:new } 
     
-    
-#ajax    
 tangara_group_acceptRequest:
     pattern:  /accept_request
     defaults: { _controller: TangaraCoreBundle:Group:acceptRequest }
@@ -38,7 +32,6 @@ tangara_group_refuseRequest:
     pattern:  /refuse_request
     defaults: { _controller: TangaraCoreBundle:Group:refuseRequest }
 
-
-tangara_group_del_user:
+tangara_group_remove_user:
     pattern:  /group/del_user
-    defaults: { _controller: TangaraCoreBundle:Group:delUser }
+    defaults: { _controller: TangaraCoreBundle:Group:removeUser }
