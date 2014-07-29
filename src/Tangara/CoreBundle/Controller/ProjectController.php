@@ -205,7 +205,7 @@ class ProjectController extends Controller {
     }
 
     //del user project
-    function delProjectAction(){
+    function removeAction(){
         
         $projectid = $this->get('request')->get('projectid');
         
@@ -225,7 +225,7 @@ class ProjectController extends Controller {
         $em->flush(); 
    
         if($docs){
-            echo "Les fichiers on ete supprimer.";
+            echo "Les fichiers ont été supprimés.";
         }
         else{
             echo "Il n'y a pas de document dans ce projet.";
