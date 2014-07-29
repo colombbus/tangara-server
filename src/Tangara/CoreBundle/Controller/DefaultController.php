@@ -44,11 +44,11 @@ class DefaultController extends Controller {
     public function createAction() {
         $tangarajs = $this->container->getParameter('tangara_core.settings.directory.tangarajs');
         //if ($tangarajs == null) {}
-        $fileToOpen = $this->get('request')->get('projectid');
+        $projectId = $this->get('request')->get('projectid');
 
         return $this->render('TangaraCoreBundle:Project:create.html.twig', array(
                     'tangarajs' => $tangarajs,
-                    'projectid' => $fileToOpen
+                    'projectid' => $projectId
         ));
     }
 
