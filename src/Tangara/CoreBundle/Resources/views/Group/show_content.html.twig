@@ -21,9 +21,9 @@
                 <ul>
                     {% for project in groupProjects %}
                         <li id="{{ project.getId() }}p">
-                            <a href="{{ path( "tangara_project_group_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
+                            <a href="{{ path( "tangara_project_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
                             {% if group.getGroupsLeader().getId() == app.user.getId() %}
-                            <input type="button" value="Supprimer" onclick="foo4({{ project.getId() }}, {{ group.getId() }});" />
+                            <input type="button" value="Supprimer" onclick="delProject({{ project.getId() }});" />
                             {% endif %}
                         </li>
                     {% endfor %}
@@ -47,7 +47,7 @@
                         <li id="{{ users.getId() }}">
                             {{ users.getUserName() }}
                             {% if group.getGroupsLeader().getUserName() != users.getUserName() %}
-                            <input type="button" value="Supprimer" onclick="foo3({{ users.getId() }}, {{ group.getId() }});" />
+                            <input type="button" value="Supprimer" onclick="delGroupUser({{ users.getId() }}, {{ group.getId() }});" />
                             {% endif %}
                         </li>
                     {% endfor %}
@@ -86,7 +86,7 @@
                 </script>
 
                 <script>
-                    function foo3(userId, groupId){
+                    function delGroupUser(userId, groupId){
                         $.ajax({
                         type: "GET",
                         url: "{{path('tangara_group_del_user')}}",             
@@ -101,11 +101,11 @@
                     }
 
                     //del group project
-                    function foo4(projectId, groupId){
+                    function delProject(projectId){
                         $.ajax({
                         type: "GET",
-                        url: "{{path('tangara_del_group_project')}}",             
-                        data: 'projectid=' + projectId + "&groupid=" + groupId,
+                        url: "{{path('tangara_del_project')}}",             
+                        data: 'projectid=' + projectId,
                         success: function(msg) {
                             $('#msg').html(msg);
                             var li = document.getElementById(projectId+'p');

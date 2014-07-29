@@ -25,10 +25,8 @@ tangara_project_ajax_test:
     pattern:  /ajax/test
     defaults: { _controller: TangaraCoreBundle:File:removeFile }
     
-tangara_core_session:
-    pattern:  /session/{id}
-    defaults: { _controller: TangaraCoreBundle:Default:session }
-    requirements:
-        id:  \d+   
+
+    
+    
     
    

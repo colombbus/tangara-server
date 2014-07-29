@@ -77,7 +77,7 @@ class ProfileController extends Controller
         
         
         //supprimer le compte user 
-        //$em->remove($user);
+        $em->remove($user);
         $em->flush();
         
         return new Response('Votre Compte a ete supprimer');
@@ -99,10 +99,6 @@ class ProfileController extends Controller
         //touver le leader du group, donc user puis som adresse email
         $groupLeader = $group->getGroupsLeader();     
         $leader_mail = $groupLeader->getEmail();
-        
-        
-        
-        
         
         if($groupRepository->isUserAsked($user->getUserName()) == null){
             //ajouter l'user dans la liste des demandes
@@ -128,9 +124,7 @@ class ProfileController extends Controller
             //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
             return new Response('Vous avez deja fait une demande de rejoindre ce groupe.');
         }
-        
-        
-        
+
     }
     
    
