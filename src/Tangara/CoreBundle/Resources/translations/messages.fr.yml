@@ -30,6 +30,8 @@ members: membres
 delete: supprimer
 refuse: refuser
 accept: accepter
+file: fichier
+files: fichiers
 
 #mots long
 profile.management: 'Gestion du compte'
@@ -48,3 +50,18 @@ group.projects: 'Les projets'
 members.of: 'Les membres de'
 group.management: 'Gestion du group'
 delete.group: 'Supprimer le group'
+info.project: 'Détails du projet'
+user.name: "Nom de l'utilisateur"
+user.id: "L'id de l'utilisateur"
+project.id: "L'id du projet"
+project.name: 'Nom du projet'
+create.date : 'Date de création'
+msg.project: "Un seul contributeur pour l'instant"
+list.members.project: "Liste des contributeurs"
+font.family: 'Police de texte'
+project.manager: 'Gestionnaire du projet'
+new.file: 'Ajouter un fichier au projet'
+project.edit: 'Édition du projet'
+ask.join.group: 'Demander à rejoindre'
+msg.unvailable.join.group: 'Pas de groupes disponible'
+list.groups: 'Liste des groupes'

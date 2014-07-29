@@ -3,7 +3,7 @@
     <fieldset>
         {% if nogroups %}
         <form action="{{ path( 'tangara_user_joinGroup' ) }}" method="post">
-            <p>Demander à rejoindre :</p>
+            <p>{{ 'ask.join.group'|trans }} :</p>
             <select id="ListeElement" name="groups">
                 {% for group in nogroups %}
                     <option value="{{ group.getId() }}">{{ group.getName() }}</option>
@@ -15,7 +15,7 @@
             <input type="submit" value="Confirmer" />
         </form>
         {% else %}  
-            <p>Pas de groupes disponible.<p>
+            <p>{{ 'msg.unvailable.join.group'|trans }}.<p>
         {% endif %}    
     </fieldset>
         
