@@ -11,17 +11,6 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class ProjectRepository extends EntityRepository {
-    
-    public function getLastPostedSQL($limit = 5) {
-        return $this->get('doctrine')->getManager()->createQuery('
-            SELECT 
-                email 
-            FROM 
-                `fos_user` 
-            WHERE 
-                `id` = 1 
-    ');
-    }
 
     //public function getProjects($group_id) {
     public function myFindAll() {
@@ -67,9 +56,4 @@ class ProjectRepository extends EntityRepository {
                 ->findAllOrderedByName();
     }
     
-    
-        
-    
-    
-
 }
