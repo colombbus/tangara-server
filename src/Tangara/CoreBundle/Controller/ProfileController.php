@@ -31,81 +31,70 @@ use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
 
 
-class ProfileController extends Controller 
+class ProfileController extends Controller
 {
-
     //Controller to get the user main page
     public function profileAction() {
 
         //$response = parent::profileAction();
         //$user = parent::showAction();
         $user = $this->get('security.context')->getToken()->getUser();
-                
-        return $this->render('TangaraCoreBundle:Profile:show.html.' . $this->container->getParameter('fos_user.template.engine'), 
+
+        return $this->render('TangaraCoreBundle:Profile:show.html.twig',
                 array('user' => $user));
     }
-    
+
     //delete account
-    public function delAccountAction(){  
+    public function delAccountAction(){
         $user = $this->get('security.context')->getToken()->getUser();
-        
-        
+
         $em = $this->container->get('doctrine.orm.entity_manager');
-             
-        //supprimer les projets de l'user
+
+        // remove user projects
         $projects = $user->getProjects();
         foreach ($projects as $p){
             $em->remove($p);
         }
-               
-        //supprimer dans la liste des groups aux quels il appartient  
+        // remove from groups joined
         $groups = $user->getGroups();
         foreach ($groups as $g){
-            //supprimer le goupe si il est le Leader et les projets du group
+            // remove groups and projects if user is Leader
             if($g->getGroupsLeader()->getId() == $user->getId()){
-                
                 $gProjects = $g->getProjects();
                 foreach ($gProjects as $gp){
                     $em->remove($gp);
                 }
- 
                 $em->remove($g);
             }
             $user->removeGroups($g);
         }
-          
-        
-        
-        //supprimer le compte user 
+        //supprimer le compte user
         $em->remove($user);
         $em->flush();
-        
-        return new Response('Votre Compte a ete supprimer');
-        
+
+        return new Response('Votre Compte a ete supprime');
     }
-    
-    
-    
+
     public function askJoinGroupAction(){
         $user = $this->container->get('security.context')->getToken()->getUser();
-       
+
         $msg = $this->container->get('request')->get('object');
         $goupId = $this->container->get('request')->get('groups');
-        
+
         $em = $this->container->get('doctrine.orm.entity_manager');
         $groupRepository = $em->getRepository('TangaraCoreBundle:Group');
         $group = $groupRepository->find($goupId);
-               
+
         //touver le leader du group, donc user puis som adresse email
-        $groupLeader = $group->getGroupsLeader();     
+        $groupLeader = $group->getGroupsLeader();
         $leader_mail = $groupLeader->getEmail();
-        
+
         if($groupRepository->isUserAsked($user->getUserName()) == null){
             //ajouter l'user dans la liste des demandes
             $group->addJoinRequest($user);
             $em->persist($group);
             $em->flush();
-            
+
             /*
               //envoyer un mail au leader
               $message = \Swift_Message::newInstance()
@@ -116,17 +105,14 @@ class ProfileController extends Controller
               ;
               $this->container->get('mailer')->send($message);
              */
-            
+
             //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
             return new Response('Message envoyé.');
         }
         else{
             //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
-            return new Response('Vous avez deja fait une demande de rejoindre ce groupe.');
+            return new Response('Vous avez deja fait une demande pour rejoindre ce groupe.');
         }
-
     }
-    
-   
 
 }
