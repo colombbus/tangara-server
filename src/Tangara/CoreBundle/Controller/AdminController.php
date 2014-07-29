@@ -3,6 +3,7 @@
 namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends Controller {
 
@@ -13,4 +14,6 @@ class AdminController extends Controller {
     public function testAction() {
         return $this->render('TangaraCoreBundle:Admin:test.html.twig');
     }
+
+    
 }

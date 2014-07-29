@@ -14,14 +14,14 @@ class DefaultController extends Controller
     {
         return $this->render('TangaraCoreBundle:Default:homepage.html.twig');
     }
-    
-    
-    
+
     public function ajaxAction(){
         return $this->render('TangaraCoreBundle:Default:ajax_symfony.html.twig');
     }
-    
-    
-    
+     
+    public function translationAction(){
+        $t = $this->get('translator')->trans('_logout');
+        return new Response($t);
+    }
 
 }
