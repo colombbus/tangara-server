@@ -9,10 +9,10 @@
                 <ul>
                     {% set userProjects = user.getProjects() %}
                     {% for project in userProjects %}
-                        <li id="{{ project.getId() }}">
-                            <a href="{{ path( "tangara_project_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
-                            <input type="button" value="Supprimer"  onclick="delUserProject({{ project.getId() }});" />
-                        </li>
+                    <li id="{{ project.getId() }}">
+                        <a href="{{ path( "tangara_project_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
+                        <input type="button" value="Supprimer"  onclick="removeUserProject({{ project.getId() }});" />
+                    </li>
                     {% endfor %}
                 </ul>
                 <p id="msg"></p>
@@ -27,17 +27,17 @@
                 <ul>
                     {% set userGroups = user.getGroups() %}
                     {% for group in userGroups %}
-                        <li><a href="{{ path( "tangara_user_group_info", {id: group.id} ) }}">{{ group.getName() }}</a></li>
+                    <li><a href="{{ path( "tangara_user_group_info", {id: group.id} ) }}">{{ group.getName() }}</a></li>
                     {% endfor %}
                 </ul>
                 {% else %}
-                    <p>Vous n'avez pas de groupes.</p>
+                <p>Vous n'avez pas de groupes.</p>
                 {% endif %}
                 <a href="{{ path('fos_user_group_list') }}">Liste de tous les groupes</a>
             </fieldset>
         </div>
     </div>
-            
+
     <div class="row">
         <fieldset>
             <legend>Gestion du compte</legend>
@@ -47,30 +47,22 @@
             </ul>
         </fieldset>
     </div>
-
 </div>
 
-            
-            
-            
-            
-            
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+</script>
 
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
-                </script>
-
-                <script>
-                    function delUserProject(projectId){
-                        $.ajax({
-                        type: "GET",
-                        url: "{{path('tangara_del_project')}}",             
-                        data: 'projectid=' + projectId,
-                        success: function(msg) {
-                            $('#msg').html(msg);
-                            var li = document.getElementById(projectId);
-                            li.parentNode.removeChild(li);
-                        }
-
-                        }); // Ajax Call
-                    }
-                </script>
+<script>
+    function removeUserProject(projectId) {
+        $.ajax({
+            type: "GET",
+            url: "{{path('tangara_project_remove')}}",
+            data: 'projectid=' + projectId,
+            success: function(msg) {
+                $('#msg').html(msg);
+                var li = document.getElementById(projectId);
+                li.parentNode.removeChild(li);
+            }
+        }); // Ajax Call
+    }
+</script>

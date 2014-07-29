@@ -25,7 +25,7 @@ class ProjectRepository extends EntityRepository {
     }
 
     public function getForeignGroup($user_id) {
-        
+        echo "getForeignGroup()" . $user_id;
     }
 
     public function getLastPosted($limit = 5) {
