@@ -12,24 +12,20 @@ use Tangara\CoreBundle\Form\ProjectType;
 class ProjectController extends Controller {
 
     public function indexAction() {
-        //return $this->redirect($this->generateUrl('tangara_core_homepage'));
     }
 
     public function listAction() {
-    $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $projectManager = $user;
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $projects = $manager->getRepository('TangaraCoreBundle:Project')->findAll();
 
         $repository = $manager->getRepository('TangaraCoreBundle:Project');
-        $admin = '"admin"';
-
-        //$conn = $this->get('database_connection');
-        //$different = $conn->fetchAll('SELECT ProjectManager FROM project WHERE ProjectManager != '.$admin);
 
         $query = $repository->createQueryBuilder('project')
                 ->where('project.projectManager != :ProjectManager')
-                ->setParameter('ProjectManager', 'admin')
+                ->setParameter('ProjectManager', $projectManager)
                 ->getQuery();
 
         $different = $query->getResult();
@@ -64,22 +60,6 @@ class ProjectController extends Controller {
                     'form' => $form->createView(),
                     'user' => $user,
                     'project' => $project
-        ));
-    }
-
-    /**
-     * 
-     * Create a program with TangaraJS
-     * 
-     */
-    public function createAction() {
-        $tangarajs = $this->container->getParameter('tangara_core.settings.directory.tangarajs');
-        //if ($tangarajs == null) {}
-        $fileToOpen = $this->get('request')->get('projectid');
-
-        return $this->render('TangaraCoreBundle:Project:create.html.twig', array(
-                    'tangarajs' => $tangarajs,
-                    'projectid' => $fileToOpen
         ));
     }
 
