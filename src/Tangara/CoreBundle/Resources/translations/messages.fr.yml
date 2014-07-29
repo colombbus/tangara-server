@@ -28,6 +28,8 @@ groups: groupes
 group: groupe
 members: membres
 delete: supprimer
+refuse: refuser
+accept: accepter
 
 #mots long
 profile.management: 'Gestion du compte'
@@ -38,3 +40,11 @@ msg.no.groups: "Vous n'avez pas de groupes"
 be.member: 'Tu es membre de'
 new.project: 'Créer un nouveau projet'
 new.group: 'Créer un nouveau groupe'
+group.show.name: 'Nom du groupe'
+group.edit: 'Édition du groupe'
+msg.no.projects: 'Pas de projets en cours'
+list.all.projects: 'Liste des projets'
+group.projects: 'Les projets'
+members.of: 'Les membres de'
+group.management: 'Gestion du group'
+delete.group: 'Supprimer le group'

@@ -1,9 +1,9 @@
-{% trans_default_domain 'FOSUserBundle' %}
+{#% trans_default_domain 'FOSUserBundle' %#}
 
 <div class="fos_user_group_show">
     <p>{{ 'group.show.name'|trans }}: {{ group.getName() }}</p>
     <div class="row">
-        <a class="btn btn-success" href="{{ path('tangara_group_edit', {groupName: group.name } ) }}">Édition du groupe</a>
+        <a class="btn btn-success" href="{{ path('tangara_group_edit', {groupName: group.name } ) }}">{{ 'group.edit'|trans }}</a>
     </div>
     </br>
 
@@ -13,41 +13,41 @@
 {# {% set userGroups = user.getGroups() %}#}
         <div class="col-md-6">
             <fieldset>
-                <legend>Les projets</legend>
+                <legend>{{ 'group.projects'|trans }}</legend>
    
                 {% set groupProjects = group.getProjects() %}
                 {% if isProjects %}
-                <p>Liste des projets du groupe:</p>   
+                    <p>{{ 'list.all.projects'|trans }}:</p>   
                 <ul>
                     {% for project in groupProjects %}
                         <li id="{{ project.getId() }}p">
                             <a href="{{ path( "tangara_project_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
                             {% if group.getGroupsLeader().getId() == app.user.getId() %}
-                            <input type="button" value="Supprimer" onclick="delProject({{ project.getId() }});" />
+                                <input type="button" value="{{ 'delete'|trans|capitalize }}" onclick="delProject({{ project.getId() }});" />
                             {% endif %}
                         </li>
                     {% endfor %}
                 </ul> 
                 <p id="msg"><p>
                 {% else %}
-                    <p>Pas de projets en cours.<p>
+                    <p>{{ 'msg.no.projects'|trans }}.<p>
                 {% endif %}
                 
-                <a class="btn btn-success" href="{{ path('tangara_project_group_new', {group_id: group.getId()}) }}">Créer un projet dans ce groupe</a>
+                <a class="btn btn-success" href="{{ path('tangara_project_group_new', {group_id: group.getId()}) }}">{{ 'new.project'|trans }}</a>
 
             </fieldset>
         </div>
         <div class="col-md-6">
             <fieldset>
-                <legend><a href="{{ path('fos_user_group_list') }}">Membres</a></legend>
-                <p>Les membres de "{{ group.getName() }}"</p>
+                <legend>{{ 'members'|trans|capitalize }}</legend>
+                <p>{{ 'members.of'|trans }} "{{ group.getName() }}"</p>
                 {% set groupUsers = group.getUsers() %}
                 <ul>
                     {% for users in groupUsers %}                    
                         <li id="{{ users.getId() }}">
                             {{ users.getUserName() }}
                             {% if group.getGroupsLeader().getUserName() != users.getUserName() %}
-                            <input type="button" value="Supprimer" onclick="delGroupUser({{ users.getId() }}, {{ group.getId() }});" />
+                            <input type="button" value="{{ 'delete'|trans|capitalize }}" onclick="delGroupUser({{ users.getId() }}, {{ group.getId() }});" />
                             {% endif %}
                         </li>
                     {% endfor %}
@@ -63,9 +63,9 @@
                 
     <div class="col-md-6">
         <fieldset>
-            <legend>Gestion du groupe</legend>
+            <legend>{{ 'group.management'|trans }}</legend>
             <ul>
-                <li><a href="">Supprimer le groupe</a></li>
+                <li><a href="">{{ 'delete.group'|trans }}</a></li>
             </ul>
         </fieldset>
     </div>    

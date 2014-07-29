@@ -5,6 +5,9 @@ groups: groups
 group: group
 members: members
 delete: delete
+refuse: refuse
+accept: accept
+
 
 #mots long
 profile.management: 'Profil management'
@@ -15,3 +18,11 @@ msg.no.groups: "You don't have any group"
 be.member: 'You are member of'
 new.project: 'Create a new project'
 new.group: 'Create a new group'
+group.show.name: 'Group name'
+group.edit: 'Édit group'
+msg.no.projects: "You don't have any projects"
+list.all.projects: 'List of projects'
+group.projects: 'Projects'
+members.of: 'Members of'
+group.management: 'Group management'
+delete.group: 'Delete group'
