@@ -11,7 +11,7 @@ profile.management: 'Profil management'
 delete.profile: 'Delete profil'
 change.pass: 'Change password'
 list.all.groups: 'List of all groups'
-msg.no.groups: "You don't any have"
+msg.no.groups: "You don't have any"
 be.member: 'You are member of'
 new.project: 'Create a new project'
 new.group: 'Create a new group'
