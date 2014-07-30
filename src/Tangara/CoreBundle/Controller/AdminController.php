@@ -14,6 +14,7 @@ class AdminController extends Controller {
     public function testAction() {
         return $this->render('TangaraCoreBundle:Admin:test.html.twig');
     }
-
+    
+    
     
 }

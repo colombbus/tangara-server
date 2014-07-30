@@ -13,19 +13,19 @@ class GroupController extends Controller
 {
     
     /**
-     * Show all groups
+     * Show all groups the user is not a member
+     * @return type
      */
     public function listAction() {
        
         $user = $this->get('security.context')->getToken()->getUser();
     
-        //on recupere tous les groupes
+        //take all groups
         $em = $this->getDoctrine()->getManager();
         $groupRepository = $em->getRepository('TangaraCoreBundle:Group');
         $groups = $groupRepository->findAll();
-        
 
-        //les groupes dont l'user est membre
+        //the user groups
         $user_groups = $user->getGroups();
         $g = new Group();
         $strangerGroups = $g->groupsWithoutMe($groups, $user_groups);
@@ -35,8 +35,10 @@ class GroupController extends Controller
             'nogroups' => $strangerGroups));
     }
 
-    /*
+    /**
      * Give all informations about the group
+     * @param \Tangara\CoreBundle\Entity\Group $group
+     * @return type
      */
     public function infoGroupAction(Group $group) {
         $isProjects = $group->isProjects();
@@ -44,7 +46,11 @@ class GroupController extends Controller
         return $this->render('TangaraCoreBundle:Group:show.html.twig', array('group' => $group, 'isProjects' => $isProjects));
     }
 
-    //a changer le contenu
+    /**
+     * Create a new group
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function newAction(\Symfony\Component\HttpFoundation\Request $request) {
         
         /** @var $groupManager \FOS\UserBundle\Model\GroupManagerInterface */
@@ -55,8 +61,6 @@ class GroupController extends Controller
         $dispatcher = $this->container->get('event_dispatcher');
  
         $group = $groupManager->createGroup('');
-
-
 
         $dispatcher->dispatch(\FOS\UserBundle\FOSUserEvents::GROUP_CREATE_INITIALIZE, new \FOS\UserBundle\Event\GroupEvent($group, $request));
 
@@ -77,9 +81,6 @@ class GroupController extends Controller
                     $response = new \Symfony\Component\HttpFoundation\RedirectResponse($url);
                 }
 
-
-
-                //recuper le groupe creer puis rajouter le groupLeader  
                 $em = $this->container->get('doctrine.orm.entity_manager');
                 $repository = $em->getRepository('TangaraCoreBundle:Group');
                 $g = $repository->find($group->getId());
@@ -106,7 +107,12 @@ class GroupController extends Controller
         }
     }
 
-    //a changer le contenu
+    /**
+     * Change a group name
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param type $groupName
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function editAction(\Symfony\Component\HttpFoundation\Request $request, $groupName) {
         //parent::editAction($request, $groupName);
 
@@ -158,12 +164,21 @@ class GroupController extends Controller
                     'group_name' => $group->getName(),
         ));
     }
-
+    
+    /**
+     * Remove a group
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param type $groupName
+     */
     public function deleteAction(\Symfony\Component\HttpFoundation\Request $request, $groupName) {
         parent::deleteAction($request, $groupName);
     }
     
-    
+    /**
+     * Template for join request
+     * @param \Tangara\CoreBundle\Entity\Group $group
+     * @return type
+     */
     public function joinRequestAction(Group $group){
         
         $usersRequest = $group->getJoinRequest();
@@ -171,7 +186,10 @@ class GroupController extends Controller
         return $this->container->get('templating')->renderResponse('TangaraCoreBundle:Group:group_leader.html.twig', array('usersRequest' => $usersRequest, "group" => $group));
     }
     
-   
+    /**
+     * Accept user in group, if he asks to join the group
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function acceptRequestAction() {
         
         $group_id = $this->container->get('request')->get('groupid');
@@ -198,6 +216,10 @@ class GroupController extends Controller
         
     }
     
+    /**
+     * Refuse user in group, if he asks to join the group
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function refuseRequestAction() {
         
         $group_id = $this->container->get('request')->get('groupid');
@@ -219,7 +241,10 @@ class GroupController extends Controller
         return new Response(NULL);        
     }
     
-
+    /**
+     * Remove a user in group
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function delUserAction(){
         
         $group_id = $this->container->get('request')->get('groupid');
@@ -240,6 +265,5 @@ class GroupController extends Controller
  
         return new Response(NULL);      
     }
-
-        
+    
 }
