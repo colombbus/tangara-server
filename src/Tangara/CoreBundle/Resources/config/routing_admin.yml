@@ -2,6 +2,6 @@ tangara_admin_homepage:
     pattern: /
     defaults: { _controller: TangaraCoreBundle:Admin:index}
 
-tangara_admin_test:
-    pattern: /test
-    defaults: { _controller: TangaraCoreBundle:Admin:test}
+tangara_admin_users:
+    pattern: /users
+    defaults: { _controller: TangaraCoreBundle:Admin:users}

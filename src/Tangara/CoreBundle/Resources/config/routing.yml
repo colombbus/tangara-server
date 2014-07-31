@@ -1,20 +1,17 @@
-tangara_tangara_homepage:
+tangara_core_homepage:
     pattern:  /
     defaults: { _controller: TangaraCoreBundle:Default:index }
-    
 
-tangara_project_ajax:
+tangara_core_ajax:
     pattern:  /ajax
     defaults: { _controller: TangaraCoreBundle:Default:ajax }
 
-tangara_project_ajax_test:
+tangara_core_ajax_test:
     pattern:  /ajax/test
     defaults: { _controller: TangaraCoreBundle:File:removeFile }
-    
-    
-    
-tangara_project_lol:
-    pattern:  /lol
+
+tangara_core_translation_test:
+    pattern:  /translate
     defaults: { _controller: TangaraCoreBundle:Default:translation }
     
 
