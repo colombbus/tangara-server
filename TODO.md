@@ -63,7 +63,7 @@ Thematic list
 
 - Script 
     * DONE DEPRECATED After a modif on schema update
-    * Code tidy: all javascripts in js/vendors
+    * DONE Code tidy: all javascripts in js/vendors
 
 - Request
     * DONE identical private/group project
@@ -93,6 +93,8 @@ Thematic list
 
 - Code cleaning
     * User/Group/Project functions in Managers
+
+- add context title for better navigation experience
 
 Priority
 -------------
