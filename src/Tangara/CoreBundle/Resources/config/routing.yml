@@ -6,15 +6,7 @@ tangara_core_ajax:
     pattern:  /ajax
     defaults: { _controller: TangaraCoreBundle:Default:ajax }
 
-tangara_core_ajax_test:
-    pattern:  /ajax/test
-    defaults: { _controller: TangaraCoreBundle:File:removeFile }
-
 tangara_core_translation_test:
     pattern:  /translate
     defaults: { _controller: TangaraCoreBundle:Default:translation }
-    
-tangara_core_create:
-    pattern:  /create
-    defaults: { _controller: TangaraCoreBundle:Default:create}
-   
+  
