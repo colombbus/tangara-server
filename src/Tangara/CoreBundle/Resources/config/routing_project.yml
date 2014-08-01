@@ -46,3 +46,11 @@ tangara_project_upload:
     defaults: { _controller: TangaraCoreBundle:Project:upload }
     requirements:
         id:  \d+
+    
+tangara_project_create:
+    pattern:  /create
+    defaults: { _controller: TangaraCoreBundle:Project:create}
+
+tangara_project_confirmation:
+    pattern:  /confirmation
+    defaults: { _controller: TangaraCoreBundle:Project:confirmation }
