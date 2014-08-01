@@ -3,7 +3,7 @@
 {% block main_container %}
 <div class="container">
         {% block fos_user_content %}
-            <h1>Liste des groupes</h1>
+            <h1>{{ 'list.groups'|trans }}</h1>
             {% include "FOSUserBundle:Group:list_content.html.twig" %}    
         {% endblock fos_user_content %}
         

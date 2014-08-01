@@ -3,8 +3,8 @@
     {% for ur in usersRequest %}
         <span id="{{ ur.getId() }}">
             {{ ur.getUserName() }} 
-            <input type="button" value="Accepter" id="accepter" onclick="addUser({{ ur.getId() }}, {{ group.getId() }})" />
-            <input type="button" value="Refuser" id="refuser" onclick="refuseUser({{ ur.getId() }}, {{ group.getId() }})" />
+            <input type="button" value="{{ 'accept'|trans|capitalize }}" id="accepter" onclick="addUser({{ ur.getId() }}, {{ group.getId() }})" />
+            <input type="button" value="{{ 'refuse'|trans|capitalize }}" id="refuser" onclick="refuseUser({{ ur.getId() }}, {{ group.getId() }})" />
         </span>
     {% endfor %}
     <p id="msg"></p>

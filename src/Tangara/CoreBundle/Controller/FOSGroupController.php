@@ -20,7 +20,11 @@ class FOSGroupController extends BaseController
      */
     
     
-    
+    /**
+     * 
+     * Show all group and redirect to TangaraCoreBundle:list controller
+     * @return type
+     */
     public function listAction() {
         $response = parent::registerAction();
 
@@ -28,14 +32,28 @@ class FOSGroupController extends BaseController
         return $this->redirect($this->generateUrl('tangara_core_group_list'));
     }
 
-    public function newAction(Request $request) {
-        $response = parent::newAction($request);
-
-        return $response;
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return type
+     */
+    public function newAction(\Symfony\Component\HttpFoundation\Request $request) {
+        
+        $reponse = parent::newAction($request);
+        
+        return $reponse;
     }
 
-    public function editAction(Request $request, $groupName) {
-        $response = parent::editAction($request, $groupName);
+    /**
+     * 
+     * Show all group and redirect to TangaraCoreBundle:list controller
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param type $groupName
+     * @return type
+     */
+    public function editAction(\Symfony\Component\HttpFoundation\Request $request, $groupName) {
+        
+        $reponse = parent::editAction($request, $groupName);
 
         return $response;
     }

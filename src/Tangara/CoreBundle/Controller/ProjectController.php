@@ -14,6 +14,10 @@ class ProjectController extends Controller {
     public function indexAction() {
     }
 
+    /**
+     * Get user and group projects list
+     * @return type
+     */
     public function listAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         $projectManager = $user;
@@ -36,6 +40,11 @@ class ProjectController extends Controller {
         ));
     }
 
+    /**
+     * Change project name
+     * @param \Tangara\CoreBundle\Entity\Project $project
+     * @return type
+     */
     public function editAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -63,6 +72,13 @@ class ProjectController extends Controller {
         ));
     }
 
+    
+    public function createAction() {
+        //echo '**' . $this->get('kernel')->getRootDir() . '**';
+        return $this->render('TangaraCoreBundle:Project:create.html.twig');
+    }
+
+    
     public function uploadAction(Project $project) {
         $request = $this->getRequest();
         $user_id = $this->get('security.context')->getToken()->getUser()->getId();
@@ -97,9 +113,14 @@ class ProjectController extends Controller {
         ));
     }
 
-    /*
-     * Create a new project
-     */    
+    
+    
+     /**
+      * Create a new project
+      * @param type $user_id
+      * @param type $group_id
+      * @return \Symfony\Component\HttpFoundation\Response
+      */
     public function newAction($user_id, $group_id) {
 
         $user = $this->get('security.context')->getToken()->getUser();
@@ -123,8 +144,6 @@ class ProjectController extends Controller {
 
         $form = $this->createForm(new ProjectType(), $project);
         
-
-
         if ($request->isMethod('POST')) {
 
             $form->bind($this->getRequest());
@@ -154,7 +173,8 @@ class ProjectController extends Controller {
                 return $this->redirect($this->generateUrl('tangara_project_show', array('id' => $project->getId())
                 ));
             }
-            return new Response('Un projet avec me meme nom existe deja.');
+            return new Response('A project with the same name already exists.');
+            
         }
 
         return $this->render('TangaraCoreBundle:Project:new.html.twig', array(
@@ -170,7 +190,12 @@ class ProjectController extends Controller {
     
     
     
-    //user and group project info
+    
+    /**
+     * Show all information about user and group projects
+     * @param \Tangara\CoreBundle\Entity\Project $project
+     * @return type
+     */
     public function showAction(Project $project) {
 
         $contributors = array("user1", "user2", "user6");
@@ -183,9 +208,12 @@ class ProjectController extends Controller {
                     'files' => $files
         ));
     }
-
-    //del user project
-    function removeAction(){
+    
+    /**
+     * Remove user or group project 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    function delProjectAction(){
         
         $projectid = $this->get('request')->get('projectid');
         
@@ -205,10 +233,10 @@ class ProjectController extends Controller {
         $em->flush(); 
    
         if($docs){
-            echo "Les fichiers ont été supprimés.";
+            echo "Files have been deleted.";
         }
         else{
-            echo "Il n'y a pas de document dans ce projet.";
+            echo "There are no documents in this project.";
         }
         
         return new Response(NULL); 

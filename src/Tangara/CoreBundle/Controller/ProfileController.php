@@ -33,7 +33,11 @@ use Tangara\CoreBundle\Entity\Group;
 
 class ProfileController extends Controller
 {
-    //Controller to get the user main page
+
+    /**
+     * To get the user main page
+     * @return type
+     */
     public function profileAction() {
 
         //$response = parent::profileAction();
@@ -43,19 +47,23 @@ class ProfileController extends Controller
         return $this->render('TangaraCoreBundle:Profile:show.html.twig',
                 array('user' => $user));
     }
-
-    //delete account
-    public function delAccountAction(){
+    
+    /**
+     * remove user account
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function delAccountAction(){  
         $user = $this->get('security.context')->getToken()->getUser();
 
         $em = $this->container->get('doctrine.orm.entity_manager');
-
-        // remove user projects
+             
+        //removea all user projects 
         $projects = $user->getProjects();
         foreach ($projects as $p){
             $em->remove($p);
         }
-        // remove from groups joined
+               
+        //remove all user groups from user group list  
         $groups = $user->getGroups();
         foreach ($groups as $g){
             // remove groups and projects if user is Leader
@@ -68,13 +76,19 @@ class ProfileController extends Controller
             }
             $user->removeGroups($g);
         }
-        //supprimer le compte user
+          
+        //remove user from data base 
         $em->remove($user);
         $em->flush();
-
-        return new Response('Votre Compte a ete supprime');
+        
+        return new Response('Your account has been deleted.');
+        
     }
-
+    
+    /**
+     * Add a new user in join request list 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function askJoinGroupAction(){
         $user = $this->container->get('security.context')->getToken()->getUser();
 
@@ -84,34 +98,35 @@ class ProfileController extends Controller
         $em = $this->container->get('doctrine.orm.entity_manager');
         $groupRepository = $em->getRepository('TangaraCoreBundle:Group');
         $group = $groupRepository->find($goupId);
-
-        //touver le leader du group, donc user puis som adresse email
-        $groupLeader = $group->getGroupsLeader();
+               
+        
+        //get leader group e-mail
+        $groupLeader = $group->getGroupsLeader();     
         $leader_mail = $groupLeader->getEmail();
 
         if($groupRepository->isUserAsked($user->getUserName()) == null){
-            //ajouter l'user dans la liste des demandes
+            //add the user in join request list
             $group->addJoinRequest($user);
             $em->persist($group);
             $em->flush();
+            
+            
+            //send e-mail to the group leader 
+            $message = \Swift_Message::newInstance()
+                    ->setSubject('Demande de rejoidre le groupe')
+                    ->setFrom('tangaraui@colombbus.org')
+                    ->setTo('tangaraui@colombbus.org') //change with the group leader e-mail, $leader_mail
+                    ->setBody($msg)
+            ;
+            $this->container->get('mailer')->send($message);
 
-            /*
-              //envoyer un mail au leader
-              $message = \Swift_Message::newInstance()
-              ->setSubject('Demande de rejoidre le groupe')
-              ->setFrom('tangaraui@colombbus.org')
-              ->setTo('tangaraui@colombbus.org') //a changer avec le mail $leader_mail
-              ->setBody($msg)
-              ;
-              $this->container->get('mailer')->send($message);
-             */
 
             //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
-            return new Response('Message envoyé.');
+            return new Response('Message sent.');
         }
         else{
             //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
-            return new Response('Vous avez deja fait une demande pour rejoindre ce groupe.');
+            return new Response('You already made a request to join this group.');
         }
     }
 

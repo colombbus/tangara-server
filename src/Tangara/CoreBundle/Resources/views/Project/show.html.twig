@@ -1,31 +1,31 @@
 {% extends "TangaraCoreBundle:Default:layout.html.twig" %}
 
-{% block title %}Projets{% endblock %}
+{% block title %}{{ 'projects'|trans }}{% endblock %}
 
 {% block main_container %}
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <h1>Détails du projet</h1>
-            <a class="btn btn-warning" href="{{ path( "tangara_project_edit", {id: project.getId()} ) }}" >Édition</a>
+            <h1>{{ 'info.project'|trans }}</h1>
+            <a class="btn btn-warning" href="{{ path( "tangara_project_edit", {id: project.getId()} ) }}" >{{ 'project.edit'|trans }}</a>
             <br/>
-            user name : {{ app.user.username }}
+            {{ 'user.name'|trans }} : {{ app.user.username }}
             <br/>
-            user id : {{ app.user.id }}
+            {{ 'user.id'|trans }} : {{ app.user.id }}
             <br/>
-            project id : {{ project.id }}
+            {{ 'project.id'|trans }} : {{ project.id }}
             <br/>
-            project name : {{ project.name }}
+            {{ 'project.name'|trans }} : {{ project.name }}
             <br/>
-            project manager : {{ project.ProjectManager }}
+            {{ 'project.manager'|trans }} : {{ project.ProjectManager }}
             <br/>
-            Référence font : {{ project.ReferenceFont }}
+            {{ 'font.family'|trans }} : {{ project.ReferenceFont }}
             <br/>
-            Date Création : {{ project.dateCreation|date('d-m-Y H:i')}}
+            {{ 'create.date'|trans }} : {{ project.dateCreation|date('d-m-Y H:i')}}
             <br/>
             <br/>
             {% if project.getGroup() %}
-            listes des contributeurs : 
+            {{ 'list.members.project'|trans }} : 
             <ul>
                 {% set contributors = project.getGroup().getUsers() %}
                 {% for usr in contributors %}
@@ -33,12 +33,12 @@
                 {% endfor %}
             </ul>
             {% else %}
-            Un seul contributeur pour l'instant.
+            {{ 'msg.project'|trans }}.
             {% endif %}
         </div>
         <div class="col-md-6">
-            <h1>Fichiers</h1>
-            <a class="btn btn-success" href="{{ path( "tangara_project_upload", {id: project.getId()} ) }} ">Ajouter un fichier au projet</a>
+            <h1>{{ 'files'|trans|capitalize }}</h1>
+            <a class="btn btn-success" href="{{ path( "tangara_project_upload", {id: project.getId()} ) }} ">{{ 'new.file'|trans }}</a>
             <ul>
             {% for f in files %}
                 <li>{{ f.getPath() }}</li>

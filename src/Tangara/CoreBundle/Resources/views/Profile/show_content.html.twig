@@ -4,15 +4,15 @@
         <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
         <div class="col-md-6">
             <fieldset>
-                <legend>Mes projets</legend>
-                <a class="btn btn-success" href="{{ path('tangara_project_user_new', {user_id: user.getId()}) }}">Créer un nouveau projet</a>
+                <legend>{{ 'my.p'|trans|capitalize }} {{ 'projects'|trans }}</legend>
+                <a class="btn btn-success" href="{{ path('tangara_project_user_new', {user_id: user.getId()}) }}">{{ 'new.project'|trans }}</a>
                 <ul>
                     {% set userProjects = user.getProjects() %}
                     {% for project in userProjects %}
-                    <li id="{{ project.getId() }}">
-                        <a href="{{ path( "tangara_project_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
-                        <input type="button" value="Supprimer"  onclick="removeUserProject({{ project.getId() }});" />
-                    </li>
+                        <li id="{{ project.getId() }}">
+                            <a href="{{ path( "tangara_project_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
+                            <input type="button" value="{{ 'delete'|trans|capitalize }}"  onclick="delUserProject({{ project.getId() }});" />
+                        </li>
                     {% endfor %}
                 </ul>
                 <p id="msg"></p>
@@ -20,10 +20,10 @@
         </div>
         <div class="col-md-6">
             <fieldset>
-                <legend>Mes groupes</legend>
-                <a class="btn btn-success" href="{{ path('tangara_user_group_new') }}">Créer un nouveau groupe</a>
+                <legend>{{ 'my.p'|trans|capitalize }} {{ 'groups'|trans }}</legend>
+                <a class="btn btn-success" href="{{ path('tangara_user_group_new') }}">{{ 'new.group'|trans }}</a>
                 {% if user.isGroups() %}
-                <p>Tu es membre de :</p>
+                <p>{{ 'be.member'|trans }} :</p>
                 <ul>
                     {% set userGroups = user.getGroups() %}
                     {% for group in userGroups %}
@@ -31,19 +31,19 @@
                     {% endfor %}
                 </ul>
                 {% else %}
-                <p>Vous n'avez pas de groupes.</p>
+                    <p>{{ 'msg.no.groups'|trans }}.</p>
                 {% endif %}
-                <a href="{{ path('fos_user_group_list') }}">Liste de tous les groupes</a>
+                <a href="{{ path('fos_user_group_list') }}">{{ 'list.all.groups'|trans }}</a>
             </fieldset>
         </div>
     </div>
 
     <div class="row">
         <fieldset>
-            <legend>Gestion du compte</legend>
+            <legend>{{ 'profile.management'|trans }}</legend>
             <ul>
-                <li><a href="{{ path('tangara_user_delete') }}">Supprimer le compte</a></li>
-                <li><a href="{{ path('fos_user_change_password') }}">Changer mot de passe</a></li>
+                <li><a href="{{ path('tangara_user_delete') }}">{{ 'delete.profile'|trans }}</a></li>
+                <li><a href="{{ path('fos_user_change_password') }}">{{ 'change.pass'|trans }}</a></li>
             </ul>
         </fieldset>
     </div>
