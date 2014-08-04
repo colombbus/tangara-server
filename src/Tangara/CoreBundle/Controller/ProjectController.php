@@ -86,37 +86,42 @@ class ProjectController extends Controller {
 
     
     public function uploadAction(Project $project) {
-        $request = $this->getRequest();
-        $user_id = $this->get('security.context')->getToken()->getUser()->getId();
-        $projectId = $project->getId();
-
-        $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
-        $projectPath = $uploadPath . '/' . $project->getId();
-        $cat = 1;
-
-        $document = new Document();
-        $document->setUploadDir($projectPath);
-        $form = $this->createFormBuilder($document)
-                //->add('name')
-                ->add('file')
-                ->getForm()
-        ;
-
-        if ($request->isMethod('POST')) {
-            $form->bind($request);
-            $em = $this->getDoctrine()->getManager();
-            $document->setOwnerProject($project);
-            $document->upload();
-
-            $em->persist($document);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('tangara_core_homepage'));
-        }
-
-        return $this->render('TangaraCoreBundle:Project:upload.html.twig', array(
-                    'form' => $form->createView()
-        ));
+//        $request = $this->getRequest();
+//        $user_id = $this->get('security.context')->getToken()->getUser()->getId();
+//        $projectId = $project->getId();
+//
+//        $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
+//        $projectPath = $uploadPath . '/' . $project->getId();
+//        $cat = 1;
+//
+//        $document = new Document();
+//        $document->setUploadDir($projectPath);
+//        $form = $this->createFormBuilder($document)
+//                //->add('name')
+//                ->add('file')
+//                ->getForm()
+//        ;
+//
+//        if ($request->isMethod('POST')) {
+//            $form->bind($request);
+//            $em = $this->getDoctrine()->getManager();
+//            $document->setOwnerProject($project);
+//            $document->upload();
+//
+//            $em->persist($document);
+//            $em->flush();
+//
+//            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+//        }
+//
+//        return $this->render('TangaraCoreBundle:Project:upload.html.twig', array(
+//                    'form' => $form->createView()
+//        ));
+        
+        
+        
+        
+        
     }
 
     

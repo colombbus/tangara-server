@@ -62,7 +62,6 @@ class User extends BaseUser
      */
     private $groupLeader;
 
-
     /**
      * Constructor
      */
@@ -70,10 +69,9 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->dateCreation = new \DateTime('now');
+        //$this->dateCreation = new \DateTime('now');
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -275,11 +273,9 @@ class User extends BaseUser
     {
         return $this->groupLeader;
     }
-    
-    
     //----------------------------Other Methods--------------------------------
     
-    //verifie si il y a des groups 
+    // Checks if group is ever exits
     public function isGroups() {
 
         foreach ($this->groups as $key) {
@@ -290,7 +286,5 @@ class User extends BaseUser
         
         return false; //pas de group
     }
-    
-    
     
 }

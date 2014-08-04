@@ -254,7 +254,7 @@ class GroupController extends Controller {
         $user->removeGroups($group);
         $em->flush();
 
-        echo 'Un user a ete supprime du group.';
+        echo 'User' . $user->getName() . 'has been removed from group ' . $group->getName();
 
         return new Response(NULL);
     }

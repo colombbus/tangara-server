@@ -3,7 +3,7 @@
 namespace Tangara\CoreBundle\Controller;
 
 //use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
+//use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\UserBundle\Controller\GroupController as BaseController;
 
@@ -18,7 +18,6 @@ class FOSGroupController extends BaseController
      * }
      * 
      */
-    
     
     /**
      * 
@@ -37,7 +36,7 @@ class FOSGroupController extends BaseController
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return type
      */
-    public function newAction(\Symfony\Component\HttpFoundation\Request $request) {
+    public function newAction(Request $request) {
         
         $reponse = parent::newAction($request);
         
@@ -51,7 +50,7 @@ class FOSGroupController extends BaseController
      * @param type $groupName
      * @return type
      */
-    public function editAction(\Symfony\Component\HttpFoundation\Request $request, $groupName) {
+    public function editAction(Request $request, $groupName) {
         
         $reponse = parent::editAction($request, $groupName);
 
