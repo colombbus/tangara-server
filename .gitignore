@@ -34,3 +34,4 @@ update.sh
 /bin/doctrine.php.bat
 /src/Tangara/CoreBundle/Resources/translations/*.yml
 
+/composer.lock
