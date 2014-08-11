@@ -5,8 +5,3 @@ tangara_core_homepage:
 tangara_core_ajax:
     pattern:  /ajax
     defaults: { _controller: TangaraCoreBundle:Default:ajax }
-
-tangara_core_translation_test:
-    pattern:  /translate
-    defaults: { _controller: TangaraCoreBundle:Default:translation }
-  
