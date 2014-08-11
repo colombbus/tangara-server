@@ -13,3 +13,6 @@ _configurator:
 _main:
     resource: routing.yml
 
+_tangara_core_ajax:
+    pattern:  /ajax
+    defaults: { _controller: TangaraCoreBundle:Default:ajax }
