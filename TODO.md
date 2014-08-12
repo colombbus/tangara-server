@@ -96,6 +96,9 @@ Thematic list
 
 - add context title for better navigation experience
 
+- DONE ajax routing moved in 'dev' env
+- FOS User used with get requests
+- remove crappy new User()
 Priority
 -------------
 
