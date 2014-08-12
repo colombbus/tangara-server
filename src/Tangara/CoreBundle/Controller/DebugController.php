@@ -13,7 +13,7 @@ class DebugController extends Controller {
         return $this->render('TangaraCoreBundle:Debug:ajax_debug.html.twig');
     }
 
-    public function setSessionAction($project_id) {
+    public function setProjectIdAction($project_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $projectId = $session->set('projectid',$project_id);
