@@ -2,6 +2,3 @@ tangara_core_homepage:
     pattern:  /
     defaults: { _controller: TangaraCoreBundle:Default:index }
 
-tangara_core_ajax:
-    pattern:  /ajax
-    defaults: { _controller: TangaraCoreBundle:Default:ajax }
