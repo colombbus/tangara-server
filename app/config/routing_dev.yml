@@ -15,4 +15,4 @@ _main:
 
 _tangara_core_ajax:
     pattern:  /ajax
-    defaults: { _controller: TangaraCoreBundle:Default:ajax }
+    defaults: { _controller: TangaraCoreBundle:Debug:ajax }
