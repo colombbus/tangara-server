@@ -30,6 +30,9 @@
                 height: 150px;
                 background-color: gray;
             }
+            .error{
+                color: red;
+            }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
         <script>
@@ -44,7 +47,34 @@
                 file = $("#" + balise + "Files").val();
                 return file;
             }
-            
+            function setSession()
+            {
+                var url = getUrl("setSession");
+                
+                console.log(url);
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: url,
+                    error: function(msg) {
+                        $('#myDiv').append("<div class=\"error\">Error !: " + msg + "</div>");
+                    },
+                    success: function(data) {
+                        var items = [];
+                        $.each(data, function(key, val) {
+                            items.push("<li id='" + key + "'>" + val + "</li>");
+                        });
+                        
+                        $("<ul/>", {
+                            "class": "my-new-list",
+                            html: items.join("")
+                        }).appendTo("#myDiv");
+                        //affiche le contenu du fichier dans le conteneur dédié
+                        $('#myDiv').append(JSON.stringify(data));
+
+                    }});
+            }
             function getTangaraFiles()
             {
                 var url = getUrl("getTangaraFiles");
@@ -54,7 +84,7 @@
                     dataType: "json",
                     url: url,
                     error: function(msg) {
-                        alert("Error !: " + msg);
+                        $('#myDiv').append("<div class=\"error\">Error !: " + msg + "</div>");
                     },
                     success: function(data) {
                         var items = [];
@@ -80,7 +110,7 @@
                     dataType: "json",
                     url: url,
                     error: function(msg) {
-                        alert("Error !: " + msg);
+                        $('#myDiv').append("<div class=\"error\">Error !: " + msg + "</div>");
                     },
                     success: function(data) {
                         var items = [];
@@ -113,7 +143,6 @@
                 $.post(url, {file: file,data:content}, function(data) {
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
-
             }
 
             function getProgramContent()
@@ -132,7 +161,7 @@
                     dataType: "json",
                     url: url,
                     error: function(msg) {
-                        alert("Error !: " + msg);
+                        $('#myDiv').append("<div class=\"error\">Error !: " + msg + "</div>");
                     },
                     success: function(data) {
                         var items = [];
@@ -168,7 +197,7 @@
         <div id="title">
             <h2>Actions for Benoit</h2>
             <button type="button" onclick="setSession()">Set session</button>
-            <input class="endurl" name="zero" id="getTangaraFiles" value="1"/>
+            <input class="endurl" name="zero" id="setSession" value="ajax/setsession/1"/>
             <br/>
             <button type="button" onclick="getTangaraFiles()">getTangaraFiles</button>
             <input class="endurl" name="un" id="getTangaraFiles" value="tangarajs/gettangarafiles"/>

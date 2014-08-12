@@ -1,0 +1,10 @@
+tangara_core_ajax:
+    pattern:  /
+    defaults: { _controller: TangaraCoreBundle:Debug:ajax }
+ 
+tangara_core_ajax_set_session:
+    pattern:  /setsession/{project_id}
+    defaults: { _controller: TangaraCoreBundle:Debug:setSession }
+    requirements:
+        project_id:  \d+
+ 
