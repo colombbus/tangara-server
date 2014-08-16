@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+
         <style>
             button {
                 width:150px;
@@ -50,7 +50,7 @@
             function setProjectId()
             {
                 var url = getUrl("setProjectId");
-                
+
                 console.log(url);
 
                 $.ajax({
@@ -65,7 +65,7 @@
                         $.each(data, function(key, val) {
                             items.push("<li id='" + key + "'>" + val + "</li>");
                         });
-                        
+
                         $("<ul/>", {
                             "class": "my-new-list",
                             html: items.join("")
@@ -91,7 +91,7 @@
                         $.each(data, function(key, val) {
                             items.push("<li id='" + key + "'>" + val + "</li>");
                         });
-                        
+
                         $("<ul/>", {
                             "class": "my-new-list",
                             html: items.join("")
@@ -103,7 +103,7 @@
             }
             function getResources()
             {
-               var url = getUrl("getResources");
+                var url = getUrl("getResources");
 
                 $.ajax({
                     type: "GET",
@@ -117,7 +117,7 @@
                         $.each(data, function(key, val) {
                             items.push("<li id='" + key + "'>" + val + "</li>");
                         });
-                        
+
                         $("<ul/>", {
                             "class": "my-new-list",
                             html: items.join("")
@@ -130,7 +130,7 @@
             {
                 var url = getUrl("createProgram");
                 var file = getFile("createProgram");
-                
+
                 $.post(url, {file: file}, function(data) {
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
@@ -140,7 +140,7 @@
                 var url = getUrl("setProgramContent");
                 var file = getFile("setProgramContent");
                 var content = $(".setProgramContent").val();
-                $.post(url, {file: file,data:content}, function(data) {
+                $.post(url, {file: file, code: content + " code", statements: content + " statements"}, function(data) {
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
             }
@@ -150,7 +150,7 @@
                 var url = getUrl("getProgramContent");
                 var file = getFile("getProgramContent");
                 $.post(url, {file: file}, function(data) {
-                    $('#myDiv').append("<ul><li>" + data + "</li></ul>");
+                    $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
             }
             function getlocale()
@@ -182,11 +182,12 @@
             }
 
             function removeFile() {
-
                 var url = getUrl("removeFile");
                 var file = getFile("removeFile");
                 $.post(url, {file: file}, function(data) {
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
+                }).fail(function(msg) {
+                    $('#myDiv').append("<div class=\"error\">Error !: " + msg + "</div>");
                 });
             }
         </script>
@@ -195,7 +196,7 @@
     <body>
         <input class="url" name="regis" value="http://localhost/tangara-ui/web/app_dev.php/"><br/>
         <div id="title">
-            <h2>Actions for Benoit</h2>
+            <h2>Actions for {{ app.user }}</h2>
             <button type="button" onclick="setProjectId()">set Project Id</button>
             <input class="endurl" name="zero" id="setProjectId" value="ajax/setsession/1"/>
             <br/>
