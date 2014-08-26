@@ -24,6 +24,7 @@ web/app_dev.php
 # Composer
 composer.phar
 phpunit.phar
+phpunit-skelgen.phar
 
 # Netbeans
 nbproject/*
