@@ -30,7 +30,14 @@
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "braincrafted/bootstrap-bundle": "dev-master"
+        "braincrafted/bootstrap-bundle": "dev-master",
+        "ckeditor/ckeditor": "4.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.2.*",
+        "phpunit/phpunit-skeleton-generator": "*",
+        "phpmd/phpmd" : "2.0.*",
+        "squizlabs/php_codesniffer": "1.*"
     },
     "scripts": {
         "post-install-cmd": [
