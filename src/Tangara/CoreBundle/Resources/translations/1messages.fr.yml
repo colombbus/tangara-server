@@ -1,0 +1,63 @@
+_home: Accueil
+_create: Créer
+_share: Partager
+_documentation: Documentation
+_deconnect: Déconnecter
+_Welcome: 'Bienvenue sur le site de Tangara'
+_site_description: 'Le site officiel de Tangara fonctionnant sur Android, PC (Win/Linux/Mac), iPhone, FirefoxOS, BlackBerry.'
+_more: Plus
+_project_description: 'Description du projet'
+_news: Actualités
+_shared_projects: 'Projets partagés'
+_view_details: Détails
+_layout.register: Inscription
+_navbar.profile: Profil
+_show.details: 'Détails du projet'
+_email: Courriel
+_password: 'Mot de passe'
+security.login.submit: Connexion
+_learn: Apprendre
+_logout: Déconnecter
+profile.show.username: Pseudo
+profile.show.email: Mail
+projects: projets
+my.p: mes
+groups: groupes
+group: groupe
+members: membres
+delete: supprimer
+refuse: refuser
+accept: accepter
+file: fichier
+files: fichiers
+profile.management: 'Gestion du compte'
+delete.profile: 'Supprimer le compte'
+change.pass: 'Changer mot de passe'
+list.all.groups: 'Liste de tous les groupes'
+msg.no.groups: 'Vous n''avez pas de groupes'
+be.member: 'Tu es membre de'
+new.project: 'Créer un nouveau projet'
+new.group: 'Créer un nouveau groupe'
+group.show.name: 'Nom du groupe'
+group.edit: 'Édition du groupe'
+msg.no.projects: 'Pas de projets en cours'
+list.all.projects: 'Liste des projets'
+group.projects: 'Les projets'
+members.of: 'Les membres de'
+group.management: 'Gestion du group'
+delete.group: 'Supprimer le group'
+info.project: 'Détails du projet'
+user.name: 'Nom de l''utilisateur'
+user.id: 'L''id de l''utilisateur'
+project.id: 'L''id du projet'
+project.name: 'Nom du projet'
+create.date: 'Date de création'
+msg.project: 'Un seul contributeur pour l''instant'
+list.members.project: 'Liste des contributeurs'
+font.family: 'Police de texte'
+project.manager: 'Gestionnaire du projet'
+new.file: 'Ajouter un fichier au projet'
+project.edit: 'Édition du projet'
+ask.join.group: 'Demander à rejoindre'
+msg.unvailable.join.group: 'Pas de groupes disponible'
+list.groups: 'Liste des groupes'

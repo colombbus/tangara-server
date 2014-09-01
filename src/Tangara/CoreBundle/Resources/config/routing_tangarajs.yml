@@ -2,37 +2,27 @@
 #    pattern:  /
 #    defaults: { _controller: TangaraCoreBundle:Project:index }
 
-#tangara_tangarajs_groups:            
-#    pattern:  /getGroups
-#    defaults: { _controller: TangaraCoreBundle:Project:getGroups }
-
 tangara_tangarajs_get_tangara_files:            
     pattern:  /gettangarafiles
     defaults: { _controller: TangaraCoreBundle:File:getTangaraFiles }
-    requirements:
 
 tangara_tangarajs_get_resources:            
     pattern:  /getresources
     defaults: { _controller: TangaraCoreBundle:File:getResources }
-    requirements:
 
 tangara_tangarajs_get_program_content:
     pattern:  /getcontent
     defaults: { _controller: TangaraCoreBundle:File:getProgramContent }
-    requirements:
 
 tangara_tangarajs_set_program_content:
     pattern:  /setcontent
     defaults: { _controller: TangaraCoreBundle:File:setProgramContent }
-    requirements:
 
-tangara_tangarajs_remove:
+tangara_tangarajs_remove_file:
     pattern:  /remove
     defaults: { _controller: TangaraCoreBundle:File:removeFile }
-    requirements:
    
 tangara_tangarajs_create:
     pattern:  /create
     defaults: { _controller: TangaraCoreBundle:File:create }
-    requirements:
    

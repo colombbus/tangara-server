@@ -29,7 +29,11 @@
         "sensio/framework-extra-bundle": "~3.0",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "braincrafted/bootstrap-bundle": "dev-master"
+    },
+    "require-dev":{
+        "phpunit/phpunit": "4.2.*"
     },
     "scripts": {
         "post-install-cmd": [

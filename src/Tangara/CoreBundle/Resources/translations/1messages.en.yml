@@ -1,0 +1,45 @@
+#mots
+projects: projects
+my.p: my
+groups: groups
+group: group
+members: members
+delete: delete
+refuse: refuse
+accept: accept
+file: file
+files: files
+
+
+#mots long
+profile.management: 'Profil management'
+delete.profile: 'Delete profil'
+change.pass: 'Change password'
+list.all.groups: 'List of all groups'
+msg.no.groups: "You don't have any group"
+be.member: 'You are member of'
+new.project: 'Create a new project'
+new.group: 'Create a new group'
+group.show.name: 'Group name'
+group.edit: 'Édit group'
+msg.no.projects: "You don't have any projects"
+list.all.projects: 'Projects list'
+group.projects: 'Projects'
+members.of: 'Members of'
+group.management: 'Group management'
+delete.group: 'Delete group'
+info.project: 'Information about the project'
+user.name: "User name"
+user.id: "User id"
+project.id: "Project id"
+project.name: 'Project name'
+create.date : 'Creation date'
+msg.project: "Only one contributor"
+list.members.project: "Contributors list"
+font.family: 'Font family'
+project.manager: 'Project manager'
+new.file: 'Add file'
+project.edit: 'Edit project'
+ask.join.group: 'Join request'
+msg.unvailable.join.group: 'Unvailable groups'
+list.groups: 'Groups list'
