@@ -7,19 +7,18 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Tangara\CoreBundle\Entity\Document;
+use Tangara\CoreBundle\Entity\Project;
 
 class FileController extends Controller {
 
     /**
      * Checks if directory exists
      * 
-     * @param \Tangara\CoreBundle\Entity\Project $project
-     * @param \Tangara\CoreBundle\Entity\User $user
+     * @param Project $project
      * @return true if directory exists
      */
-    function checkDirectory($project, $user) {
+    function checkDirectory($project) {
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $project->getId();
         $fs = new Filesystem();
@@ -33,15 +32,17 @@ class FileController extends Controller {
 
     /**
      * Get all resources included in a project
-     * @param \Tangara\CoreBundle\Entity\Project $project
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param Project $project
+     * @return JsonResponse
      */
     public function getResourcesAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
         $projectId = $session->get('projectid');
 
-        //if ($request->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
+            return new Response('XHR only...');
+        }
         $projectList = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Document')
@@ -49,17 +50,17 @@ class FileController extends Controller {
         $files = null;
         foreach ($projectList as $prj) {
             $ext = pathinfo($prj->getPath(), PATHINFO_EXTENSION);
-            if ($ext !== 'tgr')
+            if ($ext !== 'tgr') {
                 $files[] = $prj->getPath();
+            }
         }
-        $response = new JsonResponse();
+        $jsonResponse = new JsonResponse();
 
-        if ($files)
-            $response->setData(array('files' => $files));
-        else
-            $response->setData(array('files' => ''));
-
-        return $response;
+        if ($files) {
+            return $jsonResponse->setData(array('files' => $files));
+        } else {
+            return $jsonResponse->setData(array('files' => ''));
+        }
     }
 
     /**
@@ -76,19 +77,22 @@ class FileController extends Controller {
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Document')
                 ->findByOwnerProject($projectId);
+        if (!$request->isXmlHttpRequest()) {
+            return new Response('XHR only...');
+        }
 
         foreach ($projectList as $prj) {
             $ext = pathinfo($prj->getPath(), PATHINFO_EXTENSION);
-            if ($ext == 'tgr')
+            if ($ext == 'tgr') {
                 $files[] = $prj->getPath();
+            }
         }
-        $response = new JsonResponse();
-        if ($files)
-            $response->setData($files);
-        else
-            $response->setData(array(''));
-
-        return $response;
+        $jsonResponse = new JsonResponse();
+        if ($files) {
+            return $jsonResponse->setData($files);
+        } else {
+            return $jsonResponse->setData(array(''));
+        }
     }
 
     /**
@@ -96,7 +100,7 @@ class FileController extends Controller {
      * POST request 
      * Related current project is in 'projectid' field stored in session
      * 
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function getProgramContentAction() {
         $request = $this->getRequest();
@@ -112,49 +116,52 @@ class FileController extends Controller {
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user); //TODO GET PROJECT 
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $projectId;
-        //return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
-        if (!$request->isXmlHttpRequest())
+
+        $jsonResponse = new JsonResponse();
+        $jsonError = new JsonResponse();
+
+        if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
+        }
 
         if (!$auth) {
-            $response = new JsonResponse();
-            $response->setData(array('error' => 'unauthorized'));
-
-            return $response;
+            return $jsonError->setData(array('error' => 'unauthorized'));
         }
         $filename = $request->request->get('file');
 
-        if ($filename) {
-            $ownedFile = $this
-                    ->get('tangara_core.project_manager')
-                    ->isProjectFile($project, $filename);
-            if (!$ownedFile) {
-                $error = new JsonResponse();
-                $error->setData(array('error' => 'unowned'));
-                return $error;
-            }
-
-            if ($filename) {
-                $filepath = $projectPath . '/' . $filename;
-
-                $fs = new Filesystem();
-                if ($fs->exists($filepath)) {
-                    $response = new BinaryFileResponse($filepath);
-                    $response->headers->set('Content-Type', 'text/plain');
-                    return $response;
-                } else {
-                    return new FileNotFoundException();
-                    //return new Response("file doesn't exist");
-                }
-            }
+        if (!$filename) {
+            return $jsonError->setData(array('error' => 'no_filename_given'));
         }
+        $ownedFile = $this->get('tangara_core.project_manager')
+                ->isProjectFile($project, $filename);
+        if (!$ownedFile) {
+            return $jsonError->setData(array('error' => 'unowned'));
+        }
+        $path = $projectPath . '/' . $filename;
+
+        $codePath = $projectPath . '/' . $filename . '_code';
+        $statementsPath = $projectPath . '/' . $filename . '_statements';
+
+        $fs = new Filesystem();
+        if (!$fs->exists($codePath)) {
+            return $jsonError->setData(array('error' => 'code_not_found'));
+        }
+        if (!$fs->exists($statementsPath)) {
+            return $jsonError->setData(array('error' => 'statements_not_found'));
+        }
+        $content = new BinaryFileResponse($path);
+        return $content;
+//            } else {
+//                return $jsonError->setData(array('error' => 'file_not_found'));
+//            }
     }
+
     /**
      * Remove from a project a file given in a 'file' field 
      * POST request 
      * Related current project is in 'projectid' field stored in session
      * 
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
     public function removeFileAction() {
         $request = $this->getRequest();
@@ -171,31 +178,36 @@ class FileController extends Controller {
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $projectId;
 
+        $jsonResponse = new JsonResponse();
+        $jsonError = new JsonResponse();
+
         if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
         }
 
         if (!$auth) {
-            return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
+            return $jsonError->setData(array('error' => 'unauthorized'));
         }
 
         $filename = $request->request->get('file');
 
-        if ($filename) {
-            $em = $this->getDoctrine()->getManager();
-            $fileRepository = $em->getRepository('TangaraCoreBundle:Document');
-            $f = $fileRepository->findOneByPath($filename);
+        if (!$filename) {
+            return $jsonError->setData(array('error' => 'no_filename_given'));
+        }
+        $em = $this->getDoctrine()->getManager();
+        $fileRepository = $em->getRepository('TangaraCoreBundle:Document');
+        $f = $fileRepository->findOneByPath($filename);
 
-            $em->remove($f);
-            $em->flush();
-            $filepath = $projectPath . '/' . $filename;
+        $em->remove($f);
+        $em->flush();
+        $filepath = $projectPath . '/' . $filename;
 
-            $fs = new Filesystem();
-            if ($fs->exists($filepath)) {
-                $fs->remove($filepath);
-                $response = new JsonResponse();
-                return $response->setData(array('removed' => $filename));
-            }
+        $fs = new Filesystem();
+        if ($fs->exists($filepath)) {
+            $fs->remove($filepath);
+            return $jsonResponse->setData(array('removed' => $filename));
+        } else {
+            return $jsonError->setData(array('error' => 'file_not_found'));
         }
     }
 
@@ -209,22 +221,24 @@ class FileController extends Controller {
                 ->getRepository('TangaraCoreBundle:Project')
                 ->findOneById($projectId);
 
-
         $user = $this->container->get('security.context')->getToken()->getUser();
         $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $projectId;
 
-        $this->checkDirectory($project, $user);
+        $this->checkDirectory($project);
+
+        $jsonResponse = new JsonResponse();
+        $jsonError = new JsonResponse();
 
         if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
         }
 
         if (!$auth) {
-            return $this->render('TangaraCoreBundle:Default:forbidden.html.twig');
+            return $jsonError->setData(array('error' => 'unauthorized'));
         }
-
+        
         $filename = $request->request->get('file');
         $everExistDocument = $this->getDoctrine()
                 ->getManager()
@@ -232,37 +246,42 @@ class FileController extends Controller {
                 ->findOneByPath($filename);
 
         if ($everExistDocument) {
-            $response = new JsonResponse();
-            return $response->setData(array('error' => 'exists'));
+            return $jsonError->setData(array('error' => 'exists'));
         }
-        if ($filename) {
-            $em = $this->getDoctrine()->getManager();
-
-            $document = new Document();
-            $document->setOwnerProject($project);
-            $document->setUploadDir($projectPath);
-            $document->setPath($filename);
-
-            $em->persist($document);
-            $em->flush();
-            $filepath = $projectPath . '/' . $filename;
-
-            $fs = new Filesystem();
-            if ($fs->exists($filepath)) {
-                $response = new JsonResponse();
-                return $response->setData(array('error' => 'exists'));
-            } else {
-                file_put_contents($filepath, LOCK_EX);
-                $response = new JsonResponse();
-                return $response->setData(array('created' => $filename));
-            }
+        if (!$filename) {
+            return $jsonError->setData(array('error' => 'no_filename_given'));
         }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $document = new Document();
+        $document->setOwnerProject($project);
+        $document->setUploadDir($projectPath);
+        $document->setPath($filename);
+
+        $em->persist($document);
+        $em->flush();
+        $filepath = $projectPath . '/' . $filename;
+
+        $fs = new Filesystem();
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if ($ext == 'tgr') {
+            $codePath = $projectPath . '/' . $filename . '_code';
+            $statementsPath = $projectPath . '/' . $filename . '_statements';
+            file_put_contents($codePath, LOCK_EX);
+            file_put_contents($statementsPath, LOCK_EX);
+            return $jsonResponse->setData(array(
+                        'code' => $filename . '_code',
+                        'statements' => $filename . '_statements'
+            ));
+        }
+        file_put_contents($filepath, LOCK_EX);
+        return $jsonResponse->setData(array('created' => $filename));
     }
 
     public function setProgramContentAction() {
         $request = $this->getRequest();
-        $session = $request->getSession();
-        $projectId = $session->get('projectid');
+        $projectId = $request->getSession()->get('projectid');
 
         $project = $this->getDoctrine()
                 ->getManager()
@@ -274,42 +293,44 @@ class FileController extends Controller {
         $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
         $projectPath = $uploadPath . '/' . $projectId;
 
-        $this->checkDirectory($project, $user);
+        $this->checkDirectory($project);
+
+        $jsonResponse = new JsonResponse();
+        $jsonError = new JsonResponse();
 
         if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
         }
-
         if (!$auth) {
-            $response = new JsonResponse();
-            $response->setData(array('error' => 'unauthorized'));
-
-            return $response;
+            return $jsonError->setData(array('error' => 'unauthorized'));
         }
         $filename = $request->request->get('file');
-        $content = $request->request->get('data');
+        $codeContent = $request->request->get('code');
+        $statementsContent = $request->request->get('statements');
 
-        if ($filename) {
-            $ownedFile = $this
-                    ->get('tangara_core.project_manager')
-                    ->isProjectFile($project, $filename);
-            if (!$ownedFile) {
-                $error = new JsonResponse();
-                $error->setData(array('error' => 'unowned'));
-                return $error;
-            }
-            $filepath = $projectPath . '/' . $filename;
-
-            $fs = new Filesystem();
-            if ($fs->exists($filepath)) {
-                file_put_contents($filepath, $content, LOCK_EX);
-                $response = new JsonResponse();
-                $response->setData(array('modified' => $filename));
-                return $response;
-            } else {
-                return new Response("file doesn't exist");
-            }
+        if (!$filename) {
+            return $jsonError->setData(array('error' => 'no_filename_given'));
         }
+        $ownedFile = $this
+                ->get('tangara_core.project_manager')
+                ->isProjectFile($project, $filename);
+        if (!$ownedFile) {
+            return $jsonError->setData(array('error' => 'unowned'));
+        }
+        $filepath = $projectPath . '/' . $filename;
+        $codePath = $projectPath . '/' . $filename . '_code';
+        $statementsPath = $projectPath . '/' . $filename . '_statements';
+
+        $fs = new Filesystem();
+        if (!$fs->exists($codePath)) {
+            return $jsonError->setData(array('error' => 'code_not_found'));
+        }
+        if (!$fs->exists($statementsPath)) {
+            return $jsonError->setData(array('error' => 'statements_not_found'));
+        }
+        file_put_contents($codePath, $codeContent, LOCK_EX);
+        file_put_contents($statementsPath, $statementsContent, LOCK_EX);
+        return $jsonResponse->setData(array('modified' => $filename));
     }
 
 }
