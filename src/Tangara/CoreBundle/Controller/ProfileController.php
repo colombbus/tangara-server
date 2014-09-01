@@ -42,12 +42,8 @@ class ProfileController extends Controller
 
         //$response = parent::profileAction();
         //$user = parent::showAction();
-        $user = $this->get('security.context')->getToken()->getUser();
-
-        return $this->render('TangaraCoreBundle:Profile:show.html.twig',
-                array('user' => $user));
+        return $this->render('TangaraCoreBundle:Profile:show.html.twig');
     }
-    
     /**
      * remove user account
      * @return \Symfony\Component\HttpFoundation\Response

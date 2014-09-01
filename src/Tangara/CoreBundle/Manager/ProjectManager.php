@@ -64,7 +64,6 @@ class ProjectManager extends BaseManager {
                 if ($t->getId() == $testedUser->getId())
                     return true;
             }
-
             return false;
         } else {
             // user project

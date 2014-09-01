@@ -15,6 +15,4 @@ class AdminController extends Controller {
         return $this->render('TangaraCoreBundle:Admin:users.html.twig');
     }
     
-    
-    
 }
