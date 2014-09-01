@@ -39,8 +39,6 @@ tangara_project_remove:
     pattern:  /remove
     defaults: { _controller: TangaraCoreBundle:Project:remove }
 
-#tangara_project_remove_group:
-
 tangara_project_upload:
     pattern:  /upload/{id}
     defaults: { _controller: TangaraCoreBundle:Project:upload }
