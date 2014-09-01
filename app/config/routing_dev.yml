@@ -13,3 +13,6 @@ _configurator:
 _main:
     resource: routing.yml
 
+_tangara_core_ajax:
+    resource: "@TangaraCoreBundle/Resources/config/routing_dev.yml"
+    prefix:   /ajax

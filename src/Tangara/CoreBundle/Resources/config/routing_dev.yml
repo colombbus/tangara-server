@@ -1,0 +1,10 @@
+tangara_core_ajax:
+    pattern:  /
+    defaults: { _controller: TangaraCoreBundle:Debug:ajax }
+ 
+tangara_core_ajax_set_project_id:
+    pattern:  /setprojectid/{project_id}
+    defaults: { _controller: TangaraCoreBundle:Debug:setProjectId }
+    requirements:
+        project_id:  \d+
+ 
