@@ -80,7 +80,9 @@ class FileController extends Controller {
         if (!$request->isXmlHttpRequest()) {
             return new Response('XHR only...');
         }
-
+        
+        $files = array();
+        
         foreach ($projectList as $prj) {
             $ext = pathinfo($prj->getPath(), PATHINFO_EXTENSION);
             if ($ext == 'tgr') {
@@ -88,11 +90,7 @@ class FileController extends Controller {
             }
         }
         $jsonResponse = new JsonResponse();
-        if ($files) {
-            return $jsonResponse->setData($files);
-        } else {
-            return $jsonResponse->setData(array(''));
-        }
+        return $jsonResponse->setData($files);
     }
 
     /**
