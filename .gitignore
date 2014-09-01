@@ -22,16 +22,17 @@ app/config/parameters.yml
 web/app_dev.php
 
 # Composer
-composer.phar
-phpunit.phar
+/composer.phar
+/phpunit.phar
+/phpunit-skelgen.phar
 
 # Netbeans
 nbproject/*
 /update.sh
-update.sh
 /web/
 /bin/doctrine.bat
 /bin/doctrine.php.bat
 /src/Tangara/CoreBundle/Resources/translations/*.yml
 
 /composer.lock
+/bin/*

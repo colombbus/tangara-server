@@ -16,10 +16,6 @@ class DefaultControllerTest extends \PHPUnit_Framework_TestCase
         $user->setPassword('password');
         */
         
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/');
-
         $this->assertTrue(true);
     }
 }

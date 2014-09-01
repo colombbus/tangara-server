@@ -238,7 +238,7 @@ class FileController extends Controller {
         if (!$auth) {
             return $jsonError->setData(array('error' => 'unauthorized'));
         }
-
+        
         $filename = $request->request->get('file');
         $everExistDocument = $this->getDoctrine()
                 ->getManager()

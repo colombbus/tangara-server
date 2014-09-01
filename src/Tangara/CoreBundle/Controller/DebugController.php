@@ -16,8 +16,13 @@ class DebugController extends Controller {
     public function setProjectIdAction($project_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $projectId = $session->set('projectid',$project_id);
+        $projectId = $session->set('projectid', $project_id);
         $jsonResponse = new JsonResponse();
+        $jsonError = new JsonResponse();
+        $securityContext = $this->container->get('security.context');
+        if (!$securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $jsonError->setData(array('error' => 'user_not_logged'));
+        }
         return $jsonResponse->setData(array('projectid' => $project_id));
     }
 
