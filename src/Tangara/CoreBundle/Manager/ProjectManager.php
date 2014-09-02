@@ -77,20 +77,26 @@ class ProjectManager extends BaseManager {
 
     }
     
-    public function isProjectFile(Project $project, $filename) {
-        $documentList = $this->em->getRepository('TangaraCoreBundle:Document')
-                ->findByOwnerProject($project->getId());
+    public function isProjectFile(Project $project, $filename, $program=false) {
+        $query = $this->em->getRepository('TangaraCoreBundle:Document')->createQueryBuilder('a')
+                ->where('a.ownerProject = :projectId')
+                ->andWhere('a.path = :name')
+                ->andWhere('a.program = :program')
+                ->setParameters(array('projectId' => $project->getId(), 'program' => $program, 'name' => $filename));
+
+        $result = $query->getQuery()->getResult();
         
-        foreach ($documentList as $d) {
-            if ($d->getPath() == $filename)
-                return true;
-        }
-        return false;
+        if (!$result)
+            return false;
+
+        return true;
        
     }
-
+    
     public function getRepository() {
         return $this->em->getRepository('TangaraCoreBundle:Project');
     }
+    
+    
 
 }
