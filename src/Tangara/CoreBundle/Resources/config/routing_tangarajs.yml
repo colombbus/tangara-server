@@ -3,26 +3,41 @@
 #    defaults: { _controller: TangaraCoreBundle:Project:index }
 
 tangara_tangarajs_get_tangara_files:            
-    pattern:  /gettangarafiles
-    defaults: { _controller: TangaraCoreBundle:File:getTangaraFiles }
+    pattern:  /getprograms
+    defaults: { _controller: TangaraCoreBundle:File:getPrograms }
 
 tangara_tangarajs_get_resources:            
     pattern:  /getresources
     defaults: { _controller: TangaraCoreBundle:File:getResources }
 
-tangara_tangarajs_get_program_content:
-    pattern:  /getcontent
-    defaults: { _controller: TangaraCoreBundle:File:getProgramContent }
+tangara_tangarajs_get_program_code:
+    pattern:  /getcode
+    defaults: { _controller: TangaraCoreBundle:File:getProgramCode }
+
+tangara_tangarajs_get_program_statements:
+    pattern:  /getstatements
+    defaults: { _controller: TangaraCoreBundle:File:getProgramStatements }
 
 tangara_tangarajs_set_program_content:
-    pattern:  /setcontent
+    pattern:  /setprogramcontent
     defaults: { _controller: TangaraCoreBundle:File:setProgramContent }
 
-tangara_tangarajs_remove_file:
-    pattern:  /remove
-    defaults: { _controller: TangaraCoreBundle:File:removeFile }
+tangara_tangarajs_remove_program:
+    pattern:  /removeprogram
+    defaults: { _controller: TangaraCoreBundle:File:removeProgram }
+
+tangara_tangarajs_remove_resource:
+    pattern:  /removeresource
+    defaults: { _controller: TangaraCoreBundle:File:removeResource }
    
-tangara_tangarajs_create:
-    pattern:  /create
-    defaults: { _controller: TangaraCoreBundle:File:create }
-   
+tangara_tangarajs_create_program:
+    pattern:  /createprogram
+    defaults: { _controller: TangaraCoreBundle:File:createProgram }
+
+tangara_tangarajs_create_resource:
+    pattern:  /createresource
+    defaults: { _controller: TangaraCoreBundle:File:createResource }
+
+tangara_tangarajs_rename_program:
+    pattern:  /renameprogram
+    defaults: { _controller: TangaraCoreBundle:File:renameProgram }
