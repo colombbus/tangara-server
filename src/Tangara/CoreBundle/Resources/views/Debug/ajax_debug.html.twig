@@ -75,9 +75,9 @@
 
                     }});
             }
-            function getTangaraFiles()
+            function getPrograms()
             {
-                var url = getUrl("getTangaraFiles");
+                var url = getUrl("getPrograms");
 
                 $.ajax({
                     type: "GET",
@@ -131,7 +131,16 @@
                 var url = getUrl("createProgram");
                 var file = getFile("createProgram");
 
-                $.post(url, {file: file}, function(data) {
+                $.post(url, {name: file}, function(data) {
+                    $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
+                });
+            }
+            function createResource()
+            {
+                var url = getUrl("createResource");
+                var file = getFile("createResource");
+
+                $.post(url, {name: file}, function(data) {
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
             }
@@ -140,19 +149,30 @@
                 var url = getUrl("setProgramContent");
                 var file = getFile("setProgramContent");
                 var content = $(".setProgramContent").val();
-                $.post(url, {file: file, code: content + " code", statements: content + " statements"}, function(data) {
+                $.post(url, {name: file, code: content + " code", statements: content + " statements"}, function(data) {
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
             }
 
-            function getProgramContent()
+            function getProgramCode()
             {
-                var url = getUrl("getProgramContent");
-                var file = getFile("getProgramContent");
-                $.post(url, {file: file}, function(data) {
+                var url = getUrl("getProgramCode");
+                var file = getFile("getProgramCode");
+                $.post(url, {name: file}, function(data) {
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 });
             }
+
+            function getProgramStatements()
+            {
+                var url = getUrl("getProgramStatements");
+                var file = getFile("getProgramStatements");
+                $.post(url, {name: file}, function(data) {
+                    $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
+                });
+            }
+
+    
             function getlocale()
             {
                 var url = getUrl("getlocale");
@@ -181,15 +201,27 @@
                 $('#myDiv').empty();
             }
 
-            function removeFile() {
-                var url = getUrl("removeFile");
-                var file = getFile("removeFile");
-                $.post(url, {file: file}, function(data) {
+            function removeProgram() {
+                var url = getUrl("removeProgram");
+                var file = getFile("removeProgram");
+                $.post(url, {name: file}, function(data) {
                     $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
                 }).fail(function(msg) {
                     $('#myDiv').append("<div class=\"error\">Error !: " + msg + "</div>");
                 });
             }
+            
+            function renameProgram() {
+                var url = getUrl("renameProgram");
+                var file1 = $("#renameProgramFile1").val();
+                var file2 = $("#renameProgramFile2").val();
+                $.post(url, {'name':file1, 'new':file2}, function(data) {
+                    $('#myDiv').append("<ul><li>" + JSON.stringify(data) + "</li></ul>");
+                }).fail(function(msg) {
+                    $('#myDiv').append("<div class=\"error\">Error !: " + msg + "</div>");
+                });                
+            }
+            
         </script>
         <title>TangaraUI Ajax tests</title>
     </head>
@@ -200,33 +232,50 @@
             <button type="button" onclick="setProjectId();">set Project Id</button>
             <input class="endurl" name="zero" id="setProjectId" value="ajax/setprojectid/1"/>
             <br/>
-            <button type="button" onclick="getTangaraFiles();">getTangaraFiles</button>
-            <input class="endurl" name="un" id="getTangaraFiles" value="tangarajs/gettangarafiles"/>
-            <input class="endurl" name="un" id="getTangaraFilesFiles" value="no value" disabled/>
+            <button type="button" onclick="getPrograms();">getPrograms</button>
+            <input class="endurl" name="un" id="getPrograms" value="tangarajs/getprograms"/>
+            <input class="endurl" name="un" id="getProgramsFiles" value="no value" disabled/>
             <br/>
             <button type="button" onclick="getResources();">getResources</button>
             <input class="endurl" name="quatre" id="getResources" value="tangarajs/getresources"/>
             <input class="endurl" name="quatre" id="getResourcesFiles" value="no value" disabled/>
             <br/>
             <button type="button" onclick="createProgram();">createProgram</button>
-            <input class="endurl" name="deux" id="createProgram" value="tangarajs/create"/>
+            <input class="endurl" name="deux" id="createProgram" value="tangarajs/createprogram"/>
             <input class="endurl" name="deux" id="createProgramFiles" value="bob.tgr"/>
             <br/>
-            <button type="button" onclick="getProgramContent();">getProgramContent</button>
-            <input class="endurl" name="trois" id="getProgramContent" value="tangarajs/getcontent"/>
-            <input class="endurl" name="trois" id="getProgramContentFiles"value="bob.tgr"/>
+            <button type="button" onclick="createResource();">createResourec</button>
+            <input class="endurl" name="deux" id="createResource" value="tangarajs/createresource"/>
+            <input class="endurl" name="deux" id="createResourceFiles" value="test.png"/>
+            <br/>
+            <button type="button" onclick="getProgramCode();">getProgramCode</button>
+            <input class="endurl" name="trois" id="getProgramCode" value="tangarajs/getcode"/>
+            <input class="endurl" name="trois" id="getProgramCodeFiles" value="bob.tgr"/>
+            <br/>
+            <button type="button" onclick="getProgramStatements();">getProgramStatements</button>
+            <input class="endurl" name="trois" id="getProgramStatements" value="tangarajs/getstatements"/>
+            <input class="endurl" name="trois" id="getProgramStatementsFiles" value="bob.tgr"/>
             <br/>
             <button type="button" onclick="setProgramContent();">setProgramContent</button>
-            <input class="endurl" name="neuf" id="setProgramContent" value="tangarajs/setcontent"/>
+            <input class="endurl" name="neuf" id="setProgramContent" value="tangarajs/setprogramcontent"/>
             <input class="endurl" name="neuf" id="setProgramContentFiles"value="bob.tgr"/>
             <br/>
             <button type="button" onclick="getlocale();">getLocale</button>
             <input class="endurl" name="six" id="getlocale" value="locale"/>
             <input class="endurl" name="six" id="getlocaleFiles" value="no value" disabled/>
             <br/>
-            <button type="button" onclick="removeFile();">removeFile</button>
-            <input class="endurl" name="huit" id="removeFile" value="tangarajs/remove"/>
-            <input class="endurl" name="huit" id="removeFileFiles" value="bob.tgr"/>
+            <button type="button" onclick="removeProgram();">removeProgram</button>
+            <input class="endurl" name="huit" id="removeProgram" value="tangarajs/removeprogram"/>
+            <input class="endurl" name="huit" id="removeProgramFiles" value="bob.tgr"/>
+            <br/>
+            <button type="button" onclick="removeResource();">removeResource</button>
+            <input class="endurl" name="huit" id="removeResource" value="tangarajs/removeresource"/>
+            <input class="endurl" name="huit" id="removeResourceFiles" value="test.png"/>
+            <br/>
+            <button type="button" onclick="renameProgram();">renameProgram</button>
+            <input class="endurl" name="huit" id="renameProgram" value="tangarajs/renameprogram"/>
+            <input class="endurl" name="huit" id="renameProgramFile1" value="bob.tgr"/>
+            <input class="endurl" name="huit" id="renameProgramFile2" value="new.tgr"/>
             <br/>
             <button type="button" onclick="clearDiv();">clearDiv</button>
             <input class="endurl" name="sept" id="clearDiv" value="tangarajs/getresources"/>
