@@ -55,7 +55,13 @@ class Document {
      */
     private $file;
 
-
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="program", type="boolean", nullable=false)
+     */
+    private $program;
+            
     public function upload() {
         if (null === $this->file) {
             return;
@@ -156,5 +162,28 @@ class Document {
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * Set program
+     *
+     * @param boolean $program
+     * @return Document
+     */
+    public function setProgram($program)
+    {
+        $this->program = $program;
+
+        return $this;
+    }
+
+    /**
+     * Get program
+     *
+     * @return boolean 
+     */
+    public function getProgram()
+    {
+        return $this->program;
     }
 }
