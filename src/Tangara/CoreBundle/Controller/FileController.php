@@ -121,7 +121,7 @@ class FileController extends Controller {
             $files[] = $resource->getPath();
         }
  
-        return $jsonResponse->setData(array('resources' => $files));
+        return $jsonResponse->setData(array('files' => $files));
     }
 
     /**
@@ -144,7 +144,7 @@ class FileController extends Controller {
             $files[] = $program->getPath();
         }
  
-        return $jsonResponse->setData(array('programs' => $files));
+        return $jsonResponse->setData(array('files' => $files));
     }
 
     protected function getProgramContent($statements = false) {
@@ -170,13 +170,13 @@ class FileController extends Controller {
 
         $fs = new Filesystem();
         if (!$fs->exists($path)) {
-            return $jsonResponse->setData(array('error' => "${dataName}_not_found"));
+            return $jsonError->setData(array('error' => "${dataName}_not_found"));
         }
         
         $content = file_get_contents($path);
         
         if (!$content) {
-            return $jsonResponse->setData(array('error' => "read_error"));
+            return $jsonError->setData(array('error' => "read_error"));
         }
         
         return $jsonResponse->setData(array($dataName => $content)); 
@@ -228,7 +228,7 @@ class FileController extends Controller {
 
         $fs = new Filesystem();
         if (!$fs->exists($path)) {
-            return $jsonResponse->setData(array('error' => "resource_not_found"));
+            return $jsonError->setData(array('error' => "resource_not_found"));
         }
         
         return new BinaryFileResponse($path);
@@ -244,10 +244,6 @@ class FileController extends Controller {
     public function removeProgramAction() {
         $env = $this->checkEnvironment(array('name'));
         $jsonResponse = new JsonResponse();
-        if (isset($env->error)) {
-            return $jsonResponse->setData(array('error' => $env->error));
-        }
-        
         $programName = $this->getRequest()->request->get('name');
 
         $manager = $this->getDoctrine()->getManager();
@@ -255,7 +251,7 @@ class FileController extends Controller {
         $program = $repository->getProjectProgram($env->projectId, $programName);
         
         if (!$program) {
-            return $jsonResponse->setData(array('error' => "program_not_found"));
+            return $jsonError->setData(array('error' => "program_not_found"));
         }
 
         $manager->remove($program);
@@ -285,9 +281,6 @@ class FileController extends Controller {
     public function removeResourceAction() {
         $env = $this->checkEnvironment(array('name'));
         $jsonResponse = new JsonResponse();
-        if (isset($env->error)) {
-            return $jsonResponse->setData(array('error' => $env->error));
-        }        
         $resourceName = $this->getRequest()->request->get('name');
 
         $manager = $this->getDoctrine()->getManager();
@@ -295,7 +288,7 @@ class FileController extends Controller {
         $resource = $repository->getProjectResource($env->projectId, $resourceName);
         
         if (!$resource) {
-            return $jsonResponse->setData(array('error' => "resource_not_found"));
+            return $jsonError->setData(array('error' => "resource_not_found"));
         }
 
         $manager->remove($resource);
@@ -321,9 +314,6 @@ class FileController extends Controller {
     public function createProgramAction() {
         $env = $this->checkEnvironment(array('name'));
         $jsonResponse = new JsonResponse();
-        if (isset($env->error)) {
-            return $jsonResponse->setData(array('error' => $env->error));
-        }        
         $programName = $this->getRequest()->request->get('name');
         
         // Check if programName already exists
@@ -355,9 +345,6 @@ class FileController extends Controller {
     public function createResourceAction() {
         $env = $this->checkEnvironment(array('name'));
         $jsonResponse = new JsonResponse();
-        if (isset($env->error)) {
-            return $jsonResponse->setData(array('error' => $env->error));
-        }        
         $resourceName = $this->getRequest()->request->get('name');
         
         // Check if programName already exists
@@ -389,9 +376,6 @@ class FileController extends Controller {
     public function setProgramContentAction() {
         $env = $this->checkEnvironment(array('name','code','statements'));
         $jsonResponse = new JsonResponse();
-        if (isset($env->error)) {
-            return $jsonResponse->setData(array('error' => $env->error));
-        }        
         $programName = $this->getRequest()->request->get('name');
         $code = $this->getRequest()->request->get('code');
         $statements = $this->getRequest()->request->get('statements');
@@ -420,9 +404,6 @@ class FileController extends Controller {
     public function renameProgramAction() {
         $env = $this->checkEnvironment(array('name','new'));
         $jsonResponse = new JsonResponse();
-        if (isset($env->error)) {
-            return $jsonResponse->setData(array('error' => $env->error));
-        }        
         $programName = $this->getRequest()->request->get('name');
         $newName = $this->getRequest()->request->get('new');
         
