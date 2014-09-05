@@ -51,34 +51,19 @@ class ProfileController extends Controller
     public function delAccountAction(){  
         $user = $this->get('security.context')->getToken()->getUser();
 
+        // Delete home project
         $em = $this->container->get('doctrine.orm.entity_manager');
-             
-        //removea all user projects 
-        $projects = $user->getProjects();
-        foreach ($projects as $p){
-            $em->remove($p);
+        $home = $user->getHome();
+        if ($home) {
+            $em->remove($home);
+            $em->flush();
         }
-               
-        //remove all user groups from user group list  
-        $groups = $user->getGroups();
-        foreach ($groups as $g){
-            // remove groups and projects if user is Leader
-            if($g->getGroupsLeader()->getId() == $user->getId()){
-                $gProjects = $g->getProjects();
-                foreach ($gProjects as $gp){
-                    $em->remove($gp);
-                }
-                $em->remove($g);
-            }
-            $user->removeGroups($g);
-        }
-          
-        //remove user from data base 
-        $em->remove($user);
-        $em->flush();
+        
+        // Delete user
+        $userManager = $this->container->get('fos_user.user_manager');
+        $userManager->deleteUser($user);
         
         return new Response('Your account has been deleted.');
-        
     }
     
     /**
