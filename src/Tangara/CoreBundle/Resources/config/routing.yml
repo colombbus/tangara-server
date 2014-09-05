@@ -1,4 +1,4 @@
 tangara_core_homepage:
-    pattern:  /
+    path:  /
     defaults: { _controller: TangaraCoreBundle:Default:index }
 

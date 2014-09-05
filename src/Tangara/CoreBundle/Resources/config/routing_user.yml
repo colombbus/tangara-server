@@ -22,5 +22,5 @@ fos_user_group:
     prefix: /group
     
 tangara_user_delete:
-    pattern:  /delete_account
+    path:  /delete_account
     defaults: { _controller: TangaraCoreBundle:Profile:delAccount }

@@ -23,13 +23,13 @@ fos_user_group:
     
 # user ask to join a group
 tangara_user_joinGroup:
-    pattern:  /join_group
+    path:  /join_group
     defaults: { _controller: TangaraCoreBundle:Profile:askJoinGroup }
     
 fos_user_profile_show:
-    pattern:  /profile
+    path:  /profile
     defaults: { _controller: TangaraCoreBundle:Profile:profile }
 
 tangara_user_delete:
-    pattern:  /delete_account
+    path:  /delete_account
     defaults: { _controller: TangaraCoreBundle:Profile:delAccount }

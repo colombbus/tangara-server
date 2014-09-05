@@ -1,7 +1,7 @@
 tangara_admin_homepage:
-    pattern: /
+    path: /
     defaults: { _controller: TangaraCoreBundle:Admin:index }
 
 tangara_admin_users:
-    pattern: /users
+    path: /users
     defaults: { _controller: TangaraCoreBundle:Admin:users }
