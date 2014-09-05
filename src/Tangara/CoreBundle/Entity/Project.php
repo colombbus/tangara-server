@@ -3,14 +3,14 @@
 namespace Tangara\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use \DateTime;
 /**
  * Project
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\ProjectRepository")
+ * @ORM\Entity
+ * @ORM\Table(name="projects")
  */
-class Project extends EntityRepository {
+class Project {
 
     /**
      * @var integer
@@ -24,102 +24,66 @@ class Project extends EntityRepository {
     /**
      * @var string
      *
-     * @ORM\Column(name="Name", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\User")
-     * @ORM\JoinTable(name="ProjectManager", 
-     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)}
-     * )
+     * @ORM\OneToOne(targetEntity="User", inversedBy="home")
      */
-    private $projectManager;
+    private $owner;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ReferenceWidth", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $referenceWidth;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ReferenceHeight", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $referenceHeight;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ReferenceFont", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $referenceFont;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="DateCreation", type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
      */
-    private $dateCreation;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\User", inversedBy="project")
-     */
-    private $user;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="Tangara\CoreBundle\Entity\Group", inversedBy="project")
-     */
-    private $group;
+    private $created;
     
-    /**
-     * To know if user project ever exists with this name
-     * @param type $allProjects
-     * @return boolean true if project exists
+    
+    /*
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="project")
      */
-    function isUserProjectExist($allProjects) {
-        $pname = $this->getName();
-        foreach ($allProjects as $p) {
-            if ($p->getName() == $pname) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * To know if group project ever exists with this name
-     * @param type $allProjects
-     * @return boolean true if project exists
-     */
-    function isGroupProjectExist($allProjects) {
-        $pname = $this->getName();
-        foreach ($allProjects as $p) {
-            if ($p->getName() == $pname) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private $documents;
 
     public function __construct() {
-        $this->dateCreation = new \DateTime('NOW');
+        $this->created = new DateTime('NOW');
         $this->referenceHeight = 768;
         $this->referenceWidth = 1024;
         $this->referenceFont = "Arial";
+        $this->documents = new ArrayCollection();
     }
+
+
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -129,7 +93,8 @@ class Project extends EntityRepository {
      * @param string $name
      * @return Project
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
 
         return $this;
@@ -140,7 +105,8 @@ class Project extends EntityRepository {
      *
      * @return string 
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -150,7 +116,8 @@ class Project extends EntityRepository {
      * @param integer $referenceWidth
      * @return Project
      */
-    public function setReferenceWidth($referenceWidth) {
+    public function setReferenceWidth($referenceWidth)
+    {
         $this->referenceWidth = $referenceWidth;
 
         return $this;
@@ -161,7 +128,8 @@ class Project extends EntityRepository {
      *
      * @return integer 
      */
-    public function getReferenceWidth() {
+    public function getReferenceWidth()
+    {
         return $this->referenceWidth;
     }
 
@@ -171,7 +139,8 @@ class Project extends EntityRepository {
      * @param integer $referenceHeight
      * @return Project
      */
-    public function setReferenceHeight($referenceHeight) {
+    public function setReferenceHeight($referenceHeight)
+    {
         $this->referenceHeight = $referenceHeight;
 
         return $this;
@@ -182,7 +151,8 @@ class Project extends EntityRepository {
      *
      * @return integer 
      */
-    public function getReferenceHeight() {
+    public function getReferenceHeight()
+    {
         return $this->referenceHeight;
     }
 
@@ -192,7 +162,8 @@ class Project extends EntityRepository {
      * @param string $referenceFont
      * @return Project
      */
-    public function setReferenceFont($referenceFont) {
+    public function setReferenceFont($referenceFont)
+    {
         $this->referenceFont = $referenceFont;
 
         return $this;
@@ -203,92 +174,54 @@ class Project extends EntityRepository {
      *
      * @return string 
      */
-    public function getReferenceFont() {
+    public function getReferenceFont()
+    {
         return $this->referenceFont;
     }
 
     /**
-     * Set dateCreation
+     * Set created
      *
-     * @param \DateTime $dateCreation
+     * @param \DateTime $created
      * @return Project
      */
-    public function setDateCreation($dateCreation) {
-        $this->dateCreation = $dateCreation;
+    public function setCreated($created)
+    {
+        $this->created = $created;
 
         return $this;
     }
 
     /**
-     * Get dateCreation
+     * Get created
      *
      * @return \DateTime 
      */
-    public function getDateCreation() {
-        return $this->dateCreation;
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     /**
-     * Set projectManager
+     * Set owner
      *
-     * @param \Tangara\CoreBundle\Entity\User $projectManager
+     * @param \Tangara\CoreBundle\Entity\User $owner
      * @return Project
      */
-    public function setProjectManager(\Tangara\CoreBundle\Entity\User $projectManager = null) {
-        $this->projectManager = $projectManager;
+    public function setOwner(\Tangara\CoreBundle\Entity\User $owner = null)
+    {
+        $this->owner = $owner;
 
         return $this;
     }
 
     /**
-     * Get projectManager
+     * Get owner
      *
      * @return \Tangara\CoreBundle\Entity\User 
      */
-    public function getProjectManager() {
-        return $this->projectManager;
+    public function getOwner()
+    {
+        return $this->owner;
     }
-
-    /**
-     * Set user
-     *
-     * @param \Tangara\CoreBundle\Entity\User $user
-     * @return Project
-     */
-    public function setUser(\Tangara\CoreBundle\Entity\User $user = null) {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Tangara\CoreBundle\Entity\User 
-     */
-    public function getUser() {
-        return $this->user;
-    }
-
-    /**
-     * Set group
-     *
-     * @param \Tangara\CoreBundle\Entity\Group $group
-     * @return Project
-     */
-    public function setGroup(\Tangara\CoreBundle\Entity\Group $group = null) {
-        $this->group = $group;
-
-        return $this;
-    }
-
-    /**
-     * Get group
-     *
-     * @return \Tangara\CoreBundle\Entity\Group 
-     */
-    public function getGroup() {
-        return $this->group;
-    }
-
 }

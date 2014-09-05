@@ -3,6 +3,7 @@
 namespace Tangara\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 
 
 class DocumentRepository extends EntityRepository {
@@ -10,7 +11,7 @@ class DocumentRepository extends EntityRepository {
     public function getAllProjectDocuments($name){
         
         $query = $this->createQueryBuilder('a')
-                ->join('a.ownerProject', 'b')
+                ->join('a.project', 'b')
                 ->where('b.name = :name')
                 ->setParameter('name', $name);
         
@@ -19,11 +20,11 @@ class DocumentRepository extends EntityRepository {
         return $Docs;
     }
     
-    public function getAllProjectPrograms($projectId) {
+    public function getAllProjectPrograms($project) {
         $query = $this->createQueryBuilder('a')
-                ->where('a.ownerProject = :projectId')
+                ->where('a.project = :project')
                 ->andWhere('a.program = true')
-                ->setParameter('projectId', $projectId);
+                ->setParameter('project', $project);
         
         $programs = $query->getQuery()->getResult();
         
@@ -31,11 +32,11 @@ class DocumentRepository extends EntityRepository {
         
     }
     
-    public function getAllProjectResources($projectId) {
+    public function getAllProjectResources($project) {
         $query = $this->createQueryBuilder('a')
-                ->where('a.ownerProject = :projectId')
+                ->where('a.project = :project')
                 ->andWhere('a.program = false')
-                ->setParameter('projectId', $projectId);
+                ->setParameter('project', $project);
         
         $resources = $query->getQuery()->getResult();
         
@@ -43,30 +44,30 @@ class DocumentRepository extends EntityRepository {
         
     }
 
-    public function getProjectProgram($projectId, $name) {
+    public function getProjectProgram($project, $name) {
         $query = $this->createQueryBuilder('a')
-                ->where('a.ownerProject = :projectId')
+                ->where('a.project = :project')
                 ->andWhere('a.program = true')
                 ->andWhere('a.path = :name')
-                ->setParameters(array('projectId'=> $projectId, 'name'=> $name));
+                ->setParameters(array('project'=> $project, 'name'=> $name));
         try {
             $program = $query->getQuery()->getSingleResult();
-        } catch (\Doctrine\Orm\NoResultException $e) {
+        } catch (NoResultException $e) {
             $program = false;
         }
         
         return $program;
     }
 
-    public function getProjectResource($projectId, $name) {
+    public function getProjectResource($project, $name) {
         $query = $this->createQueryBuilder('a')
-                ->where('a.ownerProject = :projectId')
+                ->where('a.project = :project')
                 ->andWhere('a.program = false')
                 ->andWhere('a.path = :name')
-                ->setParameters(array('projectId'=> $projectId, 'name'=> $name));
+                ->setParameters(array('project'=> $project, 'name'=> $name));
         try {
             $resource = $query->getQuery()->getSingleResult();
-        } catch (\Doctrine\Orm\NoResultException $e) {
+        } catch (NoResultException $e) {
             $resource = false;
         }
         
