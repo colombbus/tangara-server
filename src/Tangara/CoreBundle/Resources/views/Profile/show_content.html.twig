@@ -1,27 +1,26 @@
-{% trans_default_domain 'FOSUserBundle' %}
-
 {% set user = app.user %}
     
 <div class="fos_user_user_show">
     <div class="row">
-        <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
-        <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-        <div class="col-md-6">
+        <p>{{ 'profile.username'|trans }}: {{ user.username }}</p>
+        <p>{{ 'profile.email'|trans }}: {{ user.email }}</p>
+{#          <div class="col-md-6">
             <fieldset>
                 <legend>{{ 'my.p'|trans|capitalize }} {{ 'projects'|trans }}</legend>
                 <a class="btn btn-success" href="{{ path('tangara_project_user_new', {user_id: user.getId()}) }}">{{ 'new.project'|trans }}</a>
                 <ul>
-                    {% set userProjects = user.getProjects() %}
-                    {% for project in userProjects %}
+                  {% set userProjects = user.getProjects() %}
+                      {% for project in userProjects %}
                         <li id="{{ project.getId() }}">
                             <a href="{{ path( "tangara_project_show", {id: project.getId()} ) }}">{{ project.getName() }}</a>
                             <input type="button" value="{{ 'delete'|trans|capitalize }}"  onclick="delUserProject({{ project.getId() }});" />
                         </li>
-                    {% endfor %}
+                       {% endfor %}
                 </ul>
                 <p id="msg"></p>
             </fieldset>
-        </div>
+        </div> 
+
         <div class="col-md-6">
             <fieldset>
                 <legend>{{ 'my.p'|trans|capitalize }} {{ 'groups'|trans }}</legend>
@@ -40,22 +39,21 @@
                 <a href="{{ path('fos_user_group_list') }}">{{ 'list.all.groups'|trans }}</a>
             </fieldset>
         </div>
+#}
     </div>
 
     <div class="row">
         <fieldset>
             <legend>{{ 'profile.management'|trans }}</legend>
             <ul>
-                <li><a href="{{ path('tangara_user_delete') }}">{{ 'delete.profile'|trans }}</a></li>
-                <li><a href="{{ path('fos_user_change_password') }}">{{ 'change.pass'|trans }}</a></li>
+                <li><a href="{{ path('tangara_user_delete') }}">{{ 'profile.delete'|trans }}</a></li>
+                <li><a href="{{ path('fos_user_change_password') }}">{{ 'profile.changePassword'|trans }}</a></li>
             </ul>
         </fieldset>
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
-</script>
-
+<!--
 <script>
     function removeUserProject(projectId) {
         $.ajax({
@@ -70,3 +68,4 @@
         }); // Ajax Call
     }
 </script>
+-->
