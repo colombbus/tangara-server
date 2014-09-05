@@ -4,7 +4,19 @@ parameters:
     tangara_core.tangarajs: C:\tangara
     
 services:
-    tangara_core.uploader:
-        class: "%tangara_core.uploader.class%"
-        arguments: ["%tangara_core.uploader.directory%"]
+    tangara_core.project_manager: 
+        class: Tangara\CoreBundle\Manager\ProjectManager
+        arguments: ["@doctrine.orm.entity_manager"]
+    tangara_core.document_manager: 
+        class: Tangara\CoreBundle\Manager\DocumentManager
+        arguments: ["@doctrine.orm.entity_manager"]
+    tangara_core.settings:
+        class: Tangara\CoreBundle\Entity\Document
+    tangara_core.user_listener:
+        class: Tangara\CoreBundle\EventListener\UserListener
+        tags:
+            - {name: kernel.event_subscriber}
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @session
 
