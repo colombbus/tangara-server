@@ -27,9 +27,7 @@ namespace Tangara\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Tangara\CoreBundle\Manager\BaseManager;
-use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Entity\Document;
-use Tangara\CoreBundle\Entity\User as User;
 
 class DocumentManager extends BaseManager {
 
@@ -61,9 +59,9 @@ class DocumentManager extends BaseManager {
 
     public function setUploadDirectory($directory) {
         $this->directory = $directory;
-
         return $this;
     }
+
     public function getRepository() {
         return $this->em->getRepository('TangaraCoreBundle:Document');
     }
