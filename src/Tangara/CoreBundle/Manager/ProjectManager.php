@@ -28,8 +28,7 @@ namespace Tangara\CoreBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use Tangara\CoreBundle\Manager\BaseManager;
 use Tangara\CoreBundle\Entity\Project;
-use Tangara\CoreBundle\Entity\Document;
-use Tangara\CoreBundle\Entity\User as User;
+use Tangara\CoreBundle\Entity\User;
 
 class ProjectManager extends BaseManager {
 
@@ -53,36 +52,17 @@ class ProjectManager extends BaseManager {
         $this->persistAndFlush($project);
     }
 
-    public function isAuthorized(Project $project, User $testedUser) {
-        $groupProject = $project->getGroup();
-        $userProject = $project->getUser();
-
-        if ($groupProject) {
-            // group project
-            $member = $groupProject->getUsers();
-            foreach ($member as $t) {
-                if ($t->getId() == $testedUser->getId())
-                    return true;
-            }
-            return false;
-        } else {
-            // user project
-            $uid = $userProject->getId();
-            
-            if ($uid == $testedUser->getId())
-                return true;
-            else
-                return false;
-        }
-
+    public function isAuthorized(Project $project, User $user) {
+        // For now, we just check that project is user's home
+        return ($project->getId() == $user->getHome()->getId());
     }
     
     public function isProjectFile(Project $project, $filename, $program=false) {
         $query = $this->em->getRepository('TangaraCoreBundle:Document')->createQueryBuilder('a')
-                ->where('a.ownerProject = :projectId')
+                ->where('a.project = :project')
                 ->andWhere('a.path = :name')
                 ->andWhere('a.program = :program')
-                ->setParameters(array('projectId' => $project->getId(), 'program' => $program, 'name' => $filename));
+                ->setParameters(array('project' => $project, 'program' => $program, 'name' => $filename));
 
         $result = $query->getQuery()->getResult();
         
