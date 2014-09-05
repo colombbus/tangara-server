@@ -1,3 +1,22 @@
+navbar:
+    home: Home
+    create: Create
+    share: Share
+    learn: Learn
+    logout: Logout
+    register: Register
+    profile: Profile
+    account: Account
+_homepage:
+    Welcome: Welcome 
+    site_description: This is the official website of the TangaraJS web app, Android, PC. The old version of the Tangara written in Java can be found here.
+    more: More
+    project_description: Project description
+    news: News
+    shared_projects: Shared projects
+    view_details: Details
+    admin_interface: Admin interface
+
 #mots
 projects: projects
 my.p: my
