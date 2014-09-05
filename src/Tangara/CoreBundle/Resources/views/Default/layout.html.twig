@@ -10,6 +10,10 @@
                 {% include "TangaraCoreBundle:Default:header_stylesheets.html.twig" %}
             {% endblock %}
             {% block custom_css %}{% endblock %}
+            {% block javascripts %}
+                {% include 'TangaraCoreBundle:Default:javascript.html.twig' %}
+            {% endblock %}
+            {% block custom_javascript %}{% endblock %}
         {% endblock %}
         <title>{% block header_title %}Tangara{% endblock %}</title>
     </head>
@@ -44,10 +48,6 @@
             {% endblock %}
         
             <!-- /container -->
-            {% block javascripts %}
-                {% include 'TangaraCoreBundle:Default:javascript.html.twig' %}
-            {% endblock %}
-            {% block custom_javascript %}{% endblock %}
         {% endblock %}
     </body>
 </html>
