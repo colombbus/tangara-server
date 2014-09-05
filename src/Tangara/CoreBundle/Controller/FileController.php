@@ -114,7 +114,7 @@ class FileController extends Controller {
         $resources = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Document')
-                ->getAllProjectResources($env->projectId);
+                ->getAllProjectResources($env->project);
         
         $files = array();
         foreach ($resources as $resource) {
@@ -137,7 +137,7 @@ class FileController extends Controller {
         $programs = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:Document')
-                ->getAllProjectPrograms($env->projectId);
+                ->getAllProjectPrograms($env->project);
         
         $files = array();
         foreach ($programs as $program) {
@@ -335,8 +335,7 @@ class FileController extends Controller {
         // Create new document
         $manager = $this->getDoctrine()->getManager();
         $document = new Document();
-        $document->setOwnerProject($env->project);
-        $document->setUploadDir($env->projectPath);
+        $document->setProject($env->project);
         $document->setPath($programName);
         $document->setProgram(true);
         $manager->persist($document);
