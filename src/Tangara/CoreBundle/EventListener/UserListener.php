@@ -43,7 +43,8 @@ class UserListener implements EventSubscriberInterface {
         $user = $event->getAuthenticationToken()->getUser();
         $home = $user->getHome();
         // set project as current project in session
-        $this->session->set('projectid', $home->getId());
+        if ($home)
+            $this->session->set('projectid', $home->getId());
     }
 
 }
