@@ -99,4 +99,10 @@ fos_user:
 parameters:
     tangara_core.settings.directory.upload: %directory.upload%
     tangara_core.settings.directory.tangarajs: %directory.tangarajs%
-        
+
+    
+stof_doctrine_extensions:
+    default_locale: fr_FR
+    orm:
+        default:
+            timestampable: true
