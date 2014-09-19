@@ -28,14 +28,17 @@ namespace Tangara\CoreBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use Tangara\CoreBundle\Manager\BaseManager;
 use Tangara\CoreBundle\Entity\Document;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DocumentManager extends BaseManager {
 
     protected $em;
+    protected $pm;
     private $directory;
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, ProjectManager $pm) {
         $this->em = $em;
+        $this->pm = $pm;
         $this->directory = '/home/tangara';
     }
 
@@ -64,5 +67,51 @@ class DocumentManager extends BaseManager {
 
     public function getRepository() {
         return $this->em->getRepository('TangaraCoreBundle:Document');
+    }
+    
+    public function remove(Document $file) {
+        // Remove database entry
+        $this->em->remove($file);
+        $this->em->flush();
+
+        // Remove document from project
+        $project = $file->getProject();
+        $this->pm->removeFile($project, $file);
+
+        // Remove files
+        $projectPath = $this->pm->getProjectPath($project);
+        $fs = new Filesystem();
+        if ($file->getProgram()) {
+            // File is a program
+            $codePath = $projectPath. "/".$file->getPath()."_code";
+            $statementsPath = $projectPath . "/".$file->getPath()."_statements";
+            if ($fs->exists($codePath)) {
+                $fs->remove($codePath);
+            }
+            if ($fs->exists($statementsPath)) {
+                $fs->remove($statementsPath);
+            }
+        } else {
+            // File is not a program
+            $filePath = $projectPath. "/".$file->getPath();
+            if ($fs->exists($filePath)) {
+                $fs->remove($filePath);
+            }
+        }
+    }
+        
+    public function updateProgram(Document $program, $code, $statements) {
+        // find corresponding project
+        $project = $program->getProject();
+        $projectPath = $this->pm->getProjectPath($project);
+        
+        $codePath = $projectPath . "/".$program->getPath()."_code";
+        $statementsPath = $projectPath . "/".$program->getPath()."_statements";
+
+        file_put_contents($codePath, $code, LOCK_EX);
+        file_put_contents($statementsPath, $statements, LOCK_EX);
+        
+        // update project
+        $this->pm->updateFile($project, $program);
     }
 }
