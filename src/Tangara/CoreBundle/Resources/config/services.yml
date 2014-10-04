@@ -7,9 +7,12 @@ services:
     tangara_core.project_manager: 
         class: Tangara\CoreBundle\Manager\ProjectManager
         arguments: ["@doctrine.orm.entity_manager"]
-    tangara_core.document_manager: 
-        class: Tangara\CoreBundle\Manager\DocumentManager
-        arguments: ["@doctrine.orm.entity_manager"]
+    tangara_core.file_manager: 
+        class: Tangara\CoreBundle\Manager\FileManager
+        arguments: 
+            - @doctrine.orm.entity_manager
+            - %tangara_core.settings.allowed_mime_types%
+            - %tangara_core.settings.resource_max_size%
     tangara_core.settings:
         class: Tangara\CoreBundle\Entity\Document
     tangara_core.user_listener:
