@@ -90,14 +90,8 @@ class FileController extends Controller {
             return $env;
         }
         
-        // Check project directory
-        $uploadPath = $this->container->getParameter('tangara_core.settings.directory.upload');
-        $projectPath = $uploadPath . '/' . $project->getId();
-        $fs = new Filesystem();
-        if (!$fs->exists($projectPath)) {
-            $fs->mkdir($projectPath);
-        }
-        $env->projectPath = $projectPath;
+        // Get project directory
+        $env->projectPath = $this->container->get('tangara_core.project_manager')->getProjectPath($project);
         
         return $env;
     }
@@ -173,12 +167,14 @@ class FileController extends Controller {
 
         $fs = new Filesystem();
         if (!$fs->exists($path)) {
-            return $jsonResponse->setData(array('error' => "${dataName}_not_found"));
+            //return $jsonResponse->setData(array('error' => "${dataName}_not_found"));
+            // file does not exist: empty content
+            $content = '';
+        } else {
+            $content = file_get_contents($path);
         }
         
-        $content = file_get_contents($path);
-        
-        if (!$content) {
+        if ($content === false) {
             return $jsonResponse->setData(array('error' => "read_error"));
         }
         
@@ -252,28 +248,17 @@ class FileController extends Controller {
         
         $programName = $this->getRequest()->request->get('name');
 
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository('TangaraCoreBundle:File');
+        // Get program
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
         $program = $repository->getProjectProgram($env->projectId, $programName);
-        
         if (!$program) {
             return $jsonResponse->setData(array('error' => "program_not_found"));
         }
-
+        
+        // Remove program
         $manager->remove($program);
-        $manager->flush();
-        
-        $codePath = $env->projectPath . "/${programName}_code";
-        $statementsPath = $env->projectPath . "/${programName}_statements";
 
-        $fs = new Filesystem();
-        if ($fs->exists($codePath)) {
-            $fs->remove($codePath);
-        }
-        if ($fs->exists($statementsPath)) {
-            $fs->remove($statementsPath);
-        }
-        
         return $jsonResponse->setData(array('removed'=>$programName));
     }
     
@@ -292,24 +277,17 @@ class FileController extends Controller {
         }        
         $resourceName = $this->getRequest()->request->get('name');
 
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository('TangaraCoreBundle:File');
+        // Get resource
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
         $resource = $repository->getProjectResource($env->projectId, $resourceName);
-        
         if (!$resource) {
             return $jsonResponse->setData(array('error' => "resource_not_found"));
         }
-
+        
+        // Remove resource
         $manager->remove($resource);
-        $manager->flush();
-        
-        $path = $env->projectPath . "/$resourceName";
 
-        $fs = new Filesystem();
-        if ($fs->exists($path)) {
-            $fs->remove($path);
-        }
-        
         return $jsonResponse->setData(array('removed'=>$resourceName));
     }
 
@@ -329,19 +307,14 @@ class FileController extends Controller {
         $programName = $this->getRequest()->request->get('name');
         
         // Check if programName already exists
-        $existing = $this->get('tangara_core.project_manager')->isProjectFile($env->project, $programName, true);
+        $manager = $this->get('tangara_core.project_manager');
+        $existing = $manager->isProjectFile($env->project, $programName, true);
         if ($existing) {
             return $jsonResponse->setData(array('error' => 'program_already_exists'));
         }
         
         // Create new file
-        $manager = $this->getDoctrine()->getManager();
-        $file = new File();
-        $file->setProject($env->project);
-        $file->setPath($programName);
-        $file->setProgram(true);
-        $manager->persist($file);
-        $manager->flush();
+        $manager->createFile($env->project, $programName, true);
         
         return $jsonResponse->setData(array('created' => $programName));
     }
@@ -413,17 +386,17 @@ class FileController extends Controller {
         $code = $this->getRequest()->request->get('code');
         $statements = $this->getRequest()->request->get('statements');
         
-        // Check if program actually exists
-        $existing = $this->get('tangara_core.project_manager')->isProjectFile($env->project, $programName, true);
-        if (!$existing) {
-            return $jsonResponse->setData(array('error' => 'program_not_found'));
+        // Get program
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
+        $program = $repository->getProjectProgram($env->projectId, $programName);
+        if (!$program) {
+            return $jsonResponse->setData(array('error' => "program_not_found"));
         }
 
-        $codePath = $env->projectPath . "/${programName}_code";
-        $statementsPath = $env->projectPath . "/${programName}_statements";
+        // Update content
+        $manager->updateProgram($program, $code, $statements);
 
-        file_put_contents($codePath, $code, LOCK_EX);
-        file_put_contents($statementsPath, $statements, LOCK_EX);
         return $jsonResponse->setData(array('updated' => $programName));
     }
 
