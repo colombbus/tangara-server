@@ -6,15 +6,24 @@ parameters:
 services:
     tangara_core.project_manager: 
         class: Tangara\CoreBundle\Manager\ProjectManager
+        arguments: 
+            - @doctrine.orm.entity_manager
+            - %tangara_core.settings.directory.upload%
+            - @security.context
+    tangara_core.user_manager: 
+        class: Tangara\CoreBundle\Manager\UserManager
+        arguments: 
+            - @security.encoder_factory
+            - @fos_user.util.username_canonicalizer
+            - @fos_user.util.email_canonicalizer
         arguments: ["@doctrine.orm.entity_manager"]
     tangara_core.file_manager: 
         class: Tangara\CoreBundle\Manager\FileManager
         arguments: 
             - @doctrine.orm.entity_manager
+            - @tangara_core.project_manager
             - %tangara_core.settings.allowed_mime_types%
             - %tangara_core.settings.resource_max_size%
-    tangara_core.settings:
-        class: Tangara\CoreBundle\Entity\Document
     tangara_core.user_listener:
         class: Tangara\CoreBundle\EventListener\UserListener
         tags:
