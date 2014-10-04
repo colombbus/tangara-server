@@ -24,6 +24,15 @@ class User extends BaseUser
      * @ORM\OneToOne(targetEntity="Project", mappedBy="owner")
      */
     private $home;
+    
+    
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="polling", type="datetime")
+     *
+     */
+    protected $polling;
 
     /**
      * Set home
@@ -56,5 +65,28 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set polling
+     *
+     * @param \DateTime $polling
+     * @return User
+     */
+    public function setPolling($polling)
+    {
+        $this->polling = $polling;
+
+        return $this;
+    }
+
+    /**
+     * Get polling
+     *
+     * @return \DateTime 
+     */
+    public function getPolling()
+    {
+        return $this->polling;
     }
 }
