@@ -65,7 +65,7 @@ class File {
      * Set path
      *
      * @param string $path
-     * @return Document
+     * @return File
      */
     public function setPath($path)
     {
@@ -88,7 +88,7 @@ class File {
      * Set program
      *
      * @param boolean $program
-     * @return Document
+     * @return File
      */
     public function setProgram($program)
     {
@@ -111,7 +111,7 @@ class File {
      * Set project
      *
      * @param \Tangara\CoreBundle\Entity\Project $project
-     * @return Document
+     * @return File
      */
     public function setProject(\Tangara\CoreBundle\Entity\Project $project)
     {
