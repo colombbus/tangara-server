@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             
             // Tangara Bundle dependencies
             new FOS\UserBundle\FOSUserBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             /* new Ladela\SlickGridBundle\LadelaSlickGridBundle(), */
             //new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle(),
             //new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
@@ -29,7 +30,7 @@ class AppKernel extends Kernel
             //new Tangara\EditorBundle\TangaraEditorBundle(),
             //new Tangara\SVGEditorBundle\TangaraSVGEditorBundle(),
             //new Tangara\wPaintBundle\TangarawPaintBundle(),
-            new Tangara\CoreBundle\TangaraCoreBundle(),
+            new Tangara\CoreBundle\TangaraCoreBundle()
             
         );
 
