@@ -99,4 +99,22 @@ fos_user:
 parameters:
     tangara_core.settings.directory.upload: %directory.upload%
     tangara_core.settings.directory.tangarajs: %directory.tangarajs%
-        
+    tangara_core.settings.allowed_mime_types: 
+        image: 
+            - "image/jpeg"
+            - "image/gif"
+            - "image/png"
+            - "image/svg+xml"
+        audio:
+            - "audio/mpeg"
+            - "audio/mp4"
+            - "audio/ogg"
+            - "audio/vorbis"
+            - "audio/vnd.wave"
+            - "audio/webm"
+        video:
+            - "video/mpeg"
+            - "video/mp4"
+            - "video/webm"
+            - "video/ogg"
+    tangara_core.settings.resource_max_size: 5000000
