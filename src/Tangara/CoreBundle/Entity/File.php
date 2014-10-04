@@ -26,6 +26,14 @@ class File {
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $path;
+
+    /**
+     * @var string
+     * 
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type;
+
     
     /**
      * @var Project
@@ -120,5 +128,28 @@ class File {
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return File
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
