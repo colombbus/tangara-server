@@ -27,9 +27,9 @@ namespace Tangara\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Tangara\CoreBundle\Manager\BaseManager;
-use Tangara\CoreBundle\Entity\Document;
+use Tangara\CoreBundle\Entity\File;
 
-class DocumentManager extends BaseManager {
+class FileManager extends BaseManager {
 
     protected $em;
     private $directory;
@@ -39,18 +39,18 @@ class DocumentManager extends BaseManager {
         $this->directory = '/home/tangara';
     }
 
-    public function loadDocument($documentId) {
+    public function loadFile($fileId) {
         return $this->getRepository()
-                        ->findOneBy(array('id' => $documentId));
+                        ->findOneBy(array('id' => $fileId));
     }
 
     /**
-     * Save Document entity
+     * Save File entity
      *
-     * @param Document $document
+     * @param File $file
      */
-    public function saveDocument(Document $document) {
-        $this->persistAndFlush($document);
+    public function saveFile(File $file) {
+        $this->persistAndFlush($file);
     }
 
     public function getUploadDirectory() {
@@ -63,6 +63,6 @@ class DocumentManager extends BaseManager {
     }
 
     public function getRepository() {
-        return $this->em->getRepository('TangaraCoreBundle:Document');
+        return $this->em->getRepository('TangaraCoreBundle:File');
     }
 }

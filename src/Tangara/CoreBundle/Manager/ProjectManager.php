@@ -58,7 +58,7 @@ class ProjectManager extends BaseManager {
     }
     
     public function isProjectFile(Project $project, $filename, $program=false) {
-        $query = $this->em->getRepository('TangaraCoreBundle:Document')->createQueryBuilder('a')
+        $query = $this->em->getRepository('TangaraCoreBundle:File')->createQueryBuilder('a')
                 ->where('a.project = :project')
                 ->andWhere('a.path = :name')
                 ->andWhere('a.program = :program')
@@ -66,9 +66,9 @@ class ProjectManager extends BaseManager {
 
         $result = $query->getQuery()->getResult();
         
-        if (!$result)
+        if (!$result) {
             return false;
-
+        }
         return true;
        
     }
