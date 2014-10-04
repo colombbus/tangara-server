@@ -22,7 +22,7 @@ namespace Tangara\CoreBundle\Manager;
 use Doctrine\ORM\EntityRepository;
 
 abstract class BaseManager {
-    protected function persistAndFlush($entity) {
+    public function persistAndFlush($entity) {
         $this->em->persist($entity);
         $this->em->flush();
     }
