@@ -6,9 +6,9 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 
 
-class DocumentRepository extends EntityRepository {
+class FileRepository extends EntityRepository {
     
-    public function getAllProjectDocuments($name){
+    public function getAllProjectFiles($name){
         
         $query = $this->createQueryBuilder('a')
                 ->join('a.project', 'b')

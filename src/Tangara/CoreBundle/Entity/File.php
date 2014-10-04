@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="documents")
- * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\DocumentRepository")
+ * @ORM\Table(name="files")
+ * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\FileRepository")
  */
-class Document {
+class File {
 
     /**
      * @var integer

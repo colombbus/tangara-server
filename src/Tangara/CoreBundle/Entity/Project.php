@@ -63,16 +63,16 @@ class Project {
     
     
     /*
-     * @ORM\OneToMany(targetEntity="Document", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="File", mappedBy="project")
      */
-    private $documents;
+    private $files;
 
     public function __construct() {
         $this->created = new DateTime('NOW');
         $this->referenceHeight = 768;
         $this->referenceWidth = 1024;
         $this->referenceFont = "Arial";
-        $this->documents = new ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
 
