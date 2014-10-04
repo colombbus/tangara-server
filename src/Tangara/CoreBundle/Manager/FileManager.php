@@ -33,10 +33,18 @@ class FileManager extends BaseManager {
 
     protected $em;
     private $directory;
+    private $allowedMimeTypes;
+    private $maxResourceSize;
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, $allowed, $size) {
         $this->em = $em;
         $this->directory = '/home/tangara';
+        foreach ($allowed as $type=>$values) {
+            foreach ($values as $value) {
+                $this->allowedMimeTypes[$value] = $type;
+            }
+        }
+        $this->maxResourceSize = $size;
     }
 
     public function loadFile($fileId) {
@@ -64,5 +72,33 @@ class FileManager extends BaseManager {
 
     public function getRepository() {
         return $this->em->getRepository('TangaraCoreBundle:File');
+    }
+    
+    public function checkResource($file) {
+        // Check upload
+        if (!$file->isValid()) {
+            return 'resource_not_uploaded';
+        }
+        
+        // Check mime type
+        $type = $file->getMimeType();
+        if (!isset($type) || !isset($this->allowedMimeTypes[$type])) {
+            return 'resource_mime_type_not_allowed';
+        }
+        
+        // Check size
+        if ($file->getClientSize()>$this->maxResourceSize) {
+            return 'resource_file_too_large';
+        }
+        
+        return true;
+    }
+    
+    public function getResourceType($file) {
+        $type = $file->getMimeType();
+        if (isset($type) && isset($this->allowedMimeTypes[$type])) {
+            return $this->allowedMimeTypes[$type];
+        }
+        return false;
     }
 }
