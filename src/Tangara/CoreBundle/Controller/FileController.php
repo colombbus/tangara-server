@@ -7,7 +7,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Tangara\CoreBundle\Entity\Document;
+use Tangara\CoreBundle\Entity\File;
 use Tangara\CoreBundle\Entity\Project;
 use stdClass;
 
@@ -113,7 +113,7 @@ class FileController extends Controller {
         }
         $resources = $this->getDoctrine()
                 ->getManager()
-                ->getRepository('TangaraCoreBundle:Document')
+                ->getRepository('TangaraCoreBundle:File')
                 ->getAllProjectResources($env->project);
         
         $files = array();
@@ -136,7 +136,7 @@ class FileController extends Controller {
         }
         $programs = $this->getDoctrine()
                 ->getManager()
-                ->getRepository('TangaraCoreBundle:Document')
+                ->getRepository('TangaraCoreBundle:File')
                 ->getAllProjectPrograms($env->project);
         
         $files = array();
@@ -251,7 +251,7 @@ class FileController extends Controller {
         $programName = $this->getRequest()->request->get('name');
 
         $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository('TangaraCoreBundle:Document');
+        $repository = $manager->getRepository('TangaraCoreBundle:File');
         $program = $repository->getProjectProgram($env->projectId, $programName);
         
         if (!$program) {
@@ -291,7 +291,7 @@ class FileController extends Controller {
         $resourceName = $this->getRequest()->request->get('name');
 
         $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository('TangaraCoreBundle:Document');
+        $repository = $manager->getRepository('TangaraCoreBundle:File');
         $resource = $repository->getProjectResource($env->projectId, $resourceName);
         
         if (!$resource) {
@@ -332,13 +332,13 @@ class FileController extends Controller {
             return $jsonResponse->setData(array('error' => 'program_already_exists'));
         }
         
-        // Create new document
+        // Create new file
         $manager = $this->getDoctrine()->getManager();
-        $document = new Document();
-        $document->setProject($env->project);
-        $document->setPath($programName);
-        $document->setProgram(true);
-        $manager->persist($document);
+        $file = new File();
+        $file->setProject($env->project);
+        $file->setPath($programName);
+        $file->setProgram(true);
+        $manager->persist($file);
         $manager->flush();
         
         return $jsonResponse->setData(array('created' => $programName));
@@ -365,14 +365,14 @@ class FileController extends Controller {
             return $jsonResponse->setData(array('error' => 'resource_already_exists'));
         }
         
-        // Create new document
+        // Create new file
         $manager = $this->getDoctrine()->getManager();
-        $document = new Document();
-        $document->setOwnerProject($env->project);
-        $document->setUploadDir($env->projectPath);
-        $document->setPath($resourceName);
-        $document->setProgram(false);
-        $manager->persist($document);
+        $file = new File();
+        $file->setOwnerProject($env->project);
+        $file->setUploadDir($env->projectPath);
+        $file->setPath($resourceName);
+        $file->setProgram(false);
+        $manager->persist($file);
         $manager->flush();
         
         return $jsonResponse->setData(array('created' => $resourceName));
@@ -427,7 +427,7 @@ class FileController extends Controller {
         
         // Get current program and check it actually exists
         $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository('TangaraCoreBundle:Document');
+        $repository = $manager->getRepository('TangaraCoreBundle:File');
         $program = $repository->getProjectProgram($env->projectId, $programName);
         if (!$program) {
             return $jsonResponse->setData(array('error' => "program_not_found"));
