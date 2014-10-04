@@ -38,13 +38,16 @@ class FileController extends Controller {
      * @param Project $project
      * @return true if directory exists
      */
-    protected function checkEnvironment($fields) {
+    protected function checkEnvironment($fields, $xmlCheck = true) {
         $env = new stdClass();
         $request = $this->getRequest();
-        // Check if request is xml
-        if (!$request->isXmlHttpRequest()) {
-            $env->error = "not_xml_request";
-            return $env;
+        
+        if ($xmlCheck) {
+            // Check if request is xml
+            if (!$request->isXmlHttpRequest()) {
+                $env->error = "not_xml_request";
+                return $env;
+            }
         }
         
         // Check if required fields are provided
@@ -118,7 +121,7 @@ class FileController extends Controller {
         
         $files = array();
         foreach ($resources as $resource) {
-            $files[] = $resource->getPath();
+            $files[$resource->getPath()] = array('type'=>$resource->getType());
         }
  
         return $jsonResponse->setData(array('resources' => $files));
@@ -211,20 +214,19 @@ class FileController extends Controller {
      * 
      * @return JsonResponse
      */
-    public function getResourceAction() {
-        $env = $this->checkEnvironment(array('name'));
+    public function getResourceAction($name) {
+        $env = $this->checkEnvironment(array(), false);
         $jsonResponse = new JsonResponse();
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
         }
-        $resourceName = $this->getRequest()->request->get('name');
         
-        $existing = $this->get('tangara_core.project_manager')->isProjectFile($env->project, $programName, false);
+        $existing = $this->get('tangara_core.project_manager')->isProjectFile($env->project, $name, false);
         if (!$existing) {
             return $jsonResponse->setData(array('error' => 'resource_not_found'));
         }
 
-        $path = $env->projectPath . "/$resourceName";
+        $path = $env->projectPath . "/$name";
 
         $fs = new Filesystem();
         if (!$fs->exists($path)) {
@@ -345,37 +347,53 @@ class FileController extends Controller {
     }
     
     /**
-     * Create a resource in the current project, from the 'name' field 
+     * Add a resource in the current project, from the 'file' field 
      * POST request 
      * Related current project is in 'projectid' field stored in session
      * 
      * @return JsonResponse
      */
-    public function createResourceAction() {
-        $env = $this->checkEnvironment(array('name'));
+    public function addResourceAction() {
+        $env = $this->checkEnvironment(array());
         $jsonResponse = new JsonResponse();
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
-        }        
-        $resourceName = $this->getRequest()->request->get('name');
-        
-        // Check if programName already exists
-        $existing = $this->get('tangara_core.project_manager')->isProjectFile($env->project, $resourceName, false);
-        if ($existing) {
-            return $jsonResponse->setData(array('error' => 'resource_already_exists'));
         }
-        
-        // Create new file
-        $manager = $this->getDoctrine()->getManager();
-        $file = new File();
-        $file->setOwnerProject($env->project);
-        $file->setUploadDir($env->projectPath);
-        $file->setPath($resourceName);
-        $file->setProgram(false);
-        $manager->persist($file);
-        $manager->flush();
-        
-        return $jsonResponse->setData(array('created' => $resourceName));
+
+        $files = $this->getRequest()->files->get('resources');
+        if (!isset($files)) {
+            return $jsonResponse->setData(array('error' => 'no_resource_provided'));
+        }
+        $manager = $this->get('tangara_core.file_manager');
+        $created = array();
+        foreach ($files as $uploadedFile) {
+            $name = $uploadedFile->getClientOriginalName();
+            $check = $manager->checkResource($uploadedFile);
+            if ($check !== true) {
+                // an error occured
+                return $jsonResponse->setData(array('error' => array('message'=>$check, 'name'=>$name)));
+            }
+            
+            // Check if name already exists
+            $existing = $this->get('tangara_core.project_manager')->isProjectFile($env->project, $name, false);
+            if ($existing) {
+                return $jsonResponse->setData(array('error' => array('message'=>'resource_already_exists', 'name'=>$name)));
+            }
+            
+            // Create new file
+            $file = new File();
+            $type = $manager->getResourceType($uploadedFile);
+            if ($type !== false) {
+                $file->setType($type);
+            }
+            $file->setProject($env->project);
+            $file->setPath($name);
+            $file->setProgram(false);
+            $uploadedFile->move($env->projectPath, $name);
+            $manager->persistAndFlush($file);
+            $created[] = array('name'=>$name, 'type' => $type);
+        }
+        return $jsonResponse->setData(array('created' => $created));
     }
 
     /**
