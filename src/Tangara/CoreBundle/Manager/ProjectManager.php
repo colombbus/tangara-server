@@ -29,13 +29,20 @@ use Doctrine\ORM\EntityManager;
 use Tangara\CoreBundle\Manager\BaseManager;
 use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Entity\User;
+use Tangara\CoreBundle\Entity\Log;
+use Tangara\CoreBundle\Entity\File;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ProjectManager extends BaseManager {
 
     protected $em;
+    protected $projectsDirectory;
+    protected $user;
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, $path, $context) {
         $this->em = $em;
+        $this->projectsDirectory = $path;
+        $this->user = $context->getToken()->getUser();
     }
 
     public function loadProject($projectId) {
@@ -57,20 +64,71 @@ class ProjectManager extends BaseManager {
         return ($project->getId() == $user->getHome()->getId());
     }
     
-    public function isProjectFile(Project $project, $filename, $program=false) {
+    public function isProjectFile(Project $project, $fileName, $program=false) {
         $query = $this->em->getRepository('TangaraCoreBundle:File')->createQueryBuilder('a')
                 ->where('a.project = :project')
                 ->andWhere('a.path = :name')
                 ->andWhere('a.program = :program')
-                ->setParameters(array('project' => $project, 'program' => $program, 'name' => $filename));
+                ->setParameters(array('project' => $project, 'program' => $program, 'name' => $fileName));
 
         $result = $query->getQuery()->getResult();
         
         if (!$result) {
             return false;
         }
+        
         return true;
-       
+    }
+    
+    public function getProjectPath(Project $project) {
+        $projectPath = $this->projectsDirectory . '/' . $project->getId();
+        $fs = new Filesystem();
+        // If path does not exist, create it
+        if (!$fs->exists($projectPath)) {
+            $fs->mkdir($projectPath);
+        }
+        return $projectPath;
+    }
+    
+    public function createFile(Project $project, $fileName, $program=false) {
+        // Create file
+        $file = new File();
+        $file->setProject($project);
+        $file->setPath($fileName);
+        $file->setProgram($program);
+        $this->em->persist($file);
+        
+        // Update log
+        $entry = new Log();
+        $entry->setProject($project);
+        $entry->setOperation("create");
+        $entry->setData(json_encode(array('name'=>$file->getPath(), 'program'=>$program)));
+        $entry->setUser($this->user);
+        $this->em->persist($entry);
+        
+        $this->em->flush();
+    }
+    
+    public function removeFile(Project $project, File $file) {
+        // Update log
+        $entry = new Log();
+        $entry->setProject($project);
+        $entry->setOperation("remove");
+        $entry->setData(json_encode(array('name'=>$file->getPath(), 'program'=>$file->getProgram())));
+        $entry->setUser($this->user);
+        $this->em->persist($entry);
+        $this->em->flush();
+    }
+    
+    public function updateFile(Project $project, File $file) {
+        // Update log
+        $entry = new Log();
+        $entry->setProject($project);
+        $entry->setOperation("update");
+        $entry->setData(json_encode(array('name'=>$file->getPath(), 'program'=>$file->getProgram())));
+        $entry->setUser($this->user);
+        $this->em->persist($entry);
+        $this->em->flush();
     }
     
     public function getRepository() {
