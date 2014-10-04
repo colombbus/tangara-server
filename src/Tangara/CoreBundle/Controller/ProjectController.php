@@ -4,8 +4,8 @@ namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Tangara\CoreBundle\Entity\Document;
-use Tangara\CoreBundle\Entity\DocumentRepository;
+use Tangara\CoreBundle\Entity\File;
+use Tangara\CoreBundle\Entity\FileRepository;
 use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Form\ProjectType;
 
@@ -211,7 +211,7 @@ class ProjectController extends Controller {
 
         $contributors = array("user1", "user2", "user6");
         $manager = $this->getDoctrine()->getManager();
-        $files = $manager->getRepository('TangaraCoreBundle:Document')->findBy(array('ownerProject' => $project->getId()));
+        $files = $manager->getRepository('TangaraCoreBundle:File')->findBy(array('ownerProject' => $project->getId()));
 
         return $this->render('TangaraCoreBundle:Project:show.html.twig', array(
                     'project' => $project,
@@ -233,7 +233,7 @@ class ProjectController extends Controller {
         $project = $repository->find($projectid);
      
 
-        $docs = $em->getRepository('TangaraCoreBundle:Document')
+        $docs = $em->getRepository('TangaraCoreBundle:File')
                 ->getAllProjectDocuments($project->getName());
 
         foreach ($docs as $key){           
