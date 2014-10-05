@@ -45,3 +45,7 @@ tangara_tangarajs_add_resource:
 tangara_tangarajs_rename_program:
     path:  /renameprogram
     defaults: { _controller: TangaraCoreBundle:File:renameProgram }
+
+tangara_tangarajs_rename_resource:
+    path:  /renameresource
+    defaults: { _controller: TangaraCoreBundle:File:renameResource }
