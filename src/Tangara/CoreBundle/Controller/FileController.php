@@ -451,4 +451,48 @@ class FileController extends Controller {
         return $jsonResponse->setData(array('updated' => $newName));
     }
     
+     /**
+     * Rename a given resource
+     * POST request 
+     * 
+     * @return JsonResponse
+     */
+    public function renameResourceAction() {
+        $env = $this->checkEnvironment(array('name','new'));
+        $jsonResponse = new JsonResponse();
+        if (isset($env->error)) {
+            return $jsonResponse->setData(array('error' => $env->error));
+        }        
+        $resourceName = $this->getRequest()->request->get('name');
+        $newName = $this->getRequest()->request->get('new');
+        
+        // Get current resource and check it actually exists
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
+        $resource = $repository->getProjectResource($env->projectId, $resourceName);
+        if (!$resource) {
+            return $jsonResponse->setData(array('error' => "resource_not_found"));
+        }
+
+        // Check new name does not already exist
+        $newResource = $repository->getProjectResource($env->projectId, $newName);
+        if ($newResource) {
+            return $jsonResponse->setData(array('error' => 'resource_already_exists'));
+        }
+
+        // Set new name
+        $resource->setPath($newName);
+        $manager->persistAndFlush($resource);
+
+        // Change file names
+        $oldPath = $env->projectPath . "/${resourceName}";
+        $newPath = $env->projectPath . "/${newName}";
+
+        $fs = new Filesystem();
+        if ($fs->exists($oldPath)) {
+            rename($oldPath, $newPath);
+        }
+        return $jsonResponse->setData(array('updated' => $newName));
+    }    
+    
 }
