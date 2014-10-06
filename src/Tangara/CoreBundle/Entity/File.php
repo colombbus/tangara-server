@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="files")
+ * @ORM\Table(name="files", options={"collate"="utf8_bin"}))
  * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\FileRepository")
  */
 class File {
