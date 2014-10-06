@@ -29,7 +29,7 @@ class User extends BaseUser
     /**
      * @var datetime
      *
-     * @ORM\Column(name="polling", type="datetime")
+     * @ORM\Column(name="polling", type="datetime", nullable=true)
      *
      */
     protected $polling;
