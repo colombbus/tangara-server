@@ -3,13 +3,22 @@
 namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-//use Symfony\Component\HttpFoundation\JsonResponse;
-//use Symfony\Component\HttpFoundation\Response;
-//use Tangara\CoreBundle\Entity\Project;
 
 class DefaultController extends Controller {
 
     public function indexAction() {
-        return $this->render('TangaraCoreBundle:Default:homepage.html.twig');
+        $tangarajs = $this->container->getParameter('tangara_core.settings.directory.tangarajs');
+        $urlDiscover = $this->get('router')->generate('tangara_core_discover');
+        // TODO: replace url
+        $urlShare = $this->get('router')->generate('tangara_core_discover');
+        return $this->render('TangaraCoreBundle:Main:layout.html.twig', array(
+                    'tangarajs' => $tangarajs,
+                    'urlDiscover' => $urlDiscover,
+                    'urlShare' => $urlShare));
     }
+    
+    public function discoverAction() {
+        return $this->render('TangaraCoreBundle:Main:discover.html.twig');
+    }
+    
 }

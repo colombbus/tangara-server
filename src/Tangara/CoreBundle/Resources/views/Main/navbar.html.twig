@@ -7,9 +7,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{{ path('tangara_core_homepage') }}">
-        <img class="logo" src="{{ asset('bundles/tangaracore/img/logo.png')}}">Tangara</a></div>
-
+      <a class="navbar-brand" id="logo" href="#">
+        <img class="logo" src="{{ asset('bundles/tangaracore/img/logo.png')}}">Tangara
+      </a>
+    </div>
     <div class="navbar-collapse collapse">
         {% if is_granted('ROLE_USER') %}
             <div class="dropdown navbar-right">
@@ -51,20 +52,13 @@
             </div>
         {% endif %}
         <ul class="nav navbar-nav" id="main-menu">
-            <li class=""><a href="javascript:close('{{ path('tangara_core_discover')}}')">{{ 'navbar.learn'|trans}}</a></li>
-<!--
-            <li class=""><a href="{{ path('tangara_core_homepage')}}">{{ 'navbar.home'|trans}}</a></li>
--->
-            {% if app.request.get('_route') == 'tangara_project_create'%}
-                <li class="active">
-            {% else %}
-                <li>
-            {% endif %}
-                <a href="javascript:close('{{ path('tangara_project_create')}}')">{{ 'navbar.create'|trans}}</a></li>
+            <li id="discover" class="main-menu"><a href="#">{{ 'navbar.learn'|trans}}</a></li>
+            <li id="create" class="main-menu"><a href="#">{{ 'navbar.create'|trans}}</a></li>
+            <li id="share" class="main-menu"><a href="#">{{ 'navbar.share'|trans}}</a></li>
+            
 <!--
             {% if is_granted('ROLE_USER') %}<li class=""><a href="{{ path('fos_user_profile_show')}}">{{ 'navbar.profile'|trans}}</a></li>{% endif %}
 -->
-            <li class=""><a href="#">{{ 'navbar.share'|trans}}</a></li>
         </ul>
     </div><!--/.navbar-collapse -->
   </div>

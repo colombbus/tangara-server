@@ -31,4 +31,10 @@ services:
         arguments:
             - @doctrine.orm.entity_manager
             - @session
+    tangara_core.authentication_handler:
+        class: Tangara\CoreBundle\Handler\AuthenticationHandler
+        public: false
+        arguments:
+            - @router
+            - @session
 

@@ -2,3 +2,7 @@ tangara_core_homepage:
     path:  /
     defaults: { _controller: TangaraCoreBundle:Default:index }
 
+#showAction: info about the user and the group projects  
+tangara_core_discover:
+    path:  /discover
+    defaults: { _controller: TangaraCoreBundle:Default:discover}        
