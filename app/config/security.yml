@@ -25,6 +25,8 @@ security:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
                 use_referer:        true
+                success_handler: tangara_core.authentication_handler
+                failure_handler: tangara_core.authentication_handler
             logout:       true
             anonymous:    true
         #dev:
