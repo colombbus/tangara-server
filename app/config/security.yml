@@ -27,7 +27,8 @@ security:
                 use_referer:        true
                 success_handler: tangara_core.authentication_handler
                 failure_handler: tangara_core.authentication_handler
-            logout:       true
+            logout:
+                target: /tlogout
             anonymous:    true
         #dev:
         #    pattern:  ^/(_(profiler|wdt)|css|images|js)/
