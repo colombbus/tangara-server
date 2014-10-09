@@ -16,9 +16,10 @@ fos_user_change_password:
 fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"
     prefix: /group
-    
-    
-
+   
+tangara_user_logout:
+    path: /tlogout
+    defaults: { _controller: TangaraCoreBundle:Profile:logout }
     
     
 # user ask to join a group
