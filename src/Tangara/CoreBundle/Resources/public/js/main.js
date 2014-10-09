@@ -14,24 +14,27 @@ function closeContent() {
 }
 
 function fetchContent(url) {
-    $("#content").load(url);
+    var $element = $("#content");
+    $element.load(url);
+    ajaxify($element);
+
 }
 
 function discover() {
-    $(".main-menu").removeClass("active");
+    $("#navigation-menu > li").removeClass("active");
     $("#discover").addClass("active");
     openContent();
     fetchContent(url_discover);
 }
 
 function create() {
-    $(".main-menu").removeClass("active");
+    $("#navigation-menu > li").removeClass("active");
     $("#create").addClass("active");
     closeContent();
 }
 
 function share() {
-    $(".main-menu").removeClass("active");
+    $("#navigation-menu > li").removeClass("active");
     $("#share").addClass("active");
     openContent();
     fetchContent(url_share);
@@ -39,18 +42,16 @@ function share() {
 
 function login(event) {
     event.preventDefault();
-     // Get some values from elements on the page:
     var $form = $(this);
-    /*var username = $("#username").val();
-    var password = $("#password").val();
-    var csrf = $("#csrf").val();*/
     var url = $form.attr( "action" );
-    // Send the data using post
     var posting = $.post(url, $form.serialize(), "json");
-    // Put the results in a div
     posting.done(function( data ) {
         if (typeof data.content !== 'undefined') {
-            $("#user-menu").html(data.content);
+            var $element = $("#user-menu");
+            $element.html(data.content);
+            $("#login-form").submit(login);
+            $("#logout-link").click(logout);
+            ajaxify($element);
         }
         if (typeof data.success !== 'undefined') {
             if (data.success) {
@@ -58,6 +59,44 @@ function login(event) {
             }
         }
     });
+}
+
+function logout(event) {
+    event.preventDefault();
+    var $link = $(this);
+    var url = $link.attr( "href" );
+    // TODO: check if project dirty first
+    var getting = $.get(url, "json");
+    getting.done(function( data ) {
+        if (typeof data.content !== 'undefined') {
+            var $element = $("#user-menu");
+            $element.html(data.content);
+            $("#login-form").submit(login);
+            $("#logout-link").click(logout);
+            ajaxify($element);
+        }
+        if (typeof data.success !== 'undefined') {
+            if (data.success) {
+                updateLocal();
+            }
+        }
+    });
+}
+
+function content(event) {
+    event.preventDefault();
+    var $link = $(this);
+    var url = $link.attr( "href" );
+    openContent();
+    fetchContent(url);
+}
+
+function ajaxify(element) {
+    if (typeof element !== 'undefined') {
+        element.find(".content-link").click(content);
+    } else {
+        $(".content-link").click(content);
+    }
 }
 
 $(function() {
@@ -68,6 +107,8 @@ $(function() {
     $("#share a").click(share);
     // bind login form
     $("#login-form").submit(login);
+    $("#logout-link").click(logout);
+    ajaxify();
 });
 
 
