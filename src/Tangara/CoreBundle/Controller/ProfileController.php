@@ -29,7 +29,8 @@ namespace Tangara\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ProfileController extends Controller
 {
@@ -110,5 +111,20 @@ class ProfileController extends Controller
             return new Response('You already made a request to join this group.');
         }
     }
+    
+    public function logoutAction() {
+        $request = $this->getRequest();
+        // if AJAX login
+        if ( $request->isXmlHttpRequest() ) {
+            $jsonResponse = new JsonResponse();
+            $content = $this->renderView('TangaraCoreBundle:User:anonymous.html.twig');            
+            return $jsonResponse->setData(array('success' => true, 'content'=>$content));
+        } else {
+            // redirect the user to where they were before the login process begun.
+            $referer_url = $request->headers->get('referer');
+            $response = new RedirectResponse($referer_url);		
+            return $response;
+        }
+    }    
 
 }
