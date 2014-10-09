@@ -27,6 +27,7 @@
             {% endblock %}
             {% block content %}
             <div id="content">
+                {% include "TangaraCoreBundle:Main:discover.html.twig" %}
             </div>
             {% endblock %}
             <iframe id="local-frame" src="{{ tangarajs }}" frameborder="0" scrolling="no"></iframe>
