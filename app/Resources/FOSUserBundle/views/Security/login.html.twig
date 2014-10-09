@@ -1,6 +1,9 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
+{% if error %}
+    <div class="alert alert-danger" role="alert" id="login-error">{{ error|trans }}</div>
+{% endif %}
     <form action="{{ path("fos_user_security_check") }}" method="post" role="form" id="login-form">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         <div class="form-group">
