@@ -29,7 +29,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
         // if AJAX login
         if ( $request->isXmlHttpRequest() ) {
             $jsonResponse = new JsonResponse();
-            $content = $this->templating->renderResponse('TangaraCoreBundle:Main:usermenu.html.twig');            
+            $content = $this->templating->render('TangaraCoreBundle:User:menu.html.twig');            
             return $jsonResponse->setData(array('success' => true, 'content'=>$content));
         // if form login
         } else {
@@ -37,22 +37,20 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
                 $url = $this->session->get('_security.main.target_path');
             } else {
                 $url = $this->router->generate( 'home_page' );
-            } // end if
+            }
             return new RedirectResponse( $url );
         }
     }
  
     public function onAuthenticationFailure( Request $request, AuthenticationException $exception ) {
         // if AJAX login
+        $this->session->set(SecurityContextInterface::AUTHENTICATION_ERROR,$exception);
         if ( $request->isXmlHttpRequest() ) {
             $jsonResponse = new JsonResponse();
-            $content = $this->templating->render('TangaraCoreBundle:Main:usermenu.html.twig', array(
-                'error' => $exception->getMessage()));
+            $content = $this->templating->render('TangaraCoreBundle:User:menu.html.twig', array('error' => true));
             return $jsonResponse->setData(array( 'success' => false, 'content' => $content));
         // if form login
         } else {
-            // set authentication exception to session
-            $request->getSession()->set(SecurityContextInterface::AUTHENTICATION_ERROR, $exception);
             return new RedirectResponse( $this->router->generate( 'login_route' ) );
         }
     }
