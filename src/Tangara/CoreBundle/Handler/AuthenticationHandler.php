@@ -11,22 +11,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
- 
+use Symfony\Bundle\TwigBundle\TwigEngine;
+
 class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface
 {
     private $router;
     private $session;
+    private $templating;
  
-    public function __construct( RouterInterface $router, Session $session ) {
+    public function __construct( RouterInterface $router, Session $session, TwigEngine $templating) {
         $this->router  = $router;
         $this->session = $session;
+        $this->templating = $templating;
     }
  
     public function onAuthenticationSuccess( Request $request, TokenInterface $token ) {
         // if AJAX login
         if ( $request->isXmlHttpRequest() ) {
             $jsonResponse = new JsonResponse();
-            return $jsonResponse->setData(array('success' => true));
+            $content = $this->templating->renderResponse('TangaraCoreBundle:Main:usermenu.html.twig');            
+            return $jsonResponse->setData(array('success' => true, 'content'=>$content));
         // if form login
         } else {
             if ( $this->session->get('_security.main.target_path') ) {
@@ -42,7 +46,9 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
         // if AJAX login
         if ( $request->isXmlHttpRequest() ) {
             $jsonResponse = new JsonResponse();
-            return $jsonResponse->setData(array( 'success' => false, 'message' => $exception->getMessage()));
+            $content = $this->templating->render('TangaraCoreBundle:Main:usermenu.html.twig', array(
+                'error' => $exception->getMessage()));
+            return $jsonResponse->setData(array( 'success' => false, 'content' => $content));
         // if form login
         } else {
             // set authentication exception to session

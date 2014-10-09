@@ -32,4 +32,5 @@ services:
         arguments:
             - @router
             - @session
+            - @templating
 
