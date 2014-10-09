@@ -5,19 +5,22 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
-        <meta charset="UTF-8" />
-        {% block header %}
-        <title>{% block title %}Tangara{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    {% block header %}
+        {% include "::header.html.twig" %}
+        {% block stylesheets %}
         {% endblock %}
+        {% block javascripts %}
+        {% endblock %}
+        <title>{% block header_title %}Tangara{% endblock %}</title>
+    {% endblock %}
     </head>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://www.mozilla.org/firefox/">Upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+        {% block body %}
+        {% endblock %}
+    </body>    
 </html>
+
 
