@@ -3,12 +3,14 @@ function updateLocal() {
 }
 
 function openContent() {
-    $('#content').slideDown('slow',function(){$('#local-frame').hide();});
+    $("#content").animate({top:"0px"}, 600,function(){$('#local-frame').hide();});
 }
 
 function closeContent() {
+    var $content = $("#content");
+    var height = $content[0].scrollHeight;
     $('#local-frame').show();
-    $('#content').slideUp('slow');
+    $content.animate({top:-height+"px"}, 600);
 }
 
 function fetchContent(url) {
@@ -61,8 +63,6 @@ function login(event) {
 }
 
 $(function() {
-    // hide with jquery so that display:block is cached
-    $("#local-frame ").hide();
     // bind menu links
     $("#logo").click(discover);
     $("#discover a").click(discover);
@@ -70,8 +70,6 @@ $(function() {
     $("#share a").click(share);
     // bind login form
     $("#login-form").submit(login);
-    // start with discover
-    discover();
 });
 
 
