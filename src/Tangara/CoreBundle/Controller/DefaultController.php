@@ -11,7 +11,7 @@ class DefaultController extends Controller {
         $urlDiscover = $this->get('router')->generate('tangara_core_discover');
         // TODO: replace url
         $urlShare = $this->get('router')->generate('tangara_core_discover');
-        return $this->render('TangaraCoreBundle:Main:layout.html.twig', array(
+        return $this->render('TangaraCoreBundle::layout.html.twig', array(
                     'tangarajs' => $tangarajs,
                     'urlDiscover' => $urlDiscover,
                     'urlShare' => $urlShare));
