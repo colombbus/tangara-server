@@ -49,14 +49,12 @@ function login(event) {
     var posting = $.post(url, $form.serialize(), "json");
     // Put the results in a div
     posting.done(function( data ) {
+        if (typeof data.content !== 'undefined') {
+            $("#user-menu").html(data.content);
+        }
         if (typeof data.success !== 'undefined') {
             if (data.success) {
-                // TODO update nav bar
-                window.alert("ok");
                 updateLocal();
-            } else {
-                // TODO display error
-                window.alert("nok")
             }
         }
     });
