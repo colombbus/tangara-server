@@ -1,0 +1,9 @@
+{% if  app.user is not null %}
+    {% if is_granted('ROLE_USER') %}
+        {% include "TangaraCoreBundle:User:logged.html.twig" %}
+    {% else %}
+        {% include "TangaraCoreBundle:User:anonymous.html.twig" %}
+    {% endif %}
+{% else %}
+    {% include "TangaraCoreBundle:User:anonymous.html.twig" %}
+{% endif %}

@@ -1,0 +1,17 @@
+{% if error is defined and error %}
+    <li class="dropdown open">
+{% else %}
+    <li class="dropdown">
+{% endif %}
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="user-dropdown-trigger">{{ 'navbar.account'|trans }} <span class="caret"></span></a>
+        <ul class="dropdown-menu dropdown-menu-right" id="user-dropdown" role="menu">
+            <li>
+                {% render url('fos_user_security_login') %}
+            </li>
+            <li>
+                <a href="{{ path('fos_user_registration_register') }} " class="content-link">
+                    {{'navbar.register'|trans }}
+                </a>
+            </li>
+        </ul>
+    </li>
