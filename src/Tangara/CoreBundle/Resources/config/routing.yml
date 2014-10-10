@@ -1,8 +1,16 @@
 tangara_core_homepage:
     path:  /
-    defaults: { _controller: TangaraCoreBundle:Default:index }
+    defaults: { _controller: TangaraCoreBundle:Main:index }
 
-#showAction: info about the user and the group projects  
 tangara_core_discover:
     path:  /discover
-    defaults: { _controller: TangaraCoreBundle:Default:discover}        
+    defaults: { _controller: TangaraCoreBundle:Main:discover}        
+    
+tangara_core_share:
+    path:  /share
+    defaults: { _controller: TangaraCoreBundle:Main:share}
+    
+tangara_core_create:
+    path:  /create
+    defaults: { _controller: TangaraCoreBundle:Main:create}
+    

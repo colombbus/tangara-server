@@ -3,6 +3,15 @@
 <script src="{{ asset('bundles/tangaracore/js/main.js') }}"></script>
 <script>
     // Initiate URLS
-    url_discover = "{{urlDiscover}}";
-    url_share = "{{urlShare}}";
+    var url_discover = "{{ url('tangara_core_discover') }}";
+    var url_share = "{{ url('tangara_core_share') }}";
+    var url_create = "{{ url('tangara_core_create') }}";
+    
+    // Current state info
+    var active_nav = "{{active}}";
+{% if contentPath %}
+    var content_url = "{{url(contentPath)}}";
+{% else %}
+    var content_url = false;
+{% endif %}    
 </script>

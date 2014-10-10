@@ -13,31 +13,46 @@ function closeContent() {
     $content.animate({top:-height+"px"}, 600);
 }
 
-function fetchContent(url) {
+function recordHistory(historyData) {
+    window.history.pushState(historyData.data, historyData.title, historyData.url);        
+}
+
+function fetchContent(url, historyData) {
     var $element = $("#content");
-    $element.load(url);
+    if (typeof historyData !== 'undefined') {
+       $element.load(url, function() {
+           recordHistory(historyData);
+   });
+   } else {
+       $element.load(url);
+   }
     ajaxify($element);
 
 }
 
-function discover() {
+function discover(event) {
+    event.preventDefault();
     $("#navigation-menu > li").removeClass("active");
     $("#discover").addClass("active");
     openContent();
-    fetchContent(url_discover);
+    fetchContent(url_discover, {url:url_discover, data:{content:url_discover, active:'discover'}, title:'Tangara\n\
+'});
 }
 
-function create() {
+function create(event) {
+    event.preventDefault();
     $("#navigation-menu > li").removeClass("active");
     $("#create").addClass("active");
     closeContent();
+    recordHistory({url:url_create, data:{active:'create'}, title:'Tangara'});
 }
 
-function share() {
+function share(event) {
+    event.preventDefault();
     $("#navigation-menu > li").removeClass("active");
     $("#share").addClass("active");
     openContent();
-    fetchContent(url_share);
+    fetchContent(url_share, {url:url_share, data:{content:url_share, active:'share'}, title:'Tangara'});
 }
 
 function login(event) {
@@ -99,6 +114,24 @@ function ajaxify(element) {
     }
 }
 
+window.onpopstate = function(event) {
+    var state = event.state;
+    if (state) {
+        // set content
+        if (typeof state.content !== 'undefined') {
+            openContent();
+            fetchContent(state.content);
+        } else {
+            closeContent();
+        }
+        // set active nav
+        if (typeof state.active !== 'undefined') {
+            $("#navigation-menu > li").removeClass("active").find("a").blur();
+            $("#"+state.active).addClass("active");
+        }
+    }
+};
+
 $(function() {
     // bind menu links
     $("#logo").click(discover);
@@ -107,8 +140,22 @@ $(function() {
     $("#share a").click(share);
     // bind login form
     $("#login-form").submit(login);
+    // bind logout link
     $("#logout-link").click(logout);
+    // ajaxify links in content
     ajaxify();
+    // hide content if requested
+    var $content = $("#content.hide-at-startup");
+    if ($content.length > 0) {
+        var height = $content[0].scrollHeight;
+        $('#local-frame').show();
+        $content.css('top',-height+"px");
+    }
+    // set current history record
+    var data = {active:active_nav};
+    if (content_url)
+        data.content = content_url;
+    window.history.replaceState(data, 'Tangara', document.URL);
 });
 
 

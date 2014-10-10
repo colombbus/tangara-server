@@ -10,9 +10,14 @@
         {% include 'TangaraCoreBundle:Main:navbar.html.twig' %}
     {% endblock %}
     {% block content %}
+        {% if contentTemplate %}
         <div id="content">
-            {% include "TangaraCoreBundle:Main:discover.html.twig" %}
+            {% include contentTemplate %}
         </div>
+        {% else %}
+        <div id="content" class="hide-at-startup">
+        </div>
+        {% endif %}
     {% endblock %}
     <iframe id="local-frame" src="{{ tangarajs }}" frameborder="0" scrolling="no"></iframe>
 {% endblock %}
