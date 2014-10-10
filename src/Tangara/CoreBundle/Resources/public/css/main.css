@@ -36,6 +36,12 @@ body {
     background-color:white;
 }
 
+#content.loading {
+    background-image:url(../img/loader2.gif);
+    background-repeat:no-repeat;
+    background-position:50% 50%;
+}
+
 #navbar-tangara {
     background-color:#6DBEA9;
     height:40px;
@@ -110,7 +116,7 @@ body {
         line-height:normal;
         float:none;
     }
-
+    
     #navigation-menu li > a {
         color:#FFFFFF;
         border-color: transparent;
@@ -166,6 +172,13 @@ body {
         background-color:#FFFFFF;
     }
 }
+
+#user-dropdown-trigger.loading {
+    padding-left:20px;
+    background-image:url(../img/loader1.gif);
+    background-repeat:no-repeat;
+}
+
 
 .btn-success {
     background-image: linear-gradient(to bottom, #60b0a0 0px, #6dbea9 100%);
