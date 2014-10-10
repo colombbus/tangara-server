@@ -125,6 +125,17 @@ class ProfileController extends Controller
             $response = new RedirectResponse($referer_url);		
             return $response;
         }
-    }    
+    }
+    
+    public function menuAction() {
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            // should never occur
+            $url = $this->router->generate( 'tangara_core_homepage' );
+            return new RedirectResponse( $url );
+        } else {
+            // direct access
+            return $this->render('TangaraCoreBundle:User:menu.html.twig');
+        }
+    }
 
 }
