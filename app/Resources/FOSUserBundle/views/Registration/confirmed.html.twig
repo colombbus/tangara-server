@@ -1,8 +1,3 @@
-{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
-
-{% block jumbotron %}
-{% endblock %}
-
 {% trans_default_domain 'FOSUserBundle' %}
 {% block main_container %}
     <div class="container">
@@ -14,9 +9,5 @@
             {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}
         {% endif %}
     {% endblock fos_user_content %}
-
-    {% block container_footer%}
-        {% include 'TangaraCoreBundle:Default:container_footer.html.twig' %}
-    {% endblock %}
     </div> 
 {% endblock %}

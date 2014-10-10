@@ -22,12 +22,13 @@ function fetchContent(url, historyData) {
     if (typeof historyData !== 'undefined') {
        $element.load(url, function() {
            recordHistory(historyData);
+           ajaxify($(this));
    });
    } else {
-       $element.load(url);
+       $element.load(url, function() {
+           ajaxify($(this));
+       });
    }
-    ajaxify($element);
-
 }
 
 function discover(event) {
@@ -98,7 +99,7 @@ function logout(event) {
     });
 }
 
-function content(event) {
+function contentLink(event) {
     event.preventDefault();
     var $link = $(this);
     var url = $link.attr( "href" );
@@ -106,11 +107,26 @@ function content(event) {
     fetchContent(url);
 }
 
+function contentForm(event) {
+    event.preventDefault();
+    var $form = $(this);
+    var url = $form.attr( "action" );
+    openContent();
+    var posting = $.post(url, $form.serialize());
+    posting.done(function( data ) {
+        var $content = $("#content");
+        $content.html(data);
+        ajaxify($content);
+    });
+}
+
 function ajaxify(element) {
     if (typeof element !== 'undefined') {
-        element.find(".content-link").click(content);
+        element.find("a.content-link").click(contentLink);
+        element.find("form.content-form").submit(contentForm);
     } else {
-        $(".content-link").click(content);
+        $("a.content-link").click(contentLink);
+        $("form.content-form").submit(contentForm);
     }
 }
 
@@ -142,7 +158,7 @@ $(function() {
     $("#login-form").submit(login);
     // bind logout link
     $("#logout-link").click(logout);
-    // ajaxify links in content
+    // ajaxify links and forms
     ajaxify();
     // hide content if requested
     var $content = $("#content.hide-at-startup");
