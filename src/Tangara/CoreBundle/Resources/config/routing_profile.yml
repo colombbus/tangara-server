@@ -34,3 +34,7 @@ fos_user_profile_show:
 tangara_user_delete:
     path:  /delete_account
     defaults: { _controller: TangaraCoreBundle:Profile:delAccount }
+    
+tangara_core_user_menu:
+    path:  /user_menu
+    defaults: { _controller: TangaraCoreBundle:Profile:menu }
