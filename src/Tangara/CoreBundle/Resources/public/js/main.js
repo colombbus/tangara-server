@@ -2,6 +2,16 @@ function updateLocal() {
     document.getElementById('local-frame').contentWindow.updateEnvironment();
 }
 
+function updateUserMenu() {
+    $("#user-dropdown-trigger").addClass("loading");
+    var $element = $("#user-menu");
+    $element.load(url_user_menu, function() {
+        $("#logout-link").click(logout);
+        ajaxify($element);
+        updateLocal();
+    });
+}
+
 function openContent() {
     $("#content").animate({top:"0px"}, 600,function(){$('#local-frame').hide();});
 }
@@ -14,21 +24,30 @@ function closeContent() {
 }
 
 function recordHistory(historyData) {
+    if (typeof historyData.title === 'undefined') {
+        historyData.title = "Tangara";
+    }
     window.history.pushState(historyData.data, historyData.title, historyData.url);        
 }
 
-function fetchContent(url, historyData) {
+function fetchContent(url, data, title) {
+    if (typeof data !== 'undefined') {
+        historyData = {data:data, url:url};
+        if (typeof data.content === 'undefined') {
+            historyData.data.content = url;
+        }
+        if (typeof title !== 'undefined') {
+            historyData.title = title;
+        }
+        recordHistory(historyData);
+    }
     var $element = $("#content");
-    if (typeof historyData !== 'undefined') {
-       $element.load(url, function() {
-           recordHistory(historyData);
+    $element.addClass("loading");
+    $element.empty();
+    $element.load(url, function() {
            ajaxify($(this));
-   });
-   } else {
-       $element.load(url, function() {
-           ajaxify($(this));
-       });
-   }
+           $element.removeClass("loading");
+    });
 }
 
 function discover(event) {
@@ -36,8 +55,7 @@ function discover(event) {
     $("#navigation-menu > li").removeClass("active");
     $("#discover").addClass("active");
     openContent();
-    fetchContent(url_discover, {url:url_discover, data:{content:url_discover, active:'discover'}, title:'Tangara\n\
-'});
+    fetchContent(url_discover, {active:'discover'});
 }
 
 function create(event) {
@@ -45,7 +63,7 @@ function create(event) {
     $("#navigation-menu > li").removeClass("active");
     $("#create").addClass("active");
     closeContent();
-    recordHistory({url:url_create, data:{active:'create'}, title:'Tangara'});
+    recordHistory({url:url_create, data:{active:'create'}});
 }
 
 function share(event) {
@@ -53,7 +71,7 @@ function share(event) {
     $("#navigation-menu > li").removeClass("active");
     $("#share").addClass("active");
     openContent();
-    fetchContent(url_share, {url:url_share, data:{content:url_share, active:'share'}, title:'Tangara'});
+    fetchContent(url_share, {active:'share'});
 }
 
 function login(event) {
@@ -61,6 +79,7 @@ function login(event) {
     var $form = $(this);
     var url = $form.attr( "action" );
     var posting = $.post(url, $form.serialize(), "json");
+    $("#user-dropdown-trigger").addClass("loading");
     posting.done(function( data ) {
         if (typeof data.content !== 'undefined') {
             var $element = $("#user-menu");
@@ -81,6 +100,7 @@ function logout(event) {
     event.preventDefault();
     var $link = $(this);
     var url = $link.attr( "href" );
+    $("#user-dropdown-trigger").addClass("loading");
     // TODO: check if project dirty first
     var getting = $.get(url, "json");
     getting.done(function( data ) {
@@ -102,9 +122,15 @@ function logout(event) {
 function contentLink(event) {
     event.preventDefault();
     var $link = $(this);
-    var url = $link.attr( "href" );
+    var url = $link.attr("href");
+    var active = $link.attr("data-active");
+    var title = $link.attr("data-title");
     openContent();
-    fetchContent(url);
+    if (typeof active !== 'undefined') {
+        fetchContent(url, {active:active}, title);
+    } else {
+        fetchContent(url);
+    }
 }
 
 function contentForm(event) {
@@ -112,11 +138,14 @@ function contentForm(event) {
     var $form = $(this);
     var url = $form.attr( "action" );
     openContent();
+    var $content = $("#content");
+    $content.addClass("loading");
+    $content.empty();
     var posting = $.post(url, $form.serialize());
     posting.done(function( data ) {
-        var $content = $("#content");
         $content.html(data);
         ajaxify($content);
+        $content.removeClass("loading");
     });
 }
 
