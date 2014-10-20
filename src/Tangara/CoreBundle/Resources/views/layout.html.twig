@@ -19,5 +19,6 @@
         </div>
         {% endif %}
     {% endblock %}
-    <iframe id="local-frame" src="{{ tangarajs }}" frameborder="0" scrolling="no"></iframe>
+    {# added 'onmousewheel="" to solve a bug in safari (see http://kb.tableausoftware.com/articles/issue/scroll-bars-in-embedded-views-do-not-work-in-safari) #}
+    <iframe id="local-frame" src="{{ tangarajs }}" frameborder="0" scrolling="no" onmousewheel=""></iframe>
 {% endblock %}
