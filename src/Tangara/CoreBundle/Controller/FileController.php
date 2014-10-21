@@ -386,7 +386,7 @@ class FileController extends Controller {
             $file->setProgram(false);
             $uploadedFile->move($env->projectPath, $name);
             $manager->persistAndFlush($file);
-            $created[] = array('name'=>$name, 'type' => $type);
+            $created[] = array('name'=>$name, 'data' => array('type'=> $type, 'extension'=>$extension, 'base-name'=>$baseName, 'version'=>$file->getVersion()));
         }
         return $jsonResponse->setData(array('created' => $created));
     }
@@ -532,7 +532,7 @@ class FileController extends Controller {
             return $jsonResponse->setData(array('error' => $env->error));
         }        
         $resourceName = $this->getRequest()->request->get('name');
-        $newName = $this->getRequest()->request->get('new');
+        $newBaseName = $this->getRequest()->request->get('new');
         
         // Get current resource and check it actually exists
         $manager = $this->get('tangara_core.file_manager');
@@ -543,14 +543,16 @@ class FileController extends Controller {
         }
 
         // Check new name does not already exist
+        $newName = $newBaseName.".".$resource->getExtension();
         $newResource = $repository->getProjectResource($env->projectId, $newName);
         if ($newResource) {
             return $jsonResponse->setData(array('error' => 'resource_already_exists'));
         }
 
-        // Set new name
+        // Set new name and new baseName
         $resource->setName($newName);
-        $manager->persistAndFlush($resource);
+        $resource->setBaseName($newBaseName);
+        $manager->saveFile($resource);
 
         // Change file names
         $oldPath = $env->projectPath . "/${resourceName}";
