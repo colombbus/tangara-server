@@ -29,14 +29,14 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
         // if AJAX login
         if ( $request->isXmlHttpRequest() ) {
             $jsonResponse = new JsonResponse();
-            $content = $this->templating->render('TangaraCoreBundle:User:menu.html.twig');            
+            $content = $this->templating->render('TangaraCoreBundle:User:menu.html.twig');     
             return $jsonResponse->setData(array('success' => true, 'content'=>$content));
         // if form login
         } else {
             if ( $this->session->get('_security.main.target_path') ) {
                 $url = $this->session->get('_security.main.target_path');
             } else {
-                $url = $this->router->generate( 'home_page' );
+                $url = $this->router->generate( 'tangara_core_homepage' );
             }
             return new RedirectResponse( $url );
         }

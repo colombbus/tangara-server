@@ -400,6 +400,48 @@ class FileController extends Controller {
         return $jsonResponse->setData(array('updated' => $programName));
     }
 
+    /**
+     * Set the content of a given resource
+     * POST request 
+     * 
+     * @return JsonResponse
+     */
+    public function setResourceContentAction() {
+        // TODO: handle non-PNG images
+        $env = $this->checkEnvironment(array('name','data'));
+        $jsonResponse = new JsonResponse();
+        if (isset($env->error)) {
+            return $jsonResponse->setData(array('error' => $env->error));
+        }
+        $resourceName = $this->getRequest()->request->get('name');
+        $data = $this->getRequest()->request->get('data');
+        // remove header (get only image data)
+        $pos = strpos($data, ',');
+        if ($pos === false) {
+            return $jsonResponse->setData(array('error' => "malformed_data"));
+        }
+        $data = substr($data, $pos+1);
+        // base 64 decode
+        $data = base64_decode($data);
+        // Get resource
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
+        $resource = $repository->getProjectResource($env->projectId, $resourceName);
+        if (!$resource) {
+            return $jsonResponse->setData(array('error' => "resource_not_found"));
+        }
+         
+        $path = $env->projectPath . "/". $resource->getPath();
+        
+        $result = file_put_contents($path, $data);
+        
+        if ($result === false) {
+            return $jsonResponse->setData(array('error' => "write_error"));
+        }
+
+        return $jsonResponse->setData(array('updated' => $resourceName));
+    }
+    
      /**
      * Rename a given program 
      * POST request 
