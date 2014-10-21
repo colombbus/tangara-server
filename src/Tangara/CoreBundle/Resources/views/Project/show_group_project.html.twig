@@ -29,7 +29,7 @@
             <a class="btn btn-success" href="{{ path( "tangara_project_upload", {id: project.getId()} ) }} ">Ajouter un fichier au projet</a>
             <ul>
             {% for f in files %}
-                <li>{{ f.getPath() }}</li>
+                <li>{{ f.getName() }}</li>
             {% endfor %}
             </ul>
         </div>

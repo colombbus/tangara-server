@@ -47,7 +47,7 @@
             <a class="btn btn-success" href="{{ path( "tangara_project_upload", {id: project.getId()} ) }} ">{{ 'new.file'|trans }}</a>
             <ul>
             {% for f in files %}
-                <li>{{ f.getPath() }}</li>
+                <li>{{ f.getName() }}</li>
             {% endfor %}
             </ul>
             <!-- The fileinput-button span is used to style the file input field as button -->
