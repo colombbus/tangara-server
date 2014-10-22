@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Tangara\CoreBundle\Entity\File;
 use Tangara\CoreBundle\Entity\Project;
 use stdClass;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class FileController extends Controller {
 
@@ -589,6 +591,68 @@ class FileController extends Controller {
             rename($oldPath, $newPath);
         }
         return $jsonResponse->setData(array('updated' => $newName));
-    }    
+    }
+    
+     /**
+     * Duplicate a given resource
+     * POST request 
+     * 
+     * @return JsonResponse
+     */
+    public function duplicateResourceAction() {
+        $env = $this->checkEnvironment(array('name'));
+        $jsonResponse = new JsonResponse();
+        if (isset($env->error)) {
+            return $jsonResponse->setData(array('error' => $env->error));
+        }
+        $resourceName = $this->getRequest()->request->get('name');
+        
+        // Get current resource and check it actually exists
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
+        $resource = $repository->getProjectResource($env->projectId, $resourceName);
+        if (!$resource) {
+            return $jsonResponse->setData(array('error' => "resource_not_found"));
+        }
+
+        $baseName = $resource->getBaseName();
+        $extension = $resource->getExtension();
+        $newIndex = 1;
+        
+        $newName = "";
+        $newBaseName = "";
+        do {
+            $newBaseName = $baseName."_".$newIndex;
+            $newName = $newBaseName.".".$extension;
+            
+            // check if new resource already exists
+            $exist = $repository->getProjectResource($env->projectId, $newName);
+            $newIndex++;
+        } while ($exist);
+        
+        // Create new resource
+        $copy = new File();
+        $copy->setName($newName);
+        $copy->setBaseName($newBaseName);
+        $copy->setExtension($extension);
+        $copy->setType($resource->getType());
+        $copy->setProject($env->project);
+        $copy->setProgram(false);
+        $manager->saveFile($copy);
+        
+        // Copy file
+        $originalPath = $env->projectPath . "/${resourceName}";
+        $copyPath = $env->projectPath . "/${newName}";
+        $fs = new Filesystem();
+        try {
+            $fs->copy($originalPath, $copyPath);
+        } catch (FileNotFoundException $ex) {
+            return $jsonResponse->setData(array('error' => 'file_not_found'));
+        }  catch (IOException $ex) {
+            return $jsonResponse->setData(array('error' => 'io_error'));
+        }
+        return $jsonResponse->setData(array('created' => $newName, 'data'=> array('type'=> $copy->getType(), 'extension'=>$extension, 'base-name'=>$newBaseName, 'version'=>$copy->getVersion())));
+    }
+    
     
 }
