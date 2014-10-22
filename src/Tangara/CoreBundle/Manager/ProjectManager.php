@@ -32,6 +32,7 @@ use Tangara\CoreBundle\Entity\User;
 use Tangara\CoreBundle\Entity\Log;
 use Tangara\CoreBundle\Entity\File;
 use Symfony\Component\Filesystem\Filesystem;
+use Doctrine\Orm\NoResultException;
 
 class ProjectManager extends BaseManager {
 
@@ -65,19 +66,22 @@ class ProjectManager extends BaseManager {
     }
     
     public function isProjectFile(Project $project, $fileName, $program=false) {
-        $query = $this->em->getRepository('TangaraCoreBundle:File')->createQueryBuilder('a')
+        return ($this->getProjectFile($project, $fileName, $program)!==false);
+    }
+    
+    public function getProjectFile(Project $project, $fileName, $program=false) {
+        $qb = $this->em->getRepository('TangaraCoreBundle:File')->createQueryBuilder('a')
                 ->where('a.project = :project')
-                ->andWhere('a.path = :name')
+                ->andWhere('a.name = :name')
                 ->andWhere('a.program = :program')
                 ->setParameters(array('project' => $project, 'program' => $program, 'name' => $fileName));
-
-        $result = $query->getQuery()->getResult();
-        
-        if (!$result) {
+        $query = $qb->getQuery();
+        try {
+            $file = $query->getSingleResult();
+        } catch (NoResultException $e) {
             return false;
         }
-        
-        return true;
+        return $file;
     }
     
     public function getProjectPath(Project $project) {
@@ -94,7 +98,7 @@ class ProjectManager extends BaseManager {
         // Create file
         $file = new File();
         $file->setProject($project);
-        $file->setPath($fileName);
+        $file->setName($fileName);
         $file->setProgram($program);
         $this->em->persist($file);
         
@@ -102,7 +106,7 @@ class ProjectManager extends BaseManager {
         $entry = new Log();
         $entry->setProject($project);
         $entry->setOperation("create");
-        $entry->setData(json_encode(array('name'=>$file->getPath(), 'program'=>$program)));
+        $entry->setData(json_encode(array('name'=>$file->getName(), 'program'=>$program)));
         $entry->setUser($this->user);
         $this->em->persist($entry);
         
@@ -114,7 +118,7 @@ class ProjectManager extends BaseManager {
         $entry = new Log();
         $entry->setProject($project);
         $entry->setOperation("remove");
-        $entry->setData(json_encode(array('name'=>$file->getPath(), 'program'=>$file->getProgram())));
+        $entry->setData(json_encode(array('name'=>$file->getName(), 'program'=>$file->getProgram())));
         $entry->setUser($this->user);
         $this->em->persist($entry);
         $this->em->flush();
@@ -125,7 +129,7 @@ class ProjectManager extends BaseManager {
         $entry = new Log();
         $entry->setProject($project);
         $entry->setOperation("update");
-        $entry->setData(json_encode(array('name'=>$file->getPath(), 'program'=>$file->getProgram())));
+        $entry->setData(json_encode(array('name'=>$file->getName(), 'program'=>$file->getProgram())));
         $entry->setUser($this->user);
         $this->em->persist($entry);
         $this->em->flush();

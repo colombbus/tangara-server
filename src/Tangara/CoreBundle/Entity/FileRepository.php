@@ -48,7 +48,7 @@ class FileRepository extends EntityRepository {
         $query = $this->createQueryBuilder('a')
                 ->where('a.project = :project')
                 ->andWhere('a.program = true')
-                ->andWhere('a.path = :name')
+                ->andWhere('a.name = :name')
                 ->setParameters(array('project'=> $project, 'name'=> $name));
         try {
             $program = $query->getQuery()->getSingleResult();
@@ -63,7 +63,7 @@ class FileRepository extends EntityRepository {
         $query = $this->createQueryBuilder('a')
                 ->where('a.project = :project')
                 ->andWhere('a.program = false')
-                ->andWhere('a.path = :name')
+                ->andWhere('a.name = :name')
                 ->setParameters(array('project'=> $project, 'name'=> $name));
         try {
             $resource = $query->getQuery()->getSingleResult();
