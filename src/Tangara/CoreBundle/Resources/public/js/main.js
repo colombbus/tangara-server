@@ -197,6 +197,7 @@ $(function() {
         var height = $content[0].scrollHeight;
         $('#local-frame').show();
         $content.css('top',-height+"px");
+        $content.hide();
     }
     // set current history record
     var data = {active:active_nav};
