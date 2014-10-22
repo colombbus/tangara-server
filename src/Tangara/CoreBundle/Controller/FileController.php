@@ -429,13 +429,36 @@ class FileController extends Controller {
      * @return JsonResponse
      */
     public function setResourceContentAction() {
-        // TODO: handle non-PNG images
         $env = $this->checkEnvironment(array('name','data'));
         $jsonResponse = new JsonResponse();
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
         }
         $resourceName = $this->getRequest()->request->get('name');
+
+        // Get resource
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
+        $resource = $repository->getProjectResource($env->projectId, $resourceName);
+        if (!$resource) {
+            return $jsonResponse->setData(array('error' => "resource_not_found"));
+        }
+
+        // Check extension
+        if ($resource->getExtension() !== "png") {
+            // name will change: check that new resource name does not exist
+            $newName = $resource->getBaseName()."."."png";
+            $existing = $repository->getProjectResource($env->projectId, $newName);
+            if ($existing) {
+                return $jsonResponse->setData(array('error' => 'resource_already_exists'));               
+            }
+            
+            // set new name and extension
+            $resource->setName($newName);
+            $resource->setExtension("png");
+        }
+        
+        // handle data
         $data = $this->getRequest()->request->get('data');
         // remove header (get only image data)
         $pos = strpos($data, ',');
@@ -445,13 +468,6 @@ class FileController extends Controller {
         $data = substr($data, $pos+1);
         // base 64 decode
         $data = base64_decode($data);
-        // Get resource
-        $manager = $this->get('tangara_core.file_manager');
-        $repository = $manager->getRepository();
-        $resource = $repository->getProjectResource($env->projectId, $resourceName);
-        if (!$resource) {
-            return $jsonResponse->setData(array('error' => "resource_not_found"));
-        }
          
         $path = $env->projectPath . "/". $resource->getName();
         
@@ -465,7 +481,7 @@ class FileController extends Controller {
         $resource->setVersion($newVersion);
         $manager->saveFile($resource);
 
-        return $jsonResponse->setData(array('updated' => $resourceName, 'version' => $newVersion));
+        return $jsonResponse->setData(array('updated' => $resource->getName(), 'data' => array('type'=> $resource->getType(), 'extension'=>$resource->getExtension(), 'base-name'=>$resource->getBaseName(), 'version'=>$newVersion)));
     }
     
      /**
@@ -490,6 +506,11 @@ class FileController extends Controller {
         $program = $repository->getProjectProgram($env->projectId, $programName);
         if (!$program) {
             return $jsonResponse->setData(array('error' => "program_not_found"));
+        }
+        
+        // Check that new name is not empty
+        if (strlen(trim($newName))==0) {
+            return $jsonResponse->setData(array('error' => 'empty_name'));
         }
 
         // Check new name does not already exist
@@ -542,6 +563,11 @@ class FileController extends Controller {
             return $jsonResponse->setData(array('error' => "resource_not_found"));
         }
 
+        // Check that new name is not empty
+        if (strlen(trim($newBaseName))==0) {
+            return $jsonResponse->setData(array('error' => 'empty_name'));
+        }
+        
         // Check new name does not already exist
         $newName = $newBaseName.".".$resource->getExtension();
         $newResource = $repository->getProjectResource($env->projectId, $newName);
