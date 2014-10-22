@@ -13,14 +13,16 @@ function updateUserMenu() {
 }
 
 function openContent() {
-    $("#content").animate({top:"0px"}, 600,function(){$('#local-frame').hide();});
+    var $content = $("#content");
+    $content.show();
+    $content.animate({top:"0px"}, 600,function(){$('#local-frame').hide();});
 }
 
 function closeContent() {
     var $content = $("#content");
     var height = $content[0].scrollHeight;
     $('#local-frame').show();
-    $content.animate({top:-height+"px"}, 600);
+    $content.animate({top:-height+"px"}, 600, function(){$(this).hide();});
 }
 
 function recordHistory(historyData) {
@@ -195,6 +197,7 @@ $(function() {
         var height = $content[0].scrollHeight;
         $('#local-frame').show();
         $content.css('top',-height+"px");
+        $content.hide();
     }
     // set current history record
     var data = {active:active_nav};

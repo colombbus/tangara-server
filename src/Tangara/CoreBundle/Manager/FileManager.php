@@ -91,8 +91,8 @@ class FileManager extends BaseManager {
         $fs = new Filesystem();
         if ($file->getProgram()) {
             // File is a program
-            $codePath = $projectPath. "/".$file->getPath()."_code";
-            $statementsPath = $projectPath . "/".$file->getPath()."_statements";
+            $codePath = $projectPath. "/".$file->getName()."_code";
+            $statementsPath = $projectPath . "/".$file->getName()."_statements";
             if ($fs->exists($codePath)) {
                 $fs->remove($codePath);
             }
@@ -101,7 +101,7 @@ class FileManager extends BaseManager {
             }
         } else {
             // File is not a program
-            $filePath = $projectPath. "/".$file->getPath();
+            $filePath = $projectPath. "/".$file->getName();
             if ($fs->exists($filePath)) {
                 $fs->remove($filePath);
             }
@@ -113,8 +113,8 @@ class FileManager extends BaseManager {
         $project = $program->getProject();
         $projectPath = $this->pm->getProjectPath($project);
         
-        $codePath = $projectPath . "/".$program->getPath()."_code";
-        $statementsPath = $projectPath . "/".$program->getPath()."_statements";
+        $codePath = $projectPath . "/".$program->getName()."_code";
+        $statementsPath = $projectPath . "/".$program->getName()."_statements";
 
         file_put_contents($codePath, $code, LOCK_EX);
         file_put_contents($statementsPath, $statements, LOCK_EX);

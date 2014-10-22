@@ -25,8 +25,16 @@ class File {
      * 
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $path;
+    private $name;
 
+    /**
+     * @var string
+     * 
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $baseName;
+    
+    
     /**
      * @var string
      * 
@@ -52,6 +60,21 @@ class File {
             
 
     /**
+     * @var string
+     * 
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $extension;
+    
+    
+    /**
+     * @var integer
+     * 
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $version = 0;
+            
+    /**
      * Get id
      *
      * @return integer 
@@ -59,29 +82,6 @@ class File {
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return File
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string 
-     */
-    public function getPath()
-    {
-        return $this->path;
     }
 
     /**
@@ -151,5 +151,97 @@ class File {
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set extension
+     *
+     * @param string $extension
+     * @return File
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    /**
+     * Get extension
+     *
+     * @return string 
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * Set version
+     *
+     * @param integer $version
+     * @return File
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * Get version
+     *
+     * @return integer 
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return File
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set baseName
+     *
+     * @param string $baseName
+     * @return File
+     */
+    public function setBaseName($baseName)
+    {
+        $this->baseName = $baseName;
+
+        return $this;
+    }
+
+    /**
+     * Get baseName
+     *
+     * @return string 
+     */
+    public function getBaseName()
+    {
+        return $this->baseName;
     }
 }
