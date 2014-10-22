@@ -151,4 +151,13 @@ class FileManager extends BaseManager {
         }
         return false;
     }
+
+    public function getResourceTypeFromMIME($type) {
+        if (isset($this->allowedMimeTypes[$type])) {
+            return $this->allowedMimeTypes[$type];
+        }
+        return false;
+    }
+    
+    
 }

@@ -654,5 +654,63 @@ class FileController extends Controller {
         return $jsonResponse->setData(array('created' => $newName, 'data'=> array('type'=> $copy->getType(), 'extension'=>$extension, 'base-name'=>$newBaseName, 'version'=>$copy->getVersion())));
     }
     
+    /**
+     * Create a new image resource
+     * POST request 
+     * 
+     * @return JsonResponse
+     */
+    public function createResourceAction() {
+        $env = $this->checkEnvironment(array('name','data'));
+        $jsonResponse = new JsonResponse();
+        if (isset($env->error)) {
+            return $jsonResponse->setData(array('error' => $env->error));
+        }
+        
+        $baseName = $this->getRequest()->request->get('name');
+        $extension = "png";
+        $name = $baseName.".".$extension;
+        
+        // Check that resource does not exist yet
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
+        $exist = $repository->getProjectResource($env->projectId, $name);
+        if ($exist) {
+            return $jsonResponse->setData(array('error' => 'resource_already_exists'));
+        }
+        
+
+        // Handle data
+        $data = $this->getRequest()->request->get('data');
+        // remove header (get only image data)
+        $pos = strpos($data, ',');
+        if ($pos === false) {
+            return $jsonResponse->setData(array('error' => "malformed_data"));
+        }
+        $data = substr($data, $pos+1);
+        // base 64 decode
+        $data = base64_decode($data);
+         
+        $path = $env->projectPath . "/". $name;
+        
+        $result = file_put_contents($path, $data);
+        
+        if ($result === false) {
+            return $jsonResponse->setData(array('error' => "write_error"));
+        }
+
+        // Create file
+        $resource = new File();
+        $resource->setName($name);
+        $resource->setBaseName($baseName);
+        $resource->setExtension($extension);
+        $resource->setType($manager->getResourceTypeFromMIME("image/png"));
+        $resource->setProject($env->project);
+        $resource->setProgram(false);
+        $manager->saveFile($resource);
+
+        return $jsonResponse->setData(array('created' => $name, 'data' => array('type'=> $resource->getType(), 'extension'=>$extension, 'base-name'=>$baseName, 'version'=>$resource->getVersion())));
+    }    
+    
     
 }
