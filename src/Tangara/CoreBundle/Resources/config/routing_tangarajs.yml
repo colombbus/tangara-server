@@ -53,3 +53,7 @@ tangara_tangarajs_rename_resource:
 tangara_tangarajs_set_resource:
     path:  /setresource
     defaults: { _controller: TangaraCoreBundle:File:setResourceContent }
+
+tangara_tangarajs_duplicate_resource:
+    path:  /duplicateresource
+    defaults: { _controller: TangaraCoreBundle:File:duplicateResource }
