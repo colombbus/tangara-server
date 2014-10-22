@@ -57,3 +57,7 @@ tangara_tangarajs_set_resource:
 tangara_tangarajs_duplicate_resource:
     path:  /duplicateresource
     defaults: { _controller: TangaraCoreBundle:File:duplicateResource }
+
+tangara_tangarajs_create_resource:
+    path:  /createresource
+    defaults: { _controller: TangaraCoreBundle:File:createResource }
