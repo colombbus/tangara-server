@@ -62,11 +62,14 @@ class FileController extends Controller {
         }
         
         // Check if project id set
-        $session = $request->getSession();
-        $projectId = $session->get('projectid');
+        $projectId = $request->request->get("project_id");
         if (!$projectId) {
-            $env->error = "project_not_set";
-            return $env;
+            $session = $request->getSession();
+            $projectId = $session->get('projectid');
+            if (!$projectId) {
+                $env->error = "project_not_set";
+                return $env;
+            }
         }
         $env->projectId = $projectId;
         
@@ -90,9 +93,11 @@ class FileController extends Controller {
         $env->project = $project;
         
         // Check project access by user
+        $auth = false;
         if ($env->authenticated) {
             $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
-        } else {
+        } 
+        if (!$auth) {
             $auth = $this->get('tangara_core.project_manager')->isPublic($project);
         }
         if (!$auth) {
@@ -182,6 +187,9 @@ class FileController extends Controller {
         
         if ($content === false) {
             return $jsonResponse->setData(array('error' => "read_error"));
+        }
+        if ($statements) {
+            $content = json_decode($content);
         }
         
         return $jsonResponse->setData(array($dataName => $content)); 
