@@ -60,10 +60,11 @@
                     {{ 'project.launcher'|trans }}
                 </td>
                 <td>
-                    {% if project.getLauncher() is defined %}
+                    {% set launcher = project.getLauncher() %}
+                    {% if launcher is empty %}
                         <i>{{ 'project.no_launcher' | trans }}</i>
                     {% else %}
-                        {{ project.getLauncher().getName() }}
+                        {{ launcher.getName() }}
                     {% endif %}
                 </td>
             </tr>
