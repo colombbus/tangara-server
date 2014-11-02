@@ -39,7 +39,7 @@ class TangaraController extends Controller {
             }
         } else {
             
-            $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs');
+            $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/index.html";
             if ($contentTemplate) {
                 $contentUrl =  $request->getUri();
             } else {
