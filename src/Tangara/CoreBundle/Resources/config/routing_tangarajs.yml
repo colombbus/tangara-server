@@ -31,8 +31,8 @@ tangara_tangarajs_remove_resource:
     defaults: { _controller: TangaraCoreBundle:File:removeResource }
    
 tangara_tangarajs_get_resource:
-    path:  /getresource/{version}/{name}
-    defaults: { _controller: TangaraCoreBundle:File:getResource }
+    path:  /getresource/{projectId}/{version}/{name}
+    defaults: { _controller: TangaraCoreBundle:File:getResource, projectId: false }
 
 tangara_tangarajs_create_program:
     path:  /createprogram
