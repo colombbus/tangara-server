@@ -40,7 +40,7 @@ class FileController extends Controller {
      * @param Project $project
      * @return true if directory exists
      */
-    protected function checkEnvironment($fields, $xmlCheck = true) {
+    protected function checkEnvironment($fields, $xmlCheck = true, $projectId = false) {
         $env = new stdClass();
         $request = $this->getRequest();
         
@@ -62,7 +62,9 @@ class FileController extends Controller {
         }
         
         // Check if project id set
-        $projectId = $request->request->get("project_id");
+        if (!$projectId) {
+            $projectId = $request->request->get("project_id");
+        }
         if (!$projectId) {
             $session = $request->getSession();
             $projectId = $session->get('projectid');
@@ -224,8 +226,8 @@ class FileController extends Controller {
      * 
      * @return JsonResponse
      */
-    public function getResourceAction($version,$name) {
-        $env = $this->checkEnvironment(array(), false);
+    public function getResourceAction($projectId, $version,$name) {
+        $env = $this->checkEnvironment(array(), false, $projectId);
         $jsonResponse = new JsonResponse();
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
