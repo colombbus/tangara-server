@@ -1,10 +1,28 @@
-{% block main_container %}
-    <div class="container">
-        <h1>{{'profile.title'|trans}} > {{ app.user }}</h1>
-        {% block fos_user_content %}
-            {% include "TangaraCoreBundle:Profile:show_content.html.twig" %}
-        {% endblock fos_user_content %}
-
-    </div> 
-{% endblock %}
+{% set user = app.user %}
+<div class="container">
+    {% include 'TangaraCoreBundle:Main:messages.html.twig' %}
+    <h2>{{'profile.title'|trans}} > {{ user }}</h2>
+    <div class='panel panel-default'>
+    <table class="data-display">
+        <tr>
+            <td class="data-title">
+                {{ 'profile.username'|trans }}
+            </td>
+            <td>
+                {{ user.username }}
+            </td>
+        </tr>
+        <tr>
+            <td class="data-title">
+                {{ 'profile.email'|trans }}
+            </td>
+            <td>
+                {{ user.email }}
+            </td>
+        </tr>
+    </table>
+    </div>
+    <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_user_change_password") }}" >{{ 'profile.changePassword'|trans }}</a>
+<!--    <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_user_delete") }}" >{{ 'profile.delete'|trans }}</a> -->
+</div> 
 
