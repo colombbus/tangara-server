@@ -1,21 +1,25 @@
 {% set public = project.getPublished()%}
+{% if project.getName() is empty %}
+    {% set projectName =  'project.default_name' | trans %}
+{% else %}
+    {% set projectName = project.getName() %}
+{% endif %}
+
+
 <div class="container">
     {% include 'TangaraCoreBundle:Main:messages.html.twig' %}
-    <h2>{{ 'project.details'|trans }}
-    {% if project.getName() is empty %}
-        {{ 'project.default_name' | trans }}
-    {% else %}
-        {{ project.getName() }}
+    <h2>{{ 'project.details'|trans }}{{projectName}}
+    {% if edition %}
+        <div class="pull-right">
+        {% if public %}
+            <small><span class="label label-primary">{{'project.public'|trans}}</span></small>
+        {% else %}
+            <small><span class="label label-default">{{'project.private'|trans}}</span></small>
+        {% endif %}
+        </div>
     {% endif %}
-    <div class="pull-right">
-    {% if  public %}
-        <small><span class="label label-primary">{{'project.public'|trans}}</span></small>
-    {% else %}
-        <small><span class="label label-default">{{'project.private'|trans}}</span></small>
-    {% endif %}
-    </div>
     </h2>
-    {% if  public %}
+    {% if public %}
         <div class='panel panel-primary'>
     {% else %}
         <div class='panel panel-default'>
@@ -26,13 +30,23 @@
                     {{ 'project.name'|trans }}
                 </td>
                 <td>
-                    {% if project.getName() is empty %}
-                        <i>{{ 'project.no_name' | trans }}</i>
-                    {% else %}
-                        {{ project.getName() }}
-                    {% endif %}
+                    {{projectName}}
                 </td>
             </tr>
+                <td class="data-title">
+                    {{ 'project.owner'|trans }}
+                </td>
+                <td>
+                    <a href="{{ path( "tangara_user_profile_show", {'user_id':project.getOwner().getId()}) }}" class="content-link" 
+                       {% if owner %}
+                           data-active="profile">
+                        {% else %}
+                           data-active="discover">
+                        {% endif %}
+                    {{project.getOwner().getUserName()}}
+                    </a>
+                </td>
+{% if edition %}
             <tr>
                 <td class="data-title">
                     {{ 'project.published'|trans }} 
@@ -69,6 +83,8 @@
                     {{ project.getHeight() }}                    
                 </td>
             </tr>
+{% endif %}
+{% if edition or project.getDescription() is not empty %}
             <tr>
                 <td class="data-title">
                     {{ 'project.description'|trans }}
@@ -77,6 +93,8 @@
                     {{ project.getDescription() }}
                 </td>
             </tr>
+{% endif %}
+{% if edition or project.getInstructions() is not empty %}
             <tr>
                 <td class="data-title">
                     {{ 'project.instructions'|trans }}
@@ -85,6 +103,8 @@
                     {{ project.getInstructions() }}
                 </td>
             </tr>
+{% endif %}
+{% if edition %}
             <tr>
                 <td class="data-title">
                     {{ 'project.created'|trans }}
@@ -93,10 +113,14 @@
                     {{ project.getCreated()|date('d/m/Y')}}
                 </td>
             </tr>
+{% endif %}
         </table>
     </div>
     {% if message is defined %}
         <div class="well"> {{message|trans}}</div>
     {% endif %}
+{% if edition %}
     <a class="btn btn-default content-link" data-active='project' href="{{ path( "tangara_project_edit") }}" >{{ 'project.edit'|trans }}</a>
+{% endif %}
+    <a class="btn btn-default" href="{{ path( "tangara_project_execute", {'projectId':project.getId()}) }}" target="tangara_execution">{{ 'project.execute'|trans }}</a>
 </div>
