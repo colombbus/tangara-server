@@ -7,7 +7,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Tangara\CoreBundle\Entity\File;
 use Tangara\CoreBundle\Entity\Project;
 use stdClass;
@@ -72,8 +71,12 @@ class FileController extends Controller {
         $env->projectId = $projectId;
         
         // Check user
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $context = $this->container->get('security.context');
+        $user = $context->getToken()->getUser();
         $env->user = $user;
+        
+        // Check if logged
+        $env->authenticated = $context->isGranted('IS_AUTHENTICATED_FULLY');
         
         // Check if project exists
         $project = $this->getDoctrine()
@@ -87,7 +90,11 @@ class FileController extends Controller {
         $env->project = $project;
         
         // Check project access by user
-        $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+        if ($env->authenticated) {
+            $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+        } else {
+            $auth = $this->get('tangara_core.project_manager')->isPublic($project);
+        }
         if (!$auth) {
             $env->error = "unauthorized_access";
             return $env;
@@ -111,11 +118,9 @@ class FileController extends Controller {
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
         }
-        $resources = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('TangaraCoreBundle:File')
-                ->getAllProjectResources($env->project);
-        
+
+        $resources = $this->get('tangara_core.project_manager')->getAllResources($env->project);
+
         $files = array();
         foreach ($resources as $resource) {
             $files[$resource->getName()] = array('type'=>$resource->getType(), 'version'=>$resource->getVersion(), 'extension'=>$resource->getExtension(), 'base-name'=>$resource->getBaseName());
@@ -134,10 +139,8 @@ class FileController extends Controller {
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
         }
-        $programs = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('TangaraCoreBundle:File')
-                ->getAllProjectPrograms($env->project);
+        
+        $programs = $this->get('tangara_core.project_manager')->getAllPrograms($env->project);
         
         $files = array();
         foreach ($programs as $program) {
@@ -230,8 +233,7 @@ class FileController extends Controller {
         $currentVersion = $resource->getVersion();
         if (is_int($version) || $version != $currentVersion) {
             // version number incorrect: send redirect response
-            $url = $this->get('router')->generate( 'tangara_tangarajs_get_resource', array('name'=>$name, 'version'=>$currentVersion) );
-            return new RedirectResponse( $url );            
+            return $this->redirect($this->generateUrl( 'tangara_tangarajs_get_resource', array('name'=>$name, 'version'=>$currentVersion) ));
         }
         
         
