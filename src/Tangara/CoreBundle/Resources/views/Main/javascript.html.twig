@@ -7,11 +7,12 @@
     var url_share = "{{ url('tangara_core_share') }}";
     var url_create = "{{ url('tangara_core_create') }}";
     var url_user_menu = "{{ url('tangara_core_user_menu') }}";
+    var url_project = "{{ url('tangara_project_show')}}";
     
     // Current state info
     var active_nav = "{{active}}";
-{% if contentPath %}
-    var content_url = "{{url(contentPath)}}";
+{% if contentUrl %}
+    var content_url = "{{contentUrl}}";
 {% else %}
     var content_url = false;
 {% endif %}    
