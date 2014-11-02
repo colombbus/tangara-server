@@ -49,7 +49,7 @@ class TangaraController extends Controller {
                         'active' => $active,
                         'contentUrl' => $contentUrl,
                         'tangarajs' => $tangarajs,
-                        'project' => $this->getProject()));
+                        'current_project' => $this->getProject()));
             return $this->render("TangaraCoreBundle::layout.html.twig", $parameters);
         }
     }
