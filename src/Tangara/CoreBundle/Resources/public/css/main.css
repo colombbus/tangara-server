@@ -116,7 +116,7 @@ body {
         line-height:normal;
         float:none;
     }
-    
+
     #navigation-menu li > a {
         color:#FFFFFF;
         border-color: transparent;
@@ -143,10 +143,26 @@ body {
         background-color:transparent;
     }
 
-    #user-menu > li > a:hover {
-        text-decoration:underline;
-        background-color:transparent;
+    #project {
+        margin-right:30px;
     }
+    
+    #user-menu span.glyphicon {
+        margin-right:7px;
+    }
+    
+    #user-menu > li > a:hover,
+    #user-menu > li.active > a, 
+    #user-menu > li.active > a:hover {
+        text-decoration:none;
+        border-color: transparent;
+        border-radius: 5px;
+        background-color:#FFFFFF;
+        /*background-color:#503d2c;
+        color:#6DBEA9;*/
+        padding:3px 8px;
+    }
+    
 
     #user-dropdown {
         padding-left:20px;
@@ -191,3 +207,23 @@ footer {
     text-align:center;
 }
 
+table.data-display {
+    border-collapse:collapse;
+}
+
+table.data-display td {
+    padding:5px 8px;
+}
+
+td.data-title {
+    font-weight:bold;
+    text-align:right;
+}
+
+.button-group button {
+    margin-right:30px;
+}
+
+.container .alert {
+    margin-top:20px;
+}
