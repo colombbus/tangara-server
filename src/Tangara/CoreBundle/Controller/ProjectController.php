@@ -2,22 +2,200 @@
 
 namespace Tangara\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Tangara\CoreBundle\Controller\TangaraController;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\File;
 use Tangara\CoreBundle\Entity\FileRepository;
 use Tangara\CoreBundle\Entity\Project;
-use Tangara\CoreBundle\Form\ProjectType;
 
-class ProjectController extends Controller {
+class ProjectController extends TangaraController {
 
-    public function indexAction() {
+    
+    public function showAction($projectId) {
+        $params = array();
+        // Check if project id set
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        if ($projectId === false) {
+            $projectId = $session->get('projectid');
+        }
+        // get manager
+        $manager = $this->get('tangara_core.project_manager');
+
+        if (!$projectId) {
+            // no current project: we should not be here
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+        }
+
+        // Check if project exists
+        $project = $manager->getRepository()->find($projectId);
+        if (!$project) {
+            // no current project: we should not be here
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+        }
+        
+        $params['project']=$project;
+        
+        // Check user
+        $edition = false;
+        $owner = false;
+        if ($this->isUserLogged()) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $auth = $manager->isAuthorized($project, $user);
+            if ($auth) {
+                $edition = true;
+                if ($manager->isHomeProject($project, $user)) {
+                    $params['message'] = "project.home_project";
+                }
+                if ($project->getOwner() === $user) {
+                    $owner = true;
+                }
+            }
+        }
+        
+        if (!$edition) {
+            // Check that project is public
+            if (!$project->getPublished()) {
+                // User not authorized
+                return $this->redirect($this->generateUrl('tangara_core_homepage'));
+            }
+        }
+        
+        $params['edition'] = $edition;
+        $params['owner'] = $owner;
+        return $this->renderContent('TangaraCoreBundle:Project:show.html.twig', 'project', $params);
     }
+    
+    public function editAction($projectId) {
+        // Check if project id set
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        // get manager
+        $manager = $this->get('tangara_core.project_manager');
+        
+        if ($projectId === false) {
+            $projectId = $session->get('projectid');
+        }
+        
+        if (!$projectId) {
+            // no current project: we should not be here
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+        }
 
-    /**
-     * Get user and group projects list
-     * @return type
-     */
+        // Check if project exists
+        $project = $manager->getRepository()->find($projectId);
+        if (!$project) {
+            // no current project: we should not be here
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+        }
+        
+        // Check user
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        // Check project access by user
+        $auth = $manager->isAuthorized($project, $user);
+        if (!$auth) {
+            // User not authorized
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
+        
+        $form = $this->createForm('project', $project);
+        
+        if ($request->isMethod('POST')) {
+            // form submitted
+            $form->handleRequest($request);
+        
+            if ($form->isValid()) {
+                $manager->saveProject($project);
+                $session->getFlashBag()->add('success', $this->get('translator')->trans('project.edited'));                
+                return $this->redirect($this->generateUrl('tangara_project_show', array('cat' => 1, 'id' => $project->getId())));                
+            }
+        }
+        if (isset($form->attr)) {
+            $form->attr = array_merge($form->attr, array('class'=>'form-content'));
+        } else {
+            $form->attr = array('class'=>'form-content');
+        }
+        return $this->renderContent('TangaraCoreBundle:Project:edit.html.twig', 'project', array('form' => $form->createView()));
+    }
+    
+    
+    public function publishedAction() {
+        $projects = $this->get('tangara_core.project_manager')->getRepository()->getPublishedProjects();
+        return $this->renderContent('TangaraCoreBundle:Project:published.html.twig', 'discover', array('projects' => $projects));
+    }
+    
+    public function executeAction($projectId) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $params = array();
+        // get manager
+        $manager = $this->get('tangara_core.project_manager');
+
+        if ($projectId === false) {
+            // try to get project from session
+            $projectId = $session->get('projectid');
+        }
+        
+        if (!$projectId) {
+            // no current project: we should not be here
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
+
+        // Check if project exists
+        $project = $manager->getRepository()->find($projectId);
+        if (!$project) {
+            // no current project: we should not be here
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+        }
+        // check that launcher is set and exists
+        $launcher = $project->getLauncher();
+        if (!isset($launcher)) {
+            //TODO: check that file actually exists
+            $params['error'] = 'project.launcher_not_set';
+        }
+        
+        $params['project'] = $project;
+
+        $width = $project->getWidth();
+        if (isset($width) && $width>0) {
+            $params['width'] = $width;
+        }
+
+        $height = $project->getHeight();
+        if (isset($height) && $height>0) {
+            $params['height'] = $height;
+        }
+        
+        $access = false;
+        if ($this->isUserLogged()) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $auth = $manager->isAuthorized($project, $user);
+            if ($auth) {
+                $access = true;
+            }
+        }
+        
+        if (!$access) {
+            // Check that project is public
+            if (!$project->getPublished()) {
+                // User not authorized
+                return $this->redirect($this->generateUrl('tangara_core_homepage'));
+            }
+        }
+        $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/execute.html";
+        $params['tangarajs'] = $tangarajs;
+        return $this->render('TangaraCoreBundle:Project:execute.html.twig', $params);
+        
+    }
+    
+    /*public function indexAction() {
+    }
+    
+    
+    
+    
+
     public function listAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         $projectManager = $user;
@@ -40,11 +218,6 @@ class ProjectController extends Controller {
         ));
     }
 
-    /**
-     * Change project name
-     * @param \Tangara\CoreBundle\Entity\Project $project
-     * @return type
-     */
     public function editAction(Project $project) {
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -125,13 +298,6 @@ class ProjectController extends Controller {
     }
 
     
-    
-     /**
-      * Create a new project
-      * @param type $user_id
-      * @param type $group_id
-      * @return \Symfony\Component\HttpFoundation\Response
-      */
     public function newAction($user_id, $group_id) {
 
         $user = $this->get('security.context')->getToken()->getUser();
@@ -202,11 +368,6 @@ class ProjectController extends Controller {
     
     
     
-    /**
-     * Show all information about user and group projects
-     * @param \Tangara\CoreBundle\Entity\Project $project
-     * @return type
-     */
     public function showAction(Project $project) {
 
         $contributors = array("user1", "user2", "user6");
@@ -220,10 +381,6 @@ class ProjectController extends Controller {
         ));
     }
     
-    /**
-     * Remove user or group project 
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     function delProjectAction(){
         
         $projectid = $this->get('request')->get('projectid');
@@ -252,5 +409,6 @@ class ProjectController extends Controller {
         
         return new Response(NULL); 
         
-    } 
+    }
+    */
 }

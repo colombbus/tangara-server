@@ -26,13 +26,14 @@
 namespace Tangara\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
-use Tangara\CoreBundle\Manager\BaseManager;
+use Doctrine\Orm\NoResultException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Security\Core\SecurityContext;
+use Tangara\CoreBundle\Entity\File;
+use Tangara\CoreBundle\Entity\Log;
 use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Entity\User;
-use Tangara\CoreBundle\Entity\Log;
-use Tangara\CoreBundle\Entity\File;
-use Symfony\Component\Filesystem\Filesystem;
-use Doctrine\Orm\NoResultException;
+use Tangara\CoreBundle\Manager\BaseManager;
 
 class ProjectManager extends BaseManager {
 
@@ -40,10 +41,13 @@ class ProjectManager extends BaseManager {
     protected $projectsDirectory;
     protected $user;
 
-    public function __construct(EntityManager $em, $path, $context) {
+    public function __construct(EntityManager $em, $path, SecurityContext $context) {
         $this->em = $em;
         $this->projectsDirectory = $path;
-        $this->user = $context->getToken()->getUser();
+        $token = $context->getToken();
+        if (isset($token)) {
+            $this->user = $token->getUser();
+        }
     }
 
     public function loadProject($projectId) {
@@ -64,7 +68,12 @@ class ProjectManager extends BaseManager {
         // For now, we just check that project is user's home
         return ($project->getId() == $user->getHome()->getId());
     }
-    
+
+    public function isPublic(Project $project) {
+        // For now, we just check that project is user's home
+        return ($project->getPublished());
+    }
+
     public function isProjectFile(Project $project, $fileName, $program=false) {
         return ($this->getProjectFile($project, $fileName, $program)!==false);
     }
@@ -139,6 +148,16 @@ class ProjectManager extends BaseManager {
         return $this->em->getRepository('TangaraCoreBundle:Project');
     }
     
+    public function isHomeProject(Project $project, User $user) {
+        return $user->getHome() === $project;
+    }
     
+    public function getAllResources(Project $project) {
+        return $this->em->getRepository('TangaraCoreBundle:File')->getAllProjectResources($project);        
+    }
+    
+    public function getAllPrograms(Project $project) {
+        return $this->em->getRepository('TangaraCoreBundle:File')->getAllProjectPrograms($project);        
+    }
 
 }

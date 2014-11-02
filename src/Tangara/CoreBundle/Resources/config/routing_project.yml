@@ -4,8 +4,8 @@ tangara_project_index:
 
 #showAction: info about the user and the group projects  
 tangara_project_show:
-    path:  /show/{id}
-    defaults: { _controller: TangaraCoreBundle:Project:show }        
+    path:  /show/{projectId}
+    defaults: { _controller: TangaraCoreBundle:Project:show, projectId: false }        
 
 #newAction: create a new project for user
 tangara_project_user_new:
@@ -22,10 +22,8 @@ tangara_project_list:
     defaults: { _controller: TangaraCoreBundle:Project:list }
 
 tangara_project_edit:
-    path:  /edit/{id}
-    defaults: { _controller: TangaraCoreBundle:Project:edit }
-    requirements:
-        id:  \d+
+    path:  /edit/{projectId}
+    defaults: { _controller: TangaraCoreBundle:Project:edit, projectId: false }
 
 tangara_project_files:
     path:  /files
@@ -52,3 +50,11 @@ tangara_project_create:
 tangara_project_confirmation:
     path:  /confirmation
     defaults: { _controller: TangaraCoreBundle:Project:confirmation }
+
+tangara_project_published:
+    path:  /published
+    defaults: { _controller: TangaraCoreBundle:Project:published}
+
+tangara_project_execute:
+    path:  /execute/{projectId}
+    defaults: { _controller: TangaraCoreBundle:Project:execute, projectId: false}

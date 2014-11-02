@@ -21,7 +21,7 @@ class User extends BaseUser
     protected $id;
     
     /**
-     * @ORM\OneToOne(targetEntity="Project", mappedBy="owner")
+     * @ORM\OneToOne(targetEntity="Project")
      */
     private $home;
     

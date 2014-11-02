@@ -26,6 +26,7 @@ services:
         arguments:
             - @doctrine.orm.entity_manager
             - @session
+            - @router
     tangara_core.authentication_handler:
         class: Tangara\CoreBundle\Handler\AuthenticationHandler
         public: false
@@ -33,4 +34,10 @@ services:
             - @router
             - @session
             - @templating
-
+            - @tangara_core.project_manager
+    tangara_core.form.type.project:
+        class: Tangara\CoreBundle\Form\Type\ProjectType
+        tags:
+            - { name: form.type, alias: project }
+        arguments:
+            - @tangara_core.project_manager

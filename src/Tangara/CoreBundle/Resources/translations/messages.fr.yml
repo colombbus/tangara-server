@@ -26,8 +26,41 @@ profile:
     email: Adresse e-mail
     delete: Supprimer le compte
     changePassword: Changer le mot de passe
-
-
+    change_password: Modification du mot de passe
+    registration_title: Inscription
+    registration_confirmed_title: Compte créé
+    registration_confirmed: Félicitations %username%, votre compte est maintenant activé !
+project:
+    details: "Projet > "
+    edition: Modification du projet
+    edit: Modifier le projet
+    new: Créer un nouveau projet
+    created: Date de création
+    width: Largeur de la fenêtre (pixels)
+    height: Hauteur de la fenêtre (pixels)
+    description: Description
+    instructions: Instructions
+    published: Visible par tous
+    published.yes: Oui
+    published.no : Non
+    save: Enregistrer
+    cancel: Annuler
+    no_name: aucun nom
+    default_name: Mon projet
+    public: Public
+    private: Privé
+    home_project: Ce projet est le projet par défaut, il ne peut pas être supprimé
+    launcher: Programme principal
+    no_launcher: aucun
+    launcher_not_set: Aucun programme principal défini
+    edited: Projet mis à jour
+    published_projects: Projets publiés
+    published_projects_description: Découvrez ici les projets qui ont été publiés par les développeurs Tangara !
+    published_projects_access: Liste des projets publiés
+    no_published_projects: Aucun projet publié encore !
+    owner: Responsable
+    execute: Exécuter
+    
 _show.details: Détails du projet
 _email: Courriel
 _password: Mot de passe
@@ -66,7 +99,6 @@ change.pass: 'Changer mot de passe'
 list.all.groups: 'Liste de tous les groupes'
 msg.no.groups: 'Vous n''avez pas de groupes'
 be.member: 'Tu es membre de'
-new.project: 'Créer un nouveau projet'
 new.group: 'Créer un nouveau groupe'
 group.show.name: 'Nom du groupe'
 group.edit: 'Édition du groupe'
@@ -76,18 +108,15 @@ group.projects: 'Les projets'
 members.of: 'Les membres de'
 group.management: 'Gestion du group'
 delete.group: 'Supprimer le group'
-info.project: 'Détails du projet'
 user.name: 'Nom de l''utilisateur'
 user.id: 'L''id de l''utilisateur'
 project.id: 'L''id du projet'
 project.name: 'Nom du projet'
-create.date: 'Date de création'
 msg.project: 'Un seul contributeur pour l''instant'
 list.members.project: 'Liste des contributeurs'
 font.family: 'Police de texte'
 project.manager: 'Gestionnaire du projet'
 new.file: 'Ajouter un fichier au projet'
-project.edit: 'Édition du projet'
 ask.join.group: 'Demander à rejoindre'
 msg.unvailable.join.group: 'Pas de groupes disponible'
 list.groups: 'Liste des groupes'

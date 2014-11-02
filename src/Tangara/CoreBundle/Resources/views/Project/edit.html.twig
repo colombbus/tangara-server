@@ -1,14 +1,18 @@
-{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
-
-{% block title %}Édition{% endblock %}
-
-{% block main_container %}
-    <div class="container">
-        <h1>Affichage du projet</h1>
-
-        <form action="{{ path( "tangara_project_edit", {id: project.id} ) }}" method="post">
-           {{ form_widget(form) }}
-           <input type="submit">
-        </form>
-    </div> 
-{% endblock %}
+{% form_theme form 'TangaraCoreBundle:Form:fields.html.twig' %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{'project.edition'|trans}}</h2>
+            <form action="" method="post" name="project" class="content-form">
+                {{form_widget(form)}}
+            </form>
+        </div>
+    </div>
+</div> 
+<script>
+    $(function(){
+        $('#project_cancel').click(function(e){
+           project(e);
+        });
+    });
+</script>

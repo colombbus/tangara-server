@@ -26,31 +26,53 @@
 namespace Tangara\CoreBundle\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Tangara\CoreBundle\Controller\TangaraController;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Group;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class ProfileController extends Controller
+class ProfileController extends TangaraController
 {
 
     /**
      * To get the user main page
      * @return type
      */
-    public function profileAction() {
-
+    public function profileAction($user_id) {
+        $user = null;
+        $edition = false;
+        if ($user_id === false) {
+            // get user id from logged user
+            if (!$this->isUserLogged()) {
+                return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+            } else {
+                $user = $this->getUser();
+                $edition = true;
+            }
+        } else {
+            $user = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('TangaraCoreBundle:User')
+                ->findOneById($user_id);
+            if (!$user) {
+                return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+            }
+            if ($user === $this->getUser()) {
+                $edition = true;
+            }
+        }
+        
         //$response = parent::profileAction();
         //$user = parent::showAction();
-        return $this->render('TangaraCoreBundle:Profile:show.html.twig');
+        return $this->renderContent('TangaraCoreBundle:Profile:show.html.twig', 'profile', array('user'=>$user, 'edition'=>$edition));
     }
     /**
      * remove user account
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function delAccountAction(){  
-        $user = $this->get('security.context')->getToken()->getUser();
+    public function delAccountAction(){
+        $user = $this->getUser();
 
         // Delete home project
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -121,21 +143,71 @@ class ProfileController extends Controller
             return $jsonResponse->setData(array('success' => true, 'content'=>$content));
         } else {
             // redirect the user to where they were before the login process begun.
-            $referer_url = $request->headers->get('referer');
-            $response = new RedirectResponse($referer_url);		
-            return $response;
+            return $this->redirect($request->headers->get('referer'));
         }
     }
     
     public function menuAction() {
         if (!$this->getRequest()->isXmlHttpRequest()) {
             // should never occur
-            $url = $this->router->generate( 'tangara_core_homepage' );
-            return new RedirectResponse( $url );
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage' ));
         } else {
             // direct access
-            return $this->render('TangaraCoreBundle:User:menu.html.twig');
+            return $this->render('TangaraCoreBundle:User:menu.html.twig', array('project'=>$this->getProject()));
+        }
+    }
+    
+    public function registerAction() {
+        if ($this->isUserLogged()) {
+            // If user is logged: redirect to main page
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage' ));
+        }
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            if ($request->isMethod('POST')) {
+                $response = $this->forward("FOSUserBundle:Registration:register");
+                if ($response instanceof RedirectResponse) {
+                    // redirect
+                    return $this->redirect($response->getTargetUrl());
+                } else {
+                    $jsonResponse = new JsonResponse();
+                    return $jsonResponse->setData(array('content'=>$response->getContent()));
+                }
+            } else {
+                return $this->forward("FOSUserBundle:Registration:register");
+            }
+        } else {
+            return $this->renderContent("TangaraCoreBundle:Profile:init.html.twig", 'profile', array('route'=>'tangara_user_register'));
+        }
+    }
+    
+    public function registrationConfirmedAction() {
+        return $this->renderContent("TangaraCoreBundle:Profile:registration.confirmed.html.twig", 'profile', array('user'=>$this->getUser()));
+    }
+
+    public function changePasswordAction() {
+        if (!$this->isUserLogged()) {
+            // If user is not logged: redirect to main page
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage' ));
+        }
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            if ($request->isMethod('POST')) {
+                $response = $this->forward("FOSUserBundle:ChangePassword:changePassword");
+                if ($response instanceof RedirectResponse) {
+                    // redirect
+                    return $this->redirect($response->getTargetUrl());
+                } else {
+                    $jsonResponse = new JsonResponse();
+                    return $jsonResponse->setData(array('content'=>$response->getContent()));
+                }
+            } else {
+                return $this->forward("FOSUserBundle:ChangePassword:changePassword");
+            }
+        } else {
+            return $this->renderContent("TangaraCoreBundle:Profile:init.html.twig", 'profile', array('route'=>'tangara_user_change_password'));
         }
     }
 
-}
+    
+    }

@@ -2,40 +2,21 @@
 
 namespace Tangara\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Tangara\CoreBundle\Controller\TangaraController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class MainController extends Controller {
+class MainController extends TangaraController {
 
-    protected function renderMainTemplate($contentTemplate, $active, $contentPath) {
-        $tangarajs = $this->get('router')->generate('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs');
-        return $this->render('TangaraCoreBundle::layout.html.twig', array(
-                    'contentTemplate' => $contentTemplate,
-                    'active' => $active,
-                    'contentPath' => $contentPath,
-                    'tangarajs' => $tangarajs));
-    }
-    
     public function indexAction() {
-        return $this->renderMainTemplate('TangaraCoreBundle:Main:discover.html.twig', 'discover', 'tangara_core_discover');
+        return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'discover');
     }
     
     public function discoverAction() {
-        if ($this->getRequest()->isXmlHttpRequest()) {
-            return $this->render('TangaraCoreBundle:Main:discover.html.twig');
-        } else {
-            // direct access
-            return $this->renderMainTemplate('TangaraCoreBundle:Main:discover.html.twig', 'discover', 'tangara_core_discover');
-        }
+        return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'discover');
     }
     
     public function shareAction() {
-        if ($this->getRequest()->isXmlHttpRequest()) {
-            return $this->render('TangaraCoreBundle:Main:discover.html.twig');
-        } else {
-            // direct access
-            return $this->renderMainTemplate('TangaraCoreBundle:Main:discover.html.twig', 'share', 'tangara_core_share');
-        }
+        return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'share');
     }
 
     public function createAction() {
@@ -45,7 +26,7 @@ class MainController extends Controller {
             return $jsonResponse->setData(array('error' => 'no-access'));
         } else {
             // direct access
-            return $this->renderMainTemplate(false, 'create', false);
+            return $this->renderContent(false, 'create');
         }
     }
     

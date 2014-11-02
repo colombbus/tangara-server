@@ -12,24 +12,32 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Bundle\TwigBundle\TwigEngine;
+use Tangara\CoreBundle\Manager\ProjectManager;
 
 class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface
 {
     private $router;
     private $session;
     private $templating;
+    private $projectManager;
  
-    public function __construct( RouterInterface $router, Session $session, TwigEngine $templating) {
+    public function __construct( RouterInterface $router, Session $session, TwigEngine $templating, ProjectManager $manager) {
         $this->router  = $router;
         $this->session = $session;
         $this->templating = $templating;
+        $this->projectManager = $manager;
     }
  
     public function onAuthenticationSuccess( Request $request, TokenInterface $token ) {
         // if AJAX login
         if ( $request->isXmlHttpRequest() ) {
             $jsonResponse = new JsonResponse();
-            $content = $this->templating->render('TangaraCoreBundle:User:menu.html.twig');     
+            $project = null;
+            $projectId = $this->session->get('projectid');
+            if ($projectId) {
+                $project = $this->projectManager->getRepository()->find($projectId);
+            }
+            $content = $this->templating->render('TangaraCoreBundle:User:menu.html.twig', array('current_project'=>$project));
             return $jsonResponse->setData(array('success' => true, 'content'=>$content));
         // if form login
         } else {

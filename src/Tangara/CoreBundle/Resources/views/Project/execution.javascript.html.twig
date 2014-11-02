@@ -1,0 +1,13 @@
+<script src="{{ asset('bundles/tangaracore/js/vendor/jquery-1.11.1.min.js') }}"></script>
+<script>
+    $("#execution-frame").ready(function() {
+        {% set launcher = project.getLauncher() %}
+        {% if launcher is not empty %}
+            var cWindow = document.getElementById('execution-frame').contentWindow;
+            cWindow.init_projectId = {{project.getId()}};
+            cWindow.init_programName = "{{launcher.getName()}}";
+            
+                    //executeProject({{project.getId()}}, "{{launcher.getName()}}");
+        {% endif %}
+    });
+</script>

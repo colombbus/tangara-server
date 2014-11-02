@@ -1,7 +1,105 @@
+{# based on Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig #}
+{% extends "form_div_layout.html.twig" %}
+
 {% block form_widget_simple %}
-    {% set type = type|default('text') %}
-    <input class="form-control" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    {% set attr = attr|merge({'class': 'form-control'}) %}
+    {{ parent() }}
 {% endblock form_widget_simple %}
+
+{% block textarea_widget %}
+    {% set attr = attr|merge({'class': 'form-control'}) %}
+    {{ parent() }}
+{% endblock textarea_widget %}
+
+{% block choice_widget_collapsed %}
+    {% set attr = attr|merge({'class': 'form-control'}) %}
+    {{ parent() }}
+{% endblock choice_widget_collapsed %}
+
+{% block checkbox_widget %}
+{% spaceless %}
+    <div class="checkbox">
+    {% if label is not sameas(false) %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+            {{ label|trans({}, translation_domain) }}
+        </label>
+    {% else %}
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% endif %}
+    </div>
+{% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block form_row %}
+{% spaceless %}
+    <div class='form-group'>
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block checkbox_row %}
+{% spaceless %}
+    <div class='form-group'>
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endspaceless %}
+{% endblock checkbox_row %}
+
+{% block button_widget %}
+{% spaceless %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="btn {% if attr.btn_type is defined %} {{attr.btn_type}} {% else %} btn-default{% endif %}">{%if attr.btn_icon is defined %}<span class='glyphicon {{attr.btn_icon}}'></span> {%endif%}{{ label|trans({}, translation_domain) }}</button>
+{% endspaceless %}
+{% endblock button_widget %}
+
+{% block button_row %}
+{% spaceless %}
+    {% if 'several-buttons' in attr %}
+        {% if 'first-button' in attr %}
+        <div class='form-group button-group'>
+        {% endif %}
+        {{ form_widget(form) }}
+        {% if 'last-button' in attr %}
+        </div>
+        {% endif %}
+    {% else %}
+    <div class='form-group'>
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock button_row %}
+
+{% block submit_widget %}
+{% spaceless %}
+    {% set type = type|default('submit') %}
+    {% if attr.btn_type is not defined %}
+        {% set attr = attr|merge({'btn_type': 'btn-primary'}) %}
+    {%endif%}
+    {% if attr.btn_icon is not defined %}
+        {% set attr = attr|merge({'btn_icon': 'glyphicon-ok'}) %}
+    {%endif%}
+    {{ block('button_widget') }}
+{% endspaceless %}
+{% endblock submit_widget %}
 
 
 {# fields_errors.html.twig #}

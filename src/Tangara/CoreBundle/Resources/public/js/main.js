@@ -7,6 +7,7 @@ function updateUserMenu() {
     var $element = $("#user-menu");
     $element.load(url_user_menu, function() {
         $("#logout-link").click(logout);
+        $("#project a").click(project);
         ajaxify($element);
         updateLocal();
     });
@@ -52,28 +53,39 @@ function fetchContent(url, data, title) {
     });
 }
 
+function setActive(elementName) {
+    $("#navigation-menu > li").removeClass("active").find("a").blur();
+    $("#user-menu > li").removeClass("active").find("a").blur();
+    $("#"+elementName).addClass("active");
+    active_nav = elementName;
+}
+
 function discover(event) {
     event.preventDefault();
-    $("#navigation-menu > li").removeClass("active");
-    $("#discover").addClass("active");
     openContent();
+    setActive("discover");
     fetchContent(url_discover, {active:'discover'});
 }
 
 function create(event) {
     event.preventDefault();
-    $("#navigation-menu > li").removeClass("active");
-    $("#create").addClass("active");
+    setActive("create");
     closeContent();
     recordHistory({url:url_create, data:{active:'create'}});
 }
 
 function share(event) {
     event.preventDefault();
-    $("#navigation-menu > li").removeClass("active");
-    $("#share").addClass("active");
+    setActive("share");
     openContent();
     fetchContent(url_share, {active:'share'});
+}
+
+function project(event) {
+    event.preventDefault();
+    setActive("project");
+    openContent();
+    fetchContent(url_project, {active:'project'});
 }
 
 function login(event) {
@@ -88,6 +100,7 @@ function login(event) {
             $element.html(data.content);
             $("#login-form").submit(login);
             $("#logout-link").click(logout);
+            $("#project a").click(project);
             ajaxify($element);
         }
         if (typeof data.success !== 'undefined') {
@@ -112,6 +125,7 @@ function logout(event) {
             $("#login-form").submit(login);
             $("#logout-link").click(logout);
             ajaxify($element);
+            location.reload();
         }
         if (typeof data.success !== 'undefined') {
             if (data.success) {
@@ -129,6 +143,7 @@ function contentLink(event) {
     var title = $link.attr("data-title");
     openContent();
     if (typeof active !== 'undefined') {
+        setActive(active);
         fetchContent(url, {active:active}, title);
     } else {
         fetchContent(url);
@@ -137,16 +152,28 @@ function contentLink(event) {
 
 function contentForm(event) {
     event.preventDefault();
+    var currentUrl = location.href;
     var $form = $(this);
     var url = $form.attr( "action" );
+    if (url.trim().length === 0) {
+        url = currentUrl;
+    }
     openContent();
     var $content = $("#content");
     $content.addClass("loading");
     $content.empty();
-    var posting = $.post(url, $form.serialize());
+    
+    
+    var posting = $.post(url, $form.serialize(), function(data) {
+        if (typeof data.redirect !== 'undefined') {
+            // redirect
+            fetchContent(data.redirect, {active:active_nav});
+        } else if (typeof data.content !== 'undefined') {
+            $content.html(data.content);
+            ajaxify($content);
+        }
+    }, 'json');
     posting.done(function( data ) {
-        $content.html(data);
-        ajaxify($content);
         $content.removeClass("loading");
     });
 }
@@ -173,8 +200,7 @@ window.onpopstate = function(event) {
         }
         // set active nav
         if (typeof state.active !== 'undefined') {
-            $("#navigation-menu > li").removeClass("active").find("a").blur();
-            $("#"+state.active).addClass("active");
+            setActive(state.active);
         }
     }
 };
@@ -185,6 +211,7 @@ $(function() {
     $("#discover a").click(discover);
     $("#create a").click(create);
     $("#share a").click(share);
+    $("#project a").click(project);
     // bind login form
     $("#login-form").submit(login);
     // bind logout link
