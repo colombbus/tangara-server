@@ -1,15 +1,15 @@
-{% if project is defined %}
+{% if current_project is defined %}
     {% if active is defined and active == 'project' %}
 <li class="active" id="project">
     {% else %}
 <li id="project">
     {% endif %}
     <a href="#"><span class="glyphicon glyphicon-folder-open"></span>
-    {% if project.getName() is defined %}
-        {% if project.getName() is empty %}
+    {% if current_project.getName() is defined %}
+        {% if current_project.getName() is empty %}
             {{ 'project.default_name' | trans }}
         {% else %}
-            {{ project.getName() }}
+            {{ current_project.getName() }}
         {% endif %}
     {% endif %}
     </a>
