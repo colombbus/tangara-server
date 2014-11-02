@@ -52,6 +52,7 @@ project:
     home_project: Ce projet est le projet par défaut, il ne peut pas être supprimé
     launcher: Programme principal
     no_launcher: aucun
+    launcher_not_set: Aucun programme principal défini
     edited: Projet mis à jour
     published_projects: Projets publiés
     published_projects_description: Découvrez ici les projets qui ont été publiés par les développeurs Tangara !
