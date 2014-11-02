@@ -40,8 +40,8 @@ tangara_user_joinGroup:
     defaults: { _controller: TangaraCoreBundle:Profile:askJoinGroup }
     
 tangara_user_profile_show:
-    path:  /profile
-    defaults: { _controller: TangaraCoreBundle:Profile:profile }
+    path:  /profile/{user_id}
+    defaults: { _controller: TangaraCoreBundle:Profile:profile, user_id: false }
 
 tangara_user_delete:
     path:  /delete_account
