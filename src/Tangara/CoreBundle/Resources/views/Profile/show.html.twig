@@ -1,4 +1,3 @@
-{% set user = app.user %}
 <div class="container">
     {% include 'TangaraCoreBundle:Main:messages.html.twig' %}
     <h2>{{'profile.title'|trans}} > {{ user }}</h2>
@@ -9,20 +8,24 @@
                 {{ 'profile.username'|trans }}
             </td>
             <td>
-                {{ user.username }}
+                {{ user.getUserName() }}
             </td>
         </tr>
+{% if edition %}
         <tr>
             <td class="data-title">
                 {{ 'profile.email'|trans }}
             </td>
             <td>
-                {{ user.email }}
+                {{ user.getEmail() }}
             </td>
         </tr>
+{% endif %}
     </table>
     </div>
+{% if edition %}
     <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_user_change_password") }}" >{{ 'profile.changePassword'|trans }}</a>
+{% endif %}
 <!--    <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_user_delete") }}" >{{ 'profile.delete'|trans }}</a> -->
 </div> 
 
