@@ -50,3 +50,11 @@ tangara_project_create:
 tangara_project_confirmation:
     path:  /confirmation
     defaults: { _controller: TangaraCoreBundle:Project:confirmation }
+
+tangara_project_published:
+    path:  /published
+    defaults: { _controller: TangaraCoreBundle:Project:published}
+
+tangara_project_execute:
+    path:  /execute/{projectId}
+    defaults: { _controller: TangaraCoreBundle:Project:execute, projectId: false}
