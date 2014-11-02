@@ -37,7 +37,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
             if ($projectId) {
                 $project = $this->projectManager->getRepository()->find($projectId);
             }
-            $content = $this->templating->render('TangaraCoreBundle:User:menu.html.twig', array('project'=>$project));
+            $content = $this->templating->render('TangaraCoreBundle:User:menu.html.twig', array('current_project'=>$project));
             return $jsonResponse->setData(array('success' => true, 'content'=>$content));
         // if form login
         } else {
