@@ -1,0 +1,8 @@
+{% extends "::base.html.twig" %}
+{% block stylesheets %}
+    {% include "TangaraCoreBundle:Project:execution.stylesheets.html.twig" %}
+{% endblock %}
+{% block body %}
+    <iframe id="execution-frame" src="{{ tangarajs }}" frameborder="0" scrolling="no" onmousewheel="" 
+            style="{% if width is defined %}width:{{width}}px;{% else %}width:100%;{% endif %}{% if height is defined %}height:{{height}}px;{% else %}height:100%;{% endif %}"></iframe>
+{% endblock %}
