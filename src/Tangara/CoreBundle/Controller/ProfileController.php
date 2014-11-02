@@ -39,13 +39,33 @@ class ProfileController extends TangaraController
      * To get the user main page
      * @return type
      */
-    public function profileAction() {
-        if (!$this->isUserLogged()) {
-            return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+    public function profileAction($user_id) {
+        $user = null;
+        $edition = false;
+        if ($user_id === false) {
+            // get user id from logged user
+            if (!$this->isUserLogged()) {
+                return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+            } else {
+                $user = $this->getUser();
+                $edition = true;
+            }
+        } else {
+            $user = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('TangaraCoreBundle:User')
+                ->findOneById($user_id);
+            if (!$user) {
+                return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+            }
+            if ($user === $this->getUser()) {
+                $edition = true;
+            }
         }
+        
         //$response = parent::profileAction();
         //$user = parent::showAction();
-        return $this->renderContent('TangaraCoreBundle:Profile:show.html.twig', 'profile');
+        return $this->renderContent('TangaraCoreBundle:Profile:show.html.twig', 'profile', array('user'=>$user, 'edition'=>$edition));
     }
     /**
      * remove user account
