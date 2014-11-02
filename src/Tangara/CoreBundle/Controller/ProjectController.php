@@ -12,6 +12,7 @@ class ProjectController extends TangaraController {
 
     
     public function showAction($projectId) {
+        $params = array();
         // Check if project id set
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -33,20 +34,35 @@ class ProjectController extends TangaraController {
             return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
         }
         
+        $params['project']=$project;
+        
         // Check user
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        $auth = $manager->isAuthorized($project, $user);
-        if (!$auth) {
-            // User not authorized
-            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        $edition = false;
+        $owner = false;
+        if ($this->isUserLogged()) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $auth = $manager->isAuthorized($project, $user);
+            if ($auth) {
+                $edition = true;
+                if ($manager->isHomeProject($project, $user)) {
+                    $params['message'] = "project.home_project";
+                }
+                if ($project->getOwner() === $user) {
+                    $owner = true;
+                }
+            }
         }
         
-        $params = array('project'=>$project);
-        
-        if ($manager->isHomeProject($project, $user)) {
-            $params['message'] = "project.home_project";
-            
+        if (!$edition) {
+            // Check that project is public
+            if (!$project->getPublished()) {
+                // User not authorized
+                return $this->redirect($this->generateUrl('tangara_core_homepage'));
+            }
         }
+        
+        $params['edition'] = $edition;
+        $params['owner'] = $owner;
         return $this->renderContent('TangaraCoreBundle:Project:show.html.twig', 'project', $params);
     }
     
@@ -103,6 +119,69 @@ class ProjectController extends TangaraController {
         return $this->renderContent('TangaraCoreBundle:Project:edit.html.twig', 'project', array('form' => $form->createView()));
     }
     
+    
+    public function publishedAction() {
+        $projects = $this->get('tangara_core.project_manager')->getRepository()->getPublishedProjects();
+        return $this->renderContent('TangaraCoreBundle:Project:published.html.twig', 'discover', array('projects' => $projects));
+    }
+    
+    public function executeAction($projectId) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $params = array();
+        // get manager
+        $manager = $this->get('tangara_core.project_manager');
+
+        if ($projectId === false) {
+            // try to get project from session
+            $projectId = $session->get('projectid');
+        }
+        
+        if (!$projectId) {
+            // no current project: we should not be here
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
+
+        // Check if project exists
+        $project = $manager->getRepository()->find($projectId);
+        if (!$project) {
+            // no current project: we should not be here
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
+        }
+        
+        $params['project'] = $project;
+
+        $width = $project->getWidth();
+        if (isset($width) && $width>0) {
+            $params['width'] = $width;
+        }
+
+        $height = $project->getHeight();
+        if (isset($height) && $height>0) {
+            $params['height'] = $height;
+        }
+        
+        $access = false;
+        if ($this->isUserLogged()) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $auth = $manager->isAuthorized($project, $user);
+            if ($auth) {
+                $access = true;
+            }
+        }
+        
+        if (!$access) {
+            // Check that project is public
+            if (!$project->getPublished()) {
+                // User not authorized
+                return $this->redirect($this->generateUrl('tangara_core_homepage'));
+            }
+        }
+        $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs');
+        $params['tangarajs'] = $tangarajs;
+        return $this->render('TangaraCoreBundle:Project:execute.html.twig', $params);
+        
+    }
     
     /*public function indexAction() {
     }
