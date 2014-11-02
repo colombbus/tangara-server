@@ -148,6 +148,12 @@ class ProjectController extends TangaraController {
             // no current project: we should not be here
             return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
         }
+        // check that launcher is set and exists
+        $launcher = $project->getLauncher();
+        if (!isset($launcher)) {
+            //TODO: check that file actually exists
+            $params['error'] = 'project.launcher_not_set';
+        }
         
         $params['project'] = $project;
 
@@ -177,7 +183,7 @@ class ProjectController extends TangaraController {
                 return $this->redirect($this->generateUrl('tangara_core_homepage'));
             }
         }
-        $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs');
+        $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/execute.html";
         $params['tangarajs'] = $tangarajs;
         return $this->render('TangaraCoreBundle:Project:execute.html.twig', $params);
         
