@@ -9,6 +9,7 @@
     {% block navbar %}
         {% include 'TangaraCoreBundle:Main:navbar.html.twig' %}
     {% endblock %}
+
     {% block content %}
         {% if contentTemplate %}
         <div id="content">
@@ -20,5 +21,8 @@
         {% endif %}
     {% endblock %}
     {# added 'onmousewheel="" to solve a bug in safari (see http://kb.tableausoftware.com/articles/issue/scroll-bars-in-embedded-views-do-not-work-in-safari) #}
+    <iframe id="local-tuto" src="{{ tangaratutorial }}" frameborder="0" scrolling="no" onmousewheel=""></iframe>
     <iframe id="local-frame" src="{{ tangarajs }}" frameborder="0" scrolling="no" onmousewheel=""></iframe>
+        <button id="icon-open" class="boutonsopenclose">open</button>
+        <button id="icon-close" class="boutonsopenclose">close</button>
 {% endblock %}

@@ -17,3 +17,4 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
     directory.upload: C:\Tangara
     directory.tangarajs: ../../../../tangarajs
+    directory.tutorial: ../../../../tangara-tutorial/index.html

@@ -221,6 +221,38 @@ footer {
     text-align:center;
 }
 
+
+#local-tuto{
+    width: 245px;
+    position: absolute;
+    left: -245px;
+    top: 0px;
+    background-color: #6DBEA9;
+    height: 500px;
+	margin-top : 40px;
+}
+.boutonsopenclose {
+	clear :both;
+}
+#icon-close {
+  cursor: pointer;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+#icon-menu {
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  padding-bottom: 25px;
+  padding-left: 25px;
+  padding-top: 25px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+
 table.data-display {
     border-collapse:collapse;
 }
