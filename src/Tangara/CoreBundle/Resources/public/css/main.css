@@ -223,13 +223,20 @@ footer {
 
 
 #local-tuto{
-    width: 245px;
+    /*width: 245px;
     position: absolute;
     left: -245px;
     top: 0px;
     background-color: #6DBEA9;
     height: 500px;
-	margin-top : 40px;
+    margin-top : 40px;*/
+    width:245px;
+    height:100%;
+    box-sizing:border-box;
+    padding-top:40px;
+    position:absolute;
+    top:0;
+    left:-245px;
 }
 .boutonsopenclose {
 	clear :both;
