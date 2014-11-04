@@ -1,6 +1,7 @@
 if (typeof jQuery === 'undefined') { throw new Error('Tangara\'s JavaScript requires jQuery') }
 
 (function($){
+    $(function() {
 	$('#icon-close').click(function(){
 		console.log("close");
 		$('#local-tuto').animate({
@@ -20,13 +21,5 @@ if (typeof jQuery === 'undefined') { throw new Error('Tangara\'s JavaScript requ
 			  left: '285px'
 			  },200);
 	 });
-	//console.log("enterede");
-	test = function() {
-console.log("bravoooo");
-};
+     });
 }(jQuery));
-
-test = function() {
-console.log("bravoooo");
-};
-//console.log("LOADED");
