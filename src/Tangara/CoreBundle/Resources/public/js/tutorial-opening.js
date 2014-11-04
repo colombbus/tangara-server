@@ -20,7 +20,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Tangara\'s JavaScript requ
 				'left': '0'
 				}, 200);
 		  $('#local-frame').animate({
-			  'padding-left': '285px'
+			  'padding-left': '245px'
 			  },200);
 	 });
      });

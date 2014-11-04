@@ -237,6 +237,7 @@ footer {
     position:absolute;
     top:0;
     left:-245px;
+    z-index:100;
 }
 .boutonsopenclose {
 	clear :both;
