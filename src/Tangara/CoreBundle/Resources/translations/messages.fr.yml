@@ -17,6 +17,8 @@ homepage:
     view_details: Détails
     admin_interface: Admin interface
     start: Pour bien commencer
+    slide0_title: Bienvenue sur Tangara
+    slide0_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
     slide1_title: Bienvenue sur Tangara
     slide1_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
     slide2_title: Bienvenue sur Tangara
@@ -25,6 +27,8 @@ homepage:
     slide3_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
     slide4_title: Bienvenue sur Tangara
     slide4_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
+    slide5_title: Bienvenue sur Tangara
+    slide5_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
 login:
     username: Utilisateur
     password: Mot de passe
