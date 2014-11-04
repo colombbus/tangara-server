@@ -222,7 +222,7 @@ footer {
 }
 
 
-#local-tuto{
+#help-frame{
     /*width: 245px;
     position: absolute;
     left: -245px;
@@ -230,22 +230,16 @@ footer {
     background-color: #6DBEA9;
     height: 500px;
     margin-top : 40px;*/
-    width:245px;
+    width:265px;
     height:100%;
     box-sizing:border-box;
     padding-top:40px;
     position:absolute;
     top:0;
-    left:-245px;
+    left:-265px;
     z-index:100;
-}
-.boutonsopenclose {
-	clear :both;
-}
-#icon-close {
-  cursor: pointer;
-  padding-left: 10px;
-  padding-top: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 #icon-menu {

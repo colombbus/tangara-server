@@ -17,12 +17,14 @@ function openContent() {
     var $content = $("#content");
     $content.show();
     $content.animate({top:"0px"}, 600,function(){$('#local-frame').hide();});
+    hideHelp();
 }
 
 function closeContent() {
     var $content = $("#content");
     var height = $content[0].scrollHeight;
     $('#local-frame').show();
+    showHelp();
     $content.animate({top:-height+"px"}, 600, function(){$(this).hide();});
 }
 
