@@ -274,6 +274,10 @@ td.data-title {
     margin-top:20px;
 }
 
+#carousel-discover {
+    margin-top:20px;
+}
+
 #carousel-discover .carousel-inner {
     max-width:800px;
     max-height:400px;
