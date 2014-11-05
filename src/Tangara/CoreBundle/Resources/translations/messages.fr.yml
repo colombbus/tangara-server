@@ -13,22 +13,27 @@ homepage:
     more: Plus
     project_description: Description du projet
     news: Actualités
+    news_description: Soutenez le développement de Tangara sur Ulule !
+    go_ulule: Aller sur Ulule
     shared_projects: Projets partagés
     view_details: Détails
     admin_interface: Admin interface
     start: Pour bien commencer
+    start_description: Vous voulez vous y mettre et vous ne savez pas par où commencer ? Les tutoriels vont vous guider.
+    view_tutorials: Voir les tutoriels
     slide0_title: Bienvenue sur Tangara
-    slide0_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
-    slide1_title: Bienvenue sur Tangara
-    slide1_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
-    slide2_title: Bienvenue sur Tangara
-    slide2_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
-    slide3_title: Bienvenue sur Tangara
-    slide3_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
-    slide4_title: Bienvenue sur Tangara
-    slide4_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
-    slide5_title: Bienvenue sur Tangara
-    slide5_content: Le site officiel, accessible sur ordinateurs, tablettes, smartphones.
+    slide0_content: La plateforme de développement libre  accessible sur ordinateurs, tablettes, smartphones.
+    slide1_title: Apprendre à coder
+    slide1_content: Apprends la programmation informatique grâce à un environnement Tangara ludique et intuitif.
+    slide2_title: Pour les jeunes
+    slide2_content: Avec Tangara, tu peux apprendre à coder dès 11 ans.
+    slide3_title: Créer son propre programme
+    slide3_content: Tu peux créer ton jeu vidéo (scénario, graphisme, code).
+    slide4_title: La communauté Tangara
+    slide4_content: Sur Tangara tu peux partager, échanger et travailler à plusieurs sur un même projet.
+    slide5_title:  Participer au financement de Tangara
+    slide5_content_1: Tu peux aider Tangara à se développer en
+    slide5_content_2: participant au financement ici.
 login:
     username: Utilisateur
     password: Mot de passe
@@ -69,7 +74,7 @@ project:
     edited: Projet mis à jour
     published_projects: Projets publiés
     published_projects_description: Découvrez ici les projets qui ont été publiés par les développeurs Tangara !
-    published_projects_access: Liste des projets publiés
+    published_projects_access: Voir les projets publiés
     no_published_projects: Aucun projet publié encore !
     owner: Responsable
     execute: Exécuter

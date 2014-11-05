@@ -233,6 +233,7 @@ $(function() {
     if (content_url)
         data.content = content_url;
     window.history.replaceState(data, 'Tangara', document.URL);
+    
 });
 
 

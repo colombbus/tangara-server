@@ -19,16 +19,25 @@
         </div>
         <div class="col-md-4">
             <h2>{{ 'homepage.news'|trans }}</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">{{ 'homepage.view_details'|trans }} &raquo;</a></p>
+            <p>{{'homepage.news_description'|trans}}</p>
+            <p><a class="btn btn-default" href="http://www.ulule.com/tangara-js/" role="button" target="ulule">{{ 'homepage.go_ulule'|trans }} &raquo;</a></p>
         </div>
         <div class="col-md-4">
             <h2>{{ 'homepage.start'|trans }}</h2>
-            <p>Vous voulez vous y mettre et vous ne savez pas par où commencer ? Essayez les tutoriels. </p>
-            <p><a class="btn btn-default" href="#" role="button">{{ 'homepage.view_details'|trans }} &raquo;</a></p>
+            <p>{{'homepage.start_description'|trans}}</p>
+            <p><a class="btn btn-default" href="#" role="button" id="view-tutorials">{{ 'homepage.view_tutorials'|trans }} &raquo;</a></p>
         </div>
     </div>
 </div>
 <footer>
     <p>&copy; <a href="http://www.colombbus.org">Colombbus</a> 2007-2014</p>
 </footer>
+<script>
+    $(function() {
+        $("#view-tutorials").click(function(e) {
+            create(e);
+            openHelp();
+            document.getElementById('local-frame').contentWindow.setHelpOpened();
+        });
+    });
+</script>
