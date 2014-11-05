@@ -5,6 +5,10 @@
 {% block javascripts %}
     {% include 'TangaraCoreBundle:Project:execution.javascript.html.twig' %}
 {% endblock %}
+{% block headers %}
+    <meta name="viewport" content="width={% if width is defined %}{{width}}{% else %}device-width;{% endif %}, user-scalable=no">
+{% endblock %}
+
 {% block body %}
 {% if error is defined %}
     <div class='error'>
