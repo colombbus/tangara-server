@@ -5,8 +5,11 @@
     {% set projectName = project.getName() %}
 {% endif %}
 
-
 <div class="container">
+{% if admin %}
+    <h3>admin</h3>
+{% endif %}
+    
     {% include 'TangaraCoreBundle:Main:messages.html.twig' %}
     <h2>{{ 'project.details'|trans }}{{projectName}}
     {% if edition %}
@@ -115,13 +118,23 @@
                 </td>
             </tr>
 {% endif %}
+{% if admin %}
+            <tr>
+                <td class="data-title">
+                    {{ 'project.readonly'|trans }}
+                </td>
+                <td>
+                    {% if project.getReadonly() %} {{'project.readonly.yes'|trans}} {% else %} {{'project.readonly.no'|trans}} {% endif %}
+                </td>
+            </tr>
+{% endif %}
         </table>
     </div>
     {% if message is defined %}
         <div class="well"> {{message|trans}}</div>
     {% endif %}
 {% if edition %}
-    <a class="btn btn-default content-link" data-active='project' href="{{ path( "tangara_project_edit") }}" >{{ 'project.edit'|trans }}</a>
+    <a class="btn btn-default content-link" data-active='project' href="{{ path( "tangara_project_edit", {'projectId':project.getId()}) }}" >{{ 'project.edit'|trans }}</a>
 {% endif %}
     <a class="btn btn-default" href="{{ path( "tangara_project_execute", {'projectId':project.getId()}) }}" target="tangara_execution">{{ 'project.execute'|trans }}</a>
 </div>

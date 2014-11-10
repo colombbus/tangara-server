@@ -3,6 +3,7 @@
 namespace Tangara\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Tangara\CoreBundle\Entity\User;
 
 /**
  * ProjectRepository
@@ -21,6 +22,17 @@ class ProjectRepository extends EntityRepository
         
         return $projects;
 
+    }
+    
+    public function getOwnedProjects(User $user) {
+        $query = $this->createQueryBuilder('p')
+                ->where('p.owner = :owner')
+                ->orderBy('p.created', 'DESC')
+                ->setParameter('owner', $user);
+        
+        $projects = $query->getQuery()->getResult();
+        
+        return $projects;
     }
     
 }

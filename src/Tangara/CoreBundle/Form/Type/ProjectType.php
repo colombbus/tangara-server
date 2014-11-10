@@ -8,16 +8,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 use Tangara\CoreBundle\Manager\ProjectManager;
 
 class ProjectType extends AbstractType
 {
     
     private $projectManager;
+    private $securityContext;
     
-    public function __construct(ProjectManager $manager)
+    public function __construct(ProjectManager $manager, SecurityContext $securityContext)
     {
         $this->projectManager = $manager;
+        $this->securityContext = $securityContext;
     }
     /**
      * @param FormBuilderInterface $builder
@@ -28,8 +31,7 @@ class ProjectType extends AbstractType
         $builder
             ->add('name', 'text', array('label'=>'project.name', 'required'=>false))
             ->add('published', 'checkbox', array('label'=>'project.published', 'required'=>false))
-            ->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'addPrograms'))
-            ->add('launcher', 'checkbox', array('label'=>'project.published', 'required'=>false))
+            ->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'addFormData'))
             ->add('width', 'integer', array('label'=>'project.width', 'required'=>false))
             ->add('height', 'integer', array('label'=>'project.height', 'required'=>false))
             ->add('description', 'textarea', array('label'=>'project.description', 'required'=>false))
@@ -57,6 +59,11 @@ class ProjectType extends AbstractType
         return 'project';
     }
     
+    public function addFormData(FormEvent $event) {
+        $this->addReadonly($event);
+        $this->addPrograms($event);
+    }
+    
     public function addPrograms(FormEvent $event) {
         $project = $event->getData();
         $form = $event->getForm();
@@ -75,5 +82,28 @@ class ProjectType extends AbstractType
         );
     }
         
+    public function addReadonly(FormEvent $event) {
+        if ($this->securityContext->isGranted("ROLE_ADMIN")) {
+            $project = $event->getData();
+            $form = $event->getForm();
+            $form->add('readonly', 'checkbox', array('label'=>'project.readonly', 'required'=>false));
+        }
+        /*
+        $project = $event->getData();
+        $form = $event->getForm();
+        
+        $form->add('launcher', 'entity', array(
+            'label' => 'project.launcher',
+            'class' => 'TangaraCoreBundle:File',
+            'property'=>'name',
+            'query_builder' => function(EntityRepository $er) use($project) {
+                return $er->createQueryBuilder('f')
+                ->where('f.project = :project')
+                ->andWhere('f.program = true')
+                ->orderBy('f.name', 'ASC')
+                ->setParameter('project', $project);
+            })
+        );*/
+    }
         
 }

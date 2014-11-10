@@ -39,17 +39,24 @@ class ProjectController extends TangaraController {
         // Check user
         $edition = false;
         $owner = false;
-        if ($this->isUserLogged()) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $auth = $manager->isAuthorized($project, $user);
-            if ($auth) {
+        $admin = false;
+        
+        //TODO: use ACL
+        if ($this->isUserLogged()){
+            $user = $this->getUser();
+            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $admin = true;
                 $edition = true;
-                if ($manager->isHomeProject($project, $user)) {
-                    $params['message'] = "project.home_project";
+            } else {
+                if ($manager->isAuthorized($project, $user)) {
+                    $edition = true;
                 }
                 if ($project->getOwner() === $user) {
                     $owner = true;
                 }
+            }
+            if ($manager->isHomeProject($project, $user)) {
+                $params['message'] = "project.home_project";
             }
         }
         
@@ -63,6 +70,7 @@ class ProjectController extends TangaraController {
         
         $params['edition'] = $edition;
         $params['owner'] = $owner;
+        $params['admin'] = $admin;
         return $this->renderContent('TangaraCoreBundle:Project:show.html.twig', 'project', $params);
     }
     
@@ -90,10 +98,11 @@ class ProjectController extends TangaraController {
         }
         
         // Check user
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
         // Check project access by user
-        $auth = $manager->isAuthorized($project, $user);
+        //TODO: user ACL
+        $auth = $this->get('security.context')->isGranted('ROLE_ADMIN')||$manager->isAuthorized($project, $user);
         if (!$auth) {
             // User not authorized
             return $this->redirect($this->generateUrl('tangara_core_homepage'));
@@ -108,7 +117,7 @@ class ProjectController extends TangaraController {
             if ($form->isValid()) {
                 $manager->saveProject($project);
                 $session->getFlashBag()->add('success', $this->get('translator')->trans('project.edited'));                
-                return $this->redirect($this->generateUrl('tangara_project_show', array('cat' => 1, 'id' => $project->getId())));                
+                return $this->redirect($this->generateUrl('tangara_project_show', array('projectId' => $project->getId())));                
             }
         }
         if (isset($form->attr)) {
@@ -187,6 +196,12 @@ class ProjectController extends TangaraController {
         $params['tangarajs'] = $tangarajs;
         return $this->render('TangaraCoreBundle:Project:execute.html.twig', $params);
         
+    }
+    
+    public function listAction() {
+        if ($this->isUserLogged()) {
+            $ownProjects = $this->get('tangara_core.project_manager')->getRepository()->getOwnedProjects($this->getUser());
+        }
     }
     
     /*public function indexAction() {

@@ -78,6 +78,9 @@ project:
     no_published_projects: Aucun projet publié encore !
     owner: Responsable
     execute: Exécuter
+    readonly: Projet en lecture seule
+    readonly.yes: Oui
+    readonly.no: Non
     
 _show.details: Détails du projet
 _email: Courriel

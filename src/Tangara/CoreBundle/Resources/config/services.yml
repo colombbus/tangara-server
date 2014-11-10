@@ -41,3 +41,4 @@ services:
             - { name: form.type, alias: project }
         arguments:
             - @tangara_core.project_manager
+            - @security.context

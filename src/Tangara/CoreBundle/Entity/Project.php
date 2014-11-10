@@ -95,6 +95,14 @@ class Project {
      * @ORM\OneToMany(targetEntity="File", mappedBy="project")
      */
     private $files;
+    
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $readonly;
 
     
     public function __construct() {
@@ -448,5 +456,28 @@ class Project {
     public function getFiles()
     {
         return $this->files;
+    }
+
+    /**
+     * Set readonly
+     *
+     * @param boolean $readonly
+     * @return Project
+     */
+    public function setReadonly($readonly)
+    {
+        $this->readonly = $readonly;
+
+        return $this;
+    }
+
+    /**
+     * Get readonly
+     *
+     * @return boolean 
+     */
+    public function getReadonly()
+    {
+        return $this->readonly;
     }
 }
