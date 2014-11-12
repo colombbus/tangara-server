@@ -107,6 +107,9 @@ class FileController extends Controller {
             return $env;
         }
         
+        //TODO: use ACL
+        $env->editionAllowed = $context->isGranted('ROLE_ADMIN')||$project->getOwner() == $user;
+
         // Get project directory
         $env->projectPath = $this->container->get('tangara_core.project_manager')->getProjectPath($project);
         
@@ -271,6 +274,10 @@ class FileController extends Controller {
             return $jsonResponse->setData(array('error' => $env->error));
         }
         
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+        
         $programName = $this->getRequest()->request->get('name');
 
         // Get program
@@ -300,8 +307,13 @@ class FileController extends Controller {
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
         }        
+        
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+        
         $resourceName = $this->getRequest()->request->get('name');
-
+        
         // Get resource
         $manager = $this->get('tangara_core.file_manager');
         $repository = $manager->getRepository();
@@ -328,7 +340,12 @@ class FileController extends Controller {
         $jsonResponse = new JsonResponse();
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
-        }        
+        }
+        
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+        
         $programName = $this->getRequest()->request->get('name');
         
         // Check if programName already exists
@@ -358,6 +375,11 @@ class FileController extends Controller {
             return $jsonResponse->setData(array('error' => $env->error));
         }
 
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+
+        
         $files = $this->getRequest()->files->get('resources');
         if (!isset($files)) {
             return $jsonResponse->setData(array('error' => 'no_resource_provided'));
@@ -413,11 +435,16 @@ class FileController extends Controller {
      * @return JsonResponse
      */
     public function setProgramContentAction() {
-        $env = $this->checkEnvironment(array('name','code','statements'));
+        $env = $this->checkEnvironment(array('name'));
         $jsonResponse = new JsonResponse();
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
-        }        
+        }
+        
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+        
         $programName = $this->getRequest()->request->get('name');
         $code = $this->getRequest()->request->get('code');
         $statements = $this->getRequest()->request->get('statements');
@@ -448,6 +475,11 @@ class FileController extends Controller {
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
         }
+        
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+        
         $resourceName = $this->getRequest()->request->get('name');
 
         // Get resource
@@ -510,7 +542,12 @@ class FileController extends Controller {
         $jsonResponse = new JsonResponse();
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
-        }        
+        }
+        
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+        
         $programName = $this->getRequest()->request->get('name');
         $newName = $this->getRequest()->request->get('new');
         
@@ -565,7 +602,12 @@ class FileController extends Controller {
         $jsonResponse = new JsonResponse();
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
-        }        
+        }
+
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+        
         $resourceName = $this->getRequest()->request->get('name');
         $newBaseName = $this->getRequest()->request->get('new');
         
@@ -617,6 +659,10 @@ class FileController extends Controller {
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
         }
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+        
         $resourceName = $this->getRequest()->request->get('name');
         
         // Get current resource and check it actually exists
@@ -678,7 +724,10 @@ class FileController extends Controller {
         if (isset($env->error)) {
             return $jsonResponse->setData(array('error' => $env->error));
         }
-        
+        if (!$env->editionAllowed) {
+            return $jsonResponse->setData(array('error' => 'edition_forbidden'));
+        }
+
         $baseName = $this->getRequest()->request->get('name');
         $extension = "png";
         $name = $baseName.".".$extension;
