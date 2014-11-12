@@ -66,7 +66,7 @@ class ProjectManager extends BaseManager {
 
     public function isAuthorized(Project $project, User $user) {
         // For now, we just check that project is user's home
-        return ($project->getId() == $user->getHome()->getId());
+        return ($project->getId() == $user->getHome()->getId() || $project->getReadOnly());
     }
 
     public function isPublic(Project $project) {
