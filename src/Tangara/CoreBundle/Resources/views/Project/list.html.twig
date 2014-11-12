@@ -1,18 +1,43 @@
-{% extends "TangaraCoreBundle:Default:layout.html.twig" %}
-
-{% block title %}Liste des projets{% endblock %}
-
-{% block main_container %}
-    <div class="container">
-        <h1>Liste des projets</h1>
-        <ul>
-            {% for project in projects %}
-                <li><a href="{{ path( "tangara_project_show", {id: project.id} ) }}" >{{ project.getName()}}</a></li>
-            {% endfor %}
-        </ul>
+<div class="container">
+    <h2>{{'project.projects'|trans}}</h2>
+    <h3>{{'project.own_projects'|trans}}</h3>
+    <div class="list-group">
+        {% for project in ownProjects %}
+         <a href="{{ path( "tangara_project_show", {projectId: project.getId()} ) }}" class="list-group-item content-link" data-active="project">
+             <h4 class="list-group-item-heading">
+                 {% if project.getName() is empty %}
+                     {{ 'project.default_name' | trans }}
+                 {% else %}
+                     {{ project.getName() }}
+                 {% endif %}
+             </h4>
+             {% if project.getDescription() is not empty %}
+             <p class="list-group-item-text">
+                 {{ project.getDescription() }}
+             </p>
+             {% endif %}
+         </a>
+     {% endfor %}
     </div>
-        
-    <a href="{{ path("tangara_project_test") }}">Liste des projets</a>
-    
-{% endblock %}
-
+    <h3>{{'project.readonly_projects'|trans}}</h3>
+    <div class="list-group">
+        {% for project in readonlyProjects %}
+         <a href="{{ path( "tangara_project_show", {projectId: project.getId()} ) }}" data-active="project" class="list-group-item content-link">
+             <h4 class="list-group-item-heading">
+                 {% if project.getName() is empty %}
+                     {{ 'project.default_name' | trans }}
+                 {% else %}
+                     {{ project.getName() }}
+                 {% endif %}
+             </h4>
+             {% if project.getDescription() is not empty %}
+             <p class="list-group-item-text">
+                 {{ project.getDescription() }}
+             </p>
+             {% endif %}
+         </a>
+     {% endfor %}
+    </div>
+    <h3>{{'project.published_projects'|trans}}</h3>
+    <a class="btn btn-default content-link" href="{{path('tangara_project_published')}}" role="button" data-active="discover" data-title="{{'project.published_projects'|trans}}">{{'project.see_published_projects'|trans}}</a>
+</div>
