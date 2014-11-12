@@ -25,6 +25,12 @@ tangara_project_edit:
     path:  /edit/{projectId}
     defaults: { _controller: TangaraCoreBundle:Project:edit, projectId: false }
 
+tangara_project_select:
+    path:  /select/{projectId}
+    defaults: { _controller: TangaraCoreBundle:Project:select}
+    requirements:
+        projectId:  \d+
+
 tangara_project_files:
     path:  /files
     defaults: { _controller: TangaraCoreBundle:File:getFiles }
