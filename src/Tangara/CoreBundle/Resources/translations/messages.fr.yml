@@ -7,6 +7,9 @@ navbar:
     register: Inscription
     profile: Profil
     account: Compte utilisateur
+    admin: Administration
+    projects: Projets
+    project_info: Informations
 homepage:
     Welcome: Bienvenue sur le site de Tangara
     site_description: Le site officiel de Tangara fonctionnant sur Android, PC (Win/Linux/Mac), iPhone, FirefoxOS, BlackBerry.
@@ -17,7 +20,6 @@ homepage:
     go_ulule: Aller sur Ulule
     shared_projects: Projets partagés
     view_details: Détails
-    admin_interface: Admin interface
     start: Pour bien commencer
     start_description: Vous voulez vous y mettre et vous ne savez pas par où commencer ? Les tutoriels vont vous guider.
     view_tutorials: Voir les tutoriels
@@ -73,6 +75,7 @@ project:
     launcher_not_set: Aucun programme principal défini
     edited: Projet mis à jour
     published_projects: Projets publiés
+    see_published_projects: Voir la liste des projets publiés
     published_projects_description: Découvrez ici les projets qui ont été publiés par les développeurs Tangara !
     published_projects_access: Voir les projets publiés
     no_published_projects: Aucun projet publié encore !
@@ -81,7 +84,10 @@ project:
     readonly: Projet en lecture seule
     readonly.yes: Oui
     readonly.no: Non
-    
+    projects: Tous les projets
+    own_projects: Mes projets
+    readonly_projects: Projets consultables
+    select: Travailler sur ce projet
 _show.details: Détails du projet
 _email: Courriel
 _password: Mot de passe
