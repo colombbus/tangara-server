@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>{{'project.published_projects'|trans}}</h1>
+    <h2>{{'project.published_projects'|trans}}</h2>
     {% if projects is empty %}
         <i>
             {{'project.no_published_projects'|trans}}    
@@ -7,7 +7,7 @@
     {% else %}
         <div class="list-group">
             {% for project in projects %}
-                <a href="{{ path( "tangara_project_show", {projectId: project.getId()} ) }}" class="list-group-item">
+                <a href="{{ path( "tangara_project_show", {projectId: project.getId()} ) }}" class="list-group-item content-link">
                     <h4 class="list-group-item-heading">
                         {% if project.getName() is empty %}
                             {{ 'project.default_name' | trans }}
