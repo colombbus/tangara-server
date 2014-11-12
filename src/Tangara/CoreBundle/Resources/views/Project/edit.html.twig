@@ -4,15 +4,24 @@
         <div class="col-md-12">
             <h2>{{'project.edition'|trans}}</h2>
             <form action="" method="post" name="project" class="content-form">
-                {{form_widget(form)}}
-            </form>
+                {{ form_row(form.name) }}
+                {{ form_row(form.published) }}
+                {{ form_row(form.launcher) }}
+                {{ form_row(form.width) }}
+                {{ form_row(form.height) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.instructions) }}
+            {% if form.readonly is defined %}
+                {{ form_row(form.readonly) }}
+            {% endif %}
+            {{ form_end(form) }}
         </div>
     </div>
 </div> 
 <script>
     $(function(){
         $('#project_cancel').click(function(e){
-           project(e);
+            window.history.back();
         });
     });
 </script>
