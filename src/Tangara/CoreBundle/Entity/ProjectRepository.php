@@ -35,4 +35,16 @@ class ProjectRepository extends EntityRepository
         return $projects;
     }
     
+    public function getReadonlyProjects(User $user){
+        $query = $this->createQueryBuilder('p')
+                ->where('p.readonly = true')
+                ->andwhere('p.owner != :owner')
+                ->orderBy('p.created', 'DESC')
+                ->setParameter('owner', $user);
+        
+        $projects = $query->getQuery()->getResult();
+        
+        return $projects;
+    }
+    
 }
