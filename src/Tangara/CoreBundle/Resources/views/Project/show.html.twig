@@ -138,3 +138,8 @@
 {% endif %}
     <a class="btn btn-default" href="{{ path( "tangara_project_execute", {'projectId':project.getId()}) }}" target="tangara_execution">{{ 'project.execute'|trans }}</a>
 </div>
+{% if updateUserMenu is defined %}
+    <script>
+        updateUserMenu(false);
+    </script>
+{% endif %}
