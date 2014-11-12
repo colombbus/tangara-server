@@ -153,7 +153,7 @@ class ProfileController extends TangaraController
             return $this->redirect($this->generateUrl( 'tangara_core_homepage' ));
         } else {
             // direct access
-            return $this->render('TangaraCoreBundle:User:menu.html.twig', array('project'=>$this->getProject()));
+            return $this->render('TangaraCoreBundle:User:menu.html.twig', array('current_project'=>$this->getProject()));
         }
     }
     
