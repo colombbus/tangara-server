@@ -6,10 +6,6 @@
 {% endif %}
 
 <div class="container">
-{% if admin %}
-    <h3>admin</h3>
-{% endif %}
-    
     {% include 'TangaraCoreBundle:Main:messages.html.twig' %}
     <h2>{{ 'project.details'|trans }}{{projectName}}
     {% if edition %}
@@ -36,6 +32,7 @@
                     {{projectName}}
                 </td>
             </tr>
+            <tr>
                 <td class="data-title">
                     {{ 'project.owner'|trans }}
                 </td>
@@ -135,6 +132,9 @@
     {% endif %}
 {% if edition %}
     <a class="btn btn-default content-link" data-active='project' href="{{ path( "tangara_project_edit", {'projectId':project.getId()}) }}" >{{ 'project.edit'|trans }}</a>
+{% endif %}
+{% if selectable %}
+    <a class="btn btn-default content-link" data-active='create' href="{{ path( "tangara_project_select", {'projectId':project.getId()}) }}" >{{ 'project.select'|trans }}</a>
 {% endif %}
     <a class="btn btn-default" href="{{ path( "tangara_project_execute", {'projectId':project.getId()}) }}" target="tangara_execution">{{ 'project.execute'|trans }}</a>
 </div>
