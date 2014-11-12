@@ -116,8 +116,16 @@ class FileManager extends BaseManager {
         $codePath = $projectPath . "/".$program->getName()."_code";
         $statementsPath = $projectPath . "/".$program->getName()."_statements";
 
-        file_put_contents($codePath, $code, LOCK_EX);
-        file_put_contents($statementsPath, $statements, LOCK_EX);
+        if ($code){
+            file_put_contents($codePath, $code, LOCK_EX);
+        } else {
+            touch($codePath);
+        }
+        if ($statements) {
+            file_put_contents($statementsPath, $statements, LOCK_EX);
+        } else {
+            touch($satementsPath);
+        }
         
         // update project
         $this->pm->updateFile($project, $program);
