@@ -1,15 +1,16 @@
-function updateLocal() {
-    document.getElementById('local-frame').contentWindow.updateEnvironment();
+function updateLocal(showEditor) {
+    document.getElementById('local-frame').contentWindow.updateEnvironment(showEditor);
 }
 
-function updateUserMenu() {
-    $("#user-dropdown-trigger").addClass("loading");
+function updateUserMenu(showLoading, showEditor) {
+    if (typeof showLoading === 'undefined' || showLoading) {
+        $("#user-dropdown-trigger").addClass("loading");
+    }
     var $element = $("#user-menu");
     $element.load(url_user_menu, function() {
         $("#logout-link").click(logout);
-        $("#project a").click(project);
         ajaxify($element);
-        updateLocal();
+        updateLocal(showEditor);
     });
 }
 
@@ -83,13 +84,6 @@ function share(event) {
     fetchContent(url_share, {active:'share'});
 }
 
-function project(event) {
-    event.preventDefault();
-    setActive("project");
-    openContent();
-    fetchContent(url_project, {active:'project'});
-}
-
 function login(event) {
     event.preventDefault();
     var $form = $(this);
@@ -102,7 +96,6 @@ function login(event) {
             $element.html(data.content);
             $("#login-form").submit(login);
             $("#logout-link").click(logout);
-            $("#project a").click(project);
             ajaxify($element);
         }
         if (typeof data.success !== 'undefined') {
@@ -213,7 +206,6 @@ $(function() {
     $("#discover a").click(discover);
     $("#create a").click(create);
     $("#share a").click(share);
-    $("#project a").click(project);
     // bind login form
     $("#login-form").submit(login);
     // bind logout link
