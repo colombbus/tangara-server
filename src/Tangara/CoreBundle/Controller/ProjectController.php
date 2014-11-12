@@ -40,18 +40,24 @@ class ProjectController extends TangaraController {
         $edition = false;
         $owner = false;
         $admin = false;
+        $selectable = false;
+        $access = false;
         
         //TODO: use ACL
         if ($this->isUserLogged()){
             $user = $this->getUser();
             if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $admin = true;
+                $access = true;
                 $edition = true;
+                $selectable = true;
             } else {
                 if ($manager->isAuthorized($project, $user)) {
-                    $edition = true;
+                    $selectable = true;
+                    $access = true;
                 }
                 if ($project->getOwner() === $user) {
+                    $edition = true;
                     $owner = true;
                 }
             }
@@ -60,7 +66,7 @@ class ProjectController extends TangaraController {
             }
         }
         
-        if (!$edition) {
+        if (!$access) {
             // Check that project is public
             if (!$project->getPublished()) {
                 // User not authorized
@@ -71,6 +77,11 @@ class ProjectController extends TangaraController {
         $params['edition'] = $edition;
         $params['owner'] = $owner;
         $params['admin'] = $admin;
+        $params['selectable'] = $selectable;
+        if ($session->get('userMenuUpdateRequired')) {
+            $session->remove('userMenuUpdateRequired');
+            $params['updateUserMenu'] = true;
+        }
         return $this->renderContent('TangaraCoreBundle:Project:show.html.twig', 'project', $params);
     }
     
@@ -80,6 +91,10 @@ class ProjectController extends TangaraController {
         $session = $request->getSession();
         // get manager
         $manager = $this->get('tangara_core.project_manager');
+
+        if (!$this->isUserLogged()) {
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
         
         if ($projectId === false) {
             $projectId = $session->get('projectid');
@@ -102,7 +117,7 @@ class ProjectController extends TangaraController {
 
         // Check project access by user
         //TODO: user ACL
-        $auth = $this->get('security.context')->isGranted('ROLE_ADMIN')||$manager->isAuthorized($project, $user);
+        $auth = $this->get('security.context')->isGranted('ROLE_ADMIN')||$project->getOwner() == $user;
         if (!$auth) {
             // User not authorized
             return $this->redirect($this->generateUrl('tangara_core_homepage'));
@@ -116,7 +131,11 @@ class ProjectController extends TangaraController {
         
             if ($form->isValid()) {
                 $manager->saveProject($project);
-                $session->getFlashBag()->add('success', $this->get('translator')->trans('project.edited'));                
+                if ($project->getId() == $session->get('projectid')) {
+                    // current project has been updated: user menu has to be updated
+                    $session->set('userMenuUpdateRequired', true);
+                }
+                $session->getFlashBag()->add('success', $this->get('translator')->trans('project.edited'));
                 return $this->redirect($this->generateUrl('tangara_project_show', array('projectId' => $project->getId())));                
             }
         }
@@ -199,10 +218,34 @@ class ProjectController extends TangaraController {
     }
     
     public function listAction() {
-        if ($this->isUserLogged()) {
-            $ownProjects = $this->get('tangara_core.project_manager')->getRepository()->getOwnedProjects($this->getUser());
+        if (!$this->isUserLogged()) {
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
         }
+        $repository = $this->get('tangara_core.project_manager')->getRepository();
+        $user = $this->getUser();
+        $params = array();
+        $params['ownProjects'] = $repository->getOwnedProjects($user);
+        $params['readonlyProjects'] = $repository->getReadOnlyProjects($user);
+        return $this->renderContent('TangaraCoreBundle:Project:list.html.twig', 'project', $params);
     }
+
+    public function selectAction($projectId) {
+        // get manager
+        $manager = $this->get('tangara_core.project_manager');
+        $project = $manager->getRepository()->find($projectId);
+        $user = $this->getUser();
+        
+        if (!$this->isUserLogged()) {
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
+        $auth = $this->get('security.context')->isGranted('ROLE_ADMIN')||$manager->isAuthorized($project, $user);
+        if (!$auth) {
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
+        $this->getRequest()->getSession()->set('projectid', $projectId);
+        return $this->renderContent('TangaraCoreBundle:Project:select.html.twig', 'create');
+    }
+
     
     /*public function indexAction() {
     }
