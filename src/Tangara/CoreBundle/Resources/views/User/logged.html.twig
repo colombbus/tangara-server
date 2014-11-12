@@ -1,10 +1,11 @@
 {% if current_project is defined %}
     {% if active is defined and active == 'project' %}
-<li class="active" id="project">
+<li class="dropdown active" id="project">
     {% else %}
-<li id="project">
+<li id="project" class="dropdown">
     {% endif %}
-    <a href="#"><span class="glyphicon glyphicon-folder-open"></span>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="project-dropdown-trigger">
+        <span class="glyphicon glyphicon-folder-open"></span>
     {% if current_project.getName() is defined %}
         {% if current_project.getName() is empty %}
             {{ 'project.default_name' | trans }}
@@ -12,7 +13,20 @@
             {{ current_project.getName() }}
         {% endif %}
     {% endif %}
+    <span class="caret"></span>
     </a>
+    <ul class="dropdown-menu dropdown-menu-right" id="project-dropdown" role="menu">
+        <li>
+            <a href="{{ path('tangara_project_show') }}" class="content-link" data-active="project" data-title="project">
+                {{'navbar.project_info'|trans }} 
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('tangara_project_list') }}" class="content-link" data-active="project" data-title="project">
+                {{'navbar.projects'|trans }} 
+            </a>
+        </li>
+    </ul>
 </li>
 {% endif %}
 {% if active is defined and active == 'profile' %}
@@ -20,25 +34,27 @@
 {% else %}
 <li id="profile" class="dropdown">
 {% endif %}
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="user-dropdown-trigger"><span class="glyphicon glyphicon-user"></span>{{ app.user.username }} <span class="caret"></span></a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="user-dropdown-trigger">
+        <span class="glyphicon glyphicon-user{%if is_granted('ROLE_ADMIN')%} admin {%endif%}"></span>
+        {{ app.user.username }} <span class="caret"></span></a>
     <ul class="dropdown-menu dropdown-menu-right" id="user-dropdown" role="menu">
         <li>
-            
-            <a href="{{ path('tangara_user_profile_show') }}" class="content-link" data-active="profile" data-title="coucou">
+            <a href="{{ path('tangara_user_profile_show') }}" class="content-link" data-active="profile">
                 {{'navbar.profile'|trans }} 
             </a>
         </li>
+    {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('tangara_admin_homepage') }} ">
+                    {{ 'navbar.admin'|trans }}
+                </a>
+            </li>
+    {% endif %}
+        <li role="presentation" class="divider"></li>    
         <li>
         <a href="{{ path('fos_user_security_logout') }}" id="logout-link">
             {{'navbar.logout'|trans }} 
         </a>
         </li>
-    {% if is_granted('ROLE_ADMIN') %}
-            <li>
-                <a href="{{ path('tangara_admin_homepage') }} ">
-                    {{ 'navbar.admin_interface'|trans }}
-                </a>
-            </li>
-    {% endif %}
     </ul>
 </li>
