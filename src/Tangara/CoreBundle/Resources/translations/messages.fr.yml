@@ -88,6 +88,8 @@ project:
     own_projects: Mes projets
     readonly_projects: Projets consultables
     select: Travailler sur ce projet
+message:
+    unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
 _show.details: Détails du projet
 _email: Courriel
 _password: Mot de passe
