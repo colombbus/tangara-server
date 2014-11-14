@@ -16,4 +16,18 @@
 {% else %}
     var content_url = false;
 {% endif %}    
+    
+    // messages
+    var messageUnsaved = "{{'message.unsaved'|trans}}";
+
+    // check for unsaved programs when leaving Tangara
+    window.onbeforeunload = function(e) {
+        if (document.getElementById('local-frame').contentWindow.isUnsaved()) {
+            var e = e || window.event;
+            if (e) {
+                e.returnValue = messageUnsaved;
+            }
+            return messageUnsaved;
+        }
+    };
 </script>
