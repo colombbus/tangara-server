@@ -43,6 +43,16 @@ function recordHistory(historyData) {
     window.history.pushState(historyData.data, historyData.title, historyData.url);        
 }
 
+function loadContent(url) {
+    var $element = $("#content");
+    $element.addClass("loading");
+    $element.empty();
+    $element.load(url, function() {
+           ajaxify($(this));
+           $element.removeClass("loading");
+    });
+}
+
 function fetchContent(url, data, title) {
     if (typeof data !== 'undefined') {
         historyData = {data:data, url:url};
@@ -53,14 +63,8 @@ function fetchContent(url, data, title) {
             historyData.title = title;
         }
         recordHistory(historyData);
+        loadContent(url);
     }
-    var $element = $("#content");
-    $element.addClass("loading");
-    $element.empty();
-    $element.load(url, function() {
-           ajaxify($(this));
-           $element.removeClass("loading");
-    });
 }
 
 function setActive(elementName) {
@@ -127,7 +131,11 @@ function logout(event) {
                 $("#login-form").submit(login);
                 $("#logout-link").click(logout);
                 ajaxify($element);
-                location.reload();
+                // If content is active, reload content
+                var currentState = history.state;
+                if (typeof currentState.content !== 'undefined') {
+                    loadContent(currentState.content);
+                }
             }
             if (typeof data.success !== 'undefined') {
                 if (data.success) {
