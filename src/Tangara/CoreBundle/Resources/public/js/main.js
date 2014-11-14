@@ -2,6 +2,13 @@ function updateLocal(showEditor) {
     document.getElementById('local-frame').contentWindow.updateEnvironment(showEditor);
 }
 
+function checkLocalUnsaved(message) {
+    if (document.getElementById('local-frame').contentWindow.isUnsaved()) {
+        return window.confirm(message);
+    }
+    return true;
+}
+
 function updateUserMenu(showLoading, showEditor) {
     if (typeof showLoading === 'undefined' || showLoading) {
         $("#user-dropdown-trigger").addClass("loading");
@@ -108,26 +115,27 @@ function login(event) {
 
 function logout(event) {
     event.preventDefault();
-    var $link = $(this);
-    var url = $link.attr( "href" );
-    $("#user-dropdown-trigger").addClass("loading");
-    // TODO: check if project dirty first
-    var getting = $.get(url, "json");
-    getting.done(function( data ) {
-        if (typeof data.content !== 'undefined') {
-            var $element = $("#user-menu");
-            $element.html(data.content);
-            $("#login-form").submit(login);
-            $("#logout-link").click(logout);
-            ajaxify($element);
-            location.reload();
-        }
-        if (typeof data.success !== 'undefined') {
-            if (data.success) {
-                updateLocal();
+    if (checkLocalUnsaved(messageUnsaved)) {
+        var $link = $(this);
+        var url = $link.attr( "href" );
+        $("#user-dropdown-trigger").addClass("loading");
+        var getting = $.get(url, "json");
+        getting.done(function( data ) {
+            if (typeof data.content !== 'undefined') {
+                var $element = $("#user-menu");
+                $element.html(data.content);
+                $("#login-form").submit(login);
+                $("#logout-link").click(logout);
+                ajaxify($element);
+                location.reload();
             }
-        }
-    });
+            if (typeof data.success !== 'undefined') {
+                if (data.success) {
+                    updateLocal();
+                }
+            }
+        });
+    }
 }
 
 function contentLink(event) {
