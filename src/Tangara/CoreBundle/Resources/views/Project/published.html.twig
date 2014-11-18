@@ -7,7 +7,7 @@
     {% else %}
         <div class="list-group">
             {% for project in projects %}
-                <a href="{{ path( "tangara_project_show", {projectId: project.getId()} ) }}" class="list-group-item content-link">
+                <a href="{{ path( "tangara_project_show", {projectId: project.getId()} ) }}" class="list-group-item content-link" data-active="discover">
                     <h4 class="list-group-item-heading">
                         {% if project.getName() is empty %}
                             {{ 'project.default_name' | trans }}
