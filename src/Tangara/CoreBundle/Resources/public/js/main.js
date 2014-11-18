@@ -63,8 +63,8 @@ function fetchContent(url, data, title) {
             historyData.title = title;
         }
         recordHistory(historyData);
-        loadContent(url);
     }
+    loadContent(url);
 }
 
 function setActive(elementName) {
