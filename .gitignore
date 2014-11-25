@@ -36,3 +36,4 @@ nbproject/*
 
 /composer.lock
 /bin/*
+/app/Resources/views/custom_js.html.twig
