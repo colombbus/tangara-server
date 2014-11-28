@@ -331,3 +331,10 @@ td.data-title {
     color:#EDA735;
     line-height:1em;
 }
+
+.program-state {
+    color: white;
+    font-family: comfortaa;
+    font-size: 11px;
+    margin-top: 10px;
+}
