@@ -1,4 +1,4 @@
-Tangara-ui
+tangara-server
 ==========
 
 A Symfony2's Framework web interface for [TangaraJS](https://github.com/colombbus/tangarajs)
