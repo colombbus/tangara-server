@@ -1,9 +1,9 @@
-Tangara-ui
+Tangara-server
 ==========
 
-A Symfony2's Framework web interface for [TangaraJS](https://github.com/colombbus/tangarajs)
+A Symfony2's Framework web interface for [TangaraJS](https://github.com/colombbus/tangara-client)
 
-The TangaraUI adds support for the TangaraJS educational program.
+Tangara-server adds support for the Tangara-client educational program.
 It provides a flexible framework for user management that aims to handle
 common tasks such as user registration and password retrieval, project management
 
@@ -27,7 +27,7 @@ Documentation
 The bulk of the documentation is stored in the `Resources/doc/index.md`
 file in this bundle:
 
-[Read the Documentation for master](https://github.com/colombbus/tangara-ui/blob/master/src/Tangara/UserBundle/Resources/doc/index.md)
+[Read the Documentation for master](https://github.com/colombbus/tangara-server/blob/master/src/Tangara/Resources/doc/index.md)
 
 Installation
 ------------
@@ -37,7 +37,7 @@ All the installation instructions are located in the documentation.
 Continuous Integration
 ------------
 
-TangaraUI is TestDriven developped with the [Travis](https://travis-ci.org/colombbus/tangara-ui)
+TangaraUI is TestDriven developped with the [Travis](https://travis-ci.org/colombbus/tangara-server)
 tool.
 
 License
@@ -51,12 +51,12 @@ About
 -----
 
 TangaraUI is a [Colombbus](http://www.colombbus.org) initiative.
-See also the list of [contributors](https://github.com/colombbus/tangara-ui/contributors).
+See also the list of [contributors](https://github.com/colombbus/tangara-server/contributors).
 
 Reporting an issue or a feature request
 ---------------------------------------
 
-Issues and feature requests are tracked in the [Github issue tracker](https://github.com/colombbus/tangara-ui/issues).
+Issues and feature requests are tracked in the [Github issue tracker](https://github.com/colombbus/tangara-server/issues).
 
 When reporting a bug, it may be a good idea to reproduce it in a basic project
 built using the [Symfony Standard Edition](https://github.com/symfony/symfony-standard)
