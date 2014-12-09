@@ -6,14 +6,13 @@ use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\FOSUserEvents;
-use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Security\Core\AuthenticationEvents;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\Event\AuthenticationEvent;
-use Symfony\Component\Security\Core\SecurityContext;
 use Tangara\CoreBundle\Entity\Project;
 
 class UserListener implements EventSubscriberInterface {
@@ -21,11 +20,13 @@ class UserListener implements EventSubscriberInterface {
     protected $manager;
     protected $session;
     protected $router;
+    protected $authorizationChecker;
     
-    function __construct(EntityManager $em, Session $session, Router $router) {
+    function __construct(EntityManager $em, Session $session, Router $router, AuthorizationChecker $authorizationChecker) {
         $this->manager = $em;
         $this->session = $session;
         $this->router = $router;
+        $this->authorizationChecker = $authorizationChecker;
     }
     
     public static function getSubscribedEvents() {
@@ -61,11 +62,23 @@ class UserListener implements EventSubscriberInterface {
     }
     
     public function onUserLogin(AuthenticationEvent $event) {
-        $user = $event->getAuthenticationToken()->getUser();
-        $home = $user->getHome();
-        // set project as current project in session
-        if ($home)
-            $this->session->set('projectid', $home->getId());
+        // No anonymous user
+        $roles = $event->getAuthenticationToken()->getRoles();
+        $anonymous = true;
+        foreach ($roles as $role) {
+            if ($role->getRole() === "ROLE_USER") {
+                $anonymous = false;
+                break;
+            }
+        }
+        if (!$anonymous) {
+            $user = $event->getAuthenticationToken()->getUser();
+            $home = $user->getHome();
+            // set project as current project in session
+            if ($home) {
+                $this->session->set('projectid', $home->getId());
+            }
+        }
     }
 
 }
