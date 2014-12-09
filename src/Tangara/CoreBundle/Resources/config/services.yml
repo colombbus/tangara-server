@@ -27,6 +27,7 @@ services:
             - @doctrine.orm.entity_manager
             - @session
             - @router
+            - @security.authorization_checker
     tangara_core.authentication_handler:
         class: Tangara\CoreBundle\Handler\AuthenticationHandler
         public: false
