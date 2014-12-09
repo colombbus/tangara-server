@@ -73,7 +73,16 @@ class File {
      * @ORM\Column(type="integer", nullable=false)
      */
     private $version = 0;
-            
+       
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $deleted = false;
+    
+    
     /**
      * Get id
      *
@@ -243,5 +252,28 @@ class File {
     public function getBaseName()
     {
         return $this->baseName;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return File
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean 
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }

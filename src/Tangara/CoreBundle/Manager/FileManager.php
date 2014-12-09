@@ -77,9 +77,14 @@ class FileManager extends BaseManager {
         return $this->em->getRepository('TangaraCoreBundle:File');
     }
     
-    public function remove(File $file) {
-        // Remove database entry
-        $this->em->remove($file);
+    public function remove(File $file, $anyway = false) {
+        if ($anyway || $file->getProgram()) {
+            // remove database entry
+            $this->em->remove($file);
+        } else {
+            // set file as deleted
+            $file->setDeleted(true);
+        }
         $this->em->flush();
 
         // Remove file from project

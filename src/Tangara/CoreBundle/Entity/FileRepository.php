@@ -36,6 +36,7 @@ class FileRepository extends EntityRepository {
         $query = $this->createQueryBuilder('a')
                 ->where('a.project = :project')
                 ->andWhere('a.program = false')
+                ->andWhere('a.deleted = false')
                 ->setParameter('project', $project);
         
         $resources = $query->getQuery()->getResult();
