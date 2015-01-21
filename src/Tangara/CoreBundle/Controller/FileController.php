@@ -168,16 +168,18 @@ class FileController extends Controller {
         }
         $programName = $this->getRequest()->request->get('name');
         
-        $existing = $this->get('tangara_core.project_manager')->isProjectFile($env->project, $programName, true);
-        if (!$existing) {
+        $program = $this->get('tangara_core.project_manager')->getProjectFile($env->project, $programName, true);
+        if ($program === false) {
             return $jsonResponse->setData(array('error' => 'program_not_found'));
         }
 
+        $filePath = $this->get('tangara_core.file_manager')->getFilePath($program);
+        
         if ($statements) {
-            $path = $env->projectPath . "/${programName}_statements";
+            $path = $env->projectPath . "/${filePath}_statements";
             $dataName = 'statements';
         } else {
-            $path = $env->projectPath . "/${programName}_code";
+            $path = $env->projectPath . "/${filePath}_code";
             $dataName = 'code';
         }
 
@@ -253,8 +255,7 @@ class FileController extends Controller {
             }
         }
         
-        
-        $path = $env->projectPath . "/$name";
+        $path = $env->projectPath."/".$this->get('tangara_core.file_manager')->getFilePath($resource);
 
         $fs = new Filesystem();
         if (!$fs->exists($path)) {
@@ -354,13 +355,10 @@ class FileController extends Controller {
         
         // Check if programName already exists
         $manager = $this->get('tangara_core.project_manager');
-        $existing = $manager->isProjectFile($env->project, $programName, true);
-        if ($existing) {
+        $program = $manager->createFile($env->project, $programName, true);
+        if ($program === false) {
             return $jsonResponse->setData(array('error' => 'program_already_exists'));
         }
-        
-        // Create new file
-        $manager->createFile($env->project, $programName, true);
         
         return $jsonResponse->setData(array('created' => $programName));
     }
@@ -382,7 +380,6 @@ class FileController extends Controller {
         if (!$env->editionAllowed) {
             return $jsonResponse->setData(array('error' => 'edition_forbidden'));
         }
-
         
         $files = $this->getRequest()->files->get('resources');
         if (!isset($files)) {
@@ -398,25 +395,12 @@ class FileController extends Controller {
                 return $jsonResponse->setData(array('error' => array('message'=>$check, 'name'=>$name)));
             }
             
-            // Check if name already exists
-            $file = $this->get('tangara_core.project_manager')->getProjectFile($env->project, $name, false);
-            if ($file) {
-                // check if existing file is deleted
-                if (!$file->getDeleted()) {
-                    return $jsonResponse->setData(array('error' => array('message'=>'resource_already_exists', 'name'=>$name)));
-                }
-                // reuse previously deleted file
-                $file->setVersion($file->getVersion()+1);
-            } else {
-                // Create new file
-                $file = new File();
-            }
+            // Get file type and check it
             $type = $manager->getResourceType($uploadedFile);
-            if ($type !== false) {
-                $file->setType($type);
-            } else {
+            if ($type === false) {
                 return $jsonResponse->setData(array('error' => 'bad_resource_type'));
             }
+            // Try to get file extension
             $parts = explode(".", $name);
             if (sizeof($parts) <= 1) {
                 // no extension found
@@ -424,13 +408,18 @@ class FileController extends Controller {
             }
             $extension = end($parts);
             $baseName = substr($name, 0, -(strlen($extension)+1));
+           
+            // Get new file
+            $file = $this->get('tangara_core.project_manager')->createFile($env->project, $name, false);
+            if ($file === false) {
+                // file name already in use
+                return $jsonResponse->setData(array('error' => array('message'=>'resource_already_exists', 'name'=>$name)));
+            }
+
+            $file->setType($type);
             $file->setExtension($extension);
             $file->setBaseName($baseName);
-            $file->setProject($env->project);
-            $file->setName($name);
-            $file->setProgram(false);
-            $file->setDeleted(false);
-            $uploadedFile->move($env->projectPath, $name);
+            $uploadedFile->move($env->projectPath, $file->getStorageName());
             $manager->persistAndFlush($file);
             $created[] = array('name'=>$name, 'data' => array('type'=> $type, 'extension'=>$extension, 'base-name'=>$baseName, 'version'=>$file->getVersion()));
         }
@@ -500,6 +489,17 @@ class FileController extends Controller {
             return $jsonResponse->setData(array('error' => "resource_not_found"));
         }
 
+        // handle data
+        $data = $this->getRequest()->request->get('data');
+        // remove header (get only image data)
+        $pos = strpos($data, ',');
+        if ($pos === false) {
+            return $jsonResponse->setData(array('error' => "malformed_data"));
+        }
+        $data = substr($data, $pos+1);
+        // base 64 decode
+        $data = base64_decode($data);
+        
         // Check extension
         if ($resource->getExtension() !== "png") {
             // name will change: check that new resource name does not exist
@@ -519,18 +519,7 @@ class FileController extends Controller {
             $resource->setExtension("png");
         }
         
-        // handle data
-        $data = $this->getRequest()->request->get('data');
-        // remove header (get only image data)
-        $pos = strpos($data, ',');
-        if ($pos === false) {
-            return $jsonResponse->setData(array('error' => "malformed_data"));
-        }
-        $data = substr($data, $pos+1);
-        // base 64 decode
-        $data = base64_decode($data);
-         
-        $path = $env->projectPath . "/". $resource->getName();
+        $path = $env->projectPath . "/". $manager->getFilePath($resource);
         
         $result = file_put_contents($path, $data);
         
@@ -589,20 +578,6 @@ class FileController extends Controller {
         $program->setName($newName);
         $manager->flush();
 
-        // Change file names
-        $oldCodePath = $env->projectPath . "/${programName}_code";
-        $newCodePath = $env->projectPath . "/${newName}_code";
-        $oldStatementsPath = $env->projectPath . "/${programName}_statements";
-        $newStatementsPath = $env->projectPath . "/${newName}_statements";
-
-        $fs = new Filesystem();
-        if ($fs->exists($oldCodePath)) {
-            rename($oldCodePath, $newCodePath);
-        }
-        if ($fs->exists($oldStatementsPath)) {
-            rename($oldStatementsPath, $newStatementsPath);
-        }
-        
         return $jsonResponse->setData(array('updated' => $newName));
     }
     
@@ -630,7 +605,7 @@ class FileController extends Controller {
         $manager = $this->get('tangara_core.file_manager');
         $repository = $manager->getRepository();
         $resource = $repository->getProjectResource($env->projectId, $resourceName);
-        if (!$resource) {
+        if ($resource === false) {
             return $jsonResponse->setData(array('error' => "resource_not_found"));
         }
 
@@ -658,14 +633,6 @@ class FileController extends Controller {
         $resource->setBaseName($newBaseName);
         $manager->saveFile($resource);
 
-        // Change file names
-        $oldPath = $env->projectPath . "/${resourceName}";
-        $newPath = $env->projectPath . "/${newName}";
-
-        $fs = new Filesystem();
-        if ($fs->exists($oldPath)) {
-            rename($oldPath, $newPath);
-        }
         return $jsonResponse->setData(array('updated' => $newName));
     }
     
@@ -688,9 +655,8 @@ class FileController extends Controller {
         $resourceName = $this->getRequest()->request->get('name');
         
         // Get current resource and check it actually exists
-        $manager = $this->get('tangara_core.file_manager');
-        $repository = $manager->getRepository();
-        $resource = $repository->getProjectResource($env->projectId, $resourceName);
+        $manager = $this->get('tangara_core.project_manager');
+        $resource = $manager->getProjectFile($env->project, $resourceName, false);
         if (!$resource) {
             return $jsonResponse->setData(array('error' => "resource_not_found"));
         }
@@ -706,30 +672,19 @@ class FileController extends Controller {
             $newName = $newBaseName.".".$extension;
             
             // check if new resource already exists
-            $exist = $repository->getProjectResource($env->projectId, $newName);
+            $copy = $manager->createFile($env->project, $newName, false);
             $newIndex++;
-        } while ($exist && !$exist->getDeleted());
+        } while ($copy === false);
         
-        if ($exist) {
-            // reuse previously deleted file
-            $copy = $exist;
-            $copy->setVersion($copy->getVersion()+1);
-        } else {
-            // Create new resource
-            $copy = new File();
-        }
-        $copy->setName($newName);
         $copy->setBaseName($newBaseName);
         $copy->setExtension($extension);
         $copy->setType($resource->getType());
-        $copy->setProject($env->project);
-        $copy->setProgram(false);
-        $copy->setDeleted(false);
-        $manager->saveFile($copy);
+        $fileManager = $this->get('tangara_core.file_manager');
+        $fileManager->saveFile($copy);
         
         // Copy file
-        $originalPath = $env->projectPath . "/${resourceName}";
-        $copyPath = $env->projectPath . "/${newName}";
+        $originalPath = $env->projectPath . "/".$fileManager->getFilePath($resource);
+        $copyPath = $env->projectPath . "/".$fileManager->getFilePath($copy);;
         $fs = new Filesystem();
         try {
             $fs->copy($originalPath, $copyPath);
@@ -761,21 +716,6 @@ class FileController extends Controller {
         $extension = "png";
         $name = $baseName.".".$extension;
         
-        // Check that resource does not exist yet
-        $manager = $this->get('tangara_core.file_manager');
-        $repository = $manager->getRepository();
-        $resource = $repository->getProjectResource($env->projectId, $name);
-        if ($resource) {
-            // check if existing file is deleted
-            if (!$resource->getDeleted()) {
-                return $jsonResponse->setData(array('error' => 'resource_already_exists'));
-            }
-            // reuse previously deleted file
-            $resource->setVersion($resource->getVersion()+1);
-        } else {
-            $resource = new File();
-        }
-
         // Handle data
         $data = $this->getRequest()->request->get('data');
         // remove header (get only image data)
@@ -786,25 +726,29 @@ class FileController extends Controller {
         $data = substr($data, $pos+1);
         // base 64 decode
         $data = base64_decode($data);
-         
-        $path = $env->projectPath . "/". $name;
         
+        // Create resource
+        $resource = $this->get('tangara_core.project_manager')->createFile($env->project, $name, false);
+        if ($resource === false) {
+            // file name already in use
+            return $jsonResponse->setData(array('error' => 'resource_already_exists'));
+        }        
+        
+        $fileManager = $this->get('tangara_core.file_manager');
+        $path = $env->projectPath . "/". $fileManager->getFilePath($resource);
+
         $result = file_put_contents($path, $data);
         
         if ($result === false) {
             return $jsonResponse->setData(array('error' => "write_error"));
         }
 
-        // Set resource information
-        $resource->setName($name);
+        // Set resource additional information
         $resource->setBaseName($baseName);
         $resource->setExtension($extension);
-        $resource->setType($manager->getResourceTypeFromMIME("image/png"));
-        $resource->setProject($env->project);
-        $resource->setProgram(false);
-        $resource->setDeleted(false);
-        $manager->saveFile($resource);
-
+        $resource->setType($fileManager->getResourceTypeFromMIME("image/png"));
+        $fileManager->saveFile($resource);
+        
         return $jsonResponse->setData(array('created' => $name, 'data' => array('type'=> $resource->getType(), 'extension'=>$extension, 'base-name'=>$baseName, 'version'=>$resource->getVersion())));
     }    
     

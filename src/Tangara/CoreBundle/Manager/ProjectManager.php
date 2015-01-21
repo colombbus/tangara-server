@@ -104,11 +104,35 @@ class ProjectManager extends BaseManager {
     }
     
     public function createFile(Project $project, $fileName, $program=false) {
-        // Create file
-        $file = new File();
+        // Check that fileName does not exist already
+        $file = $this->getProjectFile($project, $fileName, $program);
+        if ($file) {
+            // fileName exists: check that file is deleted
+            if (!$file->getDeleted()) {
+                // file  is not deleted: return false
+                return false;
+            }
+            // reuse previously deleted file
+            $file->setVersion($file->getVersion()+1);
+        }  else {
+            // Create file
+            $file = new File();
+        }
+        
         $file->setProject($project);
         $file->setName($fileName);
         $file->setProgram($program);
+        $file->setDeleted(false);
+        
+        // create storage file
+        $projectPath = $this->getProjectPath($project);
+        while (true) {
+            $storage = uniqid('tgr_');
+            if (!file_exists($projectPath . $storage)) {
+                break;
+            }
+        }
+        $file->setStorageName($storage);
         $this->em->persist($file);
         
         // Update log
@@ -120,6 +144,8 @@ class ProjectManager extends BaseManager {
         $this->em->persist($entry);
         
         $this->em->flush();
+        
+        return $file;
     }
     
     public function removeFile(Project $project, File $file) {

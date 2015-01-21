@@ -33,7 +33,14 @@ class File {
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $baseName;
-    
+
+    /**
+     * @var string
+     * 
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $storageName;
+
     
     /**
      * @var string
@@ -46,7 +53,7 @@ class File {
     /**
      * @var Project
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="files")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id", nullable = false)
      */
     private $project;
@@ -275,5 +282,28 @@ class File {
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+    /**
+     * Set storageName
+     *
+     * @param string $storageName
+     * @return File
+     */
+    public function setStorageName($storageName)
+    {
+        $this->storageName = $storageName;
+
+        return $this;
+    }
+
+    /**
+     * Get storageName
+     *
+     * @return string 
+     */
+    public function getStorageName()
+    {
+        return $this->storageName;
     }
 }

@@ -77,6 +77,14 @@ class FileManager extends BaseManager {
         return $this->em->getRepository('TangaraCoreBundle:File');
     }
     
+    public function getFilePath(File $file) {
+        $name = $file->getStorageName();
+        if (!isset($name)) {
+            $name = $file->getName();
+        }
+        return $name;
+    }
+    
     public function remove(File $file, $anyway = false) {
         if ($anyway || $file->getProgram()) {
             // remove database entry
@@ -94,10 +102,11 @@ class FileManager extends BaseManager {
         // Remove files
         $projectPath = $this->pm->getProjectPath($project);
         $fs = new Filesystem();
+        $storageName = $this->getFilePath($file);
         if ($file->getProgram()) {
             // File is a program
-            $codePath = $projectPath. "/".$file->getName()."_code";
-            $statementsPath = $projectPath . "/".$file->getName()."_statements";
+            $codePath = $projectPath. "/".$storageName."_code";
+            $statementsPath = $projectPath . "/".$storageName."_statements";
             if ($fs->exists($codePath)) {
                 $fs->remove($codePath);
             }
@@ -106,7 +115,7 @@ class FileManager extends BaseManager {
             }
         } else {
             // File is not a program
-            $filePath = $projectPath. "/".$file->getName();
+            $filePath = $projectPath. "/".$storageName;
             if ($fs->exists($filePath)) {
                 $fs->remove($filePath);
             }
@@ -117,9 +126,10 @@ class FileManager extends BaseManager {
         // find corresponding project
         $project = $program->getProject();
         $projectPath = $this->pm->getProjectPath($project);
+        $storageName = $this->getFilePath($program);
         
-        $codePath = $projectPath . "/".$program->getName()."_code";
-        $statementsPath = $projectPath . "/".$program->getName()."_statements";
+        $codePath = $projectPath . "/".$storageName."_code";
+        $statementsPath = $projectPath . "/".$storageName."_statements";
 
         if ($code){
             file_put_contents($codePath, $code, LOCK_EX);
