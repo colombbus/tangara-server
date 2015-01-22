@@ -103,6 +103,17 @@ class ProjectManager extends BaseManager {
         return $projectPath;
     }
     
+    public function getNewStorageName(Project $project) {
+        $projectPath = $this->getProjectPath($project);
+        while (true) {
+            $storage = uniqid('tgr_');
+            if (!file_exists($projectPath . $storage)) {
+                break;
+            }
+        }
+        return $storage;
+    }
+    
     public function createFile(Project $project, $fileName, $program=false) {
         // Check that fileName does not exist already
         $file = $this->getProjectFile($project, $fileName, $program);
@@ -125,13 +136,7 @@ class ProjectManager extends BaseManager {
         $file->setDeleted(false);
         
         // create storage file
-        $projectPath = $this->getProjectPath($project);
-        while (true) {
-            $storage = uniqid('tgr_');
-            if (!file_exists($projectPath . $storage)) {
-                break;
-            }
-        }
+        $storage = $this->getNewStorageName($project);
         $file->setStorageName($storage);
         $this->em->persist($file);
         

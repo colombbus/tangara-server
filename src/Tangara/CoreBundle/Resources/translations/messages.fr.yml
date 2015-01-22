@@ -90,6 +90,8 @@ project:
     select: Travailler sur ce projet
 message:
     unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
+admin:
+    result: Résultat de l'opération 
 _show.details: Détails du projet
 _email: Courriel
 _password: Mot de passe

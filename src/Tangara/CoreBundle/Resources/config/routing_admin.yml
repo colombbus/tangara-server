@@ -5,3 +5,7 @@ tangara_admin_homepage:
 tangara_admin_users:
     path: /users
     defaults: { _controller: TangaraCoreBundle:Admin:users }
+    
+tangara_admin_update:
+    path: /updateproject/{projectId}
+    defaults: { _controller: TangaraCoreBundle:Admin:updateProject }
