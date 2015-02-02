@@ -97,7 +97,7 @@ class AssetsController extends Controller {
         // Check project access by user
         $auth = false;
         if ($env->authenticated) {
-            $auth = $this->get('tangara_core.project_manager')->isAuthorized($project, $user);
+            $auth = ($this->get('security.context')->isGranted('ROLE_ADMIN') || $this->get('tangara_core.project_manager')->isAuthorized($project, $user));
         } 
         if (!$auth) {
             $auth = $this->get('tangara_core.project_manager')->isPublic($project);
