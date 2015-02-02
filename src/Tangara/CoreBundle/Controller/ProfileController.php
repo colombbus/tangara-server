@@ -67,73 +67,7 @@ class ProfileController extends TangaraController
         //$user = parent::showAction();
         return $this->renderContent('TangaraCoreBundle:Profile:show.html.twig', 'profile', array('user'=>$user, 'edition'=>$edition));
     }
-    /**
-     * remove user account
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function delAccountAction(){
-        $user = $this->getUser();
 
-        // Delete home project
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        $home = $user->getHome();
-        if ($home) {
-            $em->remove($home);
-            $em->flush();
-        }
-        
-        // Delete user
-        $userManager = $this->container->get('fos_user.user_manager');
-        $userManager->deleteUser($user);
-        
-        return new Response('Your account has been deleted.');
-    }
-    
-    /**
-     * Add a new user in join request list 
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function askJoinGroupAction(){
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        $msg = $this->container->get('request')->get('object');
-        $goupId = $this->container->get('request')->get('groups');
-
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        $groupRepository = $em->getRepository('TangaraCoreBundle:Group');
-        $group = $groupRepository->find($goupId);
-               
-        
-        //get leader group e-mail
-        $groupLeader = $group->getGroupsLeader();     
-        $leader_mail = $groupLeader->getEmail();
-
-        if($groupRepository->isUserAsked($user->getUserName()) == null){
-            //add the user in join request list
-            $group->addJoinRequest($user);
-            $em->persist($group);
-            $em->flush();
-            
-            
-            //send e-mail to the group leader 
-            $message = \Swift_Message::newInstance()
-                    ->setSubject('Demande de rejoidre le groupe')
-                    ->setFrom('tangaraui@colombbus.org')
-                    ->setTo('tangaraui@colombbus.org') //change with the group leader e-mail, $leader_mail
-                    ->setBody($msg)
-            ;
-            $this->container->get('mailer')->send($message);
-
-
-            //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
-            return new Response('Message sent.');
-        }
-        else{
-            //return $this->render('TangaraCoreBundle:Project:confirmation.html.twig');
-            return new Response('You already made a request to join this group.');
-        }
-    }
-    
     public function logoutAction() {
         $request = $this->getRequest();
         // if AJAX login

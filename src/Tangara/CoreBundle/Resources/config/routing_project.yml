@@ -1,21 +1,7 @@
-tangara_project_index:
-    path:  /
-    defaults: { _controller: TangaraCoreBundle:Project:index }
-
 #showAction: info about the user and the group projects  
 tangara_project_show:
     path:  /show/{projectId}
     defaults: { _controller: TangaraCoreBundle:Project:show, projectId: false }        
-
-#newAction: create a new project for user
-tangara_project_user_new:
-    path:  /profil/{user_id}/new
-    defaults: { _controller: TangaraCoreBundle:Project:new, group_id: NULL }
-
-#newAction: create a new project for group
-tangara_project_group_new:
-    path:  /group/{group_id}/new
-    defaults: { _controller: TangaraCoreBundle:Project:new, user_id: NULL }
 
 tangara_project_list:
     path:  /list
@@ -30,32 +16,6 @@ tangara_project_select:
     defaults: { _controller: TangaraCoreBundle:Project:select}
     requirements:
         projectId:  \d+
-
-tangara_project_files:
-    path:  /files
-    defaults: { _controller: TangaraCoreBundle:File:getFiles }
-
-tangara_project_tgr_content:
-    path:  /content
-    defaults: { _controller: TangaraCoreBundle:File:getContent }
-    
-tangara_project_remove:
-    path:  /remove
-    defaults: { _controller: TangaraCoreBundle:Project:remove }
-
-tangara_project_upload:
-    path:  /upload/{id}
-    defaults: { _controller: TangaraCoreBundle:Project:upload }
-    requirements:
-        id:  \d+
-    
-tangara_project_create:
-    path:  /create
-    defaults: { _controller: TangaraCoreBundle:Project:create}
-
-tangara_project_confirmation:
-    path:  /confirmation
-    defaults: { _controller: TangaraCoreBundle:Project:confirmation }
 
 tangara_project_published:
     path:  /published

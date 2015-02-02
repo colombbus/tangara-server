@@ -226,38 +226,38 @@
         <title>TangaraUI Ajax tests</title>
     </head>
     <body>
-        <input class="url" name="regis" value="http://localhost/tangara-ui/web/app_dev.php/"><br/>
+        <input class="url" name="regis" value="http://localhost/tangara-server/web/app_dev.php/"><br/>
         <div id="title">
             <h2>Actions for {{ app.user }}</h2>
             <button type="button" onclick="setProjectId();">set Project Id</button>
-            <input class="endurl" name="zero" id="setProjectId" value="ajax/setprojectid/1"/>
+            <input class="endurl" name="zero" id="setProjectId" value="dev/ajax/setprojectid/1"/>
             <br/>
             <button type="button" onclick="getPrograms();">getPrograms</button>
-            <input class="endurl" name="un" id="getPrograms" value="tangarajs/getprograms"/>
+            <input class="endurl" name="un" id="getPrograms" value="assets/getprograms"/>
             <input class="endurl" name="un" id="getProgramsFiles" value="no value" disabled/>
             <br/>
             <button type="button" onclick="getResources();">getResources</button>
-            <input class="endurl" name="quatre" id="getResources" value="tangarajs/getresources"/>
+            <input class="endurl" name="quatre" id="getResources" value="assets/getresources"/>
             <input class="endurl" name="quatre" id="getResourcesFiles" value="no value" disabled/>
             <br/>
             <button type="button" onclick="createProgram();">createProgram</button>
-            <input class="endurl" name="deux" id="createProgram" value="tangarajs/createprogram"/>
+            <input class="endurl" name="deux" id="createProgram" value="assets/createprogram"/>
             <input class="endurl" name="deux" id="createProgramFiles" value="bob.tgr"/>
             <br/>
             <button type="button" onclick="createResource();">createResourec</button>
-            <input class="endurl" name="deux" id="createResource" value="tangarajs/createresource"/>
+            <input class="endurl" name="deux" id="createResource" value="assets/createresource"/>
             <input class="endurl" name="deux" id="createResourceFiles" value="test.png"/>
             <br/>
             <button type="button" onclick="getProgramCode();">getProgramCode</button>
-            <input class="endurl" name="trois" id="getProgramCode" value="tangarajs/getcode"/>
+            <input class="endurl" name="trois" id="getProgramCode" value="assets/getcode"/>
             <input class="endurl" name="trois" id="getProgramCodeFiles" value="bob.tgr"/>
             <br/>
             <button type="button" onclick="getProgramStatements();">getProgramStatements</button>
-            <input class="endurl" name="trois" id="getProgramStatements" value="tangarajs/getstatements"/>
+            <input class="endurl" name="trois" id="getProgramStatements" value="assets/getstatements"/>
             <input class="endurl" name="trois" id="getProgramStatementsFiles" value="bob.tgr"/>
             <br/>
             <button type="button" onclick="setProgramContent();">setProgramContent</button>
-            <input class="endurl" name="neuf" id="setProgramContent" value="tangarajs/setprogramcontent"/>
+            <input class="endurl" name="neuf" id="setProgramContent" value="assets/setprogramcontent"/>
             <input class="endurl" name="neuf" id="setProgramContentFiles"value="bob.tgr"/>
             <br/>
             <button type="button" onclick="getlocale();">getLocale</button>
@@ -265,20 +265,20 @@
             <input class="endurl" name="six" id="getlocaleFiles" value="no value" disabled/>
             <br/>
             <button type="button" onclick="removeProgram();">removeProgram</button>
-            <input class="endurl" name="huit" id="removeProgram" value="tangarajs/removeprogram"/>
+            <input class="endurl" name="huit" id="removeProgram" value="assets/removeprogram"/>
             <input class="endurl" name="huit" id="removeProgramFiles" value="bob.tgr"/>
             <br/>
             <button type="button" onclick="removeResource();">removeResource</button>
-            <input class="endurl" name="huit" id="removeResource" value="tangarajs/removeresource"/>
+            <input class="endurl" name="huit" id="removeResource" value="assets/removeresource"/>
             <input class="endurl" name="huit" id="removeResourceFiles" value="test.png"/>
             <br/>
             <button type="button" onclick="renameProgram();">renameProgram</button>
-            <input class="endurl" name="huit" id="renameProgram" value="tangarajs/renameprogram"/>
+            <input class="endurl" name="huit" id="renameProgram" value="assets/renameprogram"/>
             <input class="endurl" name="huit" id="renameProgramFile1" value="bob.tgr"/>
             <input class="endurl" name="huit" id="renameProgramFile2" value="new.tgr"/>
             <br/>
             <button type="button" onclick="clearDiv();">clearDiv</button>
-            <input class="endurl" name="sept" id="clearDiv" value="tangarajs/getresources"/>
+            <input class="endurl" name="sept" id="clearDiv" value="assets/getresources"/>
             <input class="endurl" name="sept" id="clearDivFiles" value="no value" disabled/>
             <br/>
             <textarea class="setProgramContent" name="content">file content</textarea>

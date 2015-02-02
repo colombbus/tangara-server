@@ -4,39 +4,39 @@
 
 tangara_tangarajs_get_tangara_files:            
     path:  /getprograms
-    defaults: { _controller: TangaraCoreBundle:File:getPrograms }
+    defaults: { _controller: TangaraCoreBundle:Assets:getPrograms }
 
 tangara_tangarajs_get_resources:            
     path:  /getresources
-    defaults: { _controller: TangaraCoreBundle:File:getResources }
+    defaults: { _controller: TangaraCoreBundle:Assets:getResources }
 
 tangara_tangarajs_get_program_code:
     path:  /getcode
-    defaults: { _controller: TangaraCoreBundle:File:getProgramCode }
+    defaults: { _controller: TangaraCoreBundle:Assets:getProgramCode }
 
 tangara_tangarajs_get_program_statements:
     path:  /getstatements
-    defaults: { _controller: TangaraCoreBundle:File:getProgramStatements }
+    defaults: { _controller: TangaraCoreBundle:Assets:getProgramStatements }
 
 tangara_tangarajs_set_program_content:
     path:  /setprogramcontent
-    defaults: { _controller: TangaraCoreBundle:File:setProgramContent }
+    defaults: { _controller: TangaraCoreBundle:Assets:setProgramContent }
 
 tangara_tangarajs_remove_program:
     path:  /removeprogram
-    defaults: { _controller: TangaraCoreBundle:File:removeProgram }
+    defaults: { _controller: TangaraCoreBundle:Assets:removeProgram }
 
 tangara_tangarajs_remove_resource:
     path:  /removeresource
-    defaults: { _controller: TangaraCoreBundle:File:removeResource }
+    defaults: { _controller: TangaraCoreBundle:Assets:removeResource }
    
 tangara_tangarajs_get_resource_1:
     path:  /getresource/{projectId}/{version}/{name}
-    defaults: { _controller: TangaraCoreBundle:File:getResource }
+    defaults: { _controller: TangaraCoreBundle:Assets:getResource }
 
 tangara_tangarajs_get_resource_2:
     path:  /getresource/{version}/{name}
-    defaults: { _controller: TangaraCoreBundle:File:getResource, projectId: false }
+    defaults: { _controller: TangaraCoreBundle:Assets:getResource, projectId: false }
 
 
 tangara_tangarajs_create_program:

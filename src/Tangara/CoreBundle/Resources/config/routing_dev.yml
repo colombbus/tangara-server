@@ -1,9 +1,9 @@
 tangara_core_ajax:
-    path:  /
+    path:  /ajax/
     defaults: { _controller: TangaraCoreBundle:Debug:ajax }
  
 tangara_core_ajax_set_project_id:
-    path:  /setprojectid/{project_id}
+    path:  /ajax/setprojectid/{project_id}
     defaults: { _controller: TangaraCoreBundle:Debug:setProjectId }
     requirements:
         project_id:  \d+

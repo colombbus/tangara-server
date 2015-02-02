@@ -5,50 +5,12 @@ tangara_core_main:
 tangara_core_project:
     resource: "@TangaraCoreBundle/Resources/config/routing_project.yml"
     prefix:   /project
-    
-tangara_core_group:
-    resource: "@TangaraCoreBundle/Resources/config/routing_group.yml"
-    prefix:   /
 
-tangara_core_admin:
-    resource: "@TangaraCoreBundle/Resources/config/routing_admin.yml"
-    prefix:   /admin
-
-tangara_core_tangarajs:
-    resource: "@TangaraCoreBundle/Resources/config/routing_tangarajs.yml"
-    prefix:   /tangarajs
+tangara_core_assets:
+    resource: "@TangaraCoreBundle/Resources/config/routing_assets.yml"
+    prefix:   /assets
     
-############################### FOS/UserBundle routing############################
 tangara_core_user:
     resource: "@TangaraCoreBundle/Resources/config/routing_profile.yml"
     prefix:   /
 
-#tangara_admin:
-#    resource: "@TangaraTangaraBundle/Resources/config/routing_admin.yml"
-#    prefix:   /admin
-#
-##tangara_files:
-##    resource: "@TangaraProjectBundle/Resources/config/routing_files.yml"
-##    prefix:   /project
-#
-#tangara_project:
-#    resource: "@TangaraTangaraBundle/Resources/config/routing_project.yml"
-#    prefix:   /project
-#
-##tangara_editor:
-##    resource: "@TangaraEditorBundle/Resources/config/routing.yml"
-##    prefix:   /editor
-##
-##tangara_paint:
-##    resource: "@TangarawPaintBundle/Resources/config/routing.yml"
-##    prefix:   /paint
-#
-## Tangara Bundles router configuration
-#
-##tangara_user:
-##    resource: "@TangaraUserBundle/Resources/config/routing.yml"
-##    prefix:   /
-#
-#fos_user:
-#    resource: "@TangaraUserBundle/Resources/config/routing.yml"
-#    prefix: /

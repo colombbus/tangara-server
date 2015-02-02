@@ -13,7 +13,7 @@ use stdClass;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-class FileController extends Controller {
+class AssetsController extends Controller {
 
     /**
      * Checks if directory exists
