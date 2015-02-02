@@ -41,28 +41,28 @@ tangara_tangarajs_get_resource_2:
 
 tangara_tangarajs_create_program:
     path:  /createprogram
-    defaults: { _controller: TangaraCoreBundle:File:createProgram }
+    defaults: { _controller: TangaraCoreBundle:Assets:createProgram }
 
 tangara_tangarajs_add_resource:
     path:  /addresource
-    defaults: { _controller: TangaraCoreBundle:File:addResource }
+    defaults: { _controller: TangaraCoreBundle:Assets:addResource }
 
 tangara_tangarajs_rename_program:
     path:  /renameprogram
-    defaults: { _controller: TangaraCoreBundle:File:renameProgram }
+    defaults: { _controller: TangaraCoreBundle:Assets:renameProgram }
 
 tangara_tangarajs_rename_resource:
     path:  /renameresource
-    defaults: { _controller: TangaraCoreBundle:File:renameResource }
+    defaults: { _controller: TangaraCoreBundle:Assets:renameResource }
 
 tangara_tangarajs_set_resource:
     path:  /setresource
-    defaults: { _controller: TangaraCoreBundle:File:setResourceContent }
+    defaults: { _controller: TangaraCoreBundle:Assets:setResourceContent }
 
 tangara_tangarajs_duplicate_resource:
     path:  /duplicateresource
-    defaults: { _controller: TangaraCoreBundle:File:duplicateResource }
+    defaults: { _controller: TangaraCoreBundle:Assets:duplicateResource }
 
 tangara_tangarajs_create_resource:
     path:  /createresource
-    defaults: { _controller: TangaraCoreBundle:File:createResource }
+    defaults: { _controller: TangaraCoreBundle:Assets:createResource }
