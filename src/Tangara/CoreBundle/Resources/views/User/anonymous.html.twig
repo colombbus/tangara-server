@@ -11,7 +11,15 @@
             <li>
                 {% render url('fos_user_security_login') %}
             </li>
-            <li>
+
+	    <li>
+                <a href="{{ path('tangara_user_forgot') }} " class="content-link" data-active="profile">
+                    {{'navbar.forgotten_password'|trans }}
+                </a>
+            </li>
+ 
+
+	        <li>
                 <a href="{{ path('tangara_user_register') }} " class="content-link" data-active="profile">
                     {{'navbar.register'|trans }}
                 </a>

@@ -142,6 +142,16 @@ class ProfileController extends TangaraController
             return $this->renderContent("TangaraCoreBundle:Profile:init.html.twig", 'profile', array('route'=>'tangara_user_change_password'));
         }
     }
-
+    
+    public function forgotPasswordAction(){
+        if ($this->isUserLogged()) {
+            // if user is logged: redirect to main page
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage' ));
+        }
+        else
+        {
+            return $this->redirect($this->generateUrl('fos_user_resetting_request'));
+        }
+    }
     
     }
