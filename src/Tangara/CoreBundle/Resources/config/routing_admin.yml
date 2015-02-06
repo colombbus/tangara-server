@@ -1,0 +1,4 @@
+#routing for AdminController
+tangara_admin_index:
+    path:  /index
+    defaults: { _controller: TangaraCoreBundle:Admin:index }
