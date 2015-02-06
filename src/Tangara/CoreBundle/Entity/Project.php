@@ -12,7 +12,7 @@ use \DateTime;
  * @ORM\Table(name="projects")
  */
 class Project {
-
+    
     /**
      * @var integer
      *
@@ -30,7 +30,7 @@ class Project {
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     private $owner;
 
