@@ -27,10 +27,11 @@
                             <a href="{{ path('tangara_project_show', {'projectId': project.id}) }}"> {{ project.name }}</a> 
                         </td>
                         <td>
-                            <p></p>
+                            <p> ->  </p>
                         </td>
                         <td>
-                            {{ project.owner }}
+                         <a href="{{ path('tangara_user_profile_show', {'user_id': project.owner.id}) }}">{{ project.owner }}</a>
+                            
                         </td>
                     </tr>
                     {% endfor %}

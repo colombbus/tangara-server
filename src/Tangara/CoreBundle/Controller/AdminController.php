@@ -1,4 +1,10 @@
 <?php
+/**
+ * Description of ProfileController
+ *
+ * @author badr
+ */
+
 namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
