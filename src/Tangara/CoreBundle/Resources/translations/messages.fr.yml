@@ -95,3 +95,7 @@ message:
     unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
 admin:
     result: Résultat de l'opération
+    members: Utilisateurs
+    projects: Les projects
+    project: Nom du projet
+    owner: Proprietaire du projet
