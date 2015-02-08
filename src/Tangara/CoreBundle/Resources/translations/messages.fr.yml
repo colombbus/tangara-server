@@ -98,4 +98,5 @@ admin:
     members: Les utilisateurs
     projects: Les projets
     project: Nom du projet
+    project_datetime: Date de creation
     owner: Proprietaire du projet
