@@ -6,9 +6,9 @@
                     <br>
                     <ul>
                         {% for user in users %}
-                            <a href="{{ path('tangara_user_profile_show', {'user_id': user.id}) }}"><button class="form-control"> {{  user.username|e }} </button></a>
+                            <a href="{{ path('tangara_user_profile_show', {'user_id': user.id}) }}"><button class="btn btn-primary form-control"> {{  user.username|e }} </button></a>
                                             <br>
-
+                                            <br>    
                         {% endfor %}
                     </ul>
             </div>
