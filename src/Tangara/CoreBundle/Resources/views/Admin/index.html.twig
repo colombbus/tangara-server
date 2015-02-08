@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <div class="col-md-6">
+        <div class="col-md-4">
+            <div class="col-md-8">
                     <h2>{{ 'admin.members'|trans }}</h2>
                     <br>
                     <ul>
@@ -13,24 +13,25 @@
                     </ul>
             </div>
         </div>
-        <div class="col-md-6">
-            <table cellspacing="30"> 
-                    <h2>{{ 'admin.projects'|trans }}</h2>
+        <div class="col-md-8">
+            <table class="table"> 
+                    <h2 align="center">{{ 'admin.projects'|trans }}</h2>
+                    <br>
                     <tr> 
-                        <th>{{ 'admin.project'|trans }}</th>
-                        <th><p>.     .</p></th>
-                        <th>{{ 'admin.owner'|trans }}</th> 
+                        <th><p align="center">{{ 'admin.project'|trans }}</p></th>
+                        <th><p align="center"> - </p></th>
+                        <th><p align="center">{{ 'admin.owner'|trans }}</p></th> 
                     </tr> 
                     {% for key, project in projects %}
                     <tr>
                         <td>
-                            <a href="{{ path('tangara_project_show', {'projectId': project.id}) }}"> {{ project.name }}</a> 
+                            <p align="center"><a href="{{ path('tangara_project_show', {'projectId': project.id}) }}"> {{ project.name }}</a></p> 
                         </td>
                         <td>
-                            <p> ->  </p>
+                            <p align="center">  ->  </p>
                         </td>
                         <td>
-                         <a href="{{ path('tangara_user_profile_show', {'user_id': project.owner.id}) }}">{{ project.owner }}</a>
+                         <p align="center"><a href="{{ path('tangara_user_profile_show', {'user_id': project.owner.id}) }}">{{ project.owner }}</a></p>
                             
                         </td>
                     </tr>
