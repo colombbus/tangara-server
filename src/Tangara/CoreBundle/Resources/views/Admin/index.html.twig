@@ -1,49 +1,11 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
-            <div class="col-md-8">
-                    <h2>{{ 'admin.members'|trans }}</h2>
-                    <br>
-                    <ul>
-                        {% for user in users %}
-                            <a href="{{ path('tangara_user_profile_show', {'user_id': user.id}) }}"><button class="btn btn-primary form-control"> {{  user.username|e }} </button></a>
-                                            <br>
-                                            <br>    
-                        {% endfor %}
-                    </ul>
-            </div>
+        <br><br>
+        <div class="col-md-6">
+           <button class="btn btn-block"><a href="{{ path('tangara_admin_users')}}">{{ 'admin.members'|trans }}</a></button> 
         </div>
-        <div class="col-md-8">
-            <table class="table"> 
-                    <h2 align="center">{{ 'admin.projects'|trans }}</h2>
-                    <br>
-                    <tr> 
-                        <th><p align="center">{{ 'admin.project'|trans }}</p></th>
-                        <th><p align="center"> - </p></th>
-                        <th><p align="center">{{ 'admin.owner'|trans }}</p></th>
-                        <th><p align="center"> - </p></th>
-                        <th><p align="center">{{ 'admin.project_datetime'|trans }}</p></th>
-                    </tr> 
-                    {% for key, project in projects %}
-                    <tr>
-                        <td>
-                            <p align="center"><a href="{{ path('tangara_project_show', {'projectId': project.id}) }}"> {{ project.name }}</a></p> 
-                        </td>
-                        <td>
-                            <p align="center">  ->  </p>
-                        </td>
-                        <td>
-                            <p align="center"><a href="{{ path('tangara_user_profile_show', {'user_id': project.owner.id}) }}">{{ project.owner }}</a></p>
-                        </td>
-                        <td>
-                            <p align="center">  ->  </p>
-                        </td>
-                        <td>
-                            <p align="center">{{ project.created|date("m/d/Y") }}</p>
-                        </td>
-                    </tr>
-                    {% endfor %}
-            </table>
+        <div class="col-md-6">
+           <button class="btn btn-block"><a href="{{ path('tangara_admin_projects')}}">{{ 'admin.projects'|trans }}</a></button> 
         </div>
-    </div>
+    </div> 
 </div>

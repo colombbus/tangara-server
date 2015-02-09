@@ -15,17 +15,25 @@ use Tangara\CoreBundle\Entity\User;
 
 class AdminController extends TangaraController {
     
-    public function indexAction(){
-        
+    public function indexAction(){     
+        return $this->renderContent('TangaraCoreBundle:Admin:index.html.twig', 'profile', array());
+    }
+    
+    public function usersAction(){
         $users = $this->getDoctrine()
                 ->getRepository('TangaraCoreBundle:User')
                 ->findAll();
-        
-        $projects = $this->getDoctrine()
+        return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users'=> $users));
+    }
+    
+    public function projectsAction(){
+        $findProjects = $this->getDoctrine()
                 ->getRepository('TangaraCoreBundle:Project')
                 ->findAll();
         
-        return $this->renderContent('TangaraCoreBundle:Admin:index.html.twig', 'profile', array('users'=> $users, 'projects'=> $projects));
+        $projects  = $this->get('knp_paginator')->paginate($findProjects, $this->get('request')->query->get('page', 1), 5);
+        
+        return $this->renderContent('TangaraCoreBundle:Admin:projects.html.twig', 'profile', array('projects'=> $projects));
     }
     
 }
