@@ -1,6 +1,9 @@
 {# view for admin -> users #}
 <div class="container">
-        {# block users #} 
+        <div class="col-md-3">
+            {% include 'TangaraCoreBundle:Admin:index.html.twig' %}
+        </div>
+        <br>
         <div class="col-md-6">
                         <h2 align="center">{{ 'admin.members'|trans }}</h2>
                         <br>
@@ -11,6 +14,8 @@
                                                 <br>    
                             {% endfor %}
                         </ul>
+            <div class="navigation">
+                    {{ knp_pagination_render(users) }}
+            </div>            
             </div>
-        {# end block users #}
 </div>
