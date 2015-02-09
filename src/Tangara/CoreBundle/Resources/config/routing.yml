@@ -14,8 +14,4 @@ tangara_core_create:
     path:  /create
     defaults: { _controller: TangaraCoreBundle:Main:create}
   
-fos_user_profile_show:
-    pattern:  /profile
-    defaults: { _controller: TangaraCoreBundle:Profile:menu }
-    requirements:
-        _method: GET    
+ 

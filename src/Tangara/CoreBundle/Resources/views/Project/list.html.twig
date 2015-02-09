@@ -19,6 +19,12 @@
          </a>
      {% endfor %}
     </div>
+    <button class="btn btn-default">
+        <a href="{{ path('tangara_project_create') }}" class="content-link" data-active="project" data-title="project">
+                {{'navbar.new_project'|trans }} 
+            </a>
+    </button>
+            <br>
     <h3>{{'project.readonly_projects'|trans}}</h3>
     <div class="list-group">
         {% for project in readonlyProjects %}
@@ -38,6 +44,8 @@
          </a>
      {% endfor %}
     </div>
+       
+    <br>
     <h3>{{'project.published_projects'|trans}}</h3>
     <a class="btn btn-default content-link" href="{{path('tangara_project_published')}}" role="button" data-active="discover" data-title="{{'project.published_projects'|trans}}">{{'project.see_published_projects'|trans}}</a>
 </div>
