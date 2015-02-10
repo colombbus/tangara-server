@@ -10,7 +10,7 @@ class ProfileRepository extends EntityRepository {
                     ->select('u')
                     ->where('u.username like :string')
                     ->orderBy('u.id')
-                    ->setParameter('string', $string);
+                    ->setParameter('string','%'.$string.'%');
         return $qb->getQuery()->getResult();
     }
     
