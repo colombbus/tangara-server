@@ -6,15 +6,12 @@
  */
 namespace Tangara\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Tangara\CoreBundle\Controller\TangaraController;
-use Symfony\Component\HttpFoundation\Response;
-use Tangara\CoreBundle\Entity\Project;
-use Tangara\CoreBundle\Entity\User;
 use Tangara\CoreBundle\Form\Type\SearchType;
-use Tangara\CoreBundle\Repository\ProfileRepository;
 
 class AdminController extends TangaraController {
+    
+    public $val;
     
     public function indexAction(){     
         return $this->renderContent('TangaraCoreBundle:Admin:index.html.twig', 'profile', array());
@@ -24,7 +21,7 @@ class AdminController extends TangaraController {
         $findUsers = $this->getDoctrine()
                 ->getRepository('TangaraCoreBundle:User')
                 ->findAll();        
-        $users  = $this->get('knp_paginator')->paginate($findUsers, $this->get('request')->query->get('page', 1), 3);
+        $users  = $this->get('knp_paginator')->paginate($findUsers, $this->get('request')->query->get('page', 1), 4);
         return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users'=> $users));
     }
     
@@ -41,17 +38,24 @@ class AdminController extends TangaraController {
         return $this->render('TangaraCoreBundle:Admin:search.html.twig', array('form'=> $form->createView()));
     }
        
-    public function searchloadAction(){
+    public function searchUserAction(){
         $form = $this->createForm(new SearchType());
-        $request = $this->getRequest();
-        if ($request->isMethod('POST')) {
+        $request = $this->getRequest(); 
+       if ($request->isMethod('POST')) {
             $form->bind($this->get('request'));
-
             $user = $this->getDoctrine()
                 ->getRepository('TangaraCoreBundle:User')
                 ->searchData($form['search']->getData());
+            $this->val = $user;
+            $session = $request->getSession()->set('val', $this->val);
+        } 
+        elseif ($request->isMethod('GET')) {
+            $user = $request->getSession()->get('val', $this->val);
         }
-        $users  = $this->get('knp_paginator')->paginate($user, $this->get('request')->query->get('page', 1), 3);
+        else {
+            throw $this->createNotFoundException('404 Not found');
+        }
+        $users  = $this->get('knp_paginator')->paginate($user, $this->get('request')->query->get('page', 1), 2);
         return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users'=> $users));
     }
 }
