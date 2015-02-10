@@ -7,6 +7,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Repository\ProfileRepository")
  * @ORM\Table(name="users")
  */
 class User extends BaseUser

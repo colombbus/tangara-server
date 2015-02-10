@@ -4,7 +4,6 @@
  *
  * @author badr
  */
-
 namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +11,8 @@ use Tangara\CoreBundle\Controller\TangaraController;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Entity\User;
+use Tangara\CoreBundle\Form\Type\SearchType;
+use Tangara\CoreBundle\Repository\ProfileRepository;
 
 class AdminController extends TangaraController {
     
@@ -35,4 +36,22 @@ class AdminController extends TangaraController {
         return $this->renderContent('TangaraCoreBundle:Admin:projects.html.twig', 'profile', array('projects'=> $projects));
     }
     
+    public function searchAction(){
+        $form = $this->createForm(new SearchType());
+        return $this->render('TangaraCoreBundle:Admin:search.html.twig', array('form'=> $form->createView()));
+    }
+       
+    public function searchloadAction(){
+        $form = $this->createForm(new SearchType());
+        $request = $this->getRequest();
+        if ($request->isMethod('POST')) {
+            $form->bind($this->get('request'));
+
+            $user = $this->getDoctrine()
+                ->getRepository('TangaraCoreBundle:User')
+                ->searchData($form['search']->getData());
+        }
+        $users  = $this->get('knp_paginator')->paginate($user, $this->get('request')->query->get('page', 1), 3);
+        return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users'=> $users));
+    }
 }

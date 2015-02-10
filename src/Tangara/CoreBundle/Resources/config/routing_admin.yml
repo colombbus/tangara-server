@@ -10,3 +10,7 @@ tangara_admin_users:
 tangara_admin_projects:
     path:  /projects
     defaults: { _controller: TangaraCoreBundle:Admin:projects }
+    
+tangara_admin_searchload:
+    path:  /search
+    defaults: { _controller: TangaraCoreBundle:Admin:searchload }

@@ -101,6 +101,7 @@ admin:
     project: Nom du projet
     project_datetime: Date de creation
     owner: Proprietaire du projet
+    search: Rechercher
     
 Previous: Precedent
 Next: Suivant

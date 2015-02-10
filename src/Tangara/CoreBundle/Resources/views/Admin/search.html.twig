@@ -1,0 +1,14 @@
+{# view for form search #}
+<div class="container">
+    <div class="row">
+        <form action="{{ path('tangara_admin_searchload')}}" method="POST">
+                <div class="col-md-3">
+                {{ form_widget(form.search) }}        
+                </div>
+                <div class="col-md-5">
+                <button type="submit" class="btn btn-default">{{ 'admin.search'|trans}}</button>
+                {{ form_widget(form) }}
+                </div>
+        </form>
+    </div>
+</div>
