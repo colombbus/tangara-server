@@ -19,6 +19,10 @@
                     {{ form_widget(form) }}
                 </div>
             </form>
+
+            <br><br>
+            <br><br>
+            <br><br>
             <div id="affUser">
                 <!-- affichage des Users -->
             </div>
@@ -26,9 +30,8 @@
                 $(document).ready(function () {
                     $('#search_form_search').keyup(function (key) {
                         var Data = $(this).val();
-                        if (Data.length >= 3)
-                        {
-                            console.log(Data);
+                        if (Data.length >= 1)
+                        { //console.log(Data);
                             $.ajax({
                                 type: "POST",
                                 url: "{{ path('tangara_admin_search_ajax') }}",
