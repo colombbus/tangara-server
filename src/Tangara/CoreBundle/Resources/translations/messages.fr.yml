@@ -97,6 +97,7 @@ admin:
     menu: Menu d'aministration
     result: Résultat de l'opération
     members: Les utilisateurs
+    auto-members: Utilisateurs
     projects: Les projets
     project: Nom du projet
     project_datetime: Date de creation

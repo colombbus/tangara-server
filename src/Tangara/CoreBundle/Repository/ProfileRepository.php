@@ -11,7 +11,24 @@ class ProfileRepository extends EntityRepository {
                     ->where('u.username like :string')
                     ->orderBy('u.id')
                     ->setParameter('string','%'.$string.'%');
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getArrayResult();
     }
+    
+    public function autocompleteData($string) {
+        $qb = $this->createQueryBuilder('u')
+                    ->select('u')
+                    ->where('u.username like :string')
+                    ->orderBy('u.id')
+                    ->setParameter('string','%'.$string.'%');
+        $tab =  $qb->getQuery()->getArrayResult();
+        $array = array();
+		foreach($tab as $data)
+		{
+			$array[] = $data['username'];
+		}
+		return $array;
+    }
+    
+    
     
 }

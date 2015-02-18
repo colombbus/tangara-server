@@ -32,20 +32,24 @@
                         var Data = $(this).val();
                         if (Data.length >= 1)
                         { //console.log(Data);
-                            $.ajax({
-                                type: "POST",
-                                url: "{{ path('tangara_admin_search_ajax') }}",
-                                data: {search: Data},
-                                cache: false,
-                                success: function (data) {
-                                    $('#affUser').html(data);
-                                },
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    $('#affUser').text("Une erreur s'est produite. Veuillez réessayer ulteriement.").show();
-                                }
-                            });
+                            var ajax = function () {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ path('tangara_admin_search_ajax') }}",
+                                    data: {search: Data},
+                                    cache: false,
+                                    success: function (data) {
+                                        $('#affUser').html(data);
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        $('#affUser').text("Une erreur s'est produite. Veuillez réessayer ulteriement.").show();
+                                    }
+                                });
+                            }
+                       setTimeout(ajax, 1000);    
                         }
                     });
+
                 });
             </script>
         </div>    

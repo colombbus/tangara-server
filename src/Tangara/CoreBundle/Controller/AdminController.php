@@ -49,6 +49,7 @@ class AdminController extends TangaraController {
         if ($request->isMethod('POST')) {
             $form->bind($this->get('request'));
             $user = $this->getDoctrine()
+                    ->getEntityManager()
                     ->getRepository('TangaraCoreBundle:User')
                     ->searchData($form['search']->getData());
             $this->val = $user;
@@ -72,20 +73,39 @@ class AdminController extends TangaraController {
         if ($request->isXmlHttpRequest()) {
             $data = $request->get('search');
             $user = $this->getDoctrine()
+                    ->getEntityManager()
                     ->getRepository('TangaraCoreBundle:User')
                     ->searchData($data);
-            $this->user = $user;
-            $session = $request->getSession()->set('val', $this->user);
-            
             $html = $this->renderView('TangaraCoreBundle:Admin:result_users.html.twig', array('user' => $user));
             $response = new Response($html);
             $response->headers->set('Content-Type', 'text/html');
             return $response;
-        } 
-        else {
+        } else {
             $form = $this->createForm(new SearchType());
             return $this->renderContent('TangaraCoreBundle:Admin:users_ajax.html.twig', 'profile', array('form' => $form->createView()));
         }
     }
+
+
+
+//
+//    public function autoshowAction() {
+//        $form = $this->createForm(new SearchType());
+//        return $this->renderContent('TangaraCoreBundle:Admin:autocomplete.html.twig', 'profile', array('form' => $form->createView()));
+//    }
+//
+//    public function autocompleteAction() {
+//        $request = $this->get('request');
+//        if ($request->isXmlHttpRequest()) {
+//            $data = $request->request->get('user');
+//            $user = $this->getDoctrine()
+//                    ->getEntityManager()
+//                    ->getRepository('TangaraCoreBundle:User')
+//                    ->autocompleteData($data);
+//            $response = new Response(json_encode($user));
+//            $response->headers->set('Content-Type', 'application/json');
+//            return $response;
+//        }
+//    }
 
 }

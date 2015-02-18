@@ -66,5 +66,5 @@ security:
         #- { path: ^/administration, role: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         
-#    acl:
-#        connection: default
+    acl:
+        connection: default
