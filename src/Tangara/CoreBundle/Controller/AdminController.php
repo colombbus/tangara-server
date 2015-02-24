@@ -86,8 +86,30 @@ class AdminController extends TangaraController {
         }
     }
 
+    public function projects_ajaxAction(){
+        $form = $this->createForm(new SearchType());
+        return $this->renderContent('TangaraCoreBundle:Admin:projects_ajax.html.twig', 'profile', array('form' => $form->createView()));
+    }
 
-
+    public function search_project_ajaxAction(){
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            $data = $request->get('search');
+            $project = $this->getDoctrine()
+                    ->getEntityManager()
+                    ->getRepository('TangaraCoreBundle:Project')
+                    ->searchProject($data);
+//             \Doctrine\Common\Util\Debug::dump($project);
+            $html = $this->renderView('TangaraCoreBundle:Admin:result_projects.html.twig', array('project' => $project));
+            $response = new Response($html);
+            $response->headers->set('Content-Type', 'text/html');
+            return $response;
+        } else {
+            $form = $this->createForm(new SearchType());
+            return $this->renderContent('TangaraCoreBundle:Admin:projects_ajax.html.twig', 'profile', array('form' => $form->createView()));
+        }
+    }
+    
 //
 //    public function autoshowAction() {
 //        $form = $this->createForm(new SearchType());

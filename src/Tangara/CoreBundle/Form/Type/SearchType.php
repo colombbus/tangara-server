@@ -14,7 +14,9 @@ class SearchType extends AbstractType {
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('search','text', array(   'label'=> false, 
-                                                'attr'=> array('class'=> 'form-control')));
+                                                'attr'=> array('class'=> 'form-control',
+                                                                'placeholder'=> 'Recherche ...'    
+                                                                )));
     }
     
     public function getName() {

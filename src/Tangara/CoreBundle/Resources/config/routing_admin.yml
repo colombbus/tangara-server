@@ -22,6 +22,15 @@ tangara_admin_searchUser:
 tangara_admin_search_ajax:
     path:  /search_ajax
     defaults: { _controller: TangaraCoreBundle:Admin:search_ajax }
+
+tangara_admin_projects_ajax:
+    path:  /search_project
+    defaults: { _controller: TangaraCoreBundle:Admin:projects_ajax }
+    
+tangara_admin_search_project:
+    path:  /search_project_ajax
+    defaults: { _controller: TangaraCoreBundle:Admin:search_project_ajax } 
+    
 #    
 #tangara_admin_users_autocomplete:
 #    path:  /autocomplete

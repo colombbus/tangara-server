@@ -103,6 +103,7 @@ admin:
     project_datetime: Date de creation
     owner: Proprietaire du projet
     search: Rechercher
+    auto-project: Projets
     
 Previous: Precedent
 Next: Suivant
