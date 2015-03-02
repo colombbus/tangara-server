@@ -187,7 +187,6 @@ class ProjectController extends TangaraController {
         $project = $manager->getRepository()->find($projectId);
         if (!$project) {
             // no current project: we should not be here
-            return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
         }
         // check that launcher is set and exists
         $launcher = $project->getLauncher();
@@ -208,12 +207,18 @@ class ProjectController extends TangaraController {
             $params['height'] = $height;
         }
         
+        $securityContext = $this->get('security.context');
+        
         $access = false;
         if ($this->isUserLogged()) {
             $user = $this->container->get('security.context')->getToken()->getUser();
-            $auth = $manager->isAuthorized($project, $user);
-            if ($auth) {
-                $access = true;
+            //$auth = $manager->isAuthorized($project, $user);
+            $auth = $securityContext->isGranted('EDIT', $project);
+
+            if (false === $auth && false === $securityContext->isGranted('ROLE_ADMIN')) {
+                $access = false;
+                return $this->redirect($this->generateUrl('tangara_core_homepage'));
+
             }
         }
         
@@ -224,6 +229,8 @@ class ProjectController extends TangaraController {
                 return $this->redirect($this->generateUrl('tangara_core_homepage'));
             }
         }
+       
+        
         $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/execute.html";
         $params['tangarajs'] = $tangarajs;
         return $this->render('TangaraCoreBundle:Project:execute.html.twig', $params);
