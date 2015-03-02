@@ -9,6 +9,10 @@ use Tangara\CoreBundle\Entity\File;
 use Tangara\CoreBundle\Entity\FileRepository;
 use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Form\Type\ProjectType;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 
 class ProjectController extends TangaraController {
@@ -68,14 +72,14 @@ class ProjectController extends TangaraController {
                 $params['message'] = "project.home_project";
             }
         }
-        
-        if (!$access) {
-            // Check that project is public
-            if (!$project->getPublished()) {
-                // User not authorized
-                return $this->redirect($this->generateUrl('tangara_core_homepage'));
-            }
-        }
+//        
+//        if (!$access) {
+//            // Check that project is public
+//            if (!$project->getPublished()) {
+//                // User not authorized
+//                return $this->redirect($this->generateUrl('tangara_core_homepage'));
+//            }
+//        }
         
         $params['edition'] = $edition;
         $params['owner'] = $owner;
@@ -120,8 +124,12 @@ class ProjectController extends TangaraController {
 
         // Check project access by user
         //TODO: user ACL
-        $auth = $this->get('security.context')->isGranted('ROLE_ADMIN')||$project->getOwner() == $user;
-        if (!$auth) {
+        
+        $securityContext = $this->get('security.context');
+
+        //$auth = $this->get('security.context')->isGranted('ROLE_ADMIN')||$project->getOwner() == $user;
+        $auth = $securityContext->isGranted('EDIT', $project);
+        if (false === $auth) {
             // User not authorized
             return $this->redirect($this->generateUrl('tangara_core_homepage'));
         }
@@ -152,7 +160,8 @@ class ProjectController extends TangaraController {
     
     
     public function publishedAction() {
-        $projects = $this->get('tangara_core.project_manager')->getRepository()->getPublishedProjects();
+        $findProjects = $this->get('tangara_core.project_manager')->getRepository()->getPublishedProjects();
+        $projects = $this->get('knp_paginator')->paginate($findProjects, $this->get('request')->query->get('page', 1), 6);
         return $this->renderContent('TangaraCoreBundle:Project:published.html.twig', 'discover', array('projects' => $projects));
     }
     
@@ -276,6 +285,19 @@ class ProjectController extends TangaraController {
                     $em->persist($project);
                     $em->flush();
 
+                    $aclProvider = $this->get('security.acl.provider');
+                    $objectIdentity = ObjectIdentity::fromDomainObject($project);
+                    $acl = $aclProvider->createAcl($objectIdentity);
+
+                    $securityContext = $this->get('security.context');
+                    $user = $securityContext->getToken()->getUser();
+                    $securityIdentity = UserSecurityIdentity::fromAccount($user);
+
+                    $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+                    $aclProvider->updateAcl($acl);
+                    
+                    
+                    
                     //$manager->saveProject($project);
                 return $this->redirect($this->generateUrl('tangara_project_published'));
                 }
