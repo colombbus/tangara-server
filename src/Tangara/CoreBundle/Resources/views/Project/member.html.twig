@@ -1,0 +1,44 @@
+{# view for Looking and add members in project #}
+<div class="container">
+    <br>
+    <h3 align="center">{{ 'project.add_member'|trans}} : " {{ project.name }} "</h3>
+    <br>
+    <br>
+    <form id="search_form" {{ form_enctype(form) }} method="POST">
+        <div class="col-md-5">
+            {{ form_widget(form.search) }}        
+        </div>
+        <div class="col-md-5">
+            {{ form_widget(form) }}
+        </div>
+    </form>
+    <br><br><br>
+    <div id="affUser" class="col-md-5">
+        <!-- affichage des Contributeurs -->
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#search_form_search').keyup(function (key) {
+                var Data = $(this).val();
+                if (Data.length >= 1)
+                { //console.log(Data);
+                    var ajax = function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('tangara_project_search_member') }}",
+                            data: {search: Data},
+                            cache: false,
+                            success: function (data) {
+                                $('#affUser').html(data);
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                $('#affUser').text("Une erreur s'est produite. Veuillez réessayer ulteriement.").show();
+                            }
+                        });
+                    }
+                    setTimeout(ajax, 1000);
+                }
+            });
+        });
+    </script>    
+</div>

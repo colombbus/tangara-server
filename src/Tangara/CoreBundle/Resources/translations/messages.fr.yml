@@ -53,6 +53,8 @@ profile:
     registration_confirmed_title: Compte créé
     registration_confirmed: Félicitations %username%, votre compte est maintenant activé !
 project:
+    add_member: Ajouter un contributeur au projet  
+    members: Gestion des Membres   
     details: "Projet > "
     edition: Modification du projet
     edit: Modifier le projet

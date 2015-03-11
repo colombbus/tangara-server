@@ -1,0 +1,11 @@
+{# views for result member in ajax #}
+<div>
+    <ul>
+        {% for user in user %}
+            <a href="{{ path('tangara_project_add_member', {'user': user.id, 'project': project.id}) }}"><button class="btn btn-default form-control"> {{  user.username|e }} </button></a>
+            <br>
+            <br>    
+        {% endfor %}
+    </ul>
+
+</div>

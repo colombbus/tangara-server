@@ -28,3 +28,15 @@ tangara_project_published:
 tangara_project_execute:
     path:  /execute/{projectId}
     defaults: { _controller: TangaraCoreBundle:Project:execute, projectId: false}
+
+tangara_project_member:
+    path:  /member/{projectId}
+    defaults: { _controller: TangaraCoreBundle:Project:member, projectId: false}
+    
+tangara_project_search_member:
+    path:  /search
+    defaults: { _controller: TangaraCoreBundle:Project:search_member}
+    
+tangara_project_add_member:
+    path:  /add_member/{user}/{project}
+    defaults: { _controller: TangaraCoreBundle:Project:add_member, user: false, project: false}

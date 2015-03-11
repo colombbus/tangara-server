@@ -136,6 +136,7 @@
 {% if selectable %}
     <a class="btn btn-default content-link" data-active='create' href="{{ path( "tangara_project_select", {'projectId':project.getId()}) }}" >{{ 'project.select'|trans }}</a>
 {% endif %}
+    <a class="btn btn-default" href="{{ path( "tangara_project_member", {'projectId':project.getId()}) }}">{{ 'project.members'|trans }}</a>
     <a class="btn btn-default" href="{{ path( "tangara_project_execute", {'projectId':project.getId()}) }}" target="tangara_execution">{{ 'project.execute'|trans }}</a>
 </div>
 {% if updateUserMenu is defined %}

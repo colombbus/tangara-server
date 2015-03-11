@@ -5,11 +5,14 @@ namespace Tangara\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Tangara\CoreBundle\Controller\TangaraController;
 use Symfony\Component\HttpFoundation\Response;
+use Tangara\CoreBundle\Form\Type\SearchType;
 use Tangara\CoreBundle\Entity\File;
 use Tangara\CoreBundle\Entity\FileRepository;
 use Tangara\CoreBundle\Entity\Project;
+use Tangara\CoreBundle\Entity\User;
 use Tangara\CoreBundle\Form\Type\ProjectType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
@@ -171,7 +174,7 @@ class ProjectController extends TangaraController {
         $session = $request->getSession();
         $params = array();
         // get manager
-        $manager = $this->get('tangara_core.project_manager');
+        $manager =   $this->get('tangara_core.project_manager');
 
         if ($projectId === false) {
             // try to get project from session
@@ -308,16 +311,67 @@ class ProjectController extends TangaraController {
                     $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
                     $aclProvider->updateAcl($acl);
                     
-                    
-                    //$manager->saveProject($project);
                 return $this->redirect($this->generateUrl('tangara_project_published'));
                 }
             }
             return $this->renderContent('TangaraCoreBundle:Project:create_project.html.twig', 'project', array('form'=> $form->createView()));
         }
     }
-  
+
+    public function memberAction($projectId) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $manager = $this->get('tangara_core.project_manager');
+        $project = $manager->getRepository()->find($projectId);
+        $form = $this->createForm(new SearchType());
+        if(empty($project)){
+            return $this->redirect($this->generateUrl('tangara_project_show',array('projectId'=> $projectId)));
+        }
+        else
+            $request->getSession()->set('project', $project);
+            return $this->renderContent('TangaraCoreBundle:Project:member.html.twig', 'project', array('project'=> $project, 'form'=> $form->createView()));
+
+    }
+    public function search_memberAction() {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            $data = $request->get('search');
+            $user = $this->getDoctrine()
+                    ->getEntityManager()
+                    ->getRepository('TangaraCoreBundle:User')
+                    ->searchData($data);
+            $project = $request->getSession()->get('project');
+            $html = $this->renderView('TangaraCoreBundle:Project:result_member.html.twig', array('user' => $user, 'project'=> $project));
+            $response = new Response($html);
+            $response->headers->set('Content-Type', 'text/html');
+            return $response;
+        } else {
+            $form = $this->createForm(new SearchType());
+            return $this->renderContent('TangaraCoreBundle:Admin:users_ajax.html.twig', 'profile', array('form' => $form->createView()));
+        }
+    }
+    public function add_memberAction($user, $project) {
+        $object = $this->getDoctrine()
+                    ->getEntityManager()
+                    ->getRepository('TangaraCoreBundle:Project')
+                    ->find($project);
+        $member = $this->getDoctrine()
+                    ->getEntityManager()
+                    ->getRepository('TangaraCoreBundle:User')
+                    ->find($user);
+        if(empty($object) || empty($member) && !isset($member) && !isset($object)){
+            return $this->redirect($this->generateUrl('tangara_project_member',array('projectId'=> $project)));
+        }
+        $aclProvider = $this->get('security.acl.provider');
+        $objectIdentity = ObjectIdentity::fromDomainObject($object);
+        $acl = $aclProvider->findAcl($objectIdentity);
+        $securityIdentity = UserSecurityIdentity::fromAccount($member);
+        $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OPERATOR);
+        $aclProvider->updateAcl($acl);
+            return $this->redirect($this->generateUrl('tangara_project_show',array('projectId'=> $project)));
+    }  
     
+}  
     
     /*public function indexAction() {
     }
@@ -541,4 +595,4 @@ class ProjectController extends TangaraController {
         
     }
     */
-}
+
