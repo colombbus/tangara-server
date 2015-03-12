@@ -16,9 +16,53 @@
     <div id="affUser" class="col-md-5">
         <!-- affichage des Contributeurs -->
     </div>
+
+    {#<div>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Member</th>
+                    <th>profil</th>
+                    <th>Supprimer</th>
+                </tr>
+
+            </thead>
+            <tbody> 
+                {% for users in user %}
+                    <tr>
+                        <td><td>
+                        <td><td>
+                        <td><td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>#}
+
+
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#search_form_search').keyup(function (key) {
+            var handler = function (e) {
+                console.log('sssfgh');
+
+                var url = $(this).data('href');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {userId: $(this).data('userId'), projectId: $(this).data('projectId')},
+                    cache: false,
+                    success: function (data) {
+                        alert('member ok');
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert('member fail');
+                    }
+
+                });
+                e.preventDefault();
+
+            };
+            $('#search_form_search').keyup(function (keysa) {
                 var Data = $(this).val();
                 if (Data.length >= 1)
                 { //console.log(Data);
@@ -30,15 +74,19 @@
                             cache: false,
                             success: function (data) {
                                 $('#affUser').html(data);
+                                $('.member').on('click', handler);
+
                             },
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
                                 $('#affUser').text("Une erreur s'est produite. Veuillez réessayer ulteriement.").show();
                             }
                         });
                     }
-                    setTimeout(ajax, 1000);
                 }
+                setTimeout(ajax, 1000);
             });
+
+
         });
     </script>    
 </div>

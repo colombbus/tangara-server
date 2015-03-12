@@ -40,3 +40,11 @@ tangara_project_search_member:
 tangara_project_add_member:
     path:  /add_member/{user}/{project}
     defaults: { _controller: TangaraCoreBundle:Project:add_member, user: false, project: false}
+    
+tangara_project_get_member:
+    path:  /get_member/{projectId}
+    defaults: { _controller: TangaraCoreBundle:Project:get_member, user: false}
+    
+tangara_project_add_member_ajax:
+    path:  /add_member_ajax
+    defaults : { _controller: TangaraCoreBundle:Project:add_member_ajax}

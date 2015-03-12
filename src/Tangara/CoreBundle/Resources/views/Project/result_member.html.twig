@@ -2,7 +2,7 @@
 <div>
     <ul>
         {% for user in user %}
-            <a href="{{ path('tangara_project_add_member', {'user': user.id, 'project': project.id}) }}"><button class="btn btn-default form-control"> {{  user.username|e }} </button></a>
+            <a class="member" data-href="{{ path('tangara_project_add_member_ajax', {'user': user.id, 'project': project.id}) }}" data-user-Id="{{user.id}}" data-project-Id="{{project.id}}"><button class="btn btn-default form-control"> {{  user.username|e }} </button></a>
             <br>
             <br>    
         {% endfor %}
