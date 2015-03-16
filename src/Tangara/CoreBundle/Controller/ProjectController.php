@@ -1,7 +1,6 @@
 <?php
 
 namespace Tangara\CoreBundle\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Tangara\CoreBundle\Controller\TangaraController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +10,7 @@ use Tangara\CoreBundle\Entity\FileRepository;
 use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Entity\User;
 use Tangara\CoreBundle\Form\Type\ProjectType;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
@@ -321,21 +321,23 @@ class ProjectController extends TangaraController {
             return $this->redirect($this->generateUrl('tangara_project_show', array('projectId' => $projectId)));
         }
         $request->getSession()->set('project', $project);
+ 
+        $conn = $this->get('database_connection');
+        $object_id = $conn->fetchArray("SELECT `id` FROM  `acl_object_identities` WHERE  `object_identifier` =".$projectId);
 
-        $aclProvider = $this->get('security.acl.provider');
-        $objectIdentity = ObjectIdentity::fromDomainObject($project);
-        $acl = $aclProvider->findAcl($objectIdentity);
-        
-        foreach ($acl->getObjectIdentity() as $key => $value){
-            echo '<pre>';
-            var_dump($value);
-            echo '<pre>';
-            echo '<br>';
-            
+        $ids = $conn->fetchArray("SELECT `security_identity_id` FROM `acl_entries` WHERE `object_identity_id` =".$object_id[0]." AND `mask`= 32");
+        $id = join(',', $ids);
+
+        $users = $conn->fetchArray("SELECT `identifier` FROM `acl_security_identities` WHERE id IN (".$id.")");
+
+//        die(var_dump($users));
+
+        $members = array();
+        foreach ($users as $value) {
+            $member = explode('-', $value);
+            $members[] = end($member);
         }
-        
-        
-        return $this->renderContent('TangaraCoreBundle:Project:member.html.twig', 'project', array('project' => $project, 'form' => $form->createView()));
+        return $this->renderContent('TangaraCoreBundle:Project:member.html.twig', 'project', array('project' => $project, 'members'=> $members, 'form' => $form->createView()));
     }
 
     public function search_memberAction() {
@@ -400,4 +402,5 @@ class ProjectController extends TangaraController {
             $aclProvider->updateAcl($acl);
         }
     }
+
 }

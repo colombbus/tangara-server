@@ -16,7 +16,12 @@
     <div id="affUser" class="col-md-5">
         <!-- affichage des Contributeurs -->
     </div>
-
+    <br><br><br>
+    <div>
+        {% for member in members %}
+            <p>{{member}}</p>
+        {% endfor %}
+    </div>            
     {#<div>
         <table class="table table-striped table-bordered">
             <thead>
