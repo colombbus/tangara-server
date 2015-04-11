@@ -2,7 +2,7 @@ parameters:
     database_driver:   pdo_mysql
     database_host:     127.0.0.1
     database_port:     ~
-    database_name:     symfony
+    database_name:     tangaradb
     database_user:     root
     database_password: ~
 
@@ -16,9 +16,9 @@ parameters:
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
     directory.upload: C:\Tangara
-    directory.tangarajs: ../../../../tangarajs
+    directory.tangarajs: ../../../../tangara-client
     directory.tutorial: ../../../../tangara-tutorial/index.html
 
-twig: 
-    globals: 
+twig:
+    globals:
         custom_js: false
