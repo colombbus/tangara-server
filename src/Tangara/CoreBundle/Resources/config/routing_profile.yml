@@ -17,7 +17,7 @@ tangara_user_change_password:
     path: /change-password
     defaults: { _controller: TangaraCoreBundle:Profile:changePassword}       
 
-tangara_user_forgot:
+tangara_user_forgotten_password:
     path: /forgotten-password
     defaults: { _controller: TangaraCoreBundle:Profile:forgotPassword}
 
