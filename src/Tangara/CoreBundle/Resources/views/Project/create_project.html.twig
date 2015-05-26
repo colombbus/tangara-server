@@ -1,30 +1,7 @@
+{% form_theme form 'TangaraCoreBundle:Form:fields.html.twig' %}
 <div class="container">
-     <div class="row">
-            <br>
-            <h2>{{'navbar.new_project'|trans}}</h2>
-            <br>
-            <form action="{{ path('tangara_project_create') }}" method="POST" class="form-group">
-                {#{form(form)}#}
-                <div class="col-md-8">
-                {{ form_label(form.name, 'project.name')}}
-                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
-                {{ form_label(form.published, 'project.published')}}
-                {{ form_widget(form.published, { 'attr': {'class': 'checkbox'} }) }}
-                </div>
-                <div class="col-md-5">
-                {{ form_label(form.width, 'project.width')}}
-                {{ form_widget(form.width, { 'attr': {'class': 'form-control'} }) }}
-                {{ form_label(form.height, 'project.height')}}
-                {{ form_widget(form.height, { 'attr': {'class': 'form-control'} }) }}
-                </div>
-                <div class="col-md-10">
-                {{ form_label(form.description, 'project.description')}}
-                {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
-                {{ form_label(form.instructions, 'project.instructions')}}
-                {{ form_widget(form.instructions, { 'attr': {'class': 'form-control'} }) }}
-                <br>
-                {{ form_widget(form.save, { 'attr': {'class': 'btn btn-primary'} }) }}       
-                </div>
-            </form>
-    </div>
+    <h2>{{'navbar.new_project'|trans}}</h2>
+    <form action="{{ path('tangara_project_create') }}" method="POST" class="form-group">
+        {{form(form)}}
+    </form>
 </div>
