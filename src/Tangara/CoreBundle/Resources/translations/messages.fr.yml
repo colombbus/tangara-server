@@ -116,5 +116,6 @@ admin:
     project: Nom du projet
     owner: Propriétaire du projet  
     project_datetime: Date de creation
+    auto-members: Utilisateurs    
 Previous: Precedent
 Next: Suivant
