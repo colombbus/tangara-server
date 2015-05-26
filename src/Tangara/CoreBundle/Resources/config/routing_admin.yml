@@ -7,6 +7,26 @@ tangara_admin_users:
     path:  /users
     defaults: { _controller: TangaraCoreBundle:Admin:users }
     
+tangara_admin_users_ajax:
+    path:  /users_ajax
+    defaults: { _controller: TangaraCoreBundle:Admin:users_ajax }
+    
 tangara_admin_projects:
     path:  /projects
     defaults: { _controller: TangaraCoreBundle:Admin:projects }
+    
+tangara_admin_searchUser:
+    path:  /search
+    defaults: { _controller: TangaraCoreBundle:Admin:searchUser }
+    
+tangara_admin_search_ajax:
+    path:  /search_ajax
+    defaults: { _controller: TangaraCoreBundle:Admin:search_ajax }
+#    
+#tangara_admin_users_autocomplete:
+#    path:  /autocomplete
+#    defaults: { _controller: TangaraCoreBundle:Admin:autocomplete }
+#    
+#tangara_admin_users_autoshow:
+#    path:  /autoshow
+#    defaults: { _controller: TangaraCoreBundle:Admin:autoshow }    

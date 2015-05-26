@@ -1,0 +1,44 @@
+{# view for form autocomplete #}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'TangaraCoreBundle:Admin:index.html.twig' %}
+        </div>
+        <br>
+        <br>
+        <div class="col-md-9">
+            <h2 align="center">{{ 'admin.members'|trans }}</h2>
+            <br><br>
+            <div class="col-md-3"></div>
+            <form id="search_form" {{ form_enctype(form) }} method="POST">
+                <div class="col-md-6">
+                    {{ form_widget(form.search) }}        
+                </div>
+            </form>
+            <br><br>
+            <script type="text/javascript">
+                    $('#search_form_search').autocomplete({
+                        type: 'POST',
+                        minLength: 2,
+                        source: function (requete, reponse) {
+                            var user = $('#search_form_search').val();
+                            var DATA = 'user=' + user;
+                            console.log(DATA);
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ path('tangara_admin_users_autocomplete') }}",
+                                dataType: 'json',
+                                data: DATA,
+                                success: function (data) {
+                                    reponse($.map(data, function (objet) {
+                                        return objet;
+                                    }));
+                                }
+                            });
+                        }
+                    });
+            </script>
+            <br><br>
+        </div>    
+    </div>
+</div>

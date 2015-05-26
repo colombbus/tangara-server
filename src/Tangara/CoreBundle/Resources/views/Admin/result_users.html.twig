@@ -1,0 +1,11 @@
+{# view for user result #}
+<div>
+    <ul>
+        {% for user in user %}
+            <a href="{{ path('tangara_user_profile_show', {'user_id': user.id}) }}"><button class="btn btn-primary form-control"> {{  user.username|e }} </button></a>
+            <br>
+            <br>    
+        {% endfor %}
+    </ul>
+
+</div>
