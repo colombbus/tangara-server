@@ -105,11 +105,12 @@ project:
     readonly_projects: Projets consultables
     select: Travailler sur ce projet
     name: Nom du projet
-    members: Les utilisateurs
-    projects: Les projets
-    project: Nom du projet
-    owner: Proprietaire du projet    
+  
 message:
     unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
 admin:
     result: Résultat de l'opération    
+    members: Les utilisateurs
+    projects: Les projets
+    project: Nom du projet
+    owner: Propriétaire du projet  
