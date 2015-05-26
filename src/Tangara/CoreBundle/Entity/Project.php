@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use \DateTime;
 /**
  * Project
- * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Repository\ProjectRepository")
+ * @ORM\Entity(repositoryClass="Tangara\CoreBundle\Entity\ProjectRepository")
  * @ORM\Table(name="projects")
  */
 class Project {

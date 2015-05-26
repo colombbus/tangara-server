@@ -47,4 +47,14 @@ class ProjectRepository extends EntityRepository
         return $projects;
     }
     
+    public function searchProject($string) {
+        
+        $qb = $this->createQueryBuilder('u')
+                    ->select('u')
+                    ->where('u.name like :name')
+                    ->orderBy('u.id')
+                    ->setParameter('name','%'.$string.'%');
+        return $qb->getQuery()->getResult();
+    }    
+    
 }
