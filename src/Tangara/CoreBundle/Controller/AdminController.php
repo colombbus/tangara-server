@@ -20,9 +20,10 @@ class AdminController extends TangaraController {
     }
     
     public function usersAction(){
-        $users = $this->getDoctrine()
+        $findUsers = $this->getDoctrine()
                 ->getRepository('TangaraCoreBundle:User')
-                ->findAll();
+                ->findAll();        
+        $users  = $this->get('knp_paginator')->paginate($findUsers, $this->get('request')->query->get('page', 1), 3);
         return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users'=> $users));
     }
     
@@ -30,9 +31,7 @@ class AdminController extends TangaraController {
         $findProjects = $this->getDoctrine()
                 ->getRepository('TangaraCoreBundle:Project')
                 ->findAll();
-        
         $projects  = $this->get('knp_paginator')->paginate($findProjects, $this->get('request')->query->get('page', 1), 5);
-        
         return $this->renderContent('TangaraCoreBundle:Admin:projects.html.twig', 'profile', array('projects'=> $projects));
     }
     
