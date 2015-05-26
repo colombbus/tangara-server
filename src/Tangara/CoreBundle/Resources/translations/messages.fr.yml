@@ -10,6 +10,8 @@ navbar:
     admin: Administration
     projects: Projets
     project_info: Informations
+    forgotten_password: Mots de Passe Perdu ?
+    new_project: Nouveau Projet
     forgotten_password: Mot de passe oublié ?
 homepage:
     Welcome: Bienvenue sur le site de Tangara

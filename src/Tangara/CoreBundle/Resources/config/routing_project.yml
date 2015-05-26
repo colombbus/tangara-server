@@ -17,6 +17,10 @@ tangara_project_select:
     requirements:
         projectId:  \d+
 
+tangara_project_create:
+    path: /create
+    defaults: { _controller: TangaraCoreBundle:Project:create}
+
 tangara_project_published:
     path:  /published
     defaults: { _controller: TangaraCoreBundle:Project:published}

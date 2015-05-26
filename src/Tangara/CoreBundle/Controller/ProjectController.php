@@ -2,11 +2,14 @@
 
 namespace Tangara\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Tangara\CoreBundle\Controller\TangaraController;
 use Symfony\Component\HttpFoundation\Response;
 use Tangara\CoreBundle\Entity\File;
 use Tangara\CoreBundle\Entity\FileRepository;
 use Tangara\CoreBundle\Entity\Project;
+use Tangara\CoreBundle\Form\Type\ProjectType;
+
 
 class ProjectController extends TangaraController {
 
@@ -98,7 +101,7 @@ class ProjectController extends TangaraController {
         
         if ($projectId === false) {
             $projectId = $session->get('projectid');
-        }
+        }   
         
         if (!$projectId) {
             // no current project: we should not be here
@@ -245,7 +248,37 @@ class ProjectController extends TangaraController {
         $this->getRequest()->getSession()->set('projectid', $projectId);
         return $this->renderContent('TangaraCoreBundle:Project:select.html.twig', 'create');
     }
-
+    
+    //action for create a news prject
+    public function createAction(Request $request ){        
+        $manager = $this->get('tangara_core.project_manager');
+        if (!$this->isUserLogged()) {
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
+        else {
+            $project = new Project();            
+            $form = $this->createFormBuilder($project)
+                    ->add('name', 'text', array('label'=>'project.name', 'required'=>false))
+                    ->add('published', 'checkbox', array('label'=>'project.published', 'required'=>false))
+                    ->add('width', 'integer', array('label'=>'project.width', 'required'=>false))
+                    ->add('height', 'integer', array('label'=>'project.height', 'required'=>false))
+                    ->add('description', 'textarea', array('label'=>'project.description', 'required'=>false))
+                    ->add('instructions', 'textarea', array('label'=>'project.instructions', 'required'=>false))
+                    ->add('save', 'submit', array('label'=>'project.save', 'attr'=>array('several-buttons', 'last-button')))
+                    ->getForm();  
+            if ($request->isMethod('POST')){
+                $form->handleRequest($request);
+                if ($form->isValid()){                
+                    $data = $form->getData();
+                    $manager->saveProject($project);
+                return $this->redirect($this->generateUrl('tangara_project_published'));
+                }
+            }
+            return $this->renderContent('TangaraCoreBundle:Project:create_project.html.twig', 'project', array('form'=> $form->createView()));
+        }
+    }
+  
+    
     
     /*public function indexAction() {
     }

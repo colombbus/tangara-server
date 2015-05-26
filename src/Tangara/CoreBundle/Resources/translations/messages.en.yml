@@ -7,6 +7,11 @@ navbar:
     register: Register
     profile: Profile
     account: Account
+    projects: Project
+    project_info: Project Information
+    forgotten_password: Forgot password
+    new_project: New Project
+    
     forgotten_password: Forgot your password?
 _homepage:
     Welcome: Welcome 
