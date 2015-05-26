@@ -5,6 +5,7 @@ namespace Tangara\CoreBundle\EventListener;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,7 +35,9 @@ class UserListener implements EventSubscriberInterface {
         FOSUserEvents::REGISTRATION_COMPLETED => 'onUserCreation',
         AuthenticationEvents::AUTHENTICATION_SUCCESS => 'onUserLogin',
         FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
-        FOSUserEvents::CHANGE_PASSWORD_SUCCESS => 'onChangePasswordSuccess'
+        FOSUserEvents::CHANGE_PASSWORD_SUCCESS => 'onChangePasswordSuccess',
+        FOSUserEvents::RESETTING_RESET_SUCCESS => 'onResettingPasswordSuccess',
+        FOSUserEvents::SECURITY_IMPLICIT_LOGIN => 'onUserImplicitLogin'
         );
     }
     
@@ -61,6 +64,11 @@ class UserListener implements EventSubscriberInterface {
         $event->setResponse(new RedirectResponse($url));
     }
     
+    public function onResettingPasswordSuccess(FormEvent $event) {
+        $url = $this->router->generate('tangara_user_password_reset_confirmed');
+        $event->setResponse(new RedirectResponse($url));
+    }
+    
     public function onUserLogin(AuthenticationEvent $event) {
         // No anonymous user
         $roles = $event->getAuthenticationToken()->getRoles();
@@ -81,4 +89,17 @@ class UserListener implements EventSubscriberInterface {
         }
     }
 
+    public function onUserImplicitLogin(UserEvent $event) {
+        $user = $event->getUser();
+        // No anonymous user
+        $roles = $user->getRoles();
+        if (in_array( 'ROLE_USER' , $roles )) {
+            $home = $user->getHome();
+            // set project as current project in session
+            if ($home) {
+                $this->session->set('projectid', $home->getId());
+            }
+        }
+    }
+    
 }
