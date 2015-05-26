@@ -272,11 +272,7 @@ class ProjectController extends TangaraController {
                     $data = $form->getData();
                     $user = $this->getUser();
                     $project->setOwner($user);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($project);
-                    $em->flush();
-
-                    //$manager->saveProject($project);
+                    $manager->saveProject($project);
                 return $this->redirect($this->generateUrl('tangara_project_published'));
                 }
             }
