@@ -20,15 +20,16 @@ class AdminController extends TangaraController {
         $findUsers = $this->getDoctrine()
                 ->getRepository('TangaraCoreBundle:User')
                 ->findAll();
-        $users = $this->get('knp_paginator')->paginate($findUsers, $this->get('request')->query->get('page', 1), 4);
-        return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users' => $users));
+        $users = $this->get('knp_paginator')->paginate($findUsers, $this->get('request')->query->get('page', 1),10);
+        $form = $this->createForm(new SearchType());
+        return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users' => $users, 'form' => $form->createView()));
     }
 
     public function projectsAction() {
         $findProjects = $this->getDoctrine()
                 ->getRepository('TangaraCoreBundle:Project')
                 ->findAll();
-        $projects = $this->get('knp_paginator')->paginate($findProjects, $this->get('request')->query->get('page', 1), 5);
+        $projects = $this->get('knp_paginator')->paginate($findProjects, $this->get('request')->query->get('page', 1),10);
         return $this->renderContent('TangaraCoreBundle:Admin:projects.html.twig', 'profile', array('projects' => $projects));
     }
 
@@ -65,11 +66,11 @@ class AdminController extends TangaraController {
         $request = $this->getRequest();
         if ($request->isXmlHttpRequest()) {
             $data = $request->get('search');
-            $user = $this->getDoctrine()
+            $users = $this->getDoctrine()
                     ->getEntityManager()
                     ->getRepository('TangaraCoreBundle:User')
                     ->searchData($data);
-            $html = $this->renderView('TangaraCoreBundle:Admin:result_users.html.twig', array('user' => $user));
+            $html = $this->renderView('TangaraCoreBundle:Admin:result_users.html.twig', array('users' => $users));
             $response = new Response($html);
             $response->headers->set('Content-Type', 'text/html');
             return $response;

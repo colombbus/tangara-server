@@ -1,14 +1,10 @@
-{# view for method ajax #}
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            {% include 'TangaraCoreBundle:Admin:index.html.twig' %}
+            {% include 'TangaraCoreBundle:Admin:menu.html.twig' %}
         </div>
-        <br>
-        <br>
-        <div class="col-md-8">
-            <h2 align="center">{{ 'admin.auto-members'|trans }}</h2>
-            <br><br>
+        <div class="col-md-9">
+            <h2>{{ 'admin.auto-members'|trans }}</h2>
             <div class="col-md-2"></div>
             <form id="search_form" {{ form_enctype(form) }} method="POST">
                 <div class="col-md-7">

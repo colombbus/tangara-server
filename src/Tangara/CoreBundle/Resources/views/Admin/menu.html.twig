@@ -1,12 +1,14 @@
-<div class="row">
-    <a href="{{ path('tangara_admin_users')}}" class="btn btn-block">{{ 'admin.members'|trans }}</a> 
-</div>
-<div class="row">
-    <a href="{{ path('tangara_admin_projects')}}" class="btn btn-block">{{ 'admin.projects'|trans }}</a>
-</div>
-<div class="row">
-    <a href="{{ path('tangara_admin_users_ajax')}}" class="btn btn-block">{{ 'admin.auto-members'|trans }}</a>
-</div>
-<div class="row">
-    <a href="{{ path('tangara_admin_projects_ajax')}}" class="btn btn-block">{{ 'admin.auto-project'|trans }}</a>
-</div>
+<ul class="nav nav-pills nav-stacked">
+    <li  role="presentation">
+        <a href="{{ path('tangara_admin_users')}}">{{ 'admin.members'|trans }}</a> 
+    </li>
+    <li  role="presentation">
+        <a href="{{ path('tangara_admin_projects')}}">{{ 'admin.projects'|trans }}</a>
+    </li>
+    <li  role="presentation">
+        <a href="{{ path('tangara_admin_users_ajax')}}">{{ 'admin.auto-members'|trans }}</a>
+    </li>
+    <li  role="presentation">
+        <a href="{{ path('tangara_admin_projects_ajax')}}">{{ 'admin.auto-project'|trans }}</a>
+    </li>
+</ul>

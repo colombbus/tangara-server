@@ -109,7 +109,7 @@ project:
 message:
     unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
 admin:
-    menu: Menu d'administration    
+    title: Administration
     result: Résultat de l'opération    
     members: Les utilisateurs
     projects: Les projets
@@ -117,6 +117,7 @@ admin:
     owner: Propriétaire du projet  
     project_datetime: Date de creation
     auto-members: Utilisateurs
-    auto-project: Projets    
+    auto-project: Projets
+    ajax_error: Une erreur s'est produite. Veuillez réessayer ultérieurement.
 Previous: Precedent
 Next: Suivant
