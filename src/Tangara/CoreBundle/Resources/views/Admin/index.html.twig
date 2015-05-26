@@ -20,7 +20,9 @@
                     <tr> 
                         <th><p align="center">{{ 'admin.project'|trans }}</p></th>
                         <th><p align="center"> - </p></th>
-                        <th><p align="center">{{ 'admin.owner'|trans }}</p></th> 
+                        <th><p align="center">{{ 'admin.owner'|trans }}</p></th>
+                        <th><p align="center"> - </p></th>
+                        <th><p align="center">{{ 'admin.project_datetime'|trans }}</p></th>
                     </tr> 
                     {% for key, project in projects %}
                     <tr>
@@ -31,8 +33,13 @@
                             <p align="center">  ->  </p>
                         </td>
                         <td>
-                         <p align="center"><a href="{{ path('tangara_user_profile_show', {'user_id': project.owner.id}) }}">{{ project.owner }}</a></p>
-                            
+                            <p align="center"><a href="{{ path('tangara_user_profile_show', {'user_id': project.owner.id}) }}">{{ project.owner }}</a></p>
+                        </td>
+                        <td>
+                            <p align="center">  ->  </p>
+                        </td>
+                        <td>
+                            <p align="center">{{ project.created|date("m/d/Y") }}</p>
                         </td>
                     </tr>
                     {% endfor %}
