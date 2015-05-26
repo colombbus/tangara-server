@@ -7,6 +7,7 @@ navbar:
     register: Register
     profile: Profile
     account: Account
+    forgotten_password: Forgot your password?
 _homepage:
     Welcome: Welcome 
     site_description: This is the official website of the TangaraJS web app, Android, PC. The old version of the Tangara written in Java can be found here.

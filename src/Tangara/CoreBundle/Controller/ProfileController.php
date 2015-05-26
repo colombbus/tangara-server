@@ -116,6 +116,10 @@ class ProfileController extends TangaraController
     }
     
     public function registrationConfirmedAction() {
+        if (!$this->isUserLogged()) {
+            // If user is logged: redirect to main page
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage' ));
+        }
         return $this->renderContent("TangaraCoreBundle:Profile:registration.confirmed.html.twig", 'profile', array('user'=>$this->getUser()));
     }
 
@@ -142,6 +146,57 @@ class ProfileController extends TangaraController
             return $this->renderContent("TangaraCoreBundle:Profile:init.html.twig", 'profile', array('route'=>'tangara_user_change_password'));
         }
     }
-
     
+    public function forgotPasswordAction(){
+        if ($this->isUserLogged()) {
+            // if user is logged: redirect to main page
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage' ));
+        }
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            if ($request->isMethod('POST')) {
+                $response = $this->forward("FOSUserBundle:Resetting:sendEmail");
+                if ($response instanceof RedirectResponse) {
+                    // redirect
+                    return $this->redirect($response->getTargetUrl());
+                } else {
+                    $jsonResponse = new JsonResponse();
+                    return $jsonResponse->setData(array('content'=>$response->getContent()));
+                }
+            } else {
+                return $this->forward("FOSUserBundle:Resetting:request");
+            }
+        } else {
+            return $this->renderContent("TangaraCoreBundle:Profile:init.html.twig", 'profile', array('route'=>'tangara_user_forgotten_password'));
+        }
     }
+
+    public function resetPasswordAction($token){
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
+            if ($request->isMethod('POST')) {
+                $response = $this->forward("FOSUserBundle:Resetting:reset", array('token'=>$token));
+                if ($response instanceof RedirectResponse) {
+                    // redirect
+                    return $this->redirect($response->getTargetUrl());
+                } else {
+                    $jsonResponse = new JsonResponse();
+                    return $jsonResponse->setData(array('content'=>$response->getContent()));
+                }
+            } else {
+                return $this->forward("FOSUserBundle:Resetting:reset", array('token'=>$token));
+            }
+        } else {
+            return $this->renderContent("TangaraCoreBundle:Profile:init.html.twig", 'profile', array('route'=>'fos_user_resetting_reset', 'parameters'=>array('token'=>$token)));
+        }
+    }
+    
+    public function resetPasswordConfirmedAction() {
+        if (!$this->isUserLogged()) {
+            // If user is logged: redirect to main page
+            return $this->redirect($this->generateUrl( 'tangara_core_homepage' ));
+        }
+        return $this->renderContent("TangaraCoreBundle:Profile:reset.confirmed.html.twig", 'profile', array('user'=>$this->getUser(), 'edition'=>true));
+    }
+    
+}

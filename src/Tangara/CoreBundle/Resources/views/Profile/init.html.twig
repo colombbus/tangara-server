@@ -1,5 +1,9 @@
 <div class="container">
+{% if parameters is defined %}
+    <a href="{{ path(route, parameters) }}" id="profile_link" class="content-link" data-active="profile"></a>
+{% else %}
     <a href="{{ path(route) }}" id="profile_link" class="content-link" data-active="profile"></a>
+{% endif %}
 </div> 
 <script>
     $(function() {

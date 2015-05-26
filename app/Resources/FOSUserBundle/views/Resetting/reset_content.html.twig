@@ -1,0 +1,8 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% form_theme form 'TangaraCoreBundle:Form:fields.html.twig' %}
+
+<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset content-form" role="form">
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">{{ 'resetting.reset.submit'|trans }} </button>    
+</form>

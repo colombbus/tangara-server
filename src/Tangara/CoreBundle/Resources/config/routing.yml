@@ -13,4 +13,3 @@ tangara_core_share:
 tangara_core_create:
     path:  /create
     defaults: { _controller: TangaraCoreBundle:Main:create}
-    

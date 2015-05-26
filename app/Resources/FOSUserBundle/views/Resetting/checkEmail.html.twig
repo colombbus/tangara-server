@@ -1,0 +1,10 @@
+{% block main_container %}
+<div class="container">
+    <h1>{{ 'profile.resetting_email_sent'|trans}}</h1>
+    {% block fos_user_content %}
+    <p>
+    {{ 'profile.resetting_check_email'|trans({'%email%': email}) }}
+    </p>
+    {% endblock %}
+</div>
+{% endblock %}
