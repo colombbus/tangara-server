@@ -147,7 +147,7 @@ class ProjectController extends TangaraController {
         } else {
             $form->attr = array('class'=>'form-content');
         }
-        return $this->renderContent('TangaraCoreBundle:Project:edit.html.twig', 'project', array('form' => $form->createView()));
+        return $this->renderContent('TangaraCoreBundle:Project:edit.html.twig', 'project', array('form' => $form->createView(), 'title'=>'project.edition'));
     }
     
     
@@ -256,16 +256,8 @@ class ProjectController extends TangaraController {
             return $this->redirect($this->generateUrl('tangara_core_homepage'));
         }
         else {
-            $project = new Project();            
-            $form = $this->createFormBuilder($project)
-                    ->add('name', 'text', array('label'=>'project.name', 'required'=>false))
-                    ->add('published', 'checkbox', array('label'=>'project.published', 'required'=>false))
-                    ->add('width', 'integer', array('label'=>'project.width', 'required'=>false))
-                    ->add('height', 'integer', array('label'=>'project.height', 'required'=>false))
-                    ->add('description', 'textarea', array('label'=>'project.description', 'required'=>false))
-                    ->add('instructions', 'textarea', array('label'=>'project.instructions', 'required'=>false))
-                    ->add('save', 'submit', array('label'=>'project.save', 'attr'=>array('several-buttons', 'last-button')))
-                    ->getForm();  
+            $project = new Project();
+            $form = $this->createForm('project', $project);
             if ($request->isMethod('POST')){
                 $form->handleRequest($request);
                 if ($form->isValid()){                
@@ -273,10 +265,11 @@ class ProjectController extends TangaraController {
                     $user = $this->getUser();
                     $project->setOwner($user);
                     $manager->saveProject($project);
-                return $this->redirect($this->generateUrl('tangara_project_published'));
+                    return $this->redirect($this->generateUrl('tangara_project_show', array('projectId'=>$project->getId())));
                 }
             }
-            return $this->renderContent('TangaraCoreBundle:Project:create_project.html.twig', 'project', array('form'=> $form->createView()));
+            return $this->renderContent('TangaraCoreBundle:Project:edit.html.twig', 'project', array('form' => $form->createView(), 'title'=>'project.creation'));
+            
         }
     }
   
