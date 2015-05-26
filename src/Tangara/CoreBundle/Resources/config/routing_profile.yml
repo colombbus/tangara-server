@@ -1,10 +1,6 @@
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
-fos_user_resetting:
-    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
-
 tangara_user_register:
     path: /register
     defaults: { _controller: TangaraCoreBundle:Profile:register }   
@@ -17,10 +13,6 @@ tangara_user_change_password:
     path: /change-password
     defaults: { _controller: TangaraCoreBundle:Profile:changePassword}       
 
-tangara_user_forgotten_password:
-    path: /forgotten-password
-    defaults: { _controller: TangaraCoreBundle:Profile:forgotPassword}
-
 tangara_user_logout:
     path: /tlogout
     defaults: { _controller: TangaraCoreBundle:Profile:logout }
@@ -32,3 +24,20 @@ tangara_user_profile_show:
 tangara_core_user_menu:
     path:  /user_menu
     defaults: { _controller: TangaraCoreBundle:Profile:menu }
+
+tangara_user_forgotten_password:
+    path: /forgotten-password
+    defaults: { _controller: TangaraCoreBundle:Profile:forgotPassword}
+
+tangara_user_password_reset_confirmed:
+    path: /reset_confirmed
+    defaults: { _controller: TangaraCoreBundle:Profile:resetPasswordConfirmed }   
+
+fos_user_resetting_reset:
+    path: /reset-password/{token}
+    defaults: { _controller: TangaraCoreBundle:Profile:resetPassword }
+    
+fos_user_resetting_check_email:
+    path: /check-email
+    defaults: { _controller: FOSUserBundle:Resetting:checkEmail }
+    
