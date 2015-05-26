@@ -114,3 +114,4 @@ admin:
     projects: Les projets
     project: Nom du projet
     owner: Propriétaire du projet  
+    project_datetime: Date de creation
