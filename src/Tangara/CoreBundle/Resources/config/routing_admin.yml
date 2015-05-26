@@ -22,11 +22,4 @@ tangara_admin_searchUser:
 tangara_admin_search_ajax:
     path:  /search_ajax
     defaults: { _controller: TangaraCoreBundle:Admin:search_ajax }
-#    
-#tangara_admin_users_autocomplete:
-#    path:  /autocomplete
-#    defaults: { _controller: TangaraCoreBundle:Admin:autocomplete }
-#    
-#tangara_admin_users_autoshow:
-#    path:  /autoshow
-#    defaults: { _controller: TangaraCoreBundle:Admin:autoshow }    
+ 
