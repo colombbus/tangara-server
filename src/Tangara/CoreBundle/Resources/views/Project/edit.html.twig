@@ -2,11 +2,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>{{'project.edition'|trans}}</h2>
+            <h2>{{title|trans}}</h2>
             <form action="" method="post" name="project" class="content-form">
                 {{ form_row(form.name) }}
                 {{ form_row(form.published) }}
+            {% if form.launcher is defined %}
                 {{ form_row(form.launcher) }}
+            {% endif %}
                 {{ form_row(form.width) }}
                 {{ form_row(form.height) }}
                 {{ form_row(form.description) }}
