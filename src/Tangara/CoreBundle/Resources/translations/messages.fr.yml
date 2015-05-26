@@ -109,6 +109,7 @@ project:
 message:
     unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
 admin:
+    menu: Menu d'administration    
     result: Résultat de l'opération    
     members: Les utilisateurs
     projects: Les projets
