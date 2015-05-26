@@ -10,7 +10,6 @@ navbar:
     admin: Administration
     projects: Projets
     project_info: Informations
-    new_project: Nouveau projet
     forgotten_password: Mot de passe oublié ?
 homepage:
     Welcome: Bienvenue sur le site de Tangara
@@ -105,6 +104,7 @@ project:
     readonly_projects: Projets consultables
     select: Travailler sur ce projet
     name: Nom du projet
+    creation: Nouveau projet
   
 message:
     unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
