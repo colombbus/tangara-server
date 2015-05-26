@@ -2,3 +2,11 @@
 tangara_admin_index:
     path:  /index
     defaults: { _controller: TangaraCoreBundle:Admin:index }
+    
+tangara_admin_users:
+    path:  /users
+    defaults: { _controller: TangaraCoreBundle:Admin:users }
+    
+tangara_admin_projects:
+    path:  /projects
+    defaults: { _controller: TangaraCoreBundle:Admin:projects }
