@@ -6,6 +6,10 @@ tangara_core_project:
     resource: "@TangaraCoreBundle/Resources/config/routing_project.yml"
     prefix:   /project
 
+tangara_core_admin:
+    resource: "@TangaraCoreBundle/Resources/config/routing_admin.yml"
+    prefix:   /admin
+    
 tangara_core_assets:
     resource: "@TangaraCoreBundle/Resources/config/routing_assets.yml"
     prefix:   /assets
