@@ -51,14 +51,14 @@ class ProfileController extends TangaraController
                 $edition = true;
             }
         } else {
-            $user = $this->getDoctrine()
+                $user = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('TangaraCoreBundle:User')
                 ->findOneById($user_id);
             if (!$user) {
                 return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
             }
-            if ($user === $this->getUser()) {
+            if ($user === $this->getUser() || $this->get('security.context')->isGranted('ROLE_ADMIN') ) {
                 $edition = true;
             }
         }
