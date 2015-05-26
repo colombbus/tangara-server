@@ -102,25 +102,5 @@ class AdminController extends TangaraController {
             return $this->renderContent('TangaraCoreBundle:Admin:projects_ajax.html.twig', 'profile', array('form' => $form->createView()));
         }
     }
-    
-//
-//    public function autoshowAction() {
-//        $form = $this->createForm(new SearchType());
-//        return $this->renderContent('TangaraCoreBundle:Admin:autocomplete.html.twig', 'profile', array('form' => $form->createView()));
-//    }
-//
-//    public function autocompleteAction() {
-//        $request = $this->get('request');
-//        if ($request->isXmlHttpRequest()) {
-//            $data = $request->request->get('user');
-//            $user = $this->getDoctrine()
-//                    ->getEntityManager()
-//                    ->getRepository('TangaraCoreBundle:User')
-//                    ->autocompleteData($data);
-//            $response = new Response(json_encode($user));
-//            $response->headers->set('Content-Type', 'application/json');
-//            return $response;
-//        }
-//    }
 
 }
