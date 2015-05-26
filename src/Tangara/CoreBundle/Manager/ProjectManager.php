@@ -66,11 +66,11 @@ class ProjectManager extends BaseManager {
 
     public function isAuthorized(Project $project, User $user) {
         // For now, we just check that project is user's home
+        // TODO: use ACL
         return ($project->getId() == $user->getHome()->getId() || $project->getReadOnly());
     }
 
     public function isPublic(Project $project) {
-        // For now, we just check that project is user's home
         return ($project->getPublished());
     }
 
