@@ -1,0 +1,17 @@
+{% block main_container %}
+<div class="container">
+    <h2>{{'profile.reset_password'|trans}}</h2>
+        {% block fos_user_content %}
+        {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
+        {% endblock fos_user_content %}
+</div>
+{% endblock %}
+
+
+{#
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+{% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
+{% endblock fos_user_content %}
+#}

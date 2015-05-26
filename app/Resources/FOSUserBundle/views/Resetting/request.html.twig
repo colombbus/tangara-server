@@ -1,0 +1,9 @@
+{% block main_container %}
+<div class="container">
+    <h2>{{'profile.forgotten_password'|trans}}</h2>
+        {% block fos_user_content %}
+        {% include "FOSUserBundle:Resetting:request_content.html.twig" %}
+        {% endblock fos_user_content %}
+</div>
+{% endblock %}
+
