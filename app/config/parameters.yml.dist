@@ -18,6 +18,7 @@ parameters:
     directory.upload: C:\Tangara
     directory.tangarajs: ../../../../tangara-client
     directory.tutorial: ../../../../tangara-tutorial/index.html
+    knp_paginator.page_range: 10
 
 twig:
     globals:
