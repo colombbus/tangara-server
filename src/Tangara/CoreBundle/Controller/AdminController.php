@@ -10,8 +10,6 @@ namespace Tangara\CoreBundle\Controller;
 use Tangara\CoreBundle\Controller\TangaraController;
 use Tangara\CoreBundle\Form\Type\SearchType;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class AdminController extends TangaraController {
 
