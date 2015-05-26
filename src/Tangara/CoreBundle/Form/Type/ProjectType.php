@@ -66,20 +66,24 @@ class ProjectType extends AbstractType
     
     public function addPrograms(FormEvent $event) {
         $project = $event->getData();
-        $form = $event->getForm();
-        
-        $form->add('launcher', 'entity', array(
-            'label' => 'project.launcher',
-            'class' => 'TangaraCoreBundle:File',
-            'property'=>'name',
-            'query_builder' => function(EntityRepository $er) use($project) {
-                return $er->createQueryBuilder('f')
-                ->where('f.project = :project')
-                ->andWhere('f.program = true')
-                ->orderBy('f.name', 'ASC')
-                ->setParameter('project', $project);
-            })
-        );
+        $id = $project->getId();
+        if (isset($id)) {
+            // Project exists
+            $form = $event->getForm();
+
+            $form->add('launcher', 'entity', array(
+                'label' => 'project.launcher',
+                'class' => 'TangaraCoreBundle:File',
+                'property'=>'name',
+                'query_builder' => function(EntityRepository $er) use($project) {
+                    return $er->createQueryBuilder('f')
+                    ->where('f.project = :project')
+                    ->andWhere('f.program = true')
+                    ->orderBy('f.name', 'ASC')
+                    ->setParameter('project', $project);
+                })
+            );
+        }
     }
         
     public function addReadonly(FormEvent $event) {
