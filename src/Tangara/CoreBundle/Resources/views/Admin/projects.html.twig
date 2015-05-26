@@ -2,39 +2,27 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            {% include 'TangaraCoreBundle:Admin:index.html.twig' %}
+            {% include 'TangaraCoreBundle:Admin:menu.html.twig' %}
         </div>
-        <br>
         <div class="col-md-9">
+            <h2 align="center">{{ 'admin.projects'|trans }}</h2>
             <table class="table table-striped" > 
-                    <h2 align="center">{{ 'admin.projects'|trans }}</h2>
-                    <br>
-                    <tr> 
-                        <th><p align="center">{{ 'admin.project'|trans }}</p></th>
-                        <th><p align="center"> - </p></th>
-                        <th><p align="center">{{ 'admin.owner'|trans }}</p></th>
-                        <th><p align="center"> - </p></th>
-                        <th><p align="center">{{ 'admin.project_datetime'|trans }}</p></th>
-                    </tr> 
-                    {% for key, project in projects %}
-                    <tr>
-                        <td>
-                            <p align="center"><a href="{{ path('tangara_project_show', {'projectId': project.id}) }}"> {{ project.name }}</a></p> 
-                        </td>
-                        <td>
-                            <p align="center">  ->  </p>
-                        </td>
-                        <td>
-                            <p align="center"><a href="{{ path('tangara_user_profile_show', {'user_id': project.owner.id}) }}">{{ project.owner }}</a></p>
-                        </td>
-                        <td>
-                            <p align="center">  ->  </p>
-                        </td>
-                        <td>
-                            <p align="center">{{ project.created|date("m/d/Y") }}</p>
-                        </td>
-                    </tr>
-                    {% endfor %}
+                <tr> 
+                    <th align="center">{{ 'admin.project'|trans }}</th>
+                    <th align="center">-</th>
+                    <th align="center">{{ 'admin.owner'|trans }}</th>
+                    <th align="center"> - </th>
+                    <th align="center">{{ 'admin.project_datetime'|trans }}</th>
+                </tr> 
+                {% for key, project in projects %}
+                <tr>
+                    <td align="center"><a href="{{ path('tangara_project_show', {'projectId': project.id}) }}"> {{ project.name }}</a></td>
+                    <td align="center">  ->  </td>
+                    <td align="center"><a href="{{ path('tangara_user_profile_show', {'user_id': project.owner.id}) }}">{{ project.owner }}</a></td>
+                    <td align="center">  ->  </td>
+                    <td align="center">{{ project.created|date("m/d/Y") }}</td>
+                </tr>
+                {% endfor %}
             </table>
             <div class="navigation">
                     {{ knp_pagination_render(projects) }}

@@ -1,19 +1,19 @@
 {# view for admin -> users #}
 <div class="container">
+    <div class="row">
         <div class="col-md-3">
-            {% include 'TangaraCoreBundle:Admin:index.html.twig' %}
+            {% include 'TangaraCoreBundle:Admin:menu.html.twig' %}
         </div>
-        <br>
-        <div class="col-md-6">
-                        <h2 align="center">{{ 'admin.members'|trans }}</h2>
-                        <br>
-                        <ul>
-                            {% for user in users %}
-                                <a href="{{ path('tangara_user_profile_show', {'user_id': user.id}) }}" class="btn btn-primary">{{  user.username|e }}</a>
-                            {% endfor %}
-                        </ul>
+        <div class="col-md-9">
+            <h2 align="center">{{ 'admin.members'|trans }}</h2>
+            <ul>
+                {% for user in users %}
+                    <a href="{{ path('tangara_user_profile_show', {'user_id': user.id}) }}" class="btn btn-primary">{{  user.username|e }}</a>
+                {% endfor %}
+            </ul>
             <div class="navigation">
                     {{ knp_pagination_render(users) }}
             </div>            
-            </div>
+        </div>
+    </div>
 </div>
