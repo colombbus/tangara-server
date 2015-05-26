@@ -1,4 +1,4 @@
-{# view for method ajax #}
+{# view for search project with name or owner #}
 <div class="container">
     <div class="row">
         <div class="col-md-3">
@@ -7,7 +7,7 @@
         <br>
         <br>
         <div class="col-md-8">
-            <h2 align="center">{{ 'admin.auto-members'|trans }}</h2>
+            <h2 align="center">{{ 'admin.auto-project'|trans }}</h2>
             <br><br>
             <div class="col-md-2"></div>
             <form id="search_form" {{ form_enctype(form) }} method="POST">
@@ -23,31 +23,32 @@
             <br><br>
             <br><br>
             <br><br>
-            <div id="affUser">
+            <div id="affProj">
                 <!-- affichage des Users -->
             </div>
             <script type="text/javascript">
                 $(document).ready(function () {
                     $('#search_form_search').keyup(function (key) {
                         var Data = $(this).val();
-                        if (Data.length >= 1)
+                        if (Data.length >= 1 && Data != ' ' && Data != '  ' && Data != '   ')
                         { //console.log(Data);
                             var ajax = function () {
                                 $.ajax({
                                     type: "POST",
-                                    url: "{{ path('tangara_admin_search_ajax') }}",
+                                    url: "{{ path('tangara_admin_search_project') }}",
                                     data: {search: Data},
                                     cache: false,
                                     success: function (data) {
-                                        $('#affUser').html(data);
+                                        $('#affProj').html(data);
                                     },
                                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                        $('#affUser').text("Une erreur s'est produite. Veuillez réessayer ulteriement.").show();
+                                        $('#affProj').text("Une erreur s'est produite, veuillez réessayer.").show();
                                     }
                                 });
                             }
-                       setTimeout(ajax, 1000);    
+                            setTimeout(ajax, 1000);
                         }
+
                     });
 
                 });
