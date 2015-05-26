@@ -10,7 +10,7 @@ navbar:
     admin: Administration
     projects: Projets
     project_info: Informations
-    forgotten_password: Mot de passe perdu ?
+    forgotten_password: Mot de passe oublié ?
 homepage:
     Welcome: Bienvenue sur le site de Tangara
     site_description: Le site officiel de Tangara fonctionnant sur Android, PC (Win/Linux/Mac), iPhone, FirefoxOS, BlackBerry.
@@ -51,6 +51,20 @@ profile:
     registration_title: Inscription
     registration_confirmed_title: Compte créé
     registration_confirmed: Félicitations %username%, votre compte est maintenant activé !
+    forgotten_password: Mot de passe oublié
+    resetting_email_sent: E-mail envoyé
+    resetting_check_email: Un e-mail a été envoyé à l'adresse %email%. Il contient un lien sur lequel il vous faudra cliquer afin de réinitialiser votre mot de passe.
+    resetting_password_already_requested: Un nouveau mot de passe a déjà été demandé pour cet utilisateur dans les dernières 24 heures.
+    reset_password: Réinitialisation du mot de passe
+    resetting_email:
+        subject: Réinitialisation de votre mot de passe
+        message: |
+            Bonjour %username% !
+
+            Pour réinitialiser votre mot de passe, merci de vous rendre sur %confirmationUrl%
+
+            A bientôt,
+            L'équipe Tangara
 project:
     details: "Projet > "
     edition: Modification du projet
@@ -93,4 +107,4 @@ project:
 message:
     unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
 admin:
-    result: Résultat de l'opération
+    result: Résultat de l'opération    
