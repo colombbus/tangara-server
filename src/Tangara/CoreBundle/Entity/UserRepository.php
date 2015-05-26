@@ -1,9 +1,9 @@
 <?php
-namespace Tangara\CoreBundle\Repository;
+namespace Tangara\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
-class ProfileRepository extends EntityRepository {
+class UserRepository extends EntityRepository {
     
     public function searchData($string) {
         $qb = $this->createQueryBuilder('u')
