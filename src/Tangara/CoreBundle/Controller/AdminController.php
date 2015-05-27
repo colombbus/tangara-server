@@ -9,6 +9,7 @@ namespace Tangara\CoreBundle\Controller;
 use Tangara\CoreBundle\Controller\TangaraController;
 use Tangara\CoreBundle\Form\Type\SearchType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends TangaraController {
 
@@ -16,13 +17,49 @@ class AdminController extends TangaraController {
         return $this->renderContent('TangaraCoreBundle:Admin:index.html.twig', 'profile', array());
     }
 
-    public function usersAction() {
-        $findUsers = $this->getDoctrine()
-                ->getRepository('TangaraCoreBundle:User')
-                ->findAll();
-        $users = $this->get('knp_paginator')->paginate($findUsers, $this->get('request')->query->get('page', 1),10);
-        $form = $this->createForm(new SearchType());
-        return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users' => $users, 'form' => $form->createView()));
+    public function usersAction(Request $request) {
+        //TODO: check that user is admin
+        $session = $request->getSession();
+        $page = $session->get("admin_users_page", 1);
+        $search = $session->get("admin_users_search", false);
+        return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('page' => $page, 'search' => $search));
+    }
+    
+    public function getUsersAction(Request $request) {
+        //TODO: check that user is admin
+        if (!$request->isXmlHttpRequest()) {
+            $this->redirect($this->generateUrl('tangara_admin_users'));
+        }
+        $session = $request->getSession();
+        
+        // handle page number
+        $page = $request->get("page", 1);
+        $session->set("admin_users_page", $page);           
+
+        // handle search
+        $search = $request->get("search", false);        
+        if ($search !== false) {
+            // search set: store it in session
+            if (strlen(trim($search))==0) {
+                // reset search
+                $session->set("admin_users_search", false);           
+            } else {
+                $session->set("admin_users_search", $search);
+            }
+        }        
+        // get search from session if any
+        $search = $session->get("admin_users_search", false);
+        
+        // get users
+        $repository = $this->getDoctrine()->getRepository('TangaraCoreBundle:User');
+        
+        if ($search !== false) {
+            $users = $repository->getSearchQuery($search);
+        } else {
+            $users = $repository->findAll();
+        }
+        $pagination = $this->get('knp_paginator')->paginate($users, $page,10);
+        return $this->render('TangaraCoreBundle:Admin:users_list.html.twig', array('users' => $pagination));
     }
 
     public function projectsAction() {
@@ -31,53 +68,6 @@ class AdminController extends TangaraController {
                 ->findAll();
         $projects = $this->get('knp_paginator')->paginate($findProjects, $this->get('request')->query->get('page', 1),10);
         return $this->renderContent('TangaraCoreBundle:Admin:projects.html.twig', 'profile', array('projects' => $projects));
-    }
-
-    public function searchAction() {
-        $form = $this->createForm(new SearchType());
-        return $this->render('TangaraCoreBundle:Admin:search.html.twig', array('form' => $form->createView()));
-    }
-
-    public function searchUserAction() {
-        $form = $this->createForm(new SearchType());
-        $request = $this->getRequest();
-        if ($request->isMethod('POST')) {
-            $form->bind($this->get('request'));
-            $searchedUsers = $this->getDoctrine()
-                    ->getEntityManager()
-                    ->getRepository('TangaraCoreBundle:User')
-                    ->searchData($form['search']->getData());
-            $request->getSession()->set('searchedUsers', $searchedUsers);
-        } elseif ($request->isMethod('GET')) {
-            $searchedUsers = $request->getSession()->get('searchedUsers');
-        } else {
-            throw $this->createNotFoundException('404 Not found');
-        }
-        $users = $this->get('knp_paginator')->paginate($searchedUsers, $this->get('request')->query->get('page', 1), 2);
-        return $this->renderContent('TangaraCoreBundle:Admin:users.html.twig', 'profile', array('users' => $users));
-    }
-
-    public function users_ajaxAction() {
-        $form = $this->createForm(new SearchType());
-        return $this->renderContent('TangaraCoreBundle:Admin:users_ajax.html.twig', 'profile', array('form' => $form->createView()));
-    }
-
-    public function search_ajaxAction() {
-        $request = $this->getRequest();
-        if ($request->isXmlHttpRequest()) {
-            $data = $request->get('search');
-            $users = $this->getDoctrine()
-                    ->getEntityManager()
-                    ->getRepository('TangaraCoreBundle:User')
-                    ->searchData($data);
-            $html = $this->renderView('TangaraCoreBundle:Admin:result_users.html.twig', array('users' => $users));
-            $response = new Response($html);
-            $response->headers->set('Content-Type', 'text/html');
-            return $response;
-        } else {
-            $form = $this->createForm(new SearchType());
-            return $this->renderContent('TangaraCoreBundle:Admin:users_ajax.html.twig', 'profile', array('form' => $form->createView()));
-        }
     }
 
     public function projects_ajaxAction(){

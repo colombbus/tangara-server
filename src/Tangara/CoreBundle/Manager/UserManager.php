@@ -1,12 +1,9 @@
 <?php
 
-use FOS\UserBundle\Entity\UserManager as FOSUserManager;
+namespace Tangara\CoreBundle\Manager;
+
+use FOS\UserBundle\Doctrine\UserManager as FOSUserManager;
 
 class UserManager extends FOSUserManager {
-    
-    public function __construct(EncoderFactoryInterface $encoderFactory, CanonicalizerInterface $usernameCanonicalizer, CanonicalizerInterface $emailCanonicalizer)
-    {
-        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer);
-    }
     
 }

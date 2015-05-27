@@ -1,0 +1,12 @@
+<table class="table table-condensed table-hover">
+    {% for user in users %}
+        <tr>
+            <td>
+            <a href="{{ path('tangara_user_profile_show', {'user_id': user.id}) }}">{{  user.username|e }}</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+<div id="pagination">
+    {{ knp_pagination_render(users) }}
+</div> 

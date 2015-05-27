@@ -5,13 +5,13 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository {
     
-    public function searchData($string) {
+    public function getSearchQuery($string) {
         $qb = $this->createQueryBuilder('u')
                     ->select('u')
                     ->where('u.username like :string')
                     ->orderBy('u.id')
                     ->setParameter('string','%'.$string.'%');
-        return $qb->getQuery()->getArrayResult();
+        return $qb->getQuery();
     }
     
     public function autocompleteData($string) {

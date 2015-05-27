@@ -1,4 +1,3 @@
-{% form_theme form 'TangaraCoreBundle:Form:fields.html.twig' %}
 <div class="container">
     <h1>{{'admin.title'|trans }}</h1>
     <div class="row">
@@ -6,23 +5,10 @@
             {% include 'TangaraCoreBundle:Admin:menu.html.twig' %}
         </div>
         <div class="col-md-9">
-            <table class="table table-condensed table-hover">
-                {% for user in users %}
-                    <tr>
-                        <td>
-                        <a href="{{ path('tangara_user_profile_show', {'user_id': user.id}) }}">{{  user.username|e }}</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-            <div class="navigation">
-                {{ knp_pagination_render(users) }}
-            </div>            
-            <form id="search_form" {{ form_enctype(form) }}>
-                {{ form_widget(form) }}        
+            <form id="search_form">
+                <input type="text" id="search_form_search" name="search" class="form-control" placeholder="{{'search'|trans}}" {% if search %} value="{{search}}" {% endif %} >
             </form>
-            <div id="foundUsers">
-            </div>            
+            <div id="users"></div>
         </div>
     </div>
 </div>
@@ -30,29 +16,11 @@
     var currentTimer = 0;
 
     function ajaxRequest() {
-        //TODO: add loading gif
-        $('#foundUsers').empty();
+        currentTimer = 0;
+        //TODO: add loading gif        
+        $('#users').empty();
         var value = $('#search_form_search').val();
-        if (value.trim().length>=1) {
-            $.ajax({
-                type: "POST",
-                url: "{{ path('tangara_admin_search_ajax') }}",
-                data: {search: value},
-                cache: false,
-                success: function (data) {
-                    $('#foundUsers').html(data);
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#foundUsers').text("{{'admin.ajax_error'|trans }}").show();
-                },
-                complete: function() {
-                    currentTimer = 0;
-                }
-            });
-        } else {
-            currentTimer = 0;
-            //TODO: add empty text
-        }
+        fetchList(1, value);
     }
 
     function ajaxSearch(now) {
@@ -62,12 +30,31 @@
         if (now) {
             ajaxRequest();
         } else {
-            currentTimer = setTimeout(ajaxRequest, 100);
+            currentTimer = setTimeout(ajaxRequest, 500);
         }
     }
 
-    $(document).ready(function () {
+    function ajaxifyPagination() {
+        $("#pagination").find("a").click(paginationLink);        
+    }
 
+    function paginationLink(event) {
+        event.preventDefault();
+        var $link = $(this);
+        var url = $link.attr("href");
+        $("#users").load(url,{},ajaxifyPagination);
+    }
+
+    function fetchList(page, search) {
+        var data = {'page': page};
+        if (search !== false) {
+            data['search'] = search;
+        }
+        $("#users").load("{{ path('tangara_admin_users_list') }}",data, ajaxifyPagination);
+    }
+
+    $(document).ready(function () {
+        fetchList({{page}}, {% if search %} "{{search}}" {% else %} false {%endif%});
         
         $('#search_form').on('submit', function(e) {
             e.preventDefault();

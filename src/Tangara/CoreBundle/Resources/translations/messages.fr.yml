@@ -110,14 +110,12 @@ message:
     unsaved: "Vous avez des programmes non enregistrés : les modifications seront perdues.\\nEtes-vous sûr de vouloir poursuivre ?"
 admin:
     title: Administration
-    result: Résultat de l'opération    
-    members: Les utilisateurs
-    projects: Les projets
+    users: Utilisateurs
+    projects: Projets
     project: Nom du projet
     owner: Propriétaire du projet  
     project_datetime: Date de creation
-    auto-members: Utilisateurs
-    auto-project: Projets
     ajax_error: Une erreur s'est produite. Veuillez réessayer ultérieurement.
 Previous: Precedent
 Next: Suivant
+search: Rechercher
