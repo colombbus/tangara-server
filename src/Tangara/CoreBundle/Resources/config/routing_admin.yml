@@ -15,10 +15,6 @@ tangara_admin_projects:
     path:  /projects
     defaults: { _controller: TangaraCoreBundle:Admin:projects }
 
-tangara_admin_projects_ajax:
-    path:  /search_project
-    defaults: { _controller: TangaraCoreBundle:Admin:projects_ajax }
-    
-tangara_admin_search_project:
-    path:  /search_project_ajax
-    defaults: { _controller: TangaraCoreBundle:Admin:search_project_ajax } 
+tangara_admin_projects_list:
+    path:  /get_projects
+    defaults: { _controller: TangaraCoreBundle:Admin:getProjects}

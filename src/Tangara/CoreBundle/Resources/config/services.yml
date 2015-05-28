@@ -43,3 +43,9 @@ services:
         arguments:
             - @tangara_core.project_manager
             - @security.context
+    tangara_core.pagination:
+        class: Tangara\CoreBundle\Helper\Pagination
+        tags:
+            - { name: knp_paginator.injectable, paginator: knp_paginator }
+        arguments:
+            - @doctrine.orm.entity_manager

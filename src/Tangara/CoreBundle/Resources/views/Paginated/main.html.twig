@@ -1,0 +1,58 @@
+<form id="search_form">
+    <input type="text" id="search_form_search" name="search" class="form-control" placeholder="{{'search'|trans}}" {% if search %} value="{{search}}" {% endif %} >
+</form>
+<div id="list"></div>
+<script type="text/javascript">
+    var currentTimer = 0;
+
+    function ajaxRequest() {
+        currentTimer = 0;
+        //TODO: add loading gif        
+        $('#list').empty();
+        var value = $('#search_form_search').val();
+        fetchList(1, value);
+    }
+
+    function ajaxSearch(now) {
+        if (currentTimer !==0) {
+            clearTimeout(currentTimer);
+        }
+        if (now) {
+            ajaxRequest();
+        } else {
+            currentTimer = setTimeout(ajaxRequest, 500);
+        }
+    }
+
+    function ajaxifyPagination() {
+        $("#pagination").find("a").click(paginationLink);        
+    }
+
+    function paginationLink(event) {
+        event.preventDefault();
+        var $link = $(this);
+        var url = $link.attr("href");
+        $("#list").load(url,{},ajaxifyPagination);
+    }
+
+    function fetchList(page, search) {
+        var data = {'page': page};
+        if (search !== false) {
+            data['search'] = search;
+        }
+        $("#list").load("{{ path(paginationRoute) }}",data, ajaxifyPagination);
+    }
+
+    $(document).ready(function () {
+        fetchList({{page}}, {% if search %} "{{search}}" {% else %} false {%endif%});
+        
+        $('#search_form').on('submit', function(e) {
+            e.preventDefault();
+            ajaxSearch(true);
+        });
+        
+        $('#search_form_search').keydown(function (key) {
+            ajaxSearch(false);
+        });
+    });
+</script>
