@@ -159,11 +159,22 @@ class ProjectController extends TangaraController {
     }
     
     
-    public function publishedAction() {
-        $findProjects = $this->get('tangara_core.project_manager')->getRepository()->getPublishedProjects();
-        $projects = $this->get('knp_paginator')->paginate($findProjects, $this->get('request')->query->get('page', 1), 6);
-        return $this->renderContent('TangaraCoreBundle:Project:published.html.twig', 'discover', array('projects' => $projects));
+    public function publishedAction(Request $request) {
+        $session = $request->getSession();
+        $page = $session->get("published_projects_page", 1);
+        $search = $session->get("published_projects_search", false);
+        return $this->renderContent('TangaraCoreBundle:Project:published.html.twig', 'discover', array('page' => $page, 'search' => $search, 'paginationRoute' => 'tangara_project_published_list'));
     }
+
+    public function getPublishedAction(Request $request) {
+        if (!$request->isXmlHttpRequest()) {
+            $this->redirect($this->generateUrl('tangara_project_published'));
+        }
+        $pagination = $this->get('tangara_core.pagination')->paginate($request, "admin_users", 'TangaraCoreBundle:Project', true);
+        return $this->render('TangaraCoreBundle:Project:published_list.html.twig', array('projects' => $pagination));
+
+    }
+
     
     public function executeAction($projectId) {
         $request = $this->getRequest();
@@ -273,26 +284,16 @@ class ProjectController extends TangaraController {
                     $data = $form->getData();
                     $user = $this->getUser();
                     $project->setOwner($user);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($project);
-                    $em->flush();
+                    $manager->saveProject($project);
 
                     $aclProvider = $this->get('security.acl.provider');
                     $objectIdentity = ObjectIdentity::fromDomainObject($project);
                     $acl = $aclProvider->createAcl($objectIdentity);
 
                     $securityContext = $this->get('security.context');
-                    $user = $securityContext->getToken()->getUser();
                     $securityIdentity = UserSecurityIdentity::fromAccount($user);
-
                     $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
                     $aclProvider->updateAcl($acl);
-                    
-                    
-                    
-                    //$manager->saveProject($project);
-                return $this->redirect($this->generateUrl('tangara_project_published'));
-                    $manager->saveProject($project);
                     return $this->redirect($this->generateUrl('tangara_project_show', array('projectId'=>$project->getId())));
                 }
             }

@@ -1,0 +1,27 @@
+{% if projects is empty %}
+    <i>
+        {{'project.no_published_projects'|trans}}    
+    </i>
+{% else %}
+    <div class="list-group">
+        {% for project in projects %}
+            <a href="{{ path( "tangara_project_show", {projectId: project.getId()} ) }}" class="list-group-item content-link" data-active="discover">
+                <h4 class="list-group-item-heading">
+                    {% if project.getName() is empty %}
+                        {{ 'project.default_name' | trans }}
+                    {% else %}
+                        {{ project.getName() }}
+                    {% endif %}
+                </h4>
+                {% if project.getDescription() is not empty %}
+                <p class="list-group-item-text">
+                    {{ project.getDescription() }}
+                </p>
+                {% endif %}
+            </a>
+        {% endfor %}
+    </div>
+{% endif %}
+<div id="pagination">
+    {{ knp_pagination_render(projects) }}
+</div> 

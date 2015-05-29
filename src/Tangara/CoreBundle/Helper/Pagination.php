@@ -13,7 +13,7 @@ class Pagination extends PaginatorAware {
         $this->manager = $em;
     }
     
-    public function paginate($request, $tag, $entity) {
+    public function paginate($request, $tag, $entity, $parameters=false) {
         $session = $request->getSession();
         
         // handle page number
@@ -38,11 +38,20 @@ class Pagination extends PaginatorAware {
         $repository = $this->manager->getRepository($entity);
         
         if ($search !== false) {
-            $data = $repository->getSearchQuery($search);
+            if ($parameters!== false) {
+                $data = $repository->getSearchQuery($search, $parameters);
+            } else {
+                $data = $repository->getSearchQuery($search);
+            }
         } else {
-            $data = $repository->findAll();
+            if ($parameters!== false) {
+                $data = $repository->findAll($parameters);
+            } else {
+                $data = $repository->findAll();
+            }
         }
         // TODO: put itemNumber as parameter
         return $this->getPaginator()->paginate($data, $page, 10);
     }
+
 }

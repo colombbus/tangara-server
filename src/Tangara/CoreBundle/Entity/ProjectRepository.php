@@ -13,15 +13,12 @@ use Tangara\CoreBundle\Entity\User;
  */
 class ProjectRepository extends EntityRepository
 {
-    public function getPublishedProjects(){
+    public function getPublishedProjectsQuery(){
         $query = $this->createQueryBuilder('p')
                 ->where('p.published = true')
                 ->orderBy('p.created', 'DESC');
         
-        $projects = $query->getQuery()->getResult();
-        
-        return $projects;
-
+        return $query->getQuery();
     }
     
     public function getOwnedProjects(User $user) {
@@ -47,13 +44,29 @@ class ProjectRepository extends EntityRepository
         return $projects;
     }
     
-    public function getSearchQuery($string) {
-        $qb = $this->createQueryBuilder('p')
-                    ->select('p')
-                    ->where('p.name like :name')
-                    ->orderBy('p.id')
-                    ->setParameter('name','%'.$string.'%');
-        return $qb->getQuery();
+    public function getSearchQuery($string, $published = false) {
+        if (!$published) {
+            $qb = $this->createQueryBuilder('p')
+                        ->where('p.name like :name')
+                        ->orderBy('p.id')
+                        ->setParameter('name','%'.$string.'%');
+            return $qb->getQuery();
+        } else {
+            $qb = $this->createQueryBuilder('p')
+                        ->where('p.name like :name')
+                        ->andWhere('p.published = true')
+                        ->orderBy('p.created', 'DESC')
+                        ->setParameter('name','%'.$string.'%');
+            return $qb->getQuery();
+        }
+    }
+    
+    public function findAll($published = false) {
+        if (!$published) {
+            return parrent::findAll();
+        } else {
+            return $this->getPublishedProjectsQuery();
+        }
     }
     
 }

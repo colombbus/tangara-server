@@ -25,6 +25,10 @@ tangara_project_published:
     path:  /published
     defaults: { _controller: TangaraCoreBundle:Project:published}
 
+tangara_project_published_list:
+    path:  /getPublished
+    defaults: { _controller: TangaraCoreBundle:Project:getPublished}
+
 tangara_project_execute:
     path:  /execute/{projectId}
     defaults: { _controller: TangaraCoreBundle:Project:execute, projectId: false}
