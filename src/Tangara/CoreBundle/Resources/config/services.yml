@@ -5,6 +5,7 @@ services:
             - @doctrine.orm.entity_manager
             - %tangara_core.settings.directory.upload%
             - @security.context
+            - @security.acl.provider
     tangara_core.user_manager: 
         class: Tangara\CoreBundle\Manager\UserManager
         arguments: 
@@ -25,6 +26,7 @@ services:
             - {name: kernel.event_subscriber}
         arguments:
             - @doctrine.orm.entity_manager
+            - @tangara_core.project_manager
             - @session
             - @router
             - @security.authorization_checker
