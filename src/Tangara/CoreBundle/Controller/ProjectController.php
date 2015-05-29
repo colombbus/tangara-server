@@ -27,13 +27,13 @@ class ProjectController extends TangaraController {
         if ($projectId === false) {
             $projectId = $session->get('projectid');
         }
-        // get manager
-        $manager = $this->get('tangara_core.project_manager');
-
         if (!$projectId) {
             // no current project: we should not be here
             return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
         }
+        
+        // get manager
+        $manager = $this->get('tangara_core.project_manager');
 
         // Check if project exists
         $project = $manager->getRepository()->find($projectId);
@@ -44,48 +44,24 @@ class ProjectController extends TangaraController {
         
         $params['project']=$project;
         
-        // Check user
-        $edition = false;
-        $owner = false;
-        $admin = false;
-        $selectable = false;
-        $access = false;
         
-        //TODO: use ACL
+        // Check access
+        if (!$manager->mayView($project)) {
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
+        
+        // Check user
+        $params['edition'] = $manager->mayEdit($project);
+        $params['owner'] = $manager->isOwner($project);
+        $params['admin'] = $this->get('security.context')->isGranted('ROLE_ADMIN');
+        $params['selectable'] = $manager->mayContribute($project);
+        
         if ($this->isUserLogged()){
-            $user = $this->getUser();
-            if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $admin = true;
-                $access = true;
-                $edition = true;
-                $selectable = true;
-            } else {
-                if ($manager->isAuthorized($project, $user)) {
-                    $selectable = true;
-                    $access = true;
-                }
-                if ($project->getOwner() === $user) {
-                    $edition = true;
-                    $owner = true;
-                }
-            }
-            if ($manager->isHomeProject($project, $user)) {
+            if ($manager->isHomeProject($project, $this->getUser())) {
                 $params['message'] = "project.home_project";
             }
         }
-//        
-//        if (!$access) {
-//            // Check that project is public
-//            if (!$project->getPublished()) {
-//                // User not authorized
-//                return $this->redirect($this->generateUrl('tangara_core_homepage'));
-//            }
-//        }
         
-        $params['edition'] = $edition;
-        $params['owner'] = $owner;
-        $params['admin'] = $admin;
-        $params['selectable'] = $selectable;
         if ($session->get('userMenuUpdateRequired')) {
             $session->remove('userMenuUpdateRequired');
             $params['updateUserMenu'] = true;
