@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
+use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 
 
 class ProjectController extends TangaraController {
@@ -129,7 +130,7 @@ class ProjectController extends TangaraController {
 
         //$auth = $this->get('security.context')->isGranted('ROLE_ADMIN')||$project->getOwner() == $user;
         $auth = $securityContext->isGranted('EDIT', $project);
-        if (false === $auth) {
+        if (false === $auth && false === $securityContext->isGranted('ROLE_ADMIN')) {
             // User not authorized
             return $this->redirect($this->generateUrl('tangara_core_homepage'));
         }
@@ -294,6 +295,11 @@ class ProjectController extends TangaraController {
                     $securityIdentity = UserSecurityIdentity::fromAccount($user);
                     $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
                     $aclProvider->updateAcl($acl);
+                    
+                    /*$securityIdentity = new RoleSecurityIdentity('ROLE_ADMIN');
+                    $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+                    $aclProvider->updateAcl($acl);*/
+                    
                     return $this->redirect($this->generateUrl('tangara_project_show', array('projectId'=>$project->getId())));
                 }
             }
