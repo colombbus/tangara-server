@@ -108,6 +108,7 @@ parameters:
             - "image/gif"
             - "image/png"
             - "image/svg+xml"
+            - "image/x-windows-bmp"
         audio:
             - "audio/mpeg"
             - "audio/mp3"
