@@ -110,6 +110,7 @@ parameters:
             - "image/svg+xml"
         audio:
             - "audio/mpeg"
+            - "audio/mp3"
             - "audio/mp4"
             - "audio/ogg"
             - "audio/vorbis"
