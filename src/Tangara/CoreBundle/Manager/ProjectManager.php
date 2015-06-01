@@ -74,17 +74,26 @@ class ProjectManager extends BaseManager {
     }
     
     public function setHome(Project $project, User $user) {
-        $project->setOwner($user);
+        $this->setOwner($project, $user, false);
         $user->setHome($project);
         $this->em->persist($project);
         $this->em->persist($user);
         $this->em->flush();
+    }
+    
+    public function setOwner(Project $project, User $user, $save = true) {
+        $project->setOwner($user);
         $objectIdentity = ObjectIdentity::fromDomainObject($project);
         $entry = $this->acl->createAcl($objectIdentity);
         $securityIdentity = UserSecurityIdentity::fromAccount($user);
         $entry->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
         $this->acl->updateAcl($entry);
+        if ($save) {
+            $this->saveProject($project);
+        }
     }
+
+    
 
     public function isAuthorized(Project $project, User $user) {
         // For now, we just check that project is user's home
@@ -100,8 +109,12 @@ class ProjectManager extends BaseManager {
         return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('VIEW', $project) || $project->getReadOnly() || $project->getPublished();
     }
     
-    public function mayContribute(Project $project) {
+    public function maySelect(Project $project) {
         return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('CREATE', $project) || $project->getReadOnly();
+    }
+    
+    public function mayContribute(Project $project) {
+        return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('CREATE', $project);
     }
 
     public function mayEdit(Project $project) {
@@ -232,5 +245,6 @@ class ProjectManager extends BaseManager {
     public function getAllPrograms(Project $project) {
         return $this->em->getRepository('TangaraCoreBundle:File')->getAllProjectPrograms($project);        
     }
+    
 
 }

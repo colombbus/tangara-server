@@ -5,9 +5,7 @@ namespace Tangara\CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Tangara\CoreBundle\Entity\File;
 use Tangara\CoreBundle\Entity\Project;
 use stdClass;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
@@ -95,20 +93,13 @@ class AssetsController extends Controller {
         $env->project = $project;
         
         // Check project access by user
-        $auth = false;
-        if ($env->authenticated) {
-            $auth = ($this->get('security.context')->isGranted('ROLE_ADMIN') || $this->get('tangara_core.project_manager')->isAuthorized($project, $user));
-        } 
-        if (!$auth) {
-            $auth = $this->get('tangara_core.project_manager')->isPublic($project);
-        }
-        if (!$auth) {
+        $manager = $this->get('tangara_core.project_manager');
+        if (!$manager->mayExecute($project)) {
             $env->error = "unauthorized_access";
             return $env;
         }
         
-        //TODO: use ACL
-        $env->editionAllowed = $context->isGranted('ROLE_ADMIN')||$project->getOwner() == $user;
+        $env->editionAllowed = $manager->mayContribute($project);
 
         // Get project directory
         $env->projectPath = $this->container->get('tangara_core.project_manager')->getProjectPath($project);
