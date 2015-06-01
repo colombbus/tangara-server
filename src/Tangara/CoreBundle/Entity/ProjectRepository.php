@@ -63,7 +63,7 @@ class ProjectRepository extends EntityRepository
     
     public function findAll($published = false) {
         if (!$published) {
-            return parrent::findAll();
+            return parent::findAll();
         } else {
             return $this->getPublishedProjectsQuery();
         }

@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\Event\AuthenticationEvent;
 use Tangara\CoreBundle\Entity\Project;
+use Tangara\CoreBundle\Manager\ProjectManager;
 
 class UserListener implements EventSubscriberInterface {
     
@@ -22,9 +23,11 @@ class UserListener implements EventSubscriberInterface {
     protected $session;
     protected $router;
     protected $authorizationChecker;
+    protected $projectManager;
     
-    function __construct(EntityManager $em, Session $session, Router $router, AuthorizationChecker $authorizationChecker) {
+    function __construct(EntityManager $em, ProjectManager $pm,Session $session, Router $router, AuthorizationChecker $authorizationChecker) {
         $this->manager = $em;
+        $this->projectManager = $pm;
         $this->session = $session;
         $this->router = $router;
         $this->authorizationChecker = $authorizationChecker;
@@ -45,11 +48,7 @@ class UserListener implements EventSubscriberInterface {
         $user = $event->getUser();
         // Create home project
         $home = new Project();
-        $home->setOwner($user);
-        $user->setHome($home);
-        $this->manager->persist($home);
-        $this->manager->persist($user);
-        $this->manager->flush();
+        $this->projectManager->setHome($home, $user);
         // set project as current project in session
         $this->session->set('projectid', $home->getId());
     }

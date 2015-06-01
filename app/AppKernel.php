@@ -17,20 +17,14 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),            
             
             // Tangara Bundle dependencies
             new FOS\UserBundle\FOSUserBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 	    new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            /* new Ladela\SlickGridBundle\LadelaSlickGridBundle(), */
-            //new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle(),
-            //new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             
             // Tangara Bundles
-            //new Tangara\UserBundle\TangaraUserBundle(),
-            //new Tangara\EditorBundle\TangaraEditorBundle(),
-            //new Tangara\SVGEditorBundle\TangaraSVGEditorBundle(),
-            //new Tangara\wPaintBundle\TangarawPaintBundle(),
             new Tangara\CoreBundle\TangaraCoreBundle()
             
         );

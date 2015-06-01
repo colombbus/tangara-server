@@ -34,20 +34,29 @@ use Tangara\CoreBundle\Entity\Log;
 use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Entity\User;
 use Tangara\CoreBundle\Manager\BaseManager;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
+
 
 class ProjectManager extends BaseManager {
 
     protected $em;
     protected $projectsDirectory;
     protected $user;
+    protected $context;
+    protected $acl;
 
-    public function __construct(EntityManager $em, $path, SecurityContext $context) {
+    
+    public function __construct(EntityManager $em, $path, SecurityContext $context, $acl) {
         $this->em = $em;
         $this->projectsDirectory = $path;
+        $this->context = $context;
         $token = $context->getToken();
         if (isset($token)) {
             $this->user = $token->getUser();
         }
+        $this->acl = $acl;
     }
 
     public function loadProject($projectId) {
@@ -63,11 +72,61 @@ class ProjectManager extends BaseManager {
     public function saveProject(Project $project) {
         $this->persistAndFlush($project);
     }
+    
+    public function setHome(Project $project, User $user) {
+        $this->setOwner($project, $user, false);
+        $user->setHome($project);
+        $this->em->persist($project);
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+    
+    public function setOwner(Project $project, User $user, $save = true) {
+        $project->setOwner($user);
+        $objectIdentity = ObjectIdentity::fromDomainObject($project);
+        $entry = $this->acl->createAcl($objectIdentity);
+        $securityIdentity = UserSecurityIdentity::fromAccount($user);
+        $entry->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
+        $this->acl->updateAcl($entry);
+        if ($save) {
+            $this->saveProject($project);
+        }
+    }
+
+    
 
     public function isAuthorized(Project $project, User $user) {
         // For now, we just check that project is user's home
         // TODO: use ACL
         return ($project->getId() == $user->getHome()->getId() || $project->getReadOnly());
+    }
+
+    public function mayView(Project $project) {
+        return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('VIEW', $project) || $project->getReadOnly() || $project->getPublished();
+    }
+    
+    public function mayExecute(Project $project) {
+        return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('VIEW', $project) || $project->getReadOnly() || $project->getPublished();
+    }
+    
+    public function maySelect(Project $project) {
+        return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('CREATE', $project) || $project->getReadOnly();
+    }
+    
+    public function mayContribute(Project $project) {
+        return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('CREATE', $project);
+    }
+
+    public function mayEdit(Project $project) {
+        return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('EDIT', $project);
+    }
+    
+    public function isOwner(Project $project) {
+        return $this->context->isGranted('OWNER', $project);
+    }
+    
+    public function isHomeProject(Project $project, User $user) {
+        return $user->getHome() === $project;
     }
 
     public function isPublic(Project $project) {
@@ -179,10 +238,6 @@ class ProjectManager extends BaseManager {
         return $this->em->getRepository('TangaraCoreBundle:Project');
     }
     
-    public function isHomeProject(Project $project, User $user) {
-        return $user->getHome() === $project;
-    }
-    
     public function getAllResources(Project $project) {
         return $this->em->getRepository('TangaraCoreBundle:File')->getAllProjectResources($project);        
     }
@@ -190,5 +245,6 @@ class ProjectManager extends BaseManager {
     public function getAllPrograms(Project $project) {
         return $this->em->getRepository('TangaraCoreBundle:File')->getAllProjectPrograms($project);        
     }
+    
 
 }
