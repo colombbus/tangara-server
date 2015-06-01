@@ -93,7 +93,7 @@ class ProjectManager extends BaseManager {
     }
 
     public function mayView(Project $project) {
-        return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('VIEW', $project) || $project->getReadOnly();
+        return $this->context->isGranted('ROLE_ADMIN') || $this->context->isGranted('VIEW', $project) || $project->getReadOnly() || $project->getPublished();
     }
     
     public function mayExecute(Project $project) {
