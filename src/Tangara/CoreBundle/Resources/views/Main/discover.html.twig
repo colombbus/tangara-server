@@ -20,12 +20,19 @@
         <div class="col-md-4">
             <h2>{{ 'homepage.news'|trans }}</h2>
             <p>{{'homepage.news_description'|trans}}</p>
-            <p><a class="btn btn-default" href="http://www.colombbus.org/fr/actualite/le-10-juin-une-date-%C3%A0-noter-dans-vos-agendas" role="button" target="ulule">{{ 'homepage.go_actu'|trans }} &raquo;</a></p>
+            <p><a class="btn btn-default" href="http://www.colombbus.org/fr/actualite/le-10-juin-une-date-%C3%A0-noter-dans-vos-agendas" role="button" target="news">{{ 'homepage.go_actu'|trans }} &raquo;</a></p>
         </div>
         <div class="col-md-4">
             <h2>{{ 'homepage.start'|trans }}</h2>
             <p>{{'homepage.start_description'|trans}}</p>
             <p><a class="btn btn-default" href="#" role="button" id="view-tutorials">{{ 'homepage.view_tutorials'|trans }} &raquo;</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning" role="alert">
+                <img src="{{ asset('bundles/tangaracore/img/tangarav1.png') }}">{{'homepage.tangara_v1_description'|trans}} <a href="http://tangarav1.colombbus.org">{{ 'homepage.go_tangara_v1'|trans }} &raquo;</a>
+            </div>
         </div>
     </div>
 </div>

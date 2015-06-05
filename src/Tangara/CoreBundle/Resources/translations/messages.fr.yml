@@ -24,6 +24,9 @@ homepage:
     start: Pour bien commencer
     start_description: Vous voulez vous y mettre et vous ne savez pas par où commencer ? Les tutoriels vont vous guider.
     view_tutorials: Voir les tutoriels
+    tangara_v1: Et Tangara v1 ?
+    tangara_v1_description: Vous cherchez la version précédente de Tangara ?
+    go_tangara_v1: Elle accessible ici
     slide0_title: Bienvenue sur Tangara
     slide0_content: La plateforme de développement libre  accessible sur ordinateurs, tablettes, smartphones.
     slide1_title: Apprendre à coder
