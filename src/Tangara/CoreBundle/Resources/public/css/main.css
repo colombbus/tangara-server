@@ -338,3 +338,7 @@ td.data-title {
     font-size: 11px;
     margin-top: 10px;
 }
+
+#pagination {
+    text-align:center;
+}
