@@ -78,13 +78,15 @@ function discover(event) {
     event.preventDefault();
     closeContent();
     setActive("discover");
-    recordHistory({url:url_create, data:{active:'create'}});
+    $("#local-frame").attr('src', url_tangarajslearn);
+    recordHistory({url:url_discover, data:{active:'discover'}});
 }
 
 function create(event) {
     event.preventDefault();
     setActive("create");
     closeContent();
+    $("#local-frame").attr('src', url_tangarajs);
     recordHistory({url:url_create, data:{active:'create'}});
 }
 

@@ -28,7 +28,7 @@ class TangaraController extends Controller {
         return $project;
     }
     
-    protected function renderContent($contentTemplate, $active, $parameters = array(), $learn = false) {
+    protected function renderContent($contentTemplate, $active, $parameters = array()) {
         $request = $this->getRequest();
         if ($request->isXmlHttpRequest()) {
             if ($request->isMethod('POST')) {
@@ -38,10 +38,8 @@ class TangaraController extends Controller {
                 return $this->render($contentTemplate, $parameters);
             }
         } else {
-            if ($learn)
-                $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/learn.html";
-            else
-                $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/index.html";
+            $tangarajslearn = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/learn.html";
+            $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/index.html";
             $tangaratutorial = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tutorial');
 
             if ($contentTemplate) {
@@ -53,6 +51,7 @@ class TangaraController extends Controller {
                         'active' => $active,
                         'contentUrl' => $contentUrl,
                         'tangarajs' => $tangarajs,
+                        'tangarajslearn' => $tangarajslearn,
                         'tangaratutorial' => $tangaratutorial,
                         'current_project' => $this->getProject()));
             return $this->render("TangaraCoreBundle::layout.html.twig", $parameters);

@@ -18,7 +18,7 @@ class MainController extends TangaraController {
             return $jsonResponse->setData(array('error' => 'no-access'));
         } else {
             // direct access
-            return $this->renderContent(false, 'discover', array(), true);
+            return $this->renderContent(false, 'discover', array());
         }
     }
     
