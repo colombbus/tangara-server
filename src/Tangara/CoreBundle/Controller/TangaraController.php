@@ -28,7 +28,7 @@ class TangaraController extends Controller {
         return $project;
     }
     
-    protected function renderContent($contentTemplate, $active, $parameters = array()) {
+    protected function renderContent($contentTemplate, $active, $parameters = array(), $learn = false) {
         $request = $this->getRequest();
         if ($request->isXmlHttpRequest()) {
             if ($request->isMethod('POST')) {
@@ -38,8 +38,10 @@ class TangaraController extends Controller {
                 return $this->render($contentTemplate, $parameters);
             }
         } else {
-            
-            $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/index.html";
+            if ($learn)
+                $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/learn.html";
+            else
+                $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/index.html";
             $tangaratutorial = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tutorial');
 
             if ($contentTemplate) {

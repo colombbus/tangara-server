@@ -76,9 +76,9 @@ function setActive(elementName) {
 
 function discover(event) {
     event.preventDefault();
-    openContent();
+    closeContent();
     setActive("discover");
-    fetchContent(url_discover, {active:'discover'});
+    recordHistory({url:url_create, data:{active:'create'}});
 }
 
 function create(event) {

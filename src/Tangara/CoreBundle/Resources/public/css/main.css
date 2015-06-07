@@ -55,10 +55,11 @@ body {
 }
 
 #navbar-tangara {
-    background-color:#6DBEA9;
-    height:40px;
-    min-height:40px;
+    background-color:#FFFFFF;
+    height:120px;
+    min-height:120px;
     text-align:center;
+    background-image:url(../img/back_top.png);
 }
 
 #navbar-tangara .navbar-brand {
@@ -66,19 +67,28 @@ body {
     text-shadow: none;
     font-family: 'Monaco','Menlo','Ubuntu Mono','Consolas','source-code-pro',monospace;
     font-weight:bold;
+    background-position:center bottom;
+    background-repeat:repeat-x;
+    position:relative;
 }
 
 #navbar-tangara a.navbar-brand {
-    color:#503d2c;
-    height:40px;
-    line-height:40px;
-    vertical-align:middle;
-    padding:0;
+    color:#9a9a9A;
+    height:120px;
+    line-height:120px;
+    vertical-align:bottom;
+    display:table-cell;
     font-family: Comfortaa, "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:70px;
+    margin-left:100px;
 }
 
 #navbar-tangara .logo {
-    margin-top: -6px;
+    position:absolute;
+    width:92px;
+    height:120px;
+    bottom:0;
+    left:-100px;
 }
 
 #navbar-tangara .navbar-brand img {
@@ -106,6 +116,7 @@ body {
     }
 
     #navigation-menu, #user-menu {
+        margin-top:80px;
         height:40px;
         line-height:40px;
     }
@@ -142,7 +153,7 @@ body {
 
     #navigation-menu li > a:hover, #navigation-menu li > a:active, #navigation-menu li.active a {
         background-color:#FFFFFF;
-        color:#6DBEA9;
+        color:#5dfffd;
     }
     
     /*#user-menu > li {
