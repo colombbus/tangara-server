@@ -21,7 +21,7 @@ class MainController extends TangaraController {
     }
     
     public function shareAction() {
-        return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'share');
+        return $this->discoverAction();
     }
 
     public function createAction() {
