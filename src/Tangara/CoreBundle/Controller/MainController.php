@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class MainController extends TangaraController {
 
     public function indexAction() {
-        return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'discover');
+        return $this->discoverAction();
     }
     
     public function discoverAction() {
