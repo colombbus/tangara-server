@@ -123,7 +123,7 @@ parameters:
             - "video/webm"
             - "video/ogg"
     tangara_core.settings.resource_max_size: 5000000
-
+    tangara_core.settings.url.discover: %discover_url%
     
 stof_doctrine_extensions:
     default_locale: fr_FR

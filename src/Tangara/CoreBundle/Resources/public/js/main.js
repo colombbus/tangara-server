@@ -199,6 +199,16 @@ function ajaxify(element) {
     }
 }
 
+function resizeIframe(element) {
+    element.style.height = element.contentWindow.document.body.scrollHeight + 'px';
+}
+
+function openTutorial(event) {
+    create(event);
+    openHelp();
+    document.getElementById('local-frame').contentWindow.setHelpOpened();
+}
+
 window.onpopstate = function(event) {
     var state = event.state;
     if (state) {

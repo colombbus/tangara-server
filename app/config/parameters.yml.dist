@@ -20,6 +20,9 @@ parameters:
     directory.tutorial: ../../../../tangara-tutorial/index.html
     knp_paginator.page_range: 10
 
+#   set discover_url if discover screen should include content from elsewhere
+    discover_url: false
+
 twig:
     globals:
         custom_js: false

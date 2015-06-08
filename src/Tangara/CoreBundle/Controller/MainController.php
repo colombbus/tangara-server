@@ -12,7 +12,12 @@ class MainController extends TangaraController {
     }
     
     public function discoverAction() {
-        return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'discover');
+        $discoverUrl = $this->container->getParameter('tangara_core.settings.url.discover');
+        if (!$discoverUrl) {
+            return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'discover');
+        } else {
+            return $this->renderContent('TangaraCoreBundle:Main:discover_remote.html.twig', 'discover', array('url'=>$discoverUrl));
+        }
     }
     
     public function shareAction() {
