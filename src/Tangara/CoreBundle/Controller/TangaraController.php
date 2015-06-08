@@ -41,6 +41,7 @@ class TangaraController extends Controller {
             
             $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/index.html";
             $tangaratutorial = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tutorial');
+            $documentDomain = $this->container->getParameter('tangara_core.settings.document_domain');
 
             if ($contentTemplate) {
                 $contentUrl =  $request->getUri();
@@ -52,6 +53,7 @@ class TangaraController extends Controller {
                         'contentUrl' => $contentUrl,
                         'tangarajs' => $tangarajs,
                         'tangaratutorial' => $tangaratutorial,
+                        'documentDomain' => $documentDomain,
                         'current_project' => $this->getProject()));
             return $this->render("TangaraCoreBundle::layout.html.twig", $parameters);
         }

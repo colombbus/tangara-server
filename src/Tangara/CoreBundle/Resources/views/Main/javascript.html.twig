@@ -8,6 +8,11 @@
     var url_share = "{{ url('tangara_core_share') }}";
     var url_create = "{{ url('tangara_core_create') }}";
     var url_user_menu = "{{ url('tangara_core_user_menu') }}";
+
+    
+{% if documentDomain %}
+    document.domain ={{documentDomain}}";
+{% endif %}
     
     // Current state info
     var active_nav = "{{active}}";

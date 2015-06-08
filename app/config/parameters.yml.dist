@@ -22,6 +22,7 @@ parameters:
 
 #   set discover_url if discover screen should include content from elsewhere
     discover_url: false
+    document_domain: false
 
 twig:
     globals:
