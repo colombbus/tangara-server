@@ -1,2 +1,11 @@
 <iframe src="{{ url }}" id="discover-remote" onload="resizeIframe(this);" frameborder="0" scrolling="no">
 </iframe>
+
+<script>
+    function resizeIframe() {
+        var element = document.getElementById("#discover-remote");
+        element.style.height = element.contentWindow.document.body.scrollHeight + 'px';
+    }
+    
+    $("#discover-remote").load(resizeIframe);
+</script>

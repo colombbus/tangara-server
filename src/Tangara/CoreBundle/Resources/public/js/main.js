@@ -199,10 +199,6 @@ function ajaxify(element) {
     }
 }
 
-function resizeIframe(element) {
-    element.style.height = element.contentWindow.document.body.scrollHeight + 'px';
-}
-
 function openTutorial(event) {
     create(event);
     openHelp();
