@@ -28,7 +28,7 @@ class TangaraController extends Controller {
         return $project;
     }
     
-    protected function renderContent($contentTemplate, $active, $parameters = array()) {
+    protected function renderContent($contentTemplate, $active, $parameters = array(), $learn = false) {
         $request = $this->getRequest();
         if ($request->isXmlHttpRequest()) {
             if ($request->isMethod('POST')) {
@@ -53,6 +53,7 @@ class TangaraController extends Controller {
                         'tangarajs' => $tangarajs,
                         'tangarajslearn' => $tangarajslearn,
                         'tangaratutorial' => $tangaratutorial,
+                        'learn' => $learn,
                         'current_project' => $this->getProject()));
             return $this->render("TangaraCoreBundle::layout.html.twig", $parameters);
         }

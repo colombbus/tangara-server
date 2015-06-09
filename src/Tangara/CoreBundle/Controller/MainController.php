@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class MainController extends TangaraController {
 
     public function indexAction() {
-        return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'discover');
+        return $this->discoverAction();
     }
     
     public function discoverAction() {
@@ -18,7 +18,7 @@ class MainController extends TangaraController {
             return $jsonResponse->setData(array('error' => 'no-access'));
         } else {
             // direct access
-            return $this->renderContent(false, 'discover', array());
+            return $this->renderContent(false, 'discover', array(), true);
         }
     }
     

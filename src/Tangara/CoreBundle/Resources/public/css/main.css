@@ -73,7 +73,7 @@ body {
 }
 
 #navbar-tangara a.navbar-brand {
-    color:#9a9a9A;
+    color:#E47637;/*#F6A71F;/*#9a9a9A;*/
     height:120px;
     line-height:120px;
     vertical-align:bottom;
@@ -143,18 +143,26 @@ body {
     }
 
     #navigation-menu li > a {
-        color:#FFFFFF;
+        color:#5e5e5e;
         border-color: transparent;
         border-radius: 5px;
         text-shadow: none;
         padding:3px 8px;
         line-height:normal;
+        font-family: Comfortaa, "Helvetica Neue",Helvetica,Arial,sans-serif;        
     }
 
-    #navigation-menu li > a:hover, #navigation-menu li > a:active, #navigation-menu li.active a {
+    #navigation-menu li > a:hover, #navigation-menu li.active a {
         background-color:#FFFFFF;
-        color:#5dfffd;
+        color:#F6A71F;
     }
+
+    #navigation-menu li > a:active {
+        background-color:#ffffff;
+        color:#E47637;
+    }
+
+    
     
     /*#user-menu > li {
         position:static;
@@ -163,7 +171,7 @@ body {
     #user-menu > li > a {
         vertical-align:middle;
         display:inline-block;
-        color:#503d2c;
+        color:#5e5e5e;
         text-shadow: none;
         padding:3px 8px;
         line-height:normal;
