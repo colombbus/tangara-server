@@ -1,50 +1,25 @@
 <div class="container">
-{% include "TangaraCoreBundle:Main:slider.html.twig" %}
-</div>
-<!--
-<div class="jumbotron">
-    <div class="container">
-        <h1>{{ 'homepage.Welcome'|trans}}</h1>
-        <p>{{ 'homepage.site_description'|trans}}</p>
-        <p><a class="btn btn-primary btn-lg" role="button">{{ 'homepage.more'|trans}}  &raquo;</a></p>
-    </div>
-</div>
--->
-<div class="container">
     <div class="row">
-        <div class="col-md-4">
-            <h2>{{ 'project.published_projects'|trans }}</h2>
-            <p>{{ 'project.published_projects_description'|trans }}</p>
-            <p><a class="btn btn-default content-link" href="{{path('tangara_project_published')}}" role="button" data-active="discover" data-title="{{'project.published_projects'|trans}}">{{ 'project.published_projects_access'|trans }} &raquo;</a></p>
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h2>Qu'est-ce que Declick ?</h2>
+            <p>Declick est une plateforme pour l'apprentissage du code et la création numérique.</p>
+            <p>Actuellement, Declick est un <b>démonstrateur en phase de développement actif</b> : les fonctions seront ajoutées au fur et à mesure.</p>
+            <p>La première version sera prête en <b>septembre 2015</b>.</p>
         </div>
-        <div class="col-md-4">
-            <h2>{{ 'homepage.news'|trans }}</h2>
-            <p>{{'homepage.news_description'|trans}}</p>
-            <p><a class="btn btn-default" href="http://www.colombbus.org/fr/actualite/le-10-juin-une-date-%C3%A0-noter-dans-vos-agendas" role="button" target="news">{{ 'homepage.go_actu'|trans }} &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>{{ 'homepage.start'|trans }}</h2>
-            <p>{{'homepage.start_description'|trans}}</p>
-            <p><a class="btn btn-default" href="#" role="button" id="view-tutorials">{{ 'homepage.view_tutorials'|trans }} &raquo;</a></p>
-        </div>
+        <div class="col-md-2"></div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <div class="alert alert-warning" role="alert">
-                <img src="{{ asset('bundles/tangaracore/img/tangarav1.png') }}">{{'homepage.tangara_v1_description'|trans}} <a href="http://tangarav1.colombbus.org">{{ 'homepage.go_tangara_v1'|trans }} &raquo;</a>
-            </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h2>Qui sommes-nous ?</h2>
+            <p>La plateforme Declick est développée par les associations <a href="http://www.colombbus.org">Colombbus</a> et <a href="http://www.france-ioi.org">France IOI</a>.</p>
+            <p>Si vous souhaitez plus d'information ou simplement nous contacter, vous pouvez utiliser le formulaire de contact de Colombbus.
+            <p><a class="btn btn-default" href="http://www.colombbus.org/fr/contact" role="button">Nous contacter &raquo;</a></p>
         </div>
+        <div class="col-md-2"></div>
     </div>
 </div>
 <footer>
     <p>&copy; <a href="http://www.colombbus.org">Colombbus</a> 2007-2015</p>
 </footer>
-<script>
-    $(function() {
-        $("#view-tutorials").click(function(e) {
-            create(e);
-            openHelp();
-            document.getElementById('local-frame').contentWindow.setHelpOpened();
-        });
-    });
-</script>

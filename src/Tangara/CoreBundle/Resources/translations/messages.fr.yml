@@ -11,6 +11,7 @@ navbar:
     projects: Projets
     project_info: Informations
     forgotten_password: Mot de passe oublié ?
+    info: Informations
 homepage:
     Welcome: Bienvenue sur le site de Tangara
     site_description: Le site officiel de Tangara fonctionnant sur Android, PC (Win/Linux/Mac), iPhone, FirefoxOS, BlackBerry.
