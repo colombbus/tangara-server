@@ -5,4 +5,7 @@
     <li  role="presentation" {% if active is defined and active == 'projects' %} class="active" {% endif %}>
         <a href="{{ path('tangara_admin_projects')}}">{{ 'admin.projects'|trans }}</a>
     </li>
+    <li  role="presentation" {% if active is defined and active == 'courses' %} class="active" {% endif %}>
+        <a href="{{ path('tangara_course_list')}}">{{ 'admin.courses'|trans }}</a>
+    </li>
 </ul>

@@ -1,0 +1,18 @@
+{% form_theme form 'TangaraCoreBundle:Form:fields.html.twig' %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{title|trans}}</h2>
+            <form action="" method="post" name="course" class="content-form">
+                {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div> 
+<script>
+    $(function(){
+        $('#course_cancel').click(function(e){
+            window.history.back();
+        });
+    });
+</script>

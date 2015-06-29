@@ -1,0 +1,25 @@
+tangara_course_show:
+    path:  /show/{courseId}
+    defaults: { _controller: TangaraCoreBundle:Course:show, courseId: false }        
+
+tangara_course_list:
+    path:  /list
+    defaults: { _controller: TangaraCoreBundle:Course:list }
+
+tangara_course_edit:
+    path:  /edit/{courseId}
+    defaults: { _controller: TangaraCoreBundle:Course:edit, courseId: false }
+
+tangara_course_select:
+    path:  /select/{courseId}
+    defaults: { _controller: TangaraCoreBundle:Course:select}
+    requirements:
+        courseId:  \d+
+
+tangara_course_create:
+    path: /create
+    defaults: { _controller: TangaraCoreBundle:Course:create}
+
+tangara_course_steps:
+    path: /steps/{courseId}
+    defaults: { _controller: TangaraCoreBundle:Course:steps, courseId: false }

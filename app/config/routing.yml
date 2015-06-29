@@ -18,3 +18,10 @@ tangara_core_user:
     resource: "@TangaraCoreBundle/Resources/config/routing_profile.yml"
     prefix:   /
 
+tangara_core_course:
+    resource: "@TangaraCoreBundle/Resources/config/routing_course.yml"
+    prefix:   /course
+
+tangara_core_step:
+    resource: "@TangaraCoreBundle/Resources/config/routing_step.yml"
+    prefix:   /step

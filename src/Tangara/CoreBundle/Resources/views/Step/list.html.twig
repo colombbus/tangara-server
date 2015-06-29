@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>
+    <h2>{{ 'course.details'|trans }}
+    <a href="{{ path( "tangara_course_steps", {'courseId':course.getId()}) }}">
+        {{ course.getName()}}
+    </a>
+    {{ 'step.pick'|trans }}
+    </h2>
+    <div class="list-group">
+        {% for step in steps %}
+         <a href="{{ path( "tangara_step_pick", {courseId: course.getId(), stepId:step.getId()} ) }}" class="list-group-item content-link" data-active="learn">
+             <h4 class="list-group-item-heading">
+                {{ step.getName() }}
+                <br>
+                {{ step.getTitle() }}
+             </h4>
+             {% if step.getDescription() is not empty %}
+             <p class="list-group-item-text">
+                 {{ step.getDescription() }}
+             </p>
+             {% endif %}
+         </a>
+     {% endfor %}
+    </div>
+    <a href="{{ path('tangara_course_steps', {'courseId':course.getId()}) }}" class="btn btn-default content-link" data-active="learn" data-title="project">
+            {{'step.cancel'|trans }} 
+    </a>
+</div>

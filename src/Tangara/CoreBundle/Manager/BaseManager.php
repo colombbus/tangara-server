@@ -27,4 +27,7 @@ abstract class BaseManager {
         $this->em->flush();
     }
 
+    public function persist($entity) {
+        $this->em->persist($entity);
+    }
 }

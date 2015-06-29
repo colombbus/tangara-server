@@ -1,0 +1,52 @@
+<div class="container">
+    {% include 'TangaraCoreBundle:Main:messages.html.twig' %}
+    <h2>{{ 'course.details'|trans }}
+{% if edition %}
+    {{ course.getName()}}
+{% else %}
+    {{ course.getTitle()}}
+{% endif %}
+    </h2>
+        <div class='panel panel-primary'>
+        <table class="data-display">
+{% if edition %}
+            <tr>
+                <td class="data-title">
+                    {{ 'course.name'|trans }}
+                </td>
+                <td>
+                    {{course.getName()}}
+                </td>
+            </tr>
+{% endif %}
+            <tr>
+                <td class="data-title">
+                    {{ 'course.title'|trans }}
+                </td>
+                <td>
+                    {{course.getTitle()}}
+                </td>
+            </tr>
+{% if edition or course.getDescription() is not empty %}
+            <tr>
+                <td class="data-title">
+                    {{ 'course.description'|trans }}
+                </td>
+                <td>
+                    {{ course.getDescription() }}
+                </td>
+            </tr>
+{% endif %}
+        </table>
+    </div>
+    {% if message is defined %}
+        <div class="well"> {{message|trans}}</div>
+    {% endif %}
+{% if edition %}
+    <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_course_edit", {'courseId':course.getId()}) }}" >{{ 'course.edit'|trans }}</a>
+    <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_course_steps", {'courseId':course.getId()}) }}" >{{ 'course.steps'|trans }}</a>
+{% endif %}
+{% if executable %}
+    <a class="btn btn-default content-link" data-active='learn' href="{{ path( "tangara_course_select", {'courseId':course.getId()}) }}" >{{ 'course.execute'|trans }}</a>
+{% endif %}
+</div>

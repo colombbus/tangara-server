@@ -51,3 +51,25 @@ services:
             - { name: knp_paginator.injectable, paginator: knp_paginator }
         arguments:
             - @doctrine.orm.entity_manager
+    tangara_core.course_manager: 
+        class: Tangara\CoreBundle\Manager\CourseManager
+        arguments: 
+            - @doctrine.orm.entity_manager
+            - @security.context
+            - @security.acl.provider
+    tangara_core.form.type.course:
+        class: Tangara\CoreBundle\Form\Type\CourseType
+        tags:
+            - { name: form.type, alias: course }
+    tangara_core.step_manager: 
+        class: Tangara\CoreBundle\Manager\StepManager
+        arguments: 
+            - @doctrine.orm.entity_manager
+            - @security.context
+            - @security.acl.provider
+            - @tangara_core.project_manager
+    tangara_core.form.type.step:
+        class: Tangara\CoreBundle\Form\Type\StepType
+        tags:
+            - { name: form.type, alias: step }
+            

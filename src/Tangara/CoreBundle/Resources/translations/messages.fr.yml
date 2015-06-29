@@ -120,6 +120,41 @@ admin:
     owner: Propriétaire du projet  
     project_datetime: Date de creation
     ajax_error: Une erreur s'est produite. Veuillez réessayer ultérieurement.
+    courses: Parcours
 Previous: Precedent
 Next: Suivant
 search: Rechercher
+course:
+    courses: Tous les parcours
+    creation: Créer un parcours
+    name: Nom du parcours
+    title: Titre du parcours
+    description: Description
+    save: Enregistrer
+    cancel: Annuler
+    details: "Parcours > "
+    edit: Modifier
+    steps: Gestion des étapes
+    execute: Lancer
+    edited: Parcours mis à jour
+    edition: Modification du parcours
+    step_management_1: "Parcours > "
+    step_management_2: " > Etapes"
+    add_step: Ajouter une étape existante
+    create_step: Créer une nouvelle étape
+    back_to_course: "<< Retour au parcours"
+step:
+    creation: Nouvelle étape
+    name: Nom de l'étape
+    title: Titre de l'étape
+    description: Description
+    cancel: Annuler
+    save: Enregistrer
+    edit: Modifier
+    remove: Retirer du parcours
+    delete: Supprimer
+    select: Travailler sur cette étape
+    edition: Modification de l'étape
+    edited: Etape mise à jour
+    removed: Etape retirée du parcours
+    pick: " > Ajouter une étape"
