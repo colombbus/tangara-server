@@ -26,20 +26,12 @@
 namespace Tangara\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\Orm\NoResultException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Core\SecurityContext;
-use Tangara\CoreBundle\Entity\File;
-use Tangara\CoreBundle\Entity\Log;
 use Tangara\CoreBundle\Entity\Project;
 use Tangara\CoreBundle\Entity\Step;
 use Tangara\CoreBundle\Entity\Course;
 use Tangara\CoreBundle\Entity\CourseStep;
-use Tangara\CoreBundle\Entity\User;
 use Tangara\CoreBundle\Manager\BaseManager;
-use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
-use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 
 class StepManager extends BaseManager {
@@ -107,6 +99,20 @@ class StepManager extends BaseManager {
         $this->em->flush();
     }
 
+    public function delete(Step $step) {
+        // remove coursesteps entries
+        $courses = $step->getCourses();
+        foreach ($courses as $course) {
+            $this->removeFromCourse($step, $course->getCourse());
+        }
+        $project = $step->getProject();
+        // remove database entry
+        $this->em->remove($step);
+        $this->em->flush();
+        // remove associated project
+        $this->projectManager->delete($project);
+    }
+    
     public function mayView(Step $step) {
         return true;
     }

@@ -54,7 +54,18 @@
 {% if edition %}
     <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_step_edit", {'courseId':course.getId(), 'stepId':step.getId()}) }}" >{{ 'step.edit'|trans }}</a>
     <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_step_remove", {'courseId':course.getId(), 'stepId':step.getId()}) }}" >{{ 'step.remove'|trans }}</a>
-    <a class="btn btn-default content-link" data-active='profile' href="{{ path( "tangara_step_delete", {'courseId':course.getId(),'stepId':step.getId()}) }}" >{{ 'step.delete'|trans }}</a>
+    <a id="step_delete" class="btn btn-default" data-active='profile' href="{{ path( "tangara_step_delete", {'courseId':course.getId(),'stepId':step.getId()}) }}" >{{ 'step.delete'|trans }}</a>
     <a class="btn btn-default content-link" data-active='learn' href="{{ path( "tangara_step_select", {'courseId':course.getId(), 'stepId':step.getId()}) }}" >{{ 'step.select'|trans }}</a>
 {% endif %}
 </div>
+<script>
+    $(function(){
+        $('#step_delete').click(function(e){
+            e.preventDefault();
+            if (window.confirm("{{ 'step.deletion_confirm'|trans }}")) {
+                contentLink.call($('#step_delete'), e);
+            }
+            return false;
+        });
+    });
+</script>

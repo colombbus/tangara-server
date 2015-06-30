@@ -147,5 +147,20 @@ class StepController extends TangaraController {
         return $this->redirect($this->generateUrl('tangara_course_steps', array('courseId' => $courseId)));                
     }
     
+    public function deleteAction($courseId, $stepId, Request $request) {
+        $session = $request->getSession();
+        $courseManager = $this->get('tangara_core.course_manager');
+        $course = $courseManager->getRepository()->find($courseId);
+        $manager = $this->get('tangara_core.step_manager');
+        $step = $manager->getRepository()->find($stepId);
+        if (!$course || !$step || !$manager->mayView($step)) {
+            // no course or no step: we should not be here
+            return $this->redirect($this->generateUrl('tangara_core_homepage'));
+        }
+        $manager->delete($step);
+        $session->getFlashBag()->add('success', $this->get('translator')->trans('step.deleted'));
+        return $this->redirect($this->generateUrl('tangara_course_steps', array('courseId' => $courseId)));                
+    }
+    
     
 }
