@@ -159,3 +159,7 @@ step:
     removed: Etape retirée du parcours
     pick: " > Ajouter une étape"
     deleted: Etape supprimée
+    free: Etape libre (ne requiert pas de validation)
+    free_title: Etape libre
+    free_yes: Oui
+    free_no: Non

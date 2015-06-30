@@ -46,6 +46,18 @@
                 </td>
             </tr>
 {% endif %}
+            <tr>
+                <td class="data-title">
+                    {{ 'step.free_title'|trans }}
+                </td>
+                <td>
+{% if step.getFree() %}
+                    {{'step.free_yes'|trans}}
+{% else %}
+                    {{'step.free_no'|trans}}
+{%  endif %}
+                </td>
+            </tr>
         </table>
     </div>
     {% if message is defined %}

@@ -45,6 +45,13 @@ class Step {
     private $description;
     
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $free;
+    
+    /**
      * @ORM\OneToOne(targetEntity="Project")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
@@ -57,7 +64,8 @@ class Step {
     
     public function __construct() {
         $this->paths = new ArrayCollection();
-    }    
+        $this->free = false;
+    }
     
 
     /**
@@ -201,5 +209,29 @@ class Step {
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set free
+     *
+     * @param boolean $free
+     *
+     * @return Step
+     */
+    public function setFree($free)
+    {
+        $this->free = $free;
+
+        return $this;
+    }
+
+    /**
+     * Get free
+     *
+     * @return boolean
+     */
+    public function getFree()
+    {
+        return $this->free;
     }
 }

@@ -23,6 +23,7 @@ class StepType extends AbstractType
             ->add('name', 'text', array('label'=>'step.name', 'required'=>true))
             ->add('title', 'text', array('label'=>'step.title', 'required'=>true))
             ->add('description', 'textarea', array('label'=>'step.description', 'required'=>false))
+            ->add('free', 'checkbox', array('label'=>'step.free', 'required'=>false))
             ->add('cancel', 'button', array('label'=>'step.cancel', 'attr'=>array('btn_type'=>'btn-default', 'btn_icon'=>'glyphicon-remove', 'several-buttons', 'first-button')))
             ->add('save', 'submit', array('label'=>'step.save', 'attr'=>array('several-buttons', 'last-button')));
     }
