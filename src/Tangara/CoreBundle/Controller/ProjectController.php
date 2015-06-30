@@ -31,6 +31,19 @@ class ProjectController extends TangaraController {
             return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
         }
         
+        if ($manager->isStepRelated($project)) {
+            // project is linked to a step: forward to step page
+            $courseId = $session->get('courseid');
+            $stepId = $session->get('stepid');
+            if (!$stepId || !$courseId) {
+                return $this->redirect($this->generateUrl( 'tangara_core_homepage'));                
+            }
+            return $this->forward('TangaraCoreBundle:Step:show', array(
+                'courseId'  => $courseId,
+                'stepId' => $stepId,
+            ));
+        }
+        
         $params['project']=$project;
         
         

@@ -266,5 +266,14 @@ class ProjectManager extends BaseManager {
         $this->em->remove($project);
         $this->em->flush();
     }
+    
+    public function isStepRelated(Project $project) {
+        $qb = $this->em->getRepository('TangaraCoreBundle:Step')->createQueryBuilder('s')
+                ->select('count(s.id)')
+                ->where('s.project = :project')
+                ->setParameters(array('project' => $project));
+        $count = $qb->getQuery()->getSingleScalarResult();
+        return ($count>0);
+    }
 
 }

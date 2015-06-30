@@ -41,9 +41,11 @@ class StepManager extends BaseManager {
     protected $context;
     protected $acl;
     protected $projectManager;
+    protected $stepPrograms;
+    protected $stepResources;
 
     
-    public function __construct(EntityManager $em, SecurityContext $context, $acl, $pm) {
+    public function __construct(EntityManager $em, SecurityContext $context, $acl, $pm, $programs, $resources) {
         $this->em = $em;
         $this->context = $context;
         $token = $context->getToken();
@@ -52,6 +54,8 @@ class StepManager extends BaseManager {
         }
         $this->acl = $acl;
         $this->projectManager = $pm;
+        $this->stepPrograms = $programs;
+        $this->stepResources = $resources;
     }
 
     public function loadStep($stepId) {
@@ -77,12 +81,16 @@ class StepManager extends BaseManager {
         $project->setName($step->getName());
         $this->projectManager->saveProject($project);
         $this->projectManager->setOwner($project,$this->user, true);
-        $this->projectManager->createFile($project, "start.tgr", true);
-        $this->projectManager->createFile($project, "check.tgr", true);
-        $this->projectManager->createFile($project, "instructions.html", false);
-        $this->projectManager->createFile($project, "lesson.html", false);
+        foreach ($this->stepPrograms as $program) {
+            $this->projectManager->createFile($project, $program, true);            
+        }
+        foreach ($this->stepResources as $resource) {
+            $file = $this->projectManager->createFile($project, $resource['name'], false);
+            $file->setType($resource['type']);
+            $this->em->persist($file);
+        }
+        $this->em->flush();
         $step->setProject($project);
-        
     }
     
     public function addToCourse(Step $step, Course $course) {

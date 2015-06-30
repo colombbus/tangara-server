@@ -123,7 +123,14 @@ parameters:
             - "video/webm"
             - "video/ogg"
     tangara_core.settings.resource_max_size: 5000000
-
+    tangara_core.settings.step_programs:
+            - "start.tgr"
+            - "check.tgr"
+    tangara_core.settings.step_resources:
+            - name: "instructions.html"
+              type: "text"
+            - name: "lesson.html"
+              type: "text"
     
 stof_doctrine_extensions:
     default_locale: fr_FR

@@ -68,6 +68,8 @@ services:
             - @security.context
             - @security.acl.provider
             - @tangara_core.project_manager
+            - %tangara_core.settings.step_programs%
+            - %tangara_core.settings.step_resources%
     tangara_core.form.type.step:
         class: Tangara\CoreBundle\Form\Type\StepType
         tags:
