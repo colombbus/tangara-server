@@ -67,13 +67,22 @@ class StepManager extends BaseManager {
     public function saveStep(Step $step) {
         $test = $step->getProject();
         if (!$test) {
-            $project = new Project();
-            $project->setName($step->getName());
-            $this->projectManager->saveProject($project);
-            $this->projectManager->setOwner($project,$this->user, true);
-            $step->setProject($project);
+            $this->createProject($step);
         }
         $this->persistAndFlush($step);        
+    }
+    
+    private function createProject(Step $step) {
+        $project = new Project();
+        $project->setName($step->getName());
+        $this->projectManager->saveProject($project);
+        $this->projectManager->setOwner($project,$this->user, true);
+        $this->projectManager->createFile($project, "start.tgr", true);
+        $this->projectManager->createFile($project, "check.tgr", true);
+        $this->projectManager->createFile($project, "instructions.html", false);
+        $this->projectManager->createFile($project, "lesson.html", false);
+        $step->setProject($project);
+        
     }
     
     public function addToCourse(Step $step, Course $course) {
