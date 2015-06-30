@@ -4,6 +4,7 @@ namespace Tangara\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Tangara\CoreBundle\Entity\Project;
@@ -250,7 +251,7 @@ class AssetsController extends Controller {
 
         $fs = new Filesystem();
         if (!$fs->exists($path)) {
-            return $jsonResponse->setData(array('error' => "resource_not_found"));
+            return new Response();
         }
         
         return new BinaryFileResponse($path);
@@ -488,34 +489,36 @@ class AssetsController extends Controller {
             return $jsonResponse->setData(array('error' => "resource_not_found"));
         }
 
-        // handle data
         $data = $this->getRequest()->request->get('data');
-        // remove header (get only image data)
-        $pos = strpos($data, ',');
-        if ($pos === false) {
-            return $jsonResponse->setData(array('error' => "malformed_data"));
-        }
-        $data = substr($data, $pos+1);
-        // base 64 decode
-        $data = base64_decode($data);
-        
-        // Check extension
-        if ($resource->getExtension() !== "png") {
-            // name will change: check that new resource name does not exist
-            $newName = $resource->getBaseName()."."."png";
-            $existing = $repository->getProjectResource($env->projectId, $newName);
-            if ($existing) {
-                // check if existing is deleted
-                if (!$existing->getDeleted()) {
-                    return $jsonResponse->setData(array('error' => 'resource_already_exists'));
-                }
-                $resource->setVersion($existing->getVersion());
-                $pManager->removeFile($env->project, $existing, true);
+        if ($resource->getType() === "image") {
+            // handle image data
+            // remove header (get only image data)
+            $pos = strpos($data, ',');
+            if ($pos === false) {
+                return $jsonResponse->setData(array('error' => "malformed_data"));
             }
-            
-            // set new name and extension
-            $resource->setName($newName);
-            $resource->setExtension("png");
+            $data = substr($data, $pos+1);
+            // base 64 decode
+            $data = base64_decode($data);
+
+            // Check extension
+            if ($resource->getExtension() !== "png") {
+                // name will change: check that new resource name does not exist
+                $newName = $resource->getBaseName()."."."png";
+                $existing = $repository->getProjectResource($env->projectId, $newName);
+                if ($existing) {
+                    // check if existing is deleted
+                    if (!$existing->getDeleted()) {
+                        return $jsonResponse->setData(array('error' => 'resource_already_exists'));
+                    }
+                    $resource->setVersion($existing->getVersion());
+                    $pManager->removeFile($env->project, $existing, true);
+                }
+
+                // set new name and extension
+                $resource->setName($newName);
+                $resource->setExtension("png");
+            }
         }
         
         $path = $env->projectPath . "/". $manager->getFilePath($resource);
