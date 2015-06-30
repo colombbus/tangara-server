@@ -37,6 +37,7 @@ use Tangara\CoreBundle\Manager\BaseManager;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
+use Symfony\Component\Security\Acl\Exception\AclNotFoundException;
 
 
 class ProjectManager extends BaseManager {
@@ -46,9 +47,10 @@ class ProjectManager extends BaseManager {
     protected $user;
     protected $context;
     protected $acl;
+    protected $fileManager;
 
     
-    public function __construct(EntityManager $em, $path, SecurityContext $context, $acl) {
+    public function __construct(EntityManager $em, $path, SecurityContext $context, $acl, $fm) {
         $this->em = $em;
         $this->projectsDirectory = $path;
         $this->context = $context;
@@ -57,6 +59,7 @@ class ProjectManager extends BaseManager {
             $this->user = $token->getUser();
         }
         $this->acl = $acl;
+        $this->fileManager = $fm;
     }
 
     public function loadProject($projectId) {
@@ -212,8 +215,9 @@ class ProjectManager extends BaseManager {
         return $file;
     }
     
-    public function removeFile(Project $project, File $file) {
+    public function removeFile(Project $project, File $file, $removeRecord = false) {
         // Update log
+        $this->fileManager->delete($file, $this->getProjectPath($project), $removeRecord);
         $entry = new Log();
         $entry->setProject($project);
         $entry->setOperation("remove");
@@ -223,8 +227,9 @@ class ProjectManager extends BaseManager {
         $this->em->flush();
     }
     
-    public function updateFile(Project $project, File $file) {
+    public function updateProgram(Project $project, File $file, $code, $statements) {
         // Update log
+        $this->fileManager->updateProgram($file, $this->getProjectPath($project), $code, $statements);
         $entry = new Log();
         $entry->setProject($project);
         $entry->setOperation("update");
@@ -246,5 +251,20 @@ class ProjectManager extends BaseManager {
         return $this->em->getRepository('TangaraCoreBundle:File')->getAllProjectPrograms($project);        
     }
     
+    public function delete(Project $project) {
+        // delete files
+        $files = $this->em->getRepository('TangaraCoreBundle:File')->getAllProjectFiles($project);
+        foreach ($files as $file) {
+            $this->removeFile($project, $file, true);
+        }
+        
+        // remove ACL
+        $objectIdentity = ObjectIdentity::fromDomainObject($project);
+        $this->acl->deleteAcl($objectIdentity);
+        
+        // remove project from database
+        $this->em->remove($project);
+        $this->em->flush();
+    }
 
 }

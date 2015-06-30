@@ -6,6 +6,7 @@ services:
             - %tangara_core.settings.directory.upload%
             - @security.context
             - @security.acl.provider
+            - @tangara_core.file_manager
     tangara_core.user_manager: 
         class: Tangara\CoreBundle\Manager\UserManager
         arguments: 
@@ -17,7 +18,6 @@ services:
         class: Tangara\CoreBundle\Manager\FileManager
         arguments: 
             - @doctrine.orm.entity_manager
-            - @tangara_core.project_manager
             - %tangara_core.settings.allowed_mime_types%
             - %tangara_core.settings.resource_max_size%
     tangara_core.user_listener:

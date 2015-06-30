@@ -102,7 +102,7 @@ class AssetsController extends Controller {
         $env->editionAllowed = $manager->mayContribute($project);
 
         // Get project directory
-        $env->projectPath = $this->container->get('tangara_core.project_manager')->getProjectPath($project);
+        $env->projectPath = $this->get('tangara_core.project_manager')->getProjectPath($project);
         
         return $env;
     }
@@ -276,7 +276,9 @@ class AssetsController extends Controller {
         
         $programName = $this->getRequest()->request->get('name');
 
-        // Get program
+        
+        $pManager = $this->get('tangara_core.project_manager');
+        // get program
         $manager = $this->get('tangara_core.file_manager');
         $repository = $manager->getRepository();
         $program = $repository->getProjectProgram($env->projectId, $programName);
@@ -285,7 +287,7 @@ class AssetsController extends Controller {
         }
         
         // Remove program
-        $manager->remove($program);
+        $pManager->removeFile($env->project, $program);
 
         return $jsonResponse->setData(array('removed'=>$programName));
     }
@@ -310,6 +312,9 @@ class AssetsController extends Controller {
         
         $resourceName = $this->getRequest()->request->get('name');
         
+        // Get project
+        $pManager = $this->get('tangara_core.project_manager');
+
         // Get resource
         $manager = $this->get('tangara_core.file_manager');
         $repository = $manager->getRepository();
@@ -319,8 +324,8 @@ class AssetsController extends Controller {
         }
         
         // Remove resource
-        $manager->remove($resource);
-
+        $pManager->removeFile($env->project, $resource);
+        
         return $jsonResponse->setData(array('removed'=>$resourceName));
     }
 
@@ -448,7 +453,8 @@ class AssetsController extends Controller {
         }
 
         // Update content
-        $manager->updateProgram($program, $code, $statements);
+        $pManager = $this->get('tangara_core.project_manager');
+        $pManager->updateProgram($env->project, $program, $code, $statements);
 
         return $jsonResponse->setData(array('updated' => $programName));
     }
@@ -472,6 +478,8 @@ class AssetsController extends Controller {
         
         $resourceName = $this->getRequest()->request->get('name');
 
+        $pManager = $this->get('tangara_core.project_manager');
+        
         // Get resource
         $manager = $this->get('tangara_core.file_manager');
         $repository = $manager->getRepository();
@@ -502,7 +510,7 @@ class AssetsController extends Controller {
                     return $jsonResponse->setData(array('error' => 'resource_already_exists'));
                 }
                 $resource->setVersion($existing->getVersion());
-                $manager->remove($existing, true);
+                $pManager->removeFile($env->project, $existing, true);
             }
             
             // set new name and extension
@@ -547,8 +555,8 @@ class AssetsController extends Controller {
         $newName = $this->getRequest()->request->get('new');
         
         // Get current program and check it actually exists
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository('TangaraCoreBundle:File');
+        $manager = $this->get('tangara_core.file_manager');
+        $repository = $manager->getRepository();
         $program = $repository->getProjectProgram($env->projectId, $programName);
         if (!$program) {
             return $jsonResponse->setData(array('error' => "program_not_found"));
@@ -567,7 +575,7 @@ class AssetsController extends Controller {
 
         // Set new name
         $program->setName($newName);
-        $manager->flush();
+        $manager->saveFile($program);
 
         return $jsonResponse->setData(array('updated' => $newName));
     }
@@ -591,6 +599,8 @@ class AssetsController extends Controller {
         
         $resourceName = $this->getRequest()->request->get('name');
         $newBaseName = $this->getRequest()->request->get('new');
+        
+        $pManager = $this->get('tangara_core.project_manager');
         
         // Get current resource and check it actually exists
         $manager = $this->get('tangara_core.file_manager');
@@ -616,7 +626,7 @@ class AssetsController extends Controller {
             // increase resource version number
             $resource->setVersion($newResource->getVersion()+1);
             // actually delete previous resource
-            $manager->remove($newResource, true);
+            $pManager->removeFile($env->project, $newResource, true);
         }
 
         // Set new name and new baseName

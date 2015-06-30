@@ -33,14 +33,12 @@ use Symfony\Component\Filesystem\Filesystem;
 class FileManager extends BaseManager {
 
     protected $em;
-    protected $pm;
     private $directory;
     private $allowedMimeTypes;
     private $maxResourceSize;
 
-    public function __construct(EntityManager $em, ProjectManager $pm, $allowed, $size) {
+    public function __construct(EntityManager $em, $allowed, $size) {
         $this->em = $em;
-        $this->pm = $pm;
         $this->directory = '/home/tangara';
         foreach ($allowed as $type=>$values) {
             foreach ($values as $value) {
@@ -85,8 +83,8 @@ class FileManager extends BaseManager {
         return $name;
     }
     
-    public function remove(File $file, $anyway = false) {
-        if ($anyway || $file->getProgram()) {
+    public function delete(File $file, $projectPath, $removeRecord = false) {
+        if ($removeRecord || $file->getProgram()) {
             // remove database entry
             $this->em->remove($file);
         } else {
@@ -95,12 +93,7 @@ class FileManager extends BaseManager {
         }
         $this->em->flush();
 
-        // Remove file from project
-        $project = $file->getProject();
-        $this->pm->removeFile($project, $file);
-
         // Remove files
-        $projectPath = $this->pm->getProjectPath($project);
         $fs = new Filesystem();
         $storageName = $this->getFilePath($file);
         if ($file->getProgram()) {
@@ -122,10 +115,8 @@ class FileManager extends BaseManager {
         }
     }
 
-    public function updateProgram(File $program, $code, $statements) {
+    public function updateProgram(File $program, $projectPath, $code, $statements) {
         // find corresponding project
-        $project = $program->getProject();
-        $projectPath = $this->pm->getProjectPath($project);
         $storageName = $this->getFilePath($program);
         
         $codePath = $projectPath . "/".$storageName."_code";
@@ -139,11 +130,8 @@ class FileManager extends BaseManager {
         if ($statements) {
             file_put_contents($statementsPath, $statements, LOCK_EX);
         } else {
-            touch($satementsPath);
+            touch($statementsPath);
         }
-        
-        // update project
-        $this->pm->updateFile($project, $program);
     }
 
     
