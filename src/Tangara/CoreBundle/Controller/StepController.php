@@ -121,15 +121,18 @@ class StepController extends TangaraController {
         return $this->renderContent('TangaraCoreBundle:Step:edit.html.twig', 'learn', array('form' => $form->createView(), 'title'=>'step.edition'));
     }
     
-    public function selectAction($courseId, $stepId) {
-        // get manager
-        $manager = $this->get('tangara_core.project_manager');
-        $project = $manager->getRepository()->find($projectId);
-        if (!$manager->maySelect($project)) {
+    public function selectAction($courseId, $stepId, Request $request) {
+        $session = $request->getSession();
+        $manager = $this->get('tangara_core.step_manager');
+        $step = $manager->getRepository()->find($stepId);
+        if (!$manager->maySelect($step)) {
             return $this->redirect($this->generateUrl('tangara_core_homepage'));
         }
-        $this->getRequest()->getSession()->set('projectid', $projectId);
-        return $this->renderContent('TangaraCoreBundle:Project:select.html.twig', 'create');
+        $project = $step->getProject();
+        $session->set('projectid', $project->getId());
+        $session->set('courseid', $courseId);
+        $session->set('stepid', $stepId);
+        return $this->renderContent('TangaraCoreBundle:Step:select.html.twig', 'create');
     }
 
     public function removeAction($courseId, $stepId, Request $request) {
