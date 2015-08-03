@@ -1,0 +1,25 @@
+tangara_exercise_show:
+    path:  /show/{exerciseId}
+    defaults: { _controller: TangaraCoreBundle:Exercise:show, exerciseId: false }
+
+tangara_exercise_edit:
+    path:  /edit/{exerciseId}
+    defaults: { _controller: TangaraCoreBundle:Exercise:edit, exerciseId: false }
+
+tangara_exercise_select:
+    path:  /select/{exerciseId}
+    defaults: { _controller: TangaraCoreBundle:Exercise:select}
+    requirements:
+        exerciseId:  \d+
+
+tangara_exercise_create:
+    path: /create
+    defaults: { _controller: TangaraCoreBundle:Exercise:create}
+
+tangara_exercise_delete:
+    path:  /delete/{exerciseId}
+    defaults: { _controller: TangaraCoreBundle:Exercise:delete, exerciseId: false }
+
+tangara_exercise_list:
+    path:  /list
+    defaults: { _controller: TangaraCoreBundle:Exercise:list}

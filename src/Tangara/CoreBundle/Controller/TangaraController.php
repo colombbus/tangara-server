@@ -38,9 +38,10 @@ class TangaraController extends Controller {
                 return $this->render($contentTemplate, $parameters);
             }
         } else {
-            $tangarajslearn = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/learn.html";
-            $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/index.html";
-            $tangaratutorial = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tutorial');
+            $baseUrl = $this->getRequest()->getSchemeAndHttpHost()."/";
+            $tangarajslearn = $baseUrl.$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/learn.html";
+            $tangarajs = $baseUrl.$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/index.html";
+            $tangaratutorial = $baseUrl.$this->container->getParameter('tangara_core.settings.directory.tutorial');
 
             if ($contentTemplate) {
                 $contentUrl =  $request->getUri();

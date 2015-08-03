@@ -10,6 +10,7 @@ navbar:
     admin: Administration
     projects: Projets
     project_info: Informations
+    exercises: Exercices
     forgotten_password: Mot de passe oublié ?
     info: Informations
 homepage:
@@ -117,49 +118,36 @@ admin:
     users: Utilisateurs
     projects: Projets
     project: Nom du projet
-    owner: Propriétaire du projet  
+    owner: Propriétaire
     project_datetime: Date de creation
     ajax_error: Une erreur s'est produite. Veuillez réessayer ultérieurement.
-    courses: Parcours
+    exercises: Exercices
+    exercise: Exercice
+    exercise_datetime: Date de creation
 Previous: Precedent
 Next: Suivant
 search: Rechercher
-course:
-    courses: Tous les parcours
-    creation: Créer un parcours
-    name: Nom du parcours
+exercise:
+    details: "Exercice > "
+    creation: Nouvel exercice
+    name: Nom de l'exercice
     title: Titre du parcours
     description: Description
     save: Enregistrer
     cancel: Annuler
-    details: "Parcours > "
     edit: Modifier
-    steps: Gestion des étapes
-    execute: Lancer
-    edited: Parcours mis à jour
-    edition: Modification du parcours
-    step_management_1: "Parcours > "
-    step_management_2: " > Etapes"
-    add_step: Ajouter une étape existante
-    create_step: Créer une nouvelle étape
-    back_to_course: "<< Retour au parcours"
-step:
-    creation: Nouvelle étape
-    name: Nom de l'étape
-    title: Titre de l'étape
-    description: Description
-    cancel: Annuler
-    save: Enregistrer
-    edit: Modifier
-    remove: Retirer du parcours
     delete: Supprimer
-    select: Travailler sur cette étape
-    edition: Modification de l'étape
-    edited: Etape mise à jour
-    removed: Etape retirée du parcours
-    pick: " > Ajouter une étape"
-    deleted: Etape supprimée
-    free: Etape libre (ne requiert pas de validation)
-    free_title: Etape libre
-    free_yes: Oui
-    free_no: Non
+    select: Travailler sur cet exercice
+    execute: Lancer
+    edited: Exercice mis à jour
+    edition: Modification du l'exercice
+    deletion_confirm: Êtes-vous sûr de vouloir supprimer l'exercice ?
+    deleted: Exercice supprimé
+    test: Tester l'exercice
+    exercises: Exercices
+    own_exercises: Mes exercices
+    all_exercises: Tous les exercices
+    see_all_exercises: Voir tous les exercices
+    url: URL de l'exercice
+
+

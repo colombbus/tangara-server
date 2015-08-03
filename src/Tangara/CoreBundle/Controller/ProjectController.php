@@ -30,18 +30,9 @@ class ProjectController extends TangaraController {
             // no current project: we should not be here
             return $this->redirect($this->generateUrl( 'tangara_core_homepage'));
         }
-        
-        if ($manager->isStepRelated($project)) {
-            // project is linked to a step: forward to step page
-            $courseId = $session->get('courseid');
-            $stepId = $session->get('stepid');
-            if (!$stepId || !$courseId) {
-                return $this->redirect($this->generateUrl( 'tangara_core_homepage'));                
-            }
-            return $this->forward('TangaraCoreBundle:Step:show', array(
-                'courseId'  => $courseId,
-                'stepId' => $stepId,
-            ));
+        if ($manager->isExercise($project)) {
+            // project is an exercise: forward to exercise page
+            return $this->forward('TangaraCoreBundle:Exercise:show', array('exerciseId'  => $projectId));
         }
         
         $params['project']=$project;
@@ -139,7 +130,7 @@ class ProjectController extends TangaraController {
         if (!$request->isXmlHttpRequest()) {
             $this->redirect($this->generateUrl('tangara_project_published'));
         }
-        $pagination = $this->get('tangara_core.pagination')->paginate($request, "admin_users", 'TangaraCoreBundle:Project', true);
+        $pagination = $this->get('tangara_core.pagination')->paginate($request, "admin_users", 'TangaraCoreBundle:Project',array('published'=>true));
         return $this->render('TangaraCoreBundle:Project:published_list.html.twig', array('projects' => $pagination));
 
     }
@@ -215,14 +206,19 @@ class ProjectController extends TangaraController {
         // get manager
         $manager = $this->get('tangara_core.project_manager');
         $project = $manager->getRepository()->find($projectId);
-        if (!$manager->maySelect($project)) {
+        if (!$project || !$manager->maySelect($project)) {
             return $this->redirect($this->generateUrl('tangara_core_homepage'));
         }
-        $this->getRequest()->getSession()->set('projectid', $projectId);
-        return $this->renderContent('TangaraCoreBundle:Project:select.html.twig', 'create');
+        $params = array();
+        $session = $this->getRequest()->getSession();
+        if ($projectId != $session->get('projectid')) {
+            // update required:
+            $session->set('projectid', $projectId);
+            $params['updateUserMenu'] = true;
+        }
+        return $this->renderContent('TangaraCoreBundle:Project:select.html.twig', 'create', $params);
     }
     
-    //action for create a news prject
     public function createAction(Request $request ){        
         $manager = $this->get('tangara_core.project_manager');
         if (!$this->isUserLogged()) {

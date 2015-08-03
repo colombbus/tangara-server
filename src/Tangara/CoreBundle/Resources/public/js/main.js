@@ -9,7 +9,7 @@ function checkLocalUnsaved(message) {
     return true;
 }
 
-function updateUserMenu(showLoading, showEditor) {
+function updateUserMenu(showLoading, local, showEditor) {
     if (typeof showLoading === 'undefined' || showLoading) {
         $("#user-dropdown-trigger").addClass("loading");
     }
@@ -17,7 +17,9 @@ function updateUserMenu(showLoading, showEditor) {
     $element.load(url_user_menu, function() {
         $("#logout-link").click(logout);
         ajaxify($element);
-        updateLocal(showEditor);
+        if (local) {
+            updateLocal(showEditor);
+        }
     });
 }
 
@@ -74,27 +76,18 @@ function setActive(elementName) {
     active_nav = elementName;
 }
 
-function discover(event) {
-    event.preventDefault();
-    closeContent();
-    setActive("discover");
-    $("#local-frame").attr('src', url_tangarajslearn);
-    recordHistory({url:url_discover, data:{active:'discover'}});
-}
-
 function create(event) {
     event.preventDefault();
     setActive("create");
     closeContent();
-    $("#local-frame").attr('src', url_tangarajs);
     recordHistory({url:url_create, data:{active:'create'}});
 }
 
-function share(event) {
+function info(event) {
     event.preventDefault();
-    setActive("share");
+    setActive("info");
     openContent();
-    fetchContent(url_share, {active:'share'});
+    fetchContent(url_info, {active:'info'});
 }
 
 function login(event) {
@@ -220,10 +213,9 @@ window.onpopstate = function(event) {
 
 $(function() {
     // bind menu links
-    $("#logo").click(discover);
-    $("#discover a").click(discover);
+    $("#logo").click(create);
     $("#create a").click(create);
-    $("#share a").click(share);
+    $("#info a").click(info);
     // bind login form
     $("#login-form").submit(login);
     // bind logout link

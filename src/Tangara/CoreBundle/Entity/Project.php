@@ -105,6 +105,13 @@ class Project {
     private $readonly;
 
     
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $exercise;
+    
     public function __construct() {
         $this->created = new DateTime('NOW');
         $this->referenceHeight = 768;
@@ -479,5 +486,29 @@ class Project {
     public function getReadonly()
     {
         return $this->readonly;
+    }
+
+    /**
+     * Set exercise
+     *
+     * @param boolean $exercise
+     *
+     * @return Project
+     */
+    public function setExercise($exercise)
+    {
+        $this->exercise = $exercise;
+
+        return $this;
+    }
+
+    /**
+     * Get exercise
+     *
+     * @return boolean
+     */
+    public function getExercise()
+    {
+        return $this->exercise;
     }
 }

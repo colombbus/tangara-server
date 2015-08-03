@@ -48,5 +48,27 @@ class AdminController extends TangaraController {
         $pagination = $this->get('tangara_core.pagination')->paginate($request, "admin_projects", 'TangaraCoreBundle:Project');
         return $this->render('TangaraCoreBundle:Admin:projects_list.html.twig', array('projects' => $pagination));
     }
+    
+    public function exercisesAction(Request $request) {
+        //TODO: check that user is admin
+        $session = $request->getSession();
+        $page = $session->get("admin_exercises_page", 1);
+        $search = $session->get("admin_exercises_search", false);
+        $update = $session->get("update_required", false);
+        if ($update) {
+            $session->remove("update_required");
+        }
+        return $this->renderContent('TangaraCoreBundle:Admin:exercises.html.twig', 'profile', array('page' => $page, 'search' => $search, 'paginationRoute' => 'tangara_admin_exercises_list', 'updateUserMenu'=>$update));
+    }
+
+    public function getExercisesAction(Request $request) {
+        //TODO: check that user is admin
+        if (!$request->isXmlHttpRequest()) {
+            $this->redirect($this->generateUrl('tangara_admin_exercises'));
+        }
+        $pagination = $this->get('tangara_core.pagination')->paginate($request, "admin_exercises", 'TangaraCoreBundle:Project', array('exercise'=>true));
+        return $this->render('TangaraCoreBundle:Admin:exercises_list.html.twig', array('exercises' => $pagination));
+    }
+    
 
 }

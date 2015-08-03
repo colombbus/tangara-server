@@ -2,13 +2,9 @@ tangara_core_homepage:
     path:  /
     defaults: { _controller: TangaraCoreBundle:Main:index }
 
-tangara_core_discover:
-    path:  /discover
-    defaults: { _controller: TangaraCoreBundle:Main:discover}        
-    
-tangara_core_share:
-    path:  /share
-    defaults: { _controller: TangaraCoreBundle:Main:share}
+tangara_core_info:
+    path:  /info
+    defaults: { _controller: TangaraCoreBundle:Main:info}
     
 tangara_core_create:
     path:  /create

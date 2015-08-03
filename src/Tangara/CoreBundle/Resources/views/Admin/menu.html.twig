@@ -1,11 +1,11 @@
 <ul class="nav nav-pills nav-stacked">
-    <li  role="presentation" {% if active is defined and active == 'users' %} class="active" {% endif %}>
-        <a href="{{ path('tangara_admin_users')}}">{{ 'admin.users'|trans }}</a> 
+    <li role="presentation" {% if active is defined and active == 'users' %} class="active" {% endif %}>
+        <a href="{{ path('tangara_admin_users')}}"  class="content-link" data-active="profile">{{ 'admin.users'|trans }}</a> 
     </li>
-    <li  role="presentation" {% if active is defined and active == 'projects' %} class="active" {% endif %}>
-        <a href="{{ path('tangara_admin_projects')}}">{{ 'admin.projects'|trans }}</a>
+    <li role="presentation" {% if active is defined and active == 'projects' %} class="active" {% endif %}>
+        <a href="{{ path('tangara_admin_projects')}}"  class="content-link" data-active="profile">{{ 'admin.projects'|trans }}</a>
     </li>
-    <li  role="presentation" {% if active is defined and active == 'courses' %} class="active" {% endif %}>
-        <a href="{{ path('tangara_course_list')}}">{{ 'admin.courses'|trans }}</a>
+    <li role="presentation" {% if active is defined and active == 'exercises' %} class="active" {% endif %}>
+        <a href="{{ path('tangara_admin_exercises')}}"  class="content-link" data-active="profile">{{ 'admin.exercises'|trans }}</a>
     </li>
 </ul>

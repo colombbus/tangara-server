@@ -8,22 +8,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class MainController extends TangaraController {
 
     public function indexAction() {
-        return $this->discoverAction();
+        return $this->createAction();
     }
     
-    public function discoverAction() {
-        if ($this->getRequest()->isXmlHttpRequest()) {
-            // should never occur
-            $jsonResponse = new JsonResponse();
-            return $jsonResponse->setData(array('error' => 'no-access'));
-        } else {
-            // direct access
-            return $this->renderContent(false, 'discover', array(), true);
-        }
-    }
-    
-    public function shareAction() {
-        return $this->renderContent('TangaraCoreBundle:Main:discover.html.twig', 'share');
+    public function infoAction() {
+        return $this->renderContent('TangaraCoreBundle:Main:info.html.twig', 'info');
     }
 
     public function createAction() {

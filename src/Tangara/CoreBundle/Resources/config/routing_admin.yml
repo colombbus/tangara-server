@@ -18,3 +18,11 @@ tangara_admin_projects:
 tangara_admin_projects_list:
     path:  /get_projects
     defaults: { _controller: TangaraCoreBundle:Admin:getProjects}
+
+tangara_admin_exercises:
+    path:  /exercises
+    defaults: { _controller: TangaraCoreBundle:Admin:exercises }
+    
+tangara_admin_exercises_list:
+    path:  /get_exercises
+    defaults: { _controller: TangaraCoreBundle:Admin:getExercises}

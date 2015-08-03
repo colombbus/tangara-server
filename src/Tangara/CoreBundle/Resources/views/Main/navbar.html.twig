@@ -16,20 +16,15 @@
     </div>
     <div class="navbar-collapse collapse" id="main-menu">
         <ul class="nav navbar-nav" id="navigation-menu">
-            {% if active == 'discover' %}
-                <li id="discover" class="active"><a href="#">{{ 'navbar.learn'|trans}}</a></li>
-            {% else %}
-                <li id="discover"><a href="#">{{ 'navbar.learn'|trans}}</a></li>
-            {% endif %}
             {% if active == 'create' %}
                 <li id="create" class='active'><a href="#">{{ 'navbar.create'|trans}}</a></li>
             {% else %}
                 <li id="create"><a href="#">{{ 'navbar.create'|trans}}</a></li>
             {% endif %}
-            {% if active == 'share' %}
-                <li id="share" class='active'><a href="#">{{ 'navbar.info'|trans}}</a></li>
+            {% if active == 'info' %}
+                <li id="info" class='active'><a href="#">{{ 'navbar.info'|trans}}</a></li>
             {% else %}
-                <li id="share"><a href="#">{{ 'navbar.info'|trans}}</a></li>
+                <li id="info"><a href="#">{{ 'navbar.info'|trans}}</a></li>
             {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right" id="user-menu">

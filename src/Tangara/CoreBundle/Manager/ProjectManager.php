@@ -48,9 +48,10 @@ class ProjectManager extends BaseManager {
     protected $context;
     protected $acl;
     protected $fileManager;
-
+    protected $exercisePrograms;
+    protected $exerciseResources;
     
-    public function __construct(EntityManager $em, $path, SecurityContext $context, $acl, $fm) {
+    public function __construct(EntityManager $em, $path, SecurityContext $context, $acl, $fm, $programs, $resources) {
         $this->em = $em;
         $this->projectsDirectory = $path;
         $this->context = $context;
@@ -60,6 +61,8 @@ class ProjectManager extends BaseManager {
         }
         $this->acl = $acl;
         $this->fileManager = $fm;
+        $this->exercisePrograms = $programs;
+        $this->exerciseResources = $resources;
     }
 
     public function loadProject($projectId) {
@@ -74,6 +77,23 @@ class ProjectManager extends BaseManager {
      */
     public function saveProject(Project $project) {
         $this->persistAndFlush($project);
+    }
+
+    public function saveExercise(Project $exercise) {
+        $exercise->setExercise(true);
+        $this->persistAndFlush($exercise);
+    }
+    
+    public function createExerciseFiles(Project $exercise) {
+        foreach ($this->exercisePrograms as $program) {
+            $this->createFile($exercise, $program, true);            
+        }
+        foreach ($this->exerciseResources as $resource) {
+            $file = $this->createFile($exercise, $resource['name'], false);
+            $file->setType($resource['type']);
+            $this->em->persist($file);
+        }
+        $this->em->flush();
     }
     
     public function setHome(Project $project, User $user) {
@@ -95,8 +115,6 @@ class ProjectManager extends BaseManager {
             $this->saveProject($project);
         }
     }
-
-    
 
     public function isAuthorized(Project $project, User $user) {
         // For now, we just check that project is user's home
@@ -267,13 +285,8 @@ class ProjectManager extends BaseManager {
         $this->em->flush();
     }
     
-    public function isStepRelated(Project $project) {
-        $qb = $this->em->getRepository('TangaraCoreBundle:Step')->createQueryBuilder('s')
-                ->select('count(s.id)')
-                ->where('s.project = :project')
-                ->setParameters(array('project' => $project));
-        $count = $qb->getQuery()->getSingleScalarResult();
-        return ($count>0);
+    public function isExercise(Project $project) {
+        return $project->getExercise();
     }
 
 }

@@ -16,6 +16,15 @@ class ProjectRepository extends EntityRepository
     public function getPublishedProjectsQuery(){
         $query = $this->createQueryBuilder('p')
                 ->where('p.published = true')
+                ->andWhere('p.exercise = false')
+                ->orderBy('p.created', 'DESC');
+        
+        return $query->getQuery();
+    }
+
+    public function getExercisesQuery(){
+        $query = $this->createQueryBuilder('p')
+                ->where('p.exercise = true')
                 ->orderBy('p.created', 'DESC');
         
         return $query->getQuery();
@@ -24,6 +33,7 @@ class ProjectRepository extends EntityRepository
     public function getOwnedProjects(User $user) {
         $query = $this->createQueryBuilder('p')
                 ->where('p.owner = :owner')
+                ->andWhere('p.exercise = false')
                 ->orderBy('p.created', 'DESC')
                 ->setParameter('owner', $user);
         
@@ -31,10 +41,24 @@ class ProjectRepository extends EntityRepository
         
         return $projects;
     }
+
+    public function getOwnedExercises(User $user) {
+        $query = $this->createQueryBuilder('p')
+                ->where('p.owner = :owner')
+                ->andWhere('p.exercise = true')
+                ->orderBy('p.created', 'DESC')
+                ->setParameter('owner', $user);
+        
+        $exercises = $query->getQuery()->getResult();
+        
+        return $exercises;
+    }
+    
     
     public function getReadonlyProjects(User $user){
         $query = $this->createQueryBuilder('p')
                 ->where('p.readonly = true')
+                ->andWhere('p.exercise = false')
                 ->andwhere('p.owner != :owner')
                 ->orderBy('p.created', 'DESC')
                 ->setParameter('owner', $user);
@@ -44,29 +68,48 @@ class ProjectRepository extends EntityRepository
         return $projects;
     }
     
-    public function getSearchQuery($string, $published = false) {
-        if (!$published) {
-            $qb = $this->createQueryBuilder('p')
-                        ->where('p.name like :name')
-                        ->orderBy('p.id')
-                        ->setParameter('name','%'.$string.'%');
-            return $qb->getQuery();
-        } else {
-            $qb = $this->createQueryBuilder('p')
-                        ->where('p.name like :name')
-                        ->andWhere('p.published = true')
-                        ->orderBy('p.created', 'DESC')
-                        ->setParameter('name','%'.$string.'%');
-            return $qb->getQuery();
+    public function getSearchQuery($string, $parameters = false) {
+        if ($parameters != false) {
+            if (isset($parameters['published'])&& $parameters['published']) {
+                $qb = $this->createQueryBuilder('p')
+                            ->where('p.name like :name')
+                            ->andWhere('p.exercise = false')
+                            ->andWhere('p.published = true')
+                            ->orderBy('p.created', 'DESC')
+                            ->setParameter('name','%'.$string.'%');
+                return $qb->getQuery();
+            }
+            if (isset($parameters['exercise'])&& $parameters['exercise']) {
+                $qb = $this->createQueryBuilder('p')
+                            ->where('p.name like :name')
+                            ->andWhere('p.exercise = true')
+                            ->orderBy('p.created', 'DESC')
+                            ->setParameter('name','%'.$string.'%');
+                return $qb->getQuery();
+            }
         }
+        $qb = $this->createQueryBuilder('p')
+                    ->where('p.name like :name')
+                    ->andWhere('p.exercise = false')
+                    ->orderBy('p.id')
+                    ->setParameter('name','%'.$string.'%');
+        return $qb->getQuery();
     }
     
-    public function findAll($published = false) {
-        if (!$published) {
-            return parent::findAll();
-        } else {
-            return $this->getPublishedProjectsQuery();
+    public function findAll($parameters = false) {
+        if ($parameters != false) {
+            if (isset($parameters['published']) && $parameters['published']) {
+                return $this->getPublishedProjectsQuery();
+            }
+            if (isset($parameters['exercise']) && $parameters['exercise']) {
+                return $this->getExercisesQuery();
+            }
         }
+        $query = $this->createQueryBuilder('p')
+                ->where('p.exercise = false')
+                ->orderBy('p.created', 'DESC');
+        
+        return $query->getQuery();        
     }
     
 }
