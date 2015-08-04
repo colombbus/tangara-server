@@ -8,16 +8,15 @@ use Doctrine\ORM\NoResultException;
 
 class FileRepository extends EntityRepository {
     
-    public function getAllProjectFiles($name){
+    public function getAllProjectFiles($project){
         
         $query = $this->createQueryBuilder('a')
-                ->join('a.project', 'b')
-                ->where('b.name = :name')
-                ->setParameter('name', $name);
+                ->where('a.project = :project')
+                ->setParameter('project', $project);
         
-        $Docs = $query->getQuery()->getResult();
+        $files= $query->getQuery()->getResult();
         
-        return $Docs;
+        return $files;
     }
     
     public function getAllProjectPrograms($project) {
