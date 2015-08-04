@@ -9,6 +9,7 @@ services:
             - @tangara_core.file_manager
             - %tangara_core.settings.step_programs%
             - %tangara_core.settings.step_resources%
+            - @tangara_core.log_manager
     tangara_core.user_manager: 
         class: Tangara\CoreBundle\Manager\UserManager
         arguments: 
@@ -52,4 +53,8 @@ services:
         tags:
             - { name: knp_paginator.injectable, paginator: knp_paginator }
         arguments:
+            - @doctrine.orm.entity_manager
+    tangara_core.log_manager: 
+        class: Tangara\CoreBundle\Manager\LogManager
+        arguments: 
             - @doctrine.orm.entity_manager
