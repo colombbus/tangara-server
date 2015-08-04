@@ -50,8 +50,10 @@ class ProjectManager extends BaseManager {
     protected $fileManager;
     protected $exercisePrograms;
     protected $exerciseResources;
+    protected $logManager;
     
-    public function __construct(EntityManager $em, $path, SecurityContext $context, $acl, $fm, $programs, $resources) {
+    
+    public function __construct(EntityManager $em, $path, SecurityContext $context, $acl, $fm, $programs, $resources, $lm) {
         $this->em = $em;
         $this->projectsDirectory = $path;
         $this->context = $context;
@@ -63,6 +65,7 @@ class ProjectManager extends BaseManager {
         $this->fileManager = $fm;
         $this->exercisePrograms = $programs;
         $this->exerciseResources = $resources;
+        $this->logManager = $lm;
     }
 
     public function loadProject($projectId) {
@@ -280,6 +283,9 @@ class ProjectManager extends BaseManager {
         $objectIdentity = ObjectIdentity::fromDomainObject($project);
         $this->acl->deleteAcl($objectIdentity);
         
+        // remove Log entries
+        $this->logManager->removeProjectEntries($project);
+                
         // remove project from database
         $this->em->remove($project);
         $this->em->flush();
