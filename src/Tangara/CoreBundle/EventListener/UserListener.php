@@ -48,6 +48,7 @@ class UserListener implements EventSubscriberInterface {
         $user = $event->getUser();
         // Create home project
         $home = new Project();
+        $this->projectManager->saveProject($home);
         $this->projectManager->setHome($home, $user);
         // set project as current project in session
         $this->session->set('projectid', $home->getId());

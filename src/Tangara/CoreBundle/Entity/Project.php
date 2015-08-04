@@ -118,6 +118,7 @@ class Project {
         $this->referenceWidth = 1024;
         $this->referenceFont = "Arial";
         $this->published = false;
+        $this->exercise = false;
         $this->files = new ArrayCollection();
     }
 
