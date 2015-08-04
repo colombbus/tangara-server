@@ -124,8 +124,9 @@ parameters:
             - "video/ogg"
     tangara_core.settings.resource_max_size: 5000000
     tangara_core.settings.step_programs:
-            - "start.tgr"
-            - "check.tgr"
+            - "start"
+            - "check"
+            - "solution"
     tangara_core.settings.step_resources:
             - name: "instructions.html"
               type: "text"
