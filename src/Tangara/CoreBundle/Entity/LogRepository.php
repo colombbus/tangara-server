@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class LogRepository extends EntityRepository
 {
+    public function getProjectLogEntries($project){
+        $query = $this->createQueryBuilder('p')
+                ->where('p.project = :project')
+                ->orderBy('p.timestamp', 'DESC')
+                ->setParameter('project', $project);
+        return $query->getQuery()->getResult();;
+    }
+    
 }
