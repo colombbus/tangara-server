@@ -184,7 +184,8 @@ class ProjectController extends TangaraController {
             $params['height'] = $height;
         }
         
-        $tangarajs = $this->generateUrl('tangara_core_homepage').$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/execute.html";
+        $baseUrl = $this->getRequest()->getSchemeAndHttpHost()."/";
+        $tangarajs = $baseUrl.$this->container->getParameter('tangara_core.settings.directory.tangarajs')."/execute.html";
         $params['tangarajs'] = $tangarajs;
         return $this->render('TangaraCoreBundle:Project:execute.html.twig', $params);
         
