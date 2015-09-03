@@ -1,7 +1,100 @@
+@font-face {
+  font-family: 'Comfortaa';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Comfortaa'), local('Comfortaa-Regular'), url(https://fonts.gstatic.com/s/comfortaa/v7/qLBu5CQmSMt1H43OiWJ77VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Comfortaa';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Comfortaa Bold'), local('Comfortaa-Bold'), url(https://fonts.gstatic.com/s/comfortaa/v7/fND5XPYKrF2tQDwwfWZJI-gdm0LZdjqr5-oayXSOefg.woff2) format('woff2');
+}
+
+body  {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#menu {
+	min-height:120px;
+	background-image: url("../img/back_top.png");
+	background-repeat:repeat-x;
+	font-size:14pt;
+}
+
+#fixed-header-room {
+	flex-basis:145px;
+}
+
 #menu-logo {
-	background: red;
+	background-color:transparent;
+	background-image:url('../img/declick.png');
+	background-repeat:no-repeat;
+	background-position:15px 0;
+	justify-content: flex-end;
+}
+
+#menu-logo-content {
+	color:#e47637;
+	font-size:70px;
+	margin-left:115px;
+	font-family: Comfortaa, "Helvetica Neue",Helvetica,Arial,sans-serif;
+	height:auto;
+	line-height:normal;
+	font-weight:bold;
 }
 
 #menu-logo-content:after {
-	content: "Declick";
+	content: "DECLICK";
+}
+
+.menu-item {
+	background-color:transparent !important;
+	border-left:none;
+	border-right:none;
+	justify-content: flex-end;
+	font-family: Comfortaa,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.menu-item-active {
+	background-color:transparent !important;
+	color: #f6a71f !important;
+}
+
+.menu-item-content {
+	height:40px;
+	line-height:40px;
+}
+
+#menu-item4 {
+	display:none;
+}
+
+#menu-item5 {
+	display:none;
+}
+
+.userInfosLink {
+	color:#2aa3ff;
+}
+
+#breadcrumbs {
+	background-color:#878787;
+	padding-left:5px;
+}
+
+.breadcrumbs-item {
+	background-color:transparent;
+}
+
+.sidebar-left-content-title {
+	display:none;
+}
+
+.active-item-background {
+	background-color:#2aa3ff;
+}
+
+#sidebar-right {
+	display:none;
 }
