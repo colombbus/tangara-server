@@ -128,7 +128,7 @@ class AssetsController extends Controller {
             $files[$resource->getName()] = array('type'=>$resource->getType(), 'version'=>$resource->getVersion(), 'extension'=>$resource->getExtension(), 'base-name'=>$resource->getBaseName());
         }
  
-        return $jsonResponse->setData(array('resources' => $files));
+        return $jsonResponse->setData(array('resources' => $files, 'id' => $env->projectId));
     }
 
     /**
@@ -149,7 +149,7 @@ class AssetsController extends Controller {
             $files[] = $program->getName();
         }
  
-        return $jsonResponse->setData(array('programs' => $files));
+        return $jsonResponse->setData(array('programs' => $files, 'id' => $env->projectId));
     }
 
     protected function getProgramContent($statements = false) {
